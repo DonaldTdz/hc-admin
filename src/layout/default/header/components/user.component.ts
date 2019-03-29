@@ -21,7 +21,7 @@ import { ChangePasswordComponent } from '@layout/default/change-password/change-
       <li nz-menu-divider></li>
       <div nz-menu-item (click)="logout()">
         <i nz-icon type="logout" class="mr-sm"></i>
-        {{l('Logout')}}
+        退出
       </div>
     </div>
   </nz-dropdown>

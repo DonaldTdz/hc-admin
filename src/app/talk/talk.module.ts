@@ -4,29 +4,27 @@ import { CommonModule } from '@angular/common';
 import { LayoutModule } from '@layout/layout.module';
 import { SharedModule } from '@shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { TalkRoutingModule } from './talk-routing.module';
+import { WechatUserService } from 'services';
 
-import { NewsComponent } from './news/news.component';
-import { NewsRoutingModule } from './news-routing.module';
-import { NewsService } from 'services';
-import { NewsDetailComponent } from './news/news-detail/news-detail.component';
+import { ImageCropperModule } from 'ngx-img-cropper';
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NewsRoutingModule,
+        TalkRoutingModule,
         LayoutModule,
         SharedModule,
+        ImageCropperModule,
     ],
     declarations: [
-        NewsComponent,
-        NewsDetailComponent
     ],
     entryComponents: [
-        NewsComponent,
-        // NewsDetailComponent
+
     ],
-    providers: [NewsService],
+    providers: [WechatUserService]
 })
-export class NewsModule { }
+export class TalkModule { }

@@ -7,7 +7,7 @@ import { AppComponentBase } from '@shared/component-base';
   template: `
   <div (click)="_click()">
     <i nz-icon type="tool"></i>
-    {{l('ClearAllLocalStorage')}}
+    清除缓存
   </div>
   `,
   host: {

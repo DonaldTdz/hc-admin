@@ -65,7 +65,7 @@ export class EditUserComponent extends ModalComponentBase implements OnInit {
     this._userService.update(this.user)
       .finally(() => { this.saving = false; })
       .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notify.info('保存成功');
         this.success();
       });
   }

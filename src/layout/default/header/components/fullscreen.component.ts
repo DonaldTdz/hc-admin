@@ -7,7 +7,7 @@ import { AppComponentBase } from '@shared/component-base';
   template: `
   <div (click)="_click()">
     <i nz-icon [type]="status ? 'fullscreen' : 'fullscreen-exit'"></i>
-    {{ status ? l('ExitFullScreen') : l('FullScreen') }}
+    {{ status ? '退出全屏' : '全屏' }}
   </div>
   `,
   host: {

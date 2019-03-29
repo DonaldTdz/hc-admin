@@ -14,12 +14,12 @@
 
 
   <nz-table #ajaxTable nzShowSizeChanger [nzData]="dataList" [nzTotal]="totalItems" [(nzPageIndex)]="pageNumber"
-    [(nzPageSize)]="pageSize" [nzLoading]="isTableLoading" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()"
-    [nzFrontPagination]="false">
+    [(nzPageSize)]="pageSize" [nzLoading]="isTableLoading" (nzPageIndexChange)="refresh()"
+    (nzPageSizeChange)="refresh()" [nzFrontPagination]="false">
     <thead>
       <tr>
-        <th>{{l("RoleName")}}</th>
-        <th>{{l("DisplayName")}}</th>
+        <th>角色</th>
+        <th>名称</th>
         <th>描述</th>
         <th>{{l("Actions")}}</th>
       </tr>

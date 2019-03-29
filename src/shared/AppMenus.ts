@@ -20,47 +20,21 @@ export class AppMenus {
             reuse: false
         },
         {
-            text: "资讯管理",
-            icon: { type: "icon", value: "laptop" },
-            link: "/app/news/news",
-            reuse: false
-        },
-        {
-            text: "积分商城",
-            icon: { type: "icon", value: "shopping" },
-            link: "/app/mall",
+            text: "钉钉管理",
+            icon: { type: "icon", value: "dingding" },
+            link: "/app/talk",
             group: true,
             children: [
                 {
-                    text: "会员管理",
-                    link: "/app/mall/member",
+                    text: "组织架构",
+                    link: "/app/talk/organization",
                     reuse: false
                 },
                 {
-                    text: "VIP管理",
-                    link: "/app/mall/vip",
+                    text: "钉钉配置",
+                    link: "/app/talk/config",
                     reuse: false
-                },
-                {
-                    text: "直营店",
-                    link: "/app/mall/shop",
-                    reuse: false
-                },
-                {
-                    text: "商品管理",
-                    link: "/app/mall/goods",
-                    reuse: false
-                },
-                {
-                    text: "订单管理",
-                    link: "/app/mall/order",
-                    reuse: false
-                },
-                {
-                    text: "兑换统计",
-                    link: "/app/mall/exchange",
-                    reuse: false
-                },
+                }
             ]
         },
         {
@@ -82,42 +56,4 @@ export class AppMenus {
             ]
         },
     ];
-    // old
-    // static Menus = [
-    //     // 首页
-    //     new MenuItem(
-    //         'HomePage',
-    //         '',
-    //         'anticon anticon-home',
-    //         '/app/home'
-    //     ),
-    //     // 租户
-    //     new MenuItem(
-    //         'Tenants',
-    //         'Pages.Tenants',
-    //         'anticon anticon-team',
-    //         '/app/tenants',
-    //     ),
-    //     // 角色
-    //     new MenuItem(
-    //         'Roles',
-    //         'Pages.Roles',
-    //         'anticon anticon-safety',
-    //         '/app/roles',
-    //     ),
-    //     // 用户
-    //     new MenuItem(
-    //         'Users',
-    //         'Pages.Users',
-    //         'anticon anticon-user',
-    //         '/app/users',
-    //     ),
-    //     // 关于我们
-    //     new MenuItem(
-    //         'About',
-    //         '',
-    //         'anticon anticon-info-circle-o',
-    //         '/app/about',
-    //     ),
-    // ];
 }

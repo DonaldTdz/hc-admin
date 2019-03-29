@@ -53,7 +53,7 @@ export class CreateUserComponent extends ModalComponentBase implements OnInit {
     this._userService.create(this.user)
       .finally(() => { this.saving = false; })
       .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notify.info('保存成功');
         this.success();
       });
   }

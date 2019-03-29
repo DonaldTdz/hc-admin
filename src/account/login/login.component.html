@@ -4,7 +4,7 @@
       <ng-template #nzTitle>
         <div class="text-center yoyo__block">
           <i class="anticon anticon-login"></i>
-          <span>{{l('LogIn')}}</span>
+          <span> 登录</span>
         </div>
       </ng-template>
       <form nz-form #loginForm="ngForm" role="form" novalidate class="login-form">
@@ -13,8 +13,9 @@
         <nz-form-item>
           <nz-form-control>
             <nz-input-group nzPrefixIcon="anticon anticon-user">
-              <input nz-input name="userNameOrEmailAddress" #userNameOrEmailAddressInput="ngModel" [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress"
-                [placeholder]="'登录账号'" required maxlength="255">
+              <input nz-input name="userNameOrEmailAddress" #userNameOrEmailAddressInput="ngModel"
+                [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" [placeholder]="'登录账号'" required
+                maxlength="255">
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -23,8 +24,9 @@
         <nz-form-item>
           <nz-form-control>
             <nz-input-group nzPrefixIcon="anticon anticon-lock">
-              <input nz-input name="password" #passwordInput="ngModel" [(ngModel)]="loginService.authenticateModel.password"
-                [placeholder]="l('Password')" type="password" required maxlength="32">
+              <input nz-input name="password" #passwordInput="ngModel"
+                [(ngModel)]="loginService.authenticateModel.password" [placeholder]="'密码'" type="password" required
+                maxlength="32">
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -35,7 +37,7 @@
           <nz-col [nzSpan]="12">
 
             <label nz-checkbox [(ngModel)]="loginService.rememberMe" name="rememberMe" id="rememberme">
-              <span>{{l("RememberMe")}}</span>
+              <span>记住我</span>
             </label>
           </nz-col>
 
@@ -48,10 +50,10 @@
 
         <!-- 登陆按钮 -->
 
-        <button nz-button [nzType]="'primary'" type="button" [nzLoading]="submitting" (click)="login()" class="yoyo__block"
-          [disabled]="!loginForm.form.valid||submitting">
+        <button nz-button [nzType]="'primary'" type="button" [nzLoading]="submitting" (click)="login()"
+          class="yoyo__block" [disabled]="!loginForm.form.valid||submitting">
           <i class="anticon anticon-login"></i>
-          <span>{{l("LogIn")}}</span>
+          <span>登录</span>
         </button>
 
       </form>

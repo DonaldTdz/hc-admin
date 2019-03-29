@@ -23,18 +23,13 @@ const routes: Routes = [
         data: { preload: true },
       },
       {
-        path: 'news',
-        loadChildren: './news/news.module#NewsModule',
-        data: { preload: true },
-      },
-      {
         path: 'wechat',
         loadChildren: './wechat/wechat.module#WechatModule',
         data: { preload: true },
       },
       {
-        path: 'mall',
-        loadChildren: './mall/mall.module#MallModule',
+        path: 'talk',
+        loadChildren: './talk/talk.module#TalkModule',
         data: { preload: true },
       },
     ],
