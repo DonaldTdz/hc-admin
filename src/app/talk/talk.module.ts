@@ -8,6 +8,10 @@ import { TalkRoutingModule } from './talk-routing.module';
 import { WechatUserService } from 'services';
 
 import { ImageCropperModule } from 'ngx-img-cropper';
+import { OrganizationComponent } from '@app/talk/organization/organization.component';
+import { ConfigComponent } from '@app/talk/config/config.component';
+import { CreateTalkConfigComponent } from './config/create-talk-config/create-talk-config.component';
+import { EditTalkConfigComponent } from './config/edit-talk-config/edit-talk-config.component';
 
 @NgModule({
     imports: [
@@ -21,10 +25,16 @@ import { ImageCropperModule } from 'ngx-img-cropper';
         ImageCropperModule,
     ],
     declarations: [
-    ],
+        OrganizationComponent,
+        ConfigComponent,
+        CreateTalkConfigComponent,
+        EditTalkConfigComponent],
     entryComponents: [
-
+        OrganizationComponent,
+        ConfigComponent,
+        CreateTalkConfigComponent,
+        EditTalkConfigComponent
     ],
-    providers: [WechatUserService]
+    providers: []
 })
 export class TalkModule { }
