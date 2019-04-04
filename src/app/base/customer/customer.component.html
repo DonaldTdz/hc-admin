@@ -1,0 +1,53 @@
+<page-header [title]="''"></page-header>
+
+<nz-card [nzExtra]="extraTpl">
+  <ng-template #extraTpl>
+    <button nz-button (click)="refresh()" nzShape="circle">
+      <i class="anticon anticon-reload"></i>
+    </button>
+    <button nz-button (click)="create()" nzShape="circle" nzType="primary">
+      <i class="anticon anticon-plus"></i>
+    </button>
+  </ng-template>
+  <nz-table #ajaxTable nzShowSizeChanger [nzData]="dataList" [nzTotal]="totalItems" [(nzPageIndex)]="pageNumber"
+    [(nzPageSize)]="pageSize" [nzLoading]="isTableLoading" (nzPageIndexChange)="refresh()"
+    (nzPageSizeChange)="refresh()" [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <th>客户名称</th>
+        <th>客户类型</th>
+        <th>客户地址</th>
+        <th>邮编</th>
+        <th>电话</th>
+        <th>联系人</th>
+        <th>联系人职位</th>
+        <th>联系人电话</th>
+        <th>创建时间</th>
+        <th>最新更新时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of ajaxTable.data">
+        <td>{{item.name}}</td>
+        <td>{{item.type}}</td>
+        <td>{{item.address}}</td>
+        <td>{{item.zipCode}}</td>
+        <td>{{item.tel}}</td>
+        <td>{{item.contact}}</td>
+        <td>{{item.position}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.creationTime| _date: 'YYYY-MM-DD'}}</td>
+        <td>{{item.lastModificationTime| _date: 'YYYY-MM-DD'}}</td>
+        <td>
+          <a (click)="edit(item)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(item)">删除</a>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </nz-table>
+</nz-card>

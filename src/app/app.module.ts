@@ -21,9 +21,10 @@ import { G2GroupBarModule } from '../../packages/group-bar';
     G2GroupBarModule,
   ],
   declarations: [
-    HomeComponent,
+    HomeComponent
   ],
   entryComponents: [
+
   ],
   providers: [HomeService],
 })

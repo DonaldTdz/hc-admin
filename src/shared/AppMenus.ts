@@ -55,5 +55,23 @@ export class AppMenus {
                 },
             ]
         },
+        {
+            text: "基础数据",
+            icon: { type: "icon", value: "setting" },
+            link: "/app/base",
+            group: true,
+            children: [
+                {
+                    text: "组织架构",
+                    link: "/app/base/users",
+                    reuse: false
+                },
+                {
+                    text: "客户管理",
+                    link: "/app/base/customer",
+                    reuse: false
+                },
+            ]
+        },
     ];
 }

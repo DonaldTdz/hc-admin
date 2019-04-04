@@ -32,6 +32,11 @@ const routes: Routes = [
         loadChildren: './talk/talk.module#TalkModule',
         data: { preload: true },
       },
+      {
+        path: 'base',
+        loadChildren: './base/base.module#BaseModule',
+        data: { preload: true },
+      },
     ],
   },
 ];

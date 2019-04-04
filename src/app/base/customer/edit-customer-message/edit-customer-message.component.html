@@ -1,0 +1,124 @@
+<div class="padding-bottom-45">
+
+  <div class="modal-header">
+    <div class="modal-title">新增客户信息</div>
+  </div>
+
+  <form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="customer">
+    <!-- 客户名称 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">客户名称</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="name" #keyWord="ngModel" [(ngModel)]="customer.name" maxlength="100" autocomplete="name"
+          required>
+
+        <!-- <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
+          <ng-container *ngIf="name.control.hasError('email')">客户名称格式不对</ng-container>
+        </nz-form-explain> -->
+      </nz-form-control>
+
+    </nz-form-item>
+
+    <!--枚举：企业、个人、其他-->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">客户类型</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <nz-select name="msType" style="width: 100%;" autocomplete="msType">
+          <nz-option *ngFor="let i of customerTypes" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <!-- <nz-form-explain *ngIf="msType.control.dirty&&msType.control.errors">
+          <ng-container *ngIf="msType.control.hasError('required')">不能为空</ng-container>
+        </nz-form-explain> -->
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 地址 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">地址</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="address" #keyWord="ngModel" [(ngModel)]="customer.address" maxlength="500"
+          autocomplete="address" required>
+        <!-- <nz-form-explain *ngIf="address.control.dirty&&address.control.errors">
+          <ng-container *ngIf="address.control.hasError('required')">不能为空</ng-container>
+        </nz-form-explain> -->
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 邮编 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">邮编</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="zipCode" #keyWord="ngModel" [(ngModel)]="customer.zipCode" maxlength="20"
+          autocomplete="zipCode" required>
+        <!-- <nz-form-explain *ngIf="zipCode.control.dirty&&zipCode.control.errors">
+          <ng-container *ngIf="zipCode.control.hasError('required')">不能为空</ng-container>
+        </nz-form-explain> -->
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 电话 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">电话</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="tel" #keyWord="ngModel" [(ngModel)]="customer.tel" maxlength="20" autocomplete="tel"
+          required>
+        <!-- <nz-form-explain *ngIf="tel.control.dirty&&tel.control.errors">
+          <ng-container *ngIf="tel.control.hasError('required')">不能为空</ng-container>          
+        </nz-form-explain> -->
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 联系人 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="type">联系人</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="Contact" #keyWord="ngModel" [(ngModel)]="customer.Contact" maxlength="50">
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 联系人职位 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="type">联系人职位</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="Position" #keyWord="ngModel" [(ngModel)]="customer.Position" maxlength="50">
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 联系人电话 -->
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="type">联系人电话</nz-form-label>
+      <nz-form-control nz-col [nzSm]="19" nzHasFeedback>
+        <input nz-input name="Phone" #keyWord="ngModel" [(ngModel)]="customer.Phone" maxlength="20">
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 描述 -->
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="Remark">描述</nz-form-label>
+      <nz-form-control [nzSm]="19">
+        <textarea nz-input name="Desc" #content="ngModel" [(ngModel)]="customer.Desc" maxlength="500" rows="6"
+          [nzAutosize]="{ minRows: 6, maxRows: 10}"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 备注 -->
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="Remark">备注</nz-form-label>
+      <nz-form-control [nzSm]="19">
+        <textarea nz-input name="Remark" #content="ngModel" [(ngModel)]="customer.Remark" maxlength="500" rows="6"
+          [nzAutosize]="{ minRows: 6, maxRows: 10}"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 功能按钮 -->
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>
