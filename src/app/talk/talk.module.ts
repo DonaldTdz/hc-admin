@@ -5,7 +5,6 @@ import { LayoutModule } from '@layout/layout.module';
 import { SharedModule } from '@shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TalkRoutingModule } from './talk-routing.module';
-import { WechatUserService } from 'services';
 
 import { ImageCropperModule } from 'ngx-img-cropper';
 import { OrganizationComponent } from '@app/talk/organization/organization.component';

@@ -45,7 +45,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="seq">序号</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="seq">序号</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <input nz-input formControlName="seq" [(ngModel)]="dingTalkConfig.seq" id="seq">
         <nz-form-explain *ngIf="form.get('seq').dirty&&form.get('seq').hasError('pattern')">请输入数字
