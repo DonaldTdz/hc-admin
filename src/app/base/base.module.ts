@@ -6,8 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomerComponent } from './customer/customer.component';
 import { BaseRoutingModule } from './base-routing.module';
 import { LayoutModule } from '@layout/layout.module';
-import { CreateCustomerMessageComponent } from './customer/create-customer-message/create-customer-message.component';
-import { EditCustomerMessageComponent } from './customer/edit-customer-message/edit-customer-message.component';
+import { CreateCustomerComponent } from './customer/create-customer/create-customer.component';
+import { EditCustomerComponent } from './customer/edit-customer/edit-customer.component';
 import { CustomerService } from 'services';
 
 
@@ -23,15 +23,15 @@ import { CustomerService } from 'services';
   ],
   declarations: [
     CustomerComponent,
-    CreateCustomerMessageComponent,
-    EditCustomerMessageComponent],
+    CreateCustomerComponent,
+    EditCustomerComponent],
   providers: [
     CustomerService
   ],
   entryComponents: [
     CustomerComponent,
-    CreateCustomerMessageComponent,
-    EditCustomerMessageComponent
+    CreateCustomerComponent,
+    EditCustomerComponent
   ]
 }
 )

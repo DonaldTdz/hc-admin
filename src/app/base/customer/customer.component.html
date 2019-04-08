@@ -1,14 +1,37 @@
 <page-header [title]="''"></page-header>
 
 <nz-card [nzExtra]="extraTpl">
-  <ng-template #extraTpl>
-    <button nz-button (click)="refresh()" nzShape="circle">
-      <i class="anticon anticon-reload"></i>
-    </button>
-    <button nz-button (click)="create()" nzShape="circle" nzType="primary">
-      <i class="anticon anticon-plus"></i>
-    </button>
-  </ng-template>
+
+  <div nz-row class="mb-md">
+    <div nz-col [nzSpan]="8">
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="name">客户名称</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="name" #name="ngModel" [(ngModel)]="param.name" [placeholder]="'请输入客户名称'">
+      </nz-form-control>
+
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-label nz-col [nzSm]="6" [nzXs]="24" nzFor="type">客户类型</nz-form-label>
+      <nz-form-control nz-col [nzSm]="18">
+        <nz-select name="type" style="width: 100%;" #type="ngModel" [(ngModel)]="param.type">
+          <nz-option *ngFor="let i of customerTypes" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+
+    <div nz-col [nzSpan]="4" style="float:right;text-align: right; padding-left:0px">
+      <button nz-button (click)="refresh()" nzType="primary">
+        搜索
+      </button>
+
+      <button nz-button (click)="create()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+
   <nz-table #ajaxTable nzShowSizeChanger [nzData]="dataList" [nzTotal]="totalItems" [(nzPageIndex)]="pageNumber"
     [(nzPageSize)]="pageSize" [nzLoading]="isTableLoading" (nzPageIndexChange)="refresh()"
     (nzPageSizeChange)="refresh()" [nzFrontPagination]="false">
@@ -30,7 +53,7 @@
     <tbody>
       <tr *ngFor="let item of ajaxTable.data">
         <td>{{item.name}}</td>
-        <td>{{item.type}}</td>
+        <td>{{item.typeName}}</td>
         <td>{{item.address}}</td>
         <td>{{item.zipCode}}</td>
         <td>{{item.tel}}</td>

@@ -18,7 +18,7 @@ export class CustomerService {
     * @param param 
     */
   getPage(param: any): Observable<PagedResultDto> {
-    let _url = "/api/services/app/Customer/GetPaged";
+    let _url = "/api/services/app/Customer/GetPagedAsync";
     return this._commonhttp.get(_url, param).pipe(map(data => {
       const result = new PagedResultDto();
       result.items = data.items;
@@ -32,7 +32,7 @@ export class CustomerService {
       * @param id 
       */
   getById(id: string): Observable<Customer> {
-    let _url = "/api/services/app/Customer/GetById";
+    let _url = "/api/services/app/Customer/GetByIdAsync";
     let param = { 'id': id };
     return this._commonhttp.get(_url, param).pipe(map(data => {
       return Customer.fromJS(data);
@@ -45,17 +45,17 @@ export class CustomerService {
  * @param id 
  */
   delete(id: string): Observable<any> {
-    let _url = "/api/services/app/Customer/Delete";
+    let _url = "/api/services/app/Customer/DeleteAsync";
     let param = { 'id': id };
     return this._commonhttp.delete(_url, param);
   }
 
   /**
-  * 更新图文消息
+  * 新增更新图文消息
   * @param input 
   */
-  update(input: Customer): Observable<Customer> {
-    let _url = "/api/services/app/Customer/CreateOrUpdate";
+  createOrUpdate(input: Customer): Observable<Customer> {
+    let _url = "/api/services/app/Customer/CreateOrUpdateAsync";
     return this._commonhttp.post(_url, input).pipe(map(data => {
       return data;
     }))

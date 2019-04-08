@@ -2,6 +2,7 @@ export class Customer {
     id: string;
     name: string;
     type: number;
+    typeName: string;
     address: string;
     zipCode: string;
     tel: string;
@@ -17,7 +18,7 @@ export class Customer {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
-    constructor(data?: any) {
+    constructor(data?: ICustomer) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30,6 +31,7 @@ export class Customer {
             this.id = data["id"];
             this.name = data["name"];
             this.type = data["type"];
+            this.typeName = data["typeName"];
             this.address = data["address"];
             this.zipCode = data["zipCode"];
             this.tel = data["tel"];
@@ -45,6 +47,7 @@ export class Customer {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
+
         }
     }
     toJSON(data?: any) {
@@ -52,6 +55,7 @@ export class Customer {
         data["id"] = this.id;
         data["name"] = this.name;
         data["type"] = this.type;
+        this.typeName = data["typeName"];
         data["address"] = this.address;
         data["zipCode"] = this.zipCode;
         data["tel"] = this.tel;
@@ -89,4 +93,26 @@ export class Customer {
         result.init(json);
         return result;
     }
+
+}
+
+export interface ICustomer {
+    id: string;
+    name: string;
+    type: number;
+    address: string;
+    zipCode: string;
+    tel: string;
+    contact: string;
+    position: string;
+    phone: string;
+    desc: string;
+    remark: string;
+    isDeleted: boolean;
+    creationTime: Date;
+    creatorUserId: number;
+    lastModificationTime: Date;
+    lastModifierUserId: number;
+    deletionTime: Date;
+    deleterUserId: number;
 }

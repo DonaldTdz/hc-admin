@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { PagedRequestDto, PagedListingComponentBase, PagedResultDto } from '@shared/component-base/paged-listing-component-base';
-import { CreateCustomerMessageComponent } from '@app/base/customer/create-customer-message/create-customer-message.component';
-import { EditCustomerMessageComponent } from '@app/base/customer/edit-customer-message/edit-customer-message.component';
+import { CreateCustomerComponent } from "@app/base/customer/create-customer/create-customer.component";
+import { EditCustomerComponent } from '@app/base/customer/edit-customer/edit-customer.component';
 import { Customer } from 'entities';
 import { CustomerService } from 'services';
 
@@ -12,14 +12,22 @@ import { CustomerService } from 'services';
 })
 
 export class CustomerComponent extends PagedListingComponentBase<Customer> {
-  param: any = { triType: 0, msType: 0 };
+  param: any = { type: 0 };
+  name: "";
+  customerTypes = [
+    { value: 0, text: '全部' },
+    { value: 1, text: '企业' },
+    { value: 2, text: '个人' },
+    { value: 3, text: '其他' },
+  ];
   protected fetchDataList(
     request: PagedRequestDto,
     pageNumber: number,
     finishedCallback: Function
   ): void {
+    //图文消息
     finishedCallback();
-    this.customerService.getPage(request).finally(() => {
+    this.customerService.getPage(this.getParameter()).finally(() => {
       finishedCallback();
     }).subscribe((result: PagedResultDto) => {
       this.dataList = result.items;
@@ -34,7 +42,7 @@ export class CustomerComponent extends PagedListingComponentBase<Customer> {
 
   //新增
   create() {
-    this.modalHelper.open(CreateCustomerMessageComponent, {}, 'md', {
+    this.modalHelper.open(CreateCustomerComponent, {}, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -60,7 +68,7 @@ export class CustomerComponent extends PagedListingComponentBase<Customer> {
 
   //更新
   edit(item: Customer): void {
-    this.modalHelper.open(EditCustomerMessageComponent, { id: item.id }, 'md', {
+    this.modalHelper.open(EditCustomerComponent, { id: item.id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -68,6 +76,11 @@ export class CustomerComponent extends PagedListingComponentBase<Customer> {
       }
     });
   }
-
+  getParameter(): any {
+    var arry: any = {};
+    arry.name = this.param.name;
+    arry.type = this.param.type === 0 ? null : this.param.type;
+    return arry;
+  }
 
 }
