@@ -1,0 +1,119 @@
+<div class="padding-bottom-45">
+
+  <div class="modal-header">
+    <div class="modal-title">编辑客户信息</div>
+  </div>
+
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="customer">
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="name">名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="name" [(ngModel)]="customer.name" id="name">
+        <nz-form-explain *ngIf="form.get('name').dirty&&form.get('name').hasError('required')">请输入名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="type">客户类型</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="type" [nzPlaceHolder]="'客户类型'" [(ngModel)]="customer.type" [nzShowSearch]="true"
+          style="width:100%;">
+          <nz-option *ngFor="let i of customerTypes" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="form.get('type').dirty&&form.get('type').hasError('required')">请选择客户类型
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="address">地址</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="address" [(ngModel)]="customer.address" id="address">
+        <nz-form-explain *ngIf="form.get('address').dirty&&form.get('address').hasError('required')">请输入地址
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="zipCode">邮编</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="zipCode" [(ngModel)]="customer.zipCode" id="zipCode">
+        <nz-form-explain *ngIf="form.get('zipCode').dirty&&form.get('zipCode').hasError('required')">请输入邮编
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="tel">电话</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="tel" [(ngModel)]="customer.tel" id="tel">
+        <nz-form-explain *ngIf="form.get('tel').dirty&&form.get('tel').hasError('required')">请输入电话
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>联系人</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="contact" [(ngModel)]="customer.contact" id="contact">
+        <nz-form-explain *ngIf="form.get('contact').dirty&&form.get('contact').hasError('required')">请输入电话
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>联系人职位</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="position" [(ngModel)]="customer.position" id="position">
+        <nz-form-explain *ngIf="form.get('position').dirty&&form.get('position').hasError('required')">请输入电话
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="phone">联系人电话</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="phone" [(ngModel)]="customer.phone" id="phone">
+        <nz-form-explain *ngIf="form.get('phone').dirty&&form.get('phone').hasError('required')">请输入联系人电话
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="desc">描述</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <!-- <input > -->
+        <textarea nz-input formControlName="desc" [(ngModel)]="customer.desc" id="desc">
+
+        </textarea>
+        <nz-form-explain *ngIf="form.get('desc').dirty&&form.get('desc').hasError('maxlength')">字符长度小于等于500
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="remark">备注</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <textarea nz-input formControlName="remark" [(ngModel)]="customer.remark" id="remark">
+
+        </textarea>
+        <!-- <input > -->
+        <nz-form-explain *ngIf="form.get('remark').dirty&&form.get('remark').hasError('maxlength')">字符长度小于等于500
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 功能按钮 -->
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+
+  </form>
+</div>
