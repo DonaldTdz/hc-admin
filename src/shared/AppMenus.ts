@@ -71,6 +71,11 @@ export class AppMenus {
                     link: "/app/base/customer",
                     reuse: false
                 },
+                {
+                    text: "公司管理",
+                    link: "/app/base/company",
+                    reuse: false
+                },
             ]
         },
     ];

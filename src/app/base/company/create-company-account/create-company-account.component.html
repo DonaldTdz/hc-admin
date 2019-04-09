@@ -1,0 +1,80 @@
+<div class="padding-bottom-45">
+
+  <div class="modal-header">
+    <div class="modal-title">编辑钉钉配置</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="account">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>类型</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="type" [nzPlaceHolder]="'类型'" [(ngModel)]="account.type"
+          (ngModelChange)="countEnding()" [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of AccoutType" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
+      ">类型不能为空
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期初余额</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="initial" [nzDisabled]="true" style="width:25%" placeholder="期初余额"
+          [(ngModel)]="account.initial">
+        </nz-input-number>
+        <nz-form-explain *ngIf="(form.get('initial')?.dirty && form.get('initial')?.errors)
+      ">期初余额不能为空且不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">发生金额</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="amount" style="width:25%" id="amount" placeholder="发生金额"
+          [(ngModel)]="account.amount" (ngModelChange)="countEnding()">
+        </nz-input-number>
+        <nz-form-explain *ngIf="
+        (form.get('amount')?.dirty && form.get('amount')?.errors)
+      ">发生金额不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期末余额</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="ending" [nzDisabled]="true" style="width:25%" placeholder="期末余额"
+          [(ngModel)]="account.ending">
+        </nz-input-number>
+        <nz-form-explain *ngIf="
+          (form.get('ending')?.dirty && form.get('ending')?.errors)
+        ">期末余额不能为空且不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">描述</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <textarea nz-input rows="4" formControlName="desc" placeholder="描述" [(ngModel)]="account.desc"></textarea>
+        <nz-form-explain *ngIf="
+        (form.get('desc')?.dirty && form.get('desc')?.errors)
+      ">描述不能超过250个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">回款计划</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="refId" placeholder="回款计划" [(ngModel)]="account.refId" />
+      </nz-form-control>
+    </nz-form-item> -->
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

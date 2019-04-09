@@ -14,7 +14,7 @@ export class CompanyAccountService {
     }
     //获取分页数据
     getAll(params: any): Observable<PagedResultDto> {
-        let url_ = "/api/services/app/CompanysAccount/GetPagedAsync";
+        let url_ = "/api/services/app/CompanyAccount/GetPagedAsync";
         return this._commonhttp.get(url_, { params: params }).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
@@ -27,7 +27,7 @@ export class CompanyAccountService {
  * @param id 
  */
     getMessageById(id: string): Observable<Account> {
-        let _url = "/api/services/app/CompanysAccount/GetByIdAsync";
+        let _url = "/api/services/app/CompanyAccount/GetByIdAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {
             return Account.fromJS(data);
@@ -39,8 +39,8 @@ export class CompanyAccountService {
      * @param input 
      */
     createOrUpdate(input: Account): Observable<Account> {
-        let _url = "/api/services/app/CompanysAccount/CreateOrUpdateAsync";
-        return this._commonhttp.post(_url, input).pipe(map(data => {
+        let _url = "/api/services/app/CompanyAccount/CreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "account": input }).pipe(map(data => {
             return data;
         }))
     }
@@ -51,7 +51,7 @@ export class CompanyAccountService {
      * @param id 
      */
     delete(id: string): Observable<any> {
-        let _url = "/api/services/app/CompanysAccount/DeleteAsync";
+        let _url = "/api/services/app/CompanyAccount/DeleteAsync";
         let param = { 'id': id };
         return this._commonhttp.delete(_url, param);
     }

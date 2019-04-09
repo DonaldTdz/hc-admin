@@ -23,7 +23,6 @@ export class EditTalkConfigComponent extends ModalComponentBase implements OnIni
   constructor(injector: Injector, private service: TalkConfigService, private fb: FormBuilder) { super(injector); }
 
   ngOnInit() {
-    this.fetchData();
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       code: [null, Validators.compose([Validators.required])],
@@ -31,6 +30,7 @@ export class EditTalkConfigComponent extends ModalComponentBase implements OnIni
       remark: [null, Validators.compose([Validators.maxLength(500)])],
       seq: [null, Validators.compose([Validators.pattern('^[0-9]*$')])],
     });
+    this.fetchData();
   }
   fetchData(): void {
     this.service.getMessageById(this.id.toString()).subscribe((result) => {

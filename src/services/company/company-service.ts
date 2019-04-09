@@ -1,7 +1,7 @@
 import { Inject, Optional, Injectable } from "@angular/core";
 import { Observer, Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
-import { map } from "rxjs/operators";
+import { map, count } from "rxjs/operators";
 import { Company } from "entities";
 import { PagedResultDto } from "@shared/component-base";
 
@@ -38,9 +38,9 @@ export class CompanyService {
      * 更新与创建配置
      * @param input 
      */
-    createOrUpdate(input: Company): Observable<Company> {
+    createOrUpdate(input: Company | null): Observable<Company> {
         let _url = "/api/services/app/Company/CreateOrUpdateAsync";
-        return this._commonhttp.post(_url, input).pipe(map(data => {
+        return this._commonhttp.post(_url, { "company": input }).pipe(map(data => {
             return data;
         }))
     }

@@ -1,0 +1,198 @@
+<page-header [title]="''"></page-header>
+<nz-tabset>
+  <nz-tab nzTitle="基本信息">
+    <form nz-form [formGroup]="form" *ngIf="company">
+      <div nz-row>
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4" nzRequired>公司名称</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="name" placeholder="公司名称" [(ngModel)]="company.name" />
+              <nz-form-explain *ngIf="(form.get('name')?.dirty && form.get('bank')?.name)">
+                公司名称必要大于0小于25个字符
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">公司开户银行</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="bank" placeholder="公司开户银行" [(ngModel)]="company.bank" />
+              <nz-form-explain *ngIf="(form.get('bank')?.dirty && form.get('bank')?.errors)
+        ">公司开户银行不能超过25个字符
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">银行账号</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="bankAccount" placeholder="银行账号" [(ngModel)]="company.bankAccount" />
+              <nz-form-explain *ngIf="
+          (form.get('bankAccount')?.dirty && form.get('bankAccount')?.errors)
+        ">银行账号必须为数字且不能超过50个字符
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">税号</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="dutyNo" placeholder="税号" [(ngModel)]="company.dutyNo" />
+              <nz-form-explain *ngIf="
+          (form.get('dutyNo')?.dirty && form.get('dutyNo')?.errors)
+        ">税号不能超过50个字符
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">开户地址</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="address" placeholder="开户地址" [(ngModel)]="company.address" />
+              <nz-form-explain *ngIf="
+          (form.get('address')?.dirty && form.get('address')?.errors)
+        ">开户地址不能超过250个字符
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">公司电话</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <input nz-input formControlName="tel" placeholder="公司电话" [(ngModel)]="company.tel" />
+              <nz-form-explain *ngIf="
+          (form.get('tel')?.dirty && form.get('tel')?.errors)
+        ">公司电话格式输入错误
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="4">账户余额</nz-form-label>
+            <nz-form-control [nzSpan]="10" nzHasFeedback>
+              <nz-input-number formControlName="balance" style="width:20%" placeholder="账户余额"
+                [(ngModel)]="company.balance">
+              </nz-input-number>
+              <nz-form-explain *ngIf="
+          (form.get('balance')?.dirty && form.get('balance')?.errors)
+        ">字符只能为数字和小数并且不能超过18位
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-card [nzExtra]="extraTpl" nzTitle="公司文件">
+              <ng-template #extraTpl>
+                <nz-upload nzAction="{{postUrl | hostUrl}}" [nzShowUploadList]="false" (nzChange)="handleChange($event)"
+                  [nzBeforeUpload]="beforeUpload">
+                  <button nz-button nzType="primary">
+                    <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
+                  </button>
+                </nz-upload>
+              </ng-template>
+              <nz-table #ajaxTable [nzData]="attachments">
+                <thead>
+                  <tr>
+                    <th>文件名称</th>
+                    <th>下载</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ajaxTable.data">
+                    <td>{{item.fileName}}</td>
+                    <td><a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileUrl}}</a></td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-card>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <footer-toolbar>
+      <button nz-button [nzType]="'primary'" type="button" (click)="save()" [disabled]="!form.valid">
+        保存
+      </button>
+    </footer-toolbar>
+  </nz-tab>
+  <nz-tab nzTitle="公司账户" (nzClick)="getAccounts()">
+    <form nz-form [formGroup]="form" *ngIf="company">
+      <div nz-row>
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="2">公司名称</nz-form-label>
+            <nz-form-control [nzSpan]="5" nzHasFeedback>
+              <input nz-input formControlName="name" placeholder="公司名称" disabled="disabled"
+                [(ngModel)]="company.name" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="2">公司开户银行</nz-form-label>
+            <nz-form-control [nzSpan]="5" nzHasFeedback>
+              <input nz-input formControlName="bank" placeholder="公司开户银行" disabled="disabled"
+                [(ngModel)]="company.bank" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item nz-row>
+            <nz-form-label [nzSpan]="2">银行账号</nz-form-label>
+            <nz-form-control [nzSpan]="5" nzHasFeedback>
+              <input nz-input formControlName="bankAccount" placeholder="银行账号" disabled="disabled"
+                [(ngModel)]="company.bankAccount" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <nz-card [nzExtra]="extraTpl" nzTitle="账户流水">
+      <ng-template #extraTpl>
+        <button nz-button (click)="refresh()" nzShape="circle">
+          <i class="anticon anticon-reload"></i>
+        </button>
+        <button nz-button (click)="createCompanyAccount()" nzShape="circle" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+        </button>
+      </ng-template>
+      <ng-template #totalContentMe>共{{totalItems}}条</ng-template>
+      <nz-table #nzTable [nzData]="dataList" [nzFrontPagination]="false" [nzTotal]="totalItems"
+        [(nzPageIndex)]="pageNumber" [(nzPageSize)]="pageSize" [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'"
+        [nzShowSizeChanger]="true" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+        <thead nz-thead>
+          <tr>
+            <th nz-th>
+              <span>类型</span>
+            </th>
+            <th nz-th>
+              <span>期初余额</span>
+            </th>
+            <th nz-th>
+              <span>发生金额</span>
+            </th>
+            <th nz-th>
+              <span>期末余额</span>
+            </th>
+            <th nz-th nzWidth="40%">
+              <span>描述</span>
+            </th>
+            <th nz-th>
+              <span>创建时间</span>
+            </th>
+            <!-- <th>
+              <span>操作</span>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let ding of nzTable.data">
+            <td nz-td>{{ding.typeName}}</td>
+            <td nz-td>{{ding.initial}}</td>
+            <td nz-td>{{ding.amount}}</td>
+            <td nz-td>{{ding.ending}}</td>
+            <td nz-td title="{{ding.desc}}">
+              {{ding.desc | lengthLimit:40}}</td>
+            <td nz-td>{{ding.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <!-- <td nz-td>
+              <a (click)="editDing(ding)">编辑</a>
+              <span nz-table-divider></span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="delete(ding)">删除</a>
+            </td> -->
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </nz-tab>
+</nz-tabset>

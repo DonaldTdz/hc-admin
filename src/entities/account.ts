@@ -8,7 +8,8 @@ export class Account {
     desc: string;
     refId: string;
     creationTime: Date;
-    constructor(data?: any) {
+    typeName: string;
+    constructor(data?: IAccount) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -26,6 +27,7 @@ export class Account {
             this.ending = data["ending"];
             this.desc = data["desc"];
             this.refId = data["refId"];
+            this.typeName = data["typeName"];
             this.creationTime = data["creationTime"];
         }
     }
@@ -39,6 +41,7 @@ export class Account {
         data["ending"] = this.ending;
         data["desc"] = this.desc;
         data["refId"] = this.refId;
+        data["typeName"] = this.typeName;
         data["creationTime"] = this.creationTime;
         return data;
     }
@@ -62,4 +65,15 @@ export class Account {
         result.init(json);
         return result;
     }
+}
+export interface IAccount {
+    id: string;
+    companyId: number;
+    type: number;
+    initial: number;
+    amount: number;
+    ending: number;
+    desc: string;
+    refId: string;
+    creationTime: Date;
 }

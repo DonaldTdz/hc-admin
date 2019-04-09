@@ -8,7 +8,9 @@ import { BaseRoutingModule } from './base-routing.module';
 import { LayoutModule } from '@layout/layout.module';
 import { CreateCustomerMessageComponent } from './customer/create-customer-message/create-customer-message.component';
 import { EditCustomerMessageComponent } from './customer/edit-customer-message/edit-customer-message.component';
-import { CustomerService } from 'services';
+import { CustomerService, CompanyAccountService, CompanyService } from 'services';
+import { CompanyComponent } from './company/company.component';
+import { CreateCompanyAccountComponent } from './company/create-company-account/create-company-account.component';
 
 
 @NgModule({
@@ -24,14 +26,19 @@ import { CustomerService } from 'services';
   declarations: [
     CustomerComponent,
     CreateCustomerMessageComponent,
-    EditCustomerMessageComponent],
-  providers: [
-    CustomerService
+    EditCustomerMessageComponent,
+    CompanyComponent,
+    CreateCompanyAccountComponent
   ],
   entryComponents: [
     CustomerComponent,
     CreateCustomerMessageComponent,
-    EditCustomerMessageComponent
+    EditCustomerMessageComponent,
+    CompanyComponent,
+    CreateCompanyAccountComponent
+  ],
+  providers: [
+    CustomerService, CompanyAccountService, CompanyService
   ]
 }
 )
