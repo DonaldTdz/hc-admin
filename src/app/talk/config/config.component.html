@@ -4,18 +4,18 @@
     <nz-card [nzExtra]="extraTpl">
 
       <ng-template #extraTpl>
-        <button nz-button (click)="refresh()" nzShape="circle">
+        <button nz-button (click)="getConfig()" nzShape="circle">
           <i class="anticon anticon-reload"></i>
         </button>
         <button nz-button (click)="create()" nzShape="circle" nzType="primary">
           <i class="anticon anticon-plus"></i>
         </button>
       </ng-template>
-      <ng-template #totalContentMeConfig>共{{commonConfigurationCount}}条</ng-template>
-      <nz-table #nzTableConfig [nzData]="commonConfiguration" [nzFrontPagination]="false"
-        [nzTotal]="commonConfigurationCount" [(nzPageIndex)]="pageNumber" [(nzPageSize)]="pageSize"
-        [nzShowTotal]="totalContentMeConfig" [nzLoading]="isTableLoading" [nzShowTotal]="'true'"
-        [nzShowSizeChanger]="true" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+      <ng-template #totalContentMeConfig>共{{query.total}}条</ng-template>
+      <nz-table #nzTableConfig [nzData]="commonConfiguration" [nzFrontPagination]="false" [nzTotal]="query.total"
+        [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzShowTotal]="totalContentMeConfig"
+        [nzLoading]="isTableLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getConfig()"
+        (nzPageSizeChange)="getConfig()">
         <thead nz-thead>
           <tr>
             <th nz-th>
@@ -61,18 +61,18 @@
     <nz-card [nzExtra]="extraTpl">
 
       <ng-template #extraTpl>
-        <button nz-button (click)="refresh()" nzShape="circle">
+        <button nz-button (click)="getOffice()" nzShape="circle">
           <i class="anticon anticon-reload"></i>
         </button>
         <button nz-button (click)="create()" nzShape="circle" nzType="primary">
           <i class="anticon anticon-plus"></i>
         </button>
       </ng-template>
-      <ng-template #totalContentMe>共{{intelligentOfficeCount}}条</ng-template>
-      <nz-table #nzTableOffice [nzData]="intelligentOffice" [nzFrontPagination]="false"
-        [nzTotal]="intelligentOfficeCount" [(nzPageIndex)]="pageNumber" [(nzPageSize)]="pageSize"
-        [nzShowTotal]="totalContentMe" [nzLoading]="isTableLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
-        (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+      <ng-template #totalContentMe>共{{queryOffice.total}}条</ng-template>
+      <nz-table #nzTableOffice [nzData]="intelligentOffice" [nzFrontPagination]="false" [nzTotal]="queryOffice.total"
+        [(nzPageIndex)]="queryOffice.pageIndex" [(nzPageSize)]="queryOffice.pageSize" [nzShowTotal]="totalContentMe"
+        [nzLoading]="isTableLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getOffice()"
+        (nzPageSizeChange)="getOffice()">
         <thead nz-thead>
           <tr>
             <th nz-th>

@@ -144,7 +144,7 @@
       </form>
       <nz-card [nzExtra]="extraTpl" nzTitle="账户流水">
         <ng-template #extraTpl>
-          <button nz-button (click)="refresh()" nzShape="circle">
+          <button nz-button (click)="getAccounts()" nzShape="circle">
             <i class="anticon anticon-reload"></i>
           </button>
           <button nz-button (click)="createCompanyAccount()" nzShape="circle" nzType="primary">
@@ -154,7 +154,7 @@
         <ng-template #totalContentMe>共{{totalItems}}条</ng-template>
         <nz-table #nzTable [nzData]="dataList" [nzFrontPagination]="false" [nzTotal]="totalItems"
           [(nzPageIndex)]="pageNumber" [(nzPageSize)]="pageSize" [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'"
-          [nzShowSizeChanger]="true" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+          [nzShowSizeChanger]="true" (nzPageIndexChange)="getAccounts()" (nzPageSizeChange)="getAccounts()">
           <thead nz-thead>
             <tr>
               <th nz-th>

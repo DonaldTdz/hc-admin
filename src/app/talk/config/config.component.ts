@@ -1,9 +1,10 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   PagedListingComponentBase,
   PagedRequestDto,
   PagedResultDto
 } from '@shared/component-base';
+import { AppComponentBase } from '@shared/app-component-base';
 import { TalkConfigService } from 'services';
 import { CreateTalkConfigComponent } from '@app/talk/config/create-talk-config/create-talk-config.component'
 import { EditTalkConfigComponent } from '@app/talk/config/edit-talk-config/edit-talk-config.component'
@@ -15,7 +16,7 @@ import { DingTalkConfig } from 'entities';
   styles: [],
   providers: [TalkConfigService]
 })
-export class ConfigComponent extends PagedListingComponentBase<any> {
+export class ConfigComponent extends AppComponentBase implements OnInit {
   constructor(injector: Injector, private configService: TalkConfigService) { super(injector); }
   configDing = [
     { value: 1, text: '公共配置', selected: true },
@@ -23,34 +24,65 @@ export class ConfigComponent extends PagedListingComponentBase<any> {
   ]
 
   commonConfiguration: DingTalkConfig[] = [];
-  commonConfigurationCount: number;
   intelligentOffice: DingTalkConfig[] = [];
-  intelligentOfficeCount: number;
-  protected fetchDataList(
-    request: PagedRequestDto,
-    pageNumber: number,
-    finishedCallback: Function,
-  ): void {
-    let type;
+  queryOffice: any = {
+    pageIndex: 1,
+    pageSize: 10,
+    skipCount: function () { return (this.pageIndex - 1) * this.pageSize; },
+    total: 0,
+  };
 
-    this.configService.getAll(request, type = 1)
-      .finally(() => {
-        finishedCallback();
-      })
-      .subscribe((result: PagedResultDto) => {
-        this.commonConfiguration = result.items;
-        this.commonConfigurationCount = result.totalCount;
-      });
+  ngOnInit() {
+    this.getConfig()
+    this.getOffice()
+  }
+  // protected fetchDataList(
+  //   request: PagedRequestDto,
+  //   pageNumber: number,
+  //   finishedCallback: Function,
+  // ): void {
+  //   let type;
+
+  //   this.configService.getAll(request, type = 1)
+  //     .finally(() => {
+  //       finishedCallback();
+  //     })
+  //     .subscribe((result: PagedResultDto) => {
+  //       this.commonConfiguration = result.items;
+  //       this.commonConfigurationCount = result.totalCount;
+  //     });
 
 
-    this.configService.getAll(request, type = 2)
-      .finally(() => {
-        finishedCallback();
-      })
-      .subscribe((result: PagedResultDto) => {
-        this.intelligentOffice = result.items;
-        this.intelligentOfficeCount = result.totalCount;
-      });
+  //   this.configService.getAll(request, type = 2)
+  //     .finally(() => {
+  //       finishedCallback();
+  //     })
+  //     .subscribe((result: PagedResultDto) => {
+  //       this.intelligentOffice = result.items;
+  //       this.intelligentOfficeCount = result.totalCount;
+  //     });
+  // }
+
+  //查询
+  getConfig() {
+    let params: any = {};
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
+    params.type = 1;
+    this.configService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.commonConfiguration = result.items;
+      this.query.total = result.totalCount;
+    })
+  }
+  getOffice() {
+    let params: any = {};
+    params.SkipCount = this.queryOffice.skipCount();
+    params.MaxResultCount = this.queryOffice.pageSize;
+    params.type = 2;
+    this.configService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.intelligentOffice = result.items;
+      this.queryOffice.total = result.totalCount;
+    })
   }
 
 
@@ -62,7 +94,7 @@ export class ConfigComponent extends PagedListingComponentBase<any> {
         if (result) {
           this.configService.delete(entity.id).subscribe(() => {
             this.notify.success('删除成功！');
-            this.refresh();
+            this.ngOnInit();
           });
         }
       }
@@ -74,7 +106,7 @@ export class ConfigComponent extends PagedListingComponentBase<any> {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.refresh();
+        this.ngOnInit();
       }
     });
   }
@@ -83,7 +115,7 @@ export class ConfigComponent extends PagedListingComponentBase<any> {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.refresh();
+        this.ngOnInit();
       }
     });
   }

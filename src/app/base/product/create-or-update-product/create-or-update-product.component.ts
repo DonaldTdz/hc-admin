@@ -37,6 +37,7 @@ export class CreateOrUpdateProductComponent extends ModalComponentBase implement
   }
 
   save() {
+    this.product.type = 0;
     this.productService.createOrUpdate(this.product).finally(() => {
       this.saving = false;
     }).subscribe(() => {

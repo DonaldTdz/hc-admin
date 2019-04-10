@@ -13,9 +13,9 @@ export class TalkConfigService {
         this._commonhttp = commonhttp;
     }
     //获取分页数据
-    getAll(params: any, type: any): Observable<PagedResultDto> {
+    getAll(params: any): Observable<PagedResultDto> {
         let url_ = "/api/services/app/DingTalkConfig/GetPagedByTypeAsync";
-        return this._commonhttp.get(url_, { params: params, type: type }).pipe(map(data => {
+        return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
             result.totalCount = data.totalCount;

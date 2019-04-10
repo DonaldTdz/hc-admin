@@ -2,7 +2,7 @@ import { Inject, Optional, Injectable } from "@angular/core";
 import { Observer, Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map, count } from "rxjs/operators";
-import { Product } from "entities";
+import { Product, Parameter } from "entities";
 import { PagedResultDto } from "@shared/component-base";
 
 @Injectable()
@@ -13,9 +13,9 @@ export class ProductService {
         this._commonhttp = commonhttp;
     }
     //获取分页数据
-    getAll(params: any, name: string): Observable<PagedResultDto> {
+    getAll(params: any): Observable<PagedResultDto> {
         let url_ = "/api/services/app/Product/GetPagedAsync";
-        return this._commonhttp.get(url_, { params: params, name: name }).pipe(map(data => {
+        return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
             result.totalCount = data.totalCount;
