@@ -10,3 +10,4 @@ export * from './organization';
 export * from './grower';
 export * from './account';
 export * from './company';
+export * from './product'

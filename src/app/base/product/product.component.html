@@ -1,0 +1,83 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzExtra]="extraTpl">
+  <div nz-row class="mb-md">
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">产品名称</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="name" [(ngModel)]="search.name" nzSize="default" [placeholder]="'请输入产品名称'">
+      </nz-form-control>
+
+    </div>
+    <div nz-col [nzSpan]="6" hidden>
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">分类</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <nz-select name="type" style="width: 100%;" [(ngModel)]="search.type" nzPlaceHolder="请选择分类">
+          <nz-option *ngFor="let i of productTypes" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+
+    </div>
+    <div nz-col [nzSpan]="18" class="mb-md" style="text-align: right">
+      <button nz-button (click)="refresh()" [nzLoading]="loading" nzType="primary">
+        查询
+      </button>
+      <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
+      <button nz-button (click)="create()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #totalContentMe>共{{totalItems}}条</ng-template>
+  <nz-table #nzTable [nzData]="dataList" [nzFrontPagination]="false" [nzTotal]="totalItems" [(nzPageIndex)]="pageNumber"
+    [(nzPageSize)]="pageSize" [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th hidden>
+          <span>分类</span>
+        </th>
+        <th nz-th>
+          <span>产品名称</span>
+        </th>
+        <th nz-th>
+          <span>规格型号</span>
+        </th>
+        <th nz-th>
+          <span>单位</span>
+        </th>
+        <th nz-th>
+          <span>状态</span>
+        </th>
+        <th nz-th>
+          <span>创建时间</span>
+        </th>
+        <th>
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let ding of nzTable.data">
+        <td nz-td hidden>{{ding.type}}</td>
+        <td nz-td title="{{ding.name}}">{{ding.name | lengthLimit:40}}</td>
+        <td nz-td title="{{ding.specification}}">{{ding.specification | lengthLimit:40}}</td>
+        <td nz-td>{{ding.unit}}</td>
+        <td nz-td>
+          <!-- <nz-switch [(ngModel)]="{{ding.IsEnabled}}" [nzControl]="true" [nzLoading]="loading" /> -->
+          <!-- {{ding.isEnabled}} -->
+          <nz-switch [(ngModel)]="ding.isEnabled" (click)="updateState(ding)" nzCheckedChildren="启用"
+            nzUnCheckedChildren="禁用"></nz-switch>
+        </td>
+        <td nz-td>{{ding.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td nz-td>
+          <a (click)="editDing(ding)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(ding)">删除</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

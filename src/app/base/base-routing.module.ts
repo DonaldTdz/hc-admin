@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { CustomerComponent } from './customer/customer.component';
 import { CompanyComponent } from './company/company.component'
+import { ProductComponent } from './product/product.component'
 
 const routes: Routes = [
   {
@@ -13,6 +14,12 @@ const routes: Routes = [
   {
     path: 'company',
     component: CompanyComponent,
+    canActivate: [AppRouteGuard],
+  }
+  ,
+  {
+    path: 'product',
+    component: ProductComponent,
     canActivate: [AppRouteGuard],
   }
 ];

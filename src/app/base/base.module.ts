@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomerComponent } from './customer/customer.component';
 import { BaseRoutingModule } from './base-routing.module';
 import { LayoutModule } from '@layout/layout.module';
-import { CustomerService, CompanyAccountService, CompanyService } from 'services';
+import { CustomerService, CompanyAccountService, CompanyService, ProductService } from 'services';
 import { CompanyComponent } from './company/company.component';
 import { CreateCompanyAccountComponent } from './company/create-company-account/create-company-account.component';
 import { CreateCustomerComponent } from './customer/create-customer/create-customer.component';
 import { EditCustomerComponent } from './customer/edit-customer/edit-customer.component';
+import { ProductComponent } from './product/product.component';
+import { CreateOrUpdateProductComponent } from './product/create-or-update-product/create-or-update-product.component';
 
 
 @NgModule({
@@ -28,17 +30,21 @@ import { EditCustomerComponent } from './customer/edit-customer/edit-customer.co
     CompanyComponent,
     CreateCustomerComponent,
     EditCustomerComponent,
-    CreateCompanyAccountComponent
+    CreateCompanyAccountComponent,
+    ProductComponent,
+    CreateOrUpdateProductComponent
   ],
   entryComponents: [
     CustomerComponent,
     CompanyComponent,
     EditCustomerComponent,
     CreateCustomerComponent,
-    CreateCompanyAccountComponent
+    CreateCompanyAccountComponent,
+    ProductComponent,
+    CreateOrUpdateProductComponent
   ],
   providers: [
-    CustomerService, CompanyAccountService, CompanyService
+    CustomerService, CompanyAccountService, CompanyService, ProductService
   ],
 }
 )

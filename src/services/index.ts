@@ -9,4 +9,4 @@ export * from './talk/talk-employee-service'
 export * from './talk/talk-organization-service'
 export * from './company/company-account-service'
 export * from './company/company-service'
-
+export * from './product/product.service'

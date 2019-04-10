@@ -62,11 +62,6 @@ export class AppMenus {
             group: true,
             children: [
                 {
-                    text: "组织架构",
-                    link: "/app/base/users",
-                    reuse: false
-                },
-                {
                     text: "客户管理",
                     link: "/app/base/customer",
                     reuse: false
@@ -74,6 +69,11 @@ export class AppMenus {
                 {
                     text: "公司管理",
                     link: "/app/base/company",
+                    reuse: false
+                },
+                {
+                    text: "产品管理",
+                    link: "/app/base/product",
                     reuse: false
                 },
             ]
