@@ -53,6 +53,11 @@ export class AppMenus {
                     link: "/app/system/roles",
                     reuse: false
                 },
+                {
+                    text: "数据字典",
+                    link: "/app/system/datadictionary",
+                    reuse: false
+                },
             ]
         },
         {
@@ -74,6 +79,11 @@ export class AppMenus {
                 {
                     text: "产品管理",
                     link: "/app/base/product",
+                    reuse: false
+                },
+                {
+                    text: "供应商管理",
+                    link: "/app/base/supplier",
                     reuse: false
                 },
             ]

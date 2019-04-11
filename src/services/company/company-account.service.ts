@@ -15,7 +15,7 @@ export class CompanyAccountService {
     //获取分页数据
     getAll(params: any): Observable<PagedResultDto> {
         let url_ = "/api/services/app/CompanyAccount/GetPagedAsync";
-        return this._commonhttp.get(url_, { params: params }).pipe(map(data => {
+        return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
             result.totalCount = data.totalCount;

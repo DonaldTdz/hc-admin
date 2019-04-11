@@ -30,7 +30,7 @@
     </div>
   </div>
   <ng-template #totalContentMe>共{{query.total}}条</ng-template>
-  <nz-table #nzTable [nzData]="productList" [nzFrontPagination]="false" [nzTotal]="query.total"
+  <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzShowTotal]="totalContentMe"
     [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
     <thead nz-thead>

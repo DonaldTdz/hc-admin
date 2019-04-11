@@ -4,6 +4,7 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 
 import { RolesComponent } from '@app/system/roles/roles.component';
 import { UsersComponent } from '@app/system/users/users.component';
+import { DatadictionaryComponent } from './datadictionary/datadictionary.component'
 
 const routes: Routes = [
     {
@@ -14,6 +15,11 @@ const routes: Routes = [
     {
         path: 'users',
         component: UsersComponent,
+        canActivate: [AppRouteGuard],
+    },
+    {
+        path: 'datadictionary',
+        component: DatadictionaryComponent,
         canActivate: [AppRouteGuard],
     }
 ];

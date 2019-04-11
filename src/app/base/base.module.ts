@@ -6,13 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomerComponent } from './customer/customer.component';
 import { BaseRoutingModule } from './base-routing.module';
 import { LayoutModule } from '@layout/layout.module';
-import { CustomerService, CompanyAccountService, CompanyService, ProductService } from 'services';
+import { CustomerService, CompanyAccountService, CompanyService, ProductService, SupplierService } from 'services';
 import { CompanyComponent } from './company/company.component';
 import { CreateCompanyAccountComponent } from './company/create-company-account/create-company-account.component';
 import { CreateCustomerComponent } from './customer/create-customer/create-customer.component';
 import { EditCustomerComponent } from './customer/edit-customer/edit-customer.component';
 import { ProductComponent } from './product/product.component';
 import { CreateOrUpdateProductComponent } from './product/create-or-update-product/create-or-update-product.component';
+import { SupplierComponent } from './supplier/supplier.component';
+import { CreateOrUpdateSupplierComponent } from './supplier/create-or-update-supplier/create-or-update-supplier.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { CreateOrUpdateProductComponent } from './product/create-or-update-produ
     EditCustomerComponent,
     CreateCompanyAccountComponent,
     ProductComponent,
-    CreateOrUpdateProductComponent
+    CreateOrUpdateProductComponent,
+    SupplierComponent,
+    CreateOrUpdateSupplierComponent
   ],
   entryComponents: [
     CustomerComponent,
@@ -41,10 +45,11 @@ import { CreateOrUpdateProductComponent } from './product/create-or-update-produ
     CreateCustomerComponent,
     CreateCompanyAccountComponent,
     ProductComponent,
-    CreateOrUpdateProductComponent
+    CreateOrUpdateProductComponent,
+    CreateOrUpdateSupplierComponent
   ],
   providers: [
-    CustomerService, CompanyAccountService, CompanyService, ProductService
+    CustomerService, CompanyAccountService, CompanyService, ProductService, SupplierService
   ],
 }
 )

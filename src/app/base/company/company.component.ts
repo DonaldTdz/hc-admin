@@ -1,7 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company, Account } from "entities";
-import { ModalComponentBase } from '@shared/component-base';
 import { CreateCompanyAccountComponent } from '@app/base/company/create-company-account/create-company-account.component'
 import { CompanyService, CompanyAccountService } from 'services';
 import { UploadFile } from 'ng-zorro-antd';
@@ -10,7 +9,6 @@ import {
   PagedRequestDto,
   PagedResultDto
 } from '@shared/component-base';
-import { Key } from 'protractor';
 
 @Component({
   selector: 'app-company',
@@ -28,16 +26,15 @@ export class CompanyComponent
   }
   form: FormGroup;
   company: Company = new Company();
-  request: PagedRequestDto;
   attachments = [];
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
+  request: PagedRequestDto
 
 
   protected fetchDataList(
-    request: PagedRequestDto,
-    pageNumber: number,
-    finishedCallback: Function,
+    // pageNumber: number,
+    // finishedCallback: Function,
   ): void {
     let verifyTel = /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/
     this.form = this.fb.group({
@@ -62,7 +59,10 @@ export class CompanyComponent
   }
 
   getAccounts() {
-    this.companyAccountService.getAll(this.request)
+    let params: any = {};
+    params.SkipCount = (this.pageNumber - 1) * this.pageSize;;
+    params.MaxResultCount = this.pageSize;
+    this.companyAccountService.getAll(params)
       .subscribe((result: PagedResultDto) => {
         this.dataList = result.items;
         this.totalItems = result.totalCount;

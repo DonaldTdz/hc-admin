@@ -13,7 +13,6 @@ import { CreateOrUpdateProductComponent } from './create-or-update-product/creat
 export class ProductComponent extends AppComponentBase implements OnInit {
   search: any = {};
   product: Product = new Product();
-  productList: Product[] = [];
   productTypes = [{ value: 0, text: '测试' }];
   constructor(injector: Injector, private productService: ProductService) {
     super(injector);
@@ -29,24 +28,10 @@ export class ProductComponent extends AppComponentBase implements OnInit {
     params.MaxResultCount = this.query.pageSize;
     params.Name = this.search.name;
     this.productService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.productList = result.items;
+      this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
   }
-
-  // protected fetchDataList(
-  //   request: PagedRequestDto,
-  //   pageNumber: number,
-  //   finishedCallback: Function
-  // ): void {
-  //   //获取列表数据
-  //   this.productService.getAll(request).finally(() => {
-  //     finishedCallback();
-  //   }).subscribe((result: PagedResultDto) => {
-  //     this.dataList = result.items;
-  //     this.totalItems = result.totalCount;
-  //   })
-  // }
 
   delete(entity: Product) {
     this.message.confirm(
@@ -91,6 +76,7 @@ export class ProductComponent extends AppComponentBase implements OnInit {
 
   refreshData() {
     this.search = {};
+    this.query.pageIndex = 1;
     this.refresh();
   }
 }

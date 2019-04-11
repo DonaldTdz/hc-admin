@@ -15,6 +15,8 @@ import { EditRoleComponent } from '@app/system/roles/edit-role/edit-role.compone
 import { CreateUserComponent } from '@app/system/users/create-user/create-user.component';
 import { EditUserComponent } from '@app/system/users/edit-user/edit-user.component';
 import { SystemRoutingModule } from './system-routing.module';
+import { DatadictionaryComponent } from './datadictionary/datadictionary.component';
+import { CreateOrUpdateDatadictionaryComponent } from './datadictionary/create-or-update-datadictionary/create-or-update-datadictionary.component';
 
 @NgModule({
     imports: [
@@ -36,6 +38,8 @@ import { SystemRoutingModule } from './system-routing.module';
         EditRoleComponent,
         CreateUserComponent,
         EditUserComponent,
+        DatadictionaryComponent,
+        CreateOrUpdateDatadictionaryComponent,
     ],
     entryComponents: [
         CreateTenantComponent,
@@ -44,6 +48,8 @@ import { SystemRoutingModule } from './system-routing.module';
         EditRoleComponent,
         CreateUserComponent,
         EditUserComponent,
+        DatadictionaryComponent,
+        CreateOrUpdateDatadictionaryComponent
     ],
     // providers: [LocalizationService, MenuService],
 })
