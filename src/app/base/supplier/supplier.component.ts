@@ -74,7 +74,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  //处置
+  //重置
   refreshData() {
     this.search = {};
     this.query.pageIndex = 1;

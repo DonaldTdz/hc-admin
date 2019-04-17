@@ -12,4 +12,6 @@ export * from './account';
 export * from './company';
 export * from './product';
 export * from './supplier';
-export * from './datadictionary'
+export * from './datadictionary';
+export * from './project';
+export * from './projectdetail'

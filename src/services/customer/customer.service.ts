@@ -27,6 +27,15 @@ export class CustomerService {
     }));
   }
 
+  //获取客户下拉列表
+  getDropDownDtos(): Observable<any> {
+    let _url = "/api/services/app/Customer/GetDropDownDtosAsync";
+    return this._commonhttp.get(_url).pipe(map(data => {
+      return data;
+    }));
+  }
+
+
   /**
       * 获取单个客户消息
       * @param id 

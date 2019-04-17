@@ -1,8 +1,8 @@
-import { Inject, Optional, Injectable } from "@angular/core";
-import { Observer, Observable } from "rxjs";
+import { Inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
-import { map, count } from "rxjs/operators";
-import { Product, Parameter } from "entities";
+import { map } from "rxjs/operators";
+import { Product } from "entities";
 import { PagedResultDto } from "@shared/component-base";
 
 @Injectable()
@@ -43,6 +43,18 @@ export class ProductService {
         return this._commonhttp.post(_url, { "Product": input }).pipe(map(data => {
             return data;
         }))
+    }
+
+
+    /**
+     * 根据分类获取产品下拉列表
+     * @param type 
+     */
+    getDropDownDtos(): Observable<any> {
+        let _url = "/api/services/app/Product/GetDropDownsAsync";
+        return this._commonhttp.get(_url).pipe(map(data => {
+            return data;
+        }));
     }
 
 

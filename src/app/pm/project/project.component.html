@@ -1,0 +1,90 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzExtra]="extraTpl">
+  <div nz-row class="mb-md">
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">项目名称</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="name" [(ngModel)]="search.name" nzSize="default" [placeholder]="'请输入项目名称'">
+      </nz-form-control>
+
+    </div>
+
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="customerId">所属客户</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <nz-select name="customerId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.customerId"
+          nzPlaceHolder="请选择分类">
+          <nz-option *ngFor="let i of customerList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="status">项目状态</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择分类">
+          <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+
+    </div>
+    <div nz-col [nzSpan]="6" class="mb-md" style="text-align: right">
+      <button nz-button (click)="getProjects()" [nzLoading]="loading" nzType="primary">
+        查询
+      </button>
+      <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
+      <button nz-button (click)="create()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getProjects()"
+    (nzPageSizeChange)="getProjects()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>项目模式</span>
+        </th>
+        <th nz-th>
+          <span>过单费用</span>
+        </th>
+        <th nz-th>
+          <span>项目名称</span>
+        </th>
+        <th nz-th>
+          <span>所属客户</span>
+        </th>
+        <th nz-th>
+          <span>负责人</span>
+        </th>
+        <th>
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let ding of nzTable.data">
+        <td nz-td>{{ding.modeName}}</td>
+        <td nz-td>{{ding.billCost}}</td>
+        <td nz-td>{{ding.name}}</td>
+        <td nz-td>{{ding.customerName}}</td>
+        <td nz-td>{{ding.employeeName}}
+        </td>
+        <td nz-td>
+          <a (click)="editDing(ding.id)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(ding)">删除</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="details(ding.id)">详情</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

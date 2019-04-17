@@ -1,0 +1,218 @@
+<page-header [title]="title" [action]="action">
+  <!-- <ng-template #action>
+      <nz-button-group>
+        <button nz-button>操作</button>
+        <button nz-button>操作</button>
+      </nz-button-group>
+      <nz-dropdown class="mx-sm">
+        <button nz-button nz-dropdown>
+          <i nz-icon type="ellipsis"></i>
+        </button>
+        <ul nz-menu>
+          <li nz-menu-item>选项一</li>
+          <li nz-menu-item>选项二</li>
+          <li nz-menu-item>选项三</li>
+        </ul>
+      </nz-dropdown>
+      <button nz-button [nzType]="'primary'">主操作</button>
+    </ng-template> -->
+  <!-- <ng-template #tab>
+    <nz-tabset>
+      <nz-tab nzTitle="详情"></nz-tab>
+      <nz-tab nzTitle="规则"></nz-tab>
+    </nz-tabset>
+  </ng-template> -->
+  <nz-card [nzBordered]="false">
+    <nz-steps [nzCurrent]="projectStatus.indexOf(project.statusName)" nzProgressDot>
+      <nz-step *ngFor="let text of projectStatus" [nzTitle]="text">
+      </nz-step>
+    </nz-steps>
+  </nz-card>
+  <sv-container size="small" col="3">
+    <sv label="项目名称">{{project.name}}</sv>
+    <sv label="项目模式">{{project.modeName}}</sv>
+    <sv label="收益比例">{{project.profitRatio}}</sv>
+    <sv label="过单费用">{{project.billCost}}</sv>
+    <sv label="项目分类">{{project.type}}</sv>
+    <sv label="所属客户">{{project.customerName}}</sv>
+    <sv label="负责人">{{project.employeeName}}</sv>
+    <sv label="开始日期">{{project.startDate|date:'yyyy-MM-dd HH:mm:ss'}}</sv>
+    <sv label="结束日期">{{project.endDate|date:'yyyy-MM-dd HH:mm:ss'}}</sv>
+    <sv label="所属年">{{project.year}}</sv>
+    <sv label="预算金额">{{project.budget}}</sv>
+    <!-- <sv label="项目状态">{{project.statusName}}</sv> -->
+    <!-- <sv label="项目描述">{{project.desc}}</sv> -->
+  </sv-container>
+  <sv-container size="small" col="1">
+    <sv label="项目描述">{{project.desc}}</sv>
+  </sv-container>
+</page-header>
+<!-- <nz-card [nzBordered]="false" class="mb-lg" nzTitle="流程进度">
+  <nz-steps [nzCurrent]="3" nzProgressDot>
+    <nz-step [nzTitle]="'创建项目'" [nzDescription]="createDesc">
+      <ng-template #createDesc>
+        <div class="desc">
+          <div class="my-sm">
+            曲丽丽
+            <i nz-icon type="dingding" class="ml-sm"></i>
+          </div>
+          <div>2016-12-12 12:32</div>
+        </div>
+      </ng-template>
+    </nz-step>
+    <nz-step [nzTitle]="'部门初审'" [nzDescription]="checkedDesc">
+      <ng-template #checkedDesc>
+        <div class="desc">
+          <div class="my-sm">
+            周毛毛
+            <i nz-icon type="dingding" class="ml-sm" style="color: #00a0e9;"></i>
+          </div>
+          <a (click)="msg.success('click')">催一下</a>
+        </div>
+      </ng-template>
+    </nz-step>
+    <nz-step [nzTitle]="'财务复核'"></nz-step>
+    <nz-step [nzTitle]="'完成'"></nz-step>
+  </nz-steps>
+  <div class="steps-content"></div>
+</nz-card> -->
+<!-- <nz-card [nzBordered]="false" nzTitle="用户信息" class="mb-lg">
+  <sv-container class="mb-lg">
+    <sv label="用户姓名">付小小</sv>
+    <sv label="会员卡号">32943898021309809423</sv>
+    <sv label="身份证">3321944288191034921</sv>
+    <sv label="联系方式">18112345678</sv>
+    <sv label="联系地址">曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口</sv>
+  </sv-container>
+  <sv-container class="mb-lg" title="信息组">
+    <sv label="某某数据">725</sv>
+    <sv label="该数据更新时间">2017-08-08</sv>
+    <sv>&nbsp;</sv>
+    <sv [label]="label">
+      <ng-template #label>
+        某某数据
+        <nz-tooltip [nzTitle]="'数据说明'">
+          <span nz-tooltip>
+            <i nz-icon type="info-circle"></i>
+          </span>
+        </nz-tooltip>
+      </ng-template>
+      725
+    </sv>
+    <sv label="该数据更新时间">2017-08-08</sv>
+  </sv-container>
+  <h4 class="mb-md">信息组</h4>
+  <nz-card nzType="inner" nzTitle="多层级信息组">
+    <sv-container size="small" title="组名称">
+      <sv label="负责人">林东东</sv>
+      <sv label="角色码">1234567</sv>
+      <sv label="所属部门">XX公司 - YY部</sv>
+      <sv label="过期时间">2017-08-08</sv>
+      <sv label="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</sv>
+    </sv-container>
+    <nz-divider></nz-divider>
+    <sv-container size="small" title="组名称" col="1">
+      <sv label="学名">
+        Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
+      </sv>
+    </sv-container>
+    <nz-divider></nz-divider>
+    <sv-container size="small" title="组名称">
+      <sv label="负责人">付小小</sv>
+      <sv label="角色码">1234568</sv>
+    </sv-container>
+  </nz-card>
+</nz-card> -->
+<nz-card [nzBordered]="false" nzTitle="项目明细" class="mb-lg">
+  <div nz-row class="mb-md">
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="type">明细分类</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <nz-select name="type" style="width: 100%;" [(ngModel)]="projectDetailSearch.type" nzPlaceHolder="请选择分类">
+          <nz-option *ngFor="let i of projectDetailType" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="name">商品或服务名称</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="name" [(ngModel)]="projectDetailSearch.name" nzSize="default"
+          [placeholder]="'请输入商品或服务名称'">
+      </nz-form-control>
+
+    </div>
+    <div nz-col [nzSpan]="12" class="mb-md" style="text-align: right">
+      <button nz-button (click)="getProjectDetails()" [nzLoading]="loading" nzType="primary">
+        查询
+      </button>
+      <button nz-button type="reset" (click)="refreshProjectDetails()" class="mx-sm">重置</button>
+      <button nz-button (click)="createProjectDetail()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzprojectDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="projectDetailLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="getProjectDetails()" (nzPageSizeChange)="getProjectDetails()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>明细分类</span>
+        </th>
+        <th nz-th>
+          <span>商品或服务名称</span>
+        </th>
+        <th nz-th>
+          <span>规格型号</span>
+        </th>
+        <th nz-th>
+          <span>单位</span>
+        </th>
+        <th nz-th>
+          <span>数量</span>
+        </th>
+        <th>
+          <span>销售单价</span>
+        </th>
+        <th>
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzprojectDetailTable.data">
+        <td nz-td>{{item.type}}</td>
+        <td nz-td>{{item.name}}</td>
+        <td nz-td>{{item.specification}}</td>
+        <td nz-td>{{item.unit}}</td>
+        <td nz-td>{{item.num}} </td>
+        <td nz-td>{{item.price}} </td>
+        <td nz-td>
+          <a (click)="editProjectDetail(item.id)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="deleteProjectDetail(item)">删除</a>
+          <span nz-table-divider></span>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<nz-card [nzBordered]="false">
+  <nz-card-tab>
+    <nz-tabset nzSize="large" (nzSelectChange)="change($event)">
+      <nz-tab nzTitle="操作日志一"></nz-tab>
+      <nz-tab nzTitle="操作日志二"></nz-tab>
+      <nz-tab nzTitle="操作日志三"></nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+  <footer-toolbar errorCollect>
+    <button nz-button [nzType]="'default'" (click)="return()">
+      返回
+    </button>
+  </footer-toolbar>
+</nz-card>

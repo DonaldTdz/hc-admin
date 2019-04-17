@@ -1,0 +1,75 @@
+<page-header [title]="" [action]="action">
+  <sv-container size="small" col="3">
+    <sv label="客户名称">{{customer.name}}</sv>
+    <sv label="客户类型">{{customer.typeName}}</sv>
+    <sv label="邮编">{{customer.zipCode}}</sv>
+    <sv label="电话">{{customer.tel}}</sv>
+    <sv label="联系人">{{customer.contact}}</sv>
+    <sv label="联系人职位">{{customer.position}}</sv>
+    <sv label="联系人电话号">{{customer.phone}}</sv>
+    <sv label="客户地址">{{customer.address}}</sv>
+    <sv label="描述">{{customer.desc}}</sv>
+  </sv-container>
+  <sv-container size="small" col="1">
+    <sv label="备注">{{customer.remark}}</sv>
+  </sv-container>
+</page-header>
+<nz-card [nzBordered]="false" nzTitle="所属项目" class="mb-lg">
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzprojectDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="getProjectDetails()" (nzPageSizeChange)="getProjectDetails()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>项目名称</span>
+        </th>
+        <th nz-th>
+          <span>项目模式</span>
+        </th>
+        <th nz-th>
+          <span>项目分类</span>
+        </th>
+        <th nz-th>
+          <span>过单费用</span>
+        </th>
+        <th nz-th>
+          <span>负责人</span>
+        </th>
+        <th>
+          <span>预算金额</span>
+        </th>
+        <th>
+          <span>状态</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzprojectDetailTable.data">
+        <!-- <td nz-td title="item.name"><a routerLink="/app/pm/project/id={{item.id}}">{{item.name | lengthLimit:15}}</a> -->
+        <td nz-td title="item.name"><a [routerLink]="['/app/pm/project']"
+            [queryParams]="{id:item.id}">{{item.name | lengthLimit:15}}</a>
+        </td>
+        <td nz-td>{{item.mode}}</td>
+        <td nz-td>{{item.type}}</td>
+        <td nz-td>{{item.billCost}}</td>
+        <td nz-td>{{item.employeeName}} </td>
+        <td nz-td>{{item.budget}} </td>
+        <td nz-td>
+          <nz-badge *ngIf="item.statusName=='已完成'" [nzStatus]="'success'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.statusName=='线索'" [nzStatus]="'error'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.statusName=='取消'" [nzStatus]="'default'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.statusName=='进行中'" [nzStatus]="'processing'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.statusName=='立项'" [nzStatus]="'warning'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.statusName=='已回款'" [nzStatus]="'color'" [nzText]="item.statusName"></nz-badge>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<footer-toolbar>
+  <button nz-button [nzType]="'default'" (click)="return()">
+    返回
+  </button>
+</footer-toolbar>

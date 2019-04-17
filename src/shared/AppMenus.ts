@@ -1,4 +1,5 @@
 import { Menu } from '@delon/theme';
+import { type } from 'os';
 
 // 全局的左侧导航菜单
 export class AppMenus {
@@ -62,7 +63,7 @@ export class AppMenus {
         },
         {
             text: "基础数据",
-            icon: { type: "icon", value: "setting" },
+            icon: { type: "icon", value: "bars" },
             link: "/app/base",
             group: true,
             children: [
@@ -88,5 +89,34 @@ export class AppMenus {
                 },
             ]
         },
+        {
+            text: "项目管理",
+            icon: { type: "icon", value: "project" },
+            link: "/app/pm",
+            group: true,
+            children: [
+                {
+                    text: "项目管理",
+                    link: "/app/pm/project",
+                    reuse: false
+                }, {
+                    text: "招标管理",
+                    link: "/app/pm/tender",
+                    reuse: false
+                }, {
+                    text: "采购管理",
+                    link: "/app/pm/purchase",
+                    reuse: false
+                }, {
+                    text: "合同管理",
+                    link: "/app/pm/contract",
+                    reuse: false
+                }, {
+                    text: "开票管理",
+                    link: "/app/pm/invoice",
+                    reuse: false
+                }
+            ]
+        }
     ];
 }

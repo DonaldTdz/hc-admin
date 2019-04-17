@@ -2,24 +2,19 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/map';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-
-import * as moment from 'moment';
+import { Injectable, Inject, Optional } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Employee } from 'entities';
 import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
+import { map } from "rxjs/operators";
 import { CommonHttpClient } from 'services/common-httpclient';
 
 @Injectable()
 export class EmployeeServiceProxy {
-    private http: HttpClient;
     private _commonhttp: CommonHttpClient;
-    private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Inject(CommonHttpClient) commonhttp: CommonHttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
         this._commonhttp = commonhttp;
     }
 
@@ -34,6 +29,14 @@ export class EmployeeServiceProxy {
         });
     }
 
+
+    //获取人员下拉列表
+    getDropDownDtos(): Observable<any> {
+        let _url = "/api/services/app/Employee/GetDropDownDtosAsync";
+        return this._commonhttp.get(_url).pipe(map(data => {
+            return data;
+        }));
+    }
     // getEmployeeById(id: string): Observable<Employee> {
     //     let url_ = "/api/services/app/Employee/GetByIdAsync?id=" + id;
     //     return this._commonhttp.get(url_).map(data => {
@@ -119,12 +122,6 @@ export class PagedResultDtoOfEmployee implements IPagedResultDtoOfEmployee {
         return result;
     }
 }
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
-    if (result !== null && result !== undefined)
-        return _observableThrow(result);
-    else
-        return _observableThrow(new SwaggerException(message, status, response, headers, null));
-}
 export class SwaggerException extends Error {
     message: string;
     status: number;
@@ -147,21 +144,6 @@ export class SwaggerException extends Error {
     static isSwaggerException(obj: any): obj is SwaggerException {
         return obj.isSwaggerException === true;
     }
-}
-function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => {
-        if (!blob) {
-            observer.next("");
-            observer.complete();
-        } else {
-            let reader = new FileReader();
-            reader.onload = function () {
-                observer.next(this.result);
-                observer.complete();
-            }
-            reader.readAsText(blob);
-        }
-    });
 }
 export interface IPagedResultDtoOfEmployee {
     totalCount: number;

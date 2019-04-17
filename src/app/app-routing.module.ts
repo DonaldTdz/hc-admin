@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren: './base/base.module#BaseModule',
         data: { preload: true },
       },
+      {
+        path: 'pm',
+        loadChildren: './pm/pm.module#PmModule',
+        data: { preload: true },
+      },
     ],
   },
 ];

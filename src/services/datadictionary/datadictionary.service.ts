@@ -45,6 +45,14 @@ export class DataDictionaryService {
         }))
     }
 
+    //根据group获取字典下拉列表
+    getDropDownDtos(group: string): Observable<any> {
+        let _url = "/api/services/app/DataDictionary/GetDropDownDtosByGroupAsync";
+        return this._commonhttp.get(_url, { group: group }).pipe(map(data => {
+            return data;
+        }));
+    }
+
 
     /**
      * 删除配置

@@ -6,14 +6,14 @@
     <div nz-col [nzSpan]="6">
       <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">客户名称</nz-form-label>
       <nz-form-control [nzSm]="16">
-        <input nz-input name="name" #name="ngModel" [(ngModel)]="param.name" [placeholder]="'请输入客户名称'">
+        <input nz-input name="name" #name="ngModel" [(ngModel)]="search.name" [placeholder]="'请输入客户名称'">
       </nz-form-control>
 
     </div>
     <div nz-col [nzSpan]="6">
       <nz-form-label nz-col [nzSm]="6" [nzXs]="24" nzFor="type">客户类型</nz-form-label>
       <nz-form-control nz-col [nzSm]="18">
-        <nz-select name="type" style="width: 100%;" #type="ngModel" [(ngModel)]="param.type">
+        <nz-select name="type" style="width: 100%;" #type="ngModel" [(ngModel)]="search.type">
           <nz-option *ngFor="let i of customerTypes" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
@@ -21,7 +21,7 @@
     </div>
 
     <div nz-col [nzSpan]="4" style="float:right;text-align: right; padding-left:0px">
-      <button nz-button (click)="refresh()" nzType="primary">
+      <button nz-button (click)="getProjects()" nzType="primary">
         搜索
       </button>
 
@@ -31,10 +31,11 @@
       </button>
     </div>
   </div>
-
-  <nz-table #ajaxTable nzShowSizeChanger [nzData]="dataList" [nzTotal]="totalItems" [(nzPageIndex)]="pageNumber"
-    [(nzPageSize)]="pageSize" [nzLoading]="isTableLoading" (nzPageIndexChange)="refresh()"
-    (nzPageSizeChange)="refresh()" [nzFrontPagination]="false">
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #ajaxTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getProjects()"
+    (nzPageSizeChange)="getProjects()">
     <thead>
       <tr>
         <th>客户名称</th>
@@ -66,6 +67,9 @@
           <a (click)="edit(item)">编辑</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a (click)="delete(item)">删除</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="details(item.id)">详情</a>
         </td>
 
       </tr>
