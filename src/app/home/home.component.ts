@@ -4,12 +4,13 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ACLService } from '@delon/acl';
-import { HomeService } from 'services';
+import { HomeService, TenderService } from 'services';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less'],
-
+  providers: [TenderService],
   animations: [appModuleAnimation()],
 })
 export class HomeComponent extends AppComponentBase implements OnInit {
@@ -32,12 +33,35 @@ export class HomeComponent extends AppComponentBase implements OnInit {
   colors = ['#1890ff', '#eb2f96'];
   constructor(
     injector: Injector, private http: _HttpClient, public msg: NzMessageService,
-    private aclService: ACLService, private homeService: HomeService,
+    private aclService: ACLService, private homeService: HomeService, private tenderService: TenderService,
+    private _nzNotificationService: NzNotificationService
   ) {
     super(injector);
   }
   ngOnInit(): void {
 
+    this._nzNotificationService.config({
+      nzPlacement: 'bottomRight',
+      nzDuration: 120000
+    });
+    this.getTenderRemindData();
+  }
+
+  getTenderRemindData() {
+    // let tenderRemindData;
+    this.tenderService.getTenderRemindData().subscribe((result) => {
+      if (result) {
+        for (let item of result) {
+          this._nzNotificationService.warning(
+            item.title,
+            item.content,
+            {
+              nzStyle: { background: '#ecffff' }
+            }
+          )
+        }
+      }
+    });
   }
 
   changeCategory() {

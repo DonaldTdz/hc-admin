@@ -1,12 +1,12 @@
-import { Inject, Optional, Injectable } from "@angular/core";
-import { Observer, Observable } from "rxjs";
+import { Inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map } from "rxjs/operators";
-import { Project } from "entities";
 import { PagedResultDto } from "@shared/component-base";
+import { Tender } from 'entities'
 
 @Injectable()
-export class ProjectService {
+export class TenderService {
     private _commonhttp: CommonHttpClient;
 
     constructor(@Inject(CommonHttpClient) commonhttp: CommonHttpClient) {
@@ -14,7 +14,7 @@ export class ProjectService {
     }
     //获取分页数据
     getAll(params: any): Observable<PagedResultDto> {
-        let url_ = "/api/services/app/Project/GetPagedAsync";
+        let url_ = "/api/services/app/Tender/GetPagedAsync";
         return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
@@ -26,11 +26,11 @@ export class ProjectService {
  * 获取单条数据详细信息
  * @param id 
  */
-    getById(id: any): Observable<Project> {
-        let _url = "/api/services/app/Project/GetByIdAsync";
+    getById(id: any): Observable<Tender> {
+        let _url = "/api/services/app/Tender/GetByIdAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {
-            return Project.fromJS(data);
+            return Tender.fromJS(data);
         }));
     }
 
@@ -38,22 +38,11 @@ export class ProjectService {
 * 获取编辑Project
 * @param id 
 */
-    getForEdit(id: any): Observable<Project> {
-        let _url = "/api/services/app/Project/GetForEditAsync";
+    getForEdit(id: any): Observable<Tender> {
+        let _url = "/api/services/app/Tender/GetForEditAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {
-            return Project.fromJS(data.project);
-        }));
-    }
-
-
-    /**
-* 获取项目下拉列表
-*/
-    getDropDownDtos(): Observable<any> {
-        let _url = "/api/services/app/Project/GetDropDownsAsync";
-        return this._commonhttp.get(_url).pipe(map(data => {
-            return data;
+            return Tender.fromJS(data.tender);
         }));
     }
 
@@ -61,9 +50,19 @@ export class ProjectService {
      * 更新与创建项目
      * @param input 
      */
-    createOrUpdate(input: Project | null): Observable<Project> {
-        let _url = "/api/services/app/Project/CreateOrUpdateAsync";
-        return this._commonhttp.post(_url, { "Project": input }).pipe(map(data => {
+    createOrUpdate(input: Tender | null): Observable<Tender> {
+        let _url = "/api/services/app/Tender/CreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "Tender": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+     * 获取招标提醒信息
+     */
+    getTenderRemindData(): Observable<any> {
+        let _url = "/api/services/app/Tender/GetTenderRemindData";
+        return this._commonhttp.get(_url).pipe(map(data => {
             return data;
         }))
     }
@@ -74,7 +73,7 @@ export class ProjectService {
      * @param id 
      */
     delete(id: string): Observable<any> {
-        let _url = "/api/services/app/Project/DeleteAsync";
+        let _url = "/api/services/app/Tender/DeleteAsync";
         let param = { 'id': id };
         return this._commonhttp.delete(_url, param);
     }

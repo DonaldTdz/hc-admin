@@ -16,6 +16,7 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         canActivate: [AppRouteGuard],
+        data: { preload: true }
       },
       {
         path: 'system',

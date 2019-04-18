@@ -1,0 +1,93 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="tender">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">所属项目</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="projectId" [nzPlaceHolder]="'请选择所属项目'" [(ngModel)]="tender.projectId"
+          [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of projectList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('projectId')?.dirty && form.get('projectId')?.errors)
+      ">所属项目不能为空
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">招标时间</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-date-picker style="width:100%" nzShowTime placeholder="请选择招标时间" formControlName="tenderTime"
+          [(ngModel)]="tender.tenderTime"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">保证金截止时间</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-date-picker style="width:100%" nzShowTime placeholder="请选择保证金截止时间" formControlName="bondTime"
+          [(ngModel)]="tender.bondTime"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">准备完成时间</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-date-picker style="width:100%" nzShowTime placeholder="请选择准备完成时间" formControlName="readyTime"
+          [(ngModel)]="tender.readyTime"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">招标负责人</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="employeeId" [nzPlaceHolder]="'请选择所属项目'" [(ngModel)]="tender.employeeId"
+          [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">标书准备人</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="readyEmployeeIds" nzMode="tags" [nzPlaceHolder]="'请选择所属项目'"
+          [(ngModel)]="readyEmployeeIds" [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <div style="text-align:right">
+        <nz-upload nzAction="{{postUrl | hostUrl}}" [nzShowUploadList]="false" (nzChange)="handleChange($event)"
+          [nzBeforeUpload]="beforeUpload">
+          <div nz-button nzType="primary" style="padding-top: 5px">
+            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
+          </div>
+        </nz-upload>
+      </div>
+      <nz-table #ajaxTable [nzData]="attachments" nzBordered [nzScroll]="{ y: '200px' }" [nzShowPagination]=" false">
+        <thead>
+          <tr>
+            <th nzWidth="80%">文件名称</th>
+            <th nzWidth="20%">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ajaxTable.data">
+            <td><a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a></td>
+            <td><a (click)="deleteAttachment(item)">删除</a></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-form-item>
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

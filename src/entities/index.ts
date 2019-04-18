@@ -14,4 +14,5 @@ export * from './product';
 export * from './supplier';
 export * from './datadictionary';
 export * from './project';
-export * from './projectdetail'
+export * from './projectdetail';
+export * from './tender';
