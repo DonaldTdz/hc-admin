@@ -1,7 +1,12 @@
 <page-header [title]="''"></page-header>
 <nz-card [nzExtra]="extraTpl">
   <div nz-row class="mb-md">
-
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="code">采购编号</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="code" placeholder="请输入采购编号" [(ngModel)]="search.code" />
+      </nz-form-control>
+    </div>
     <div nz-col [nzSpan]="6">
       <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="projectId">所属项目</nz-form-label>
       <nz-form-control [nzSm]="16">
@@ -12,8 +17,8 @@
         </nz-select>
       </nz-form-control>
     </div>
-    <div nz-col [nzSpan]="18" class="mb-md" style="text-align: right">
-      <button nz-button (click)="getTenders()" [nzLoading]="loading" nzType="primary">
+    <div nz-col [nzSpan]="12" class="mb-md" style="text-align: right">
+      <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary">
         查询
       </button>
       <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
@@ -26,30 +31,21 @@
   <ng-template #totalContentMe>共{{query.total}}条</ng-template>
   <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
-    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getTenders()"
-    (nzPageSizeChange)="getTenders()">
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getPurchase()"
+    (nzPageSizeChange)="getPurchase()">
     <thead nz-thead>
       <tr>
+        <th nz-th>
+          <span>采购编号</span>
+        </th>
         <th nz-th>
           <span>项目名称</span>
         </th>
         <th nz-th>
-          <span>招标时间</span>
+          <span>负责人</span>
         </th>
         <th nz-th>
-          <span>保证金截止时间</span>
-        </th>
-        <th nz-th>
-          <span>准备完成时间</span>
-        </th>
-        <th nz-th>
-          <span>招标负责人</span>
-        </th>
-        <th nz-th>
-          <span>招标准备人</span>
-        </th>
-        <th nz-th>
-          <span>是否中标</span>
+          <span>采购日期</span>
         </th>
         <th nz-th>
           <span>操作</span>
@@ -58,19 +54,12 @@
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-        <!-- <td nz-td title="{{item.projectName}}">{{item.projectName | lengthLimit:15}}</td> -->
+        <td nz-td>{{item.code}}</td>
         <td nz-td title="item.projectName"><a [routerLink]="['/app/pm/project']"
             [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:15}}</a>
         </td>
-        <td nz-td>{{item.tenderTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td nz-td>{{item.bondTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td nz-td>{{item.readyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>{{item.employeeName}}</td>
-        <td nz-td title="{{item.readyEmployeeNames}}">{{item.readyEmployeeNames | lengthLimit:10}}</td>
-        <td nz-td>
-          <nz-switch [(ngModel)]="item.isWinbid" (click)="updateIsWinbid(item)" nzCheckedChildren="是"
-            nzUnCheckedChildren="否"></nz-switch>
-        </td>
+        <td nz-td>{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td>
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>

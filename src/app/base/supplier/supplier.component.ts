@@ -43,7 +43,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.getSuppliers();
+        this.refreshData();
       }
     });
   }
@@ -54,7 +54,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.getSuppliers();
+        this.refreshData();
       }
     });
   }

@@ -35,6 +35,16 @@ export class SupplierService {
     }
 
     /**
+* 获取供应商下拉列表
+*/
+    getDropDownDtos(): Observable<any> {
+        let _url = "/api/services/app/Supplier/GetDropDownsAsync";
+        return this._commonhttp.get(_url).pipe(map(data => {
+            return data;
+        }));
+    }
+
+    /**
      * 更新与创建产品
      * @param input 
      */

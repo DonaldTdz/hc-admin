@@ -30,7 +30,7 @@ export class CreateCustomerComponent extends ModalComponentBase implements OnIni
       name: [null, Validators.compose([Validators.required])],  //客户名称
       type: [null, Validators.compose([Validators.required])],  //客户类型
       address: [null, Validators.compose([Validators.required])],  //地址
-      zipCode: [null, Validators.compose([Validators.required])],  //邮编
+      zipCode: [null, Validators.compose([Validators.required, Validators.email])],  //邮编
       tel: [null, Validators.compose([Validators.required, Validators.pattern('(\\+\\d+)?1[34578]\\d{9}$')])],  //电话
       contact: [null, Validators.compose([])],
       position: [null, Validators.compose([])],
@@ -44,9 +44,13 @@ export class CreateCustomerComponent extends ModalComponentBase implements OnIni
   save() {
     this.service.createOrUpdate(this.customer).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success(this.l('SavedSuccessfully'));
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 }

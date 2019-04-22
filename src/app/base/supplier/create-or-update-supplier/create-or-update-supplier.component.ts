@@ -25,7 +25,7 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
     let verifyPhone = /^1[3|4|5|8][0-9]\d{8}$/
     this.form = this.fb.group({
       name: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
-      zipCode: [null, Validators.compose([Validators.maxLength(10)])],
+      zipCode: [null, Validators.compose([Validators.maxLength(20), Validators.email])],
       tel: [null, Validators.compose([Validators.pattern(verifyTel)])],
       contact: [null, Validators.compose([Validators.maxLength(50)])],
       position: [null, Validators.compose([Validators.maxLength(25)])],
@@ -53,9 +53,13 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
     this.supplier.type = 0;
     this.supplierService.createOrUpdate(this.supplier).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success('保存成功！');
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 

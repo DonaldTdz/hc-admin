@@ -23,7 +23,7 @@
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
             <input nz-input formControlName="zipCode" placeholder="请输入邮编" [(ngModel)]="supplier.zipCode" />
             <nz-form-explain *ngIf="(form.get('zipCode')?.dirty && form.get('zipCode')?.errors)
-        ">邮编不能超过10个字符
+        ">请输入正确的邮箱
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>

@@ -3,6 +3,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { TenderService, ProjectService } from 'services'
 import { Tender } from 'entities'
+import { Router } from '@angular/router';
 import { CreateOrUpdateTenderComponent } from './create-or-update-tender/create-or-update-tender.component'
 
 @Component({
@@ -14,7 +15,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
   projectList: any;
   tableLoading = "false";
   search: any = {};
-  constructor(injector: Injector, private tenderService: TenderService, private projectService: ProjectService) { super(injector); }
+  constructor(injector: Injector, private tenderService: TenderService, private projectService: ProjectService, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.getProjectList();
@@ -37,7 +38,6 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //编辑
   editDing(id: any) {
-    console.log(id)
     this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
@@ -47,10 +47,10 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  //详细
-  // details(id: any) {
-  //   this.router.navigate(['/app/pm/dprojectoc-detail', { id: id }]);
-  // }
+  详细
+  details(id: any) {
+    this.router.navigate(['/app/pm/tender-detail', { id: id }]);
+  }
 
   //新增
   create() {

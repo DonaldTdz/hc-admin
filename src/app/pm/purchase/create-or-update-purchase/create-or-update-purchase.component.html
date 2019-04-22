@@ -1,0 +1,63 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="purchase">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">采购编号</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="code" placeholder="请输入采购编号" [(ngModel)]="purchase.code" />
+        <nz-form-explain *ngIf="(form.get('code')?.dirty && form.get('code')?.errors)
+      ">采购编号不能为空并且不能超过35个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">所属项目</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="projectId" [nzPlaceHolder]="'请选择所属项目'" [(ngModel)]="purchase.projectId"
+          [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of projectList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('projectId')?.dirty && form.get('projectId')?.errors)
+      ">请选择所属项目
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">采购负责人</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="employeeId" [nzPlaceHolder]="'请选择采购负责人'" [(ngModel)]="purchase.employeeId"
+          [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">采购日期</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-date-picker placeholder="请选择采购日期" formControlName="purchaseDate" [(ngModel)]="purchase.purchaseDate">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">采购描述</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <textarea nz-input rows="2" formControlName="desc" placeholder="请输入采购描述" [(ngModel)]="purchase.desc"></textarea>
+        <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
+    ">备注不能超过250个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

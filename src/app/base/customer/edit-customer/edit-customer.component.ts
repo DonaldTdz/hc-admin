@@ -63,9 +63,13 @@ export class EditCustomerComponent extends ModalComponentBase implements OnInit 
     console.log(this.customer.name);
     this.service.createOrUpdate(this.customer).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success(this.l('SavedSuccessfully'));
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 }

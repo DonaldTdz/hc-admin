@@ -1,11 +1,11 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { Project, ProjectDetail } from 'entities';
+import { NzTabChangeEvent } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
-import { ProjectService, CustomerService, ProjectDetailService, EmployeeServiceProxy, DataDictionaryService } from 'services';
+import { ProjectService, ProjectDetailService, DataDictionaryService, TenderService, PurchaseService } from 'services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdateProjectdetailComponent } from '../create-or-update-projectdetail/create-or-update-projectdetail.component';
-
 
 @Component({
   selector: 'app-detail-project',
@@ -19,10 +19,17 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   projectDetailLoading = 'false';
   projectDetailSearch: any = {};
   projectDetailType: any;
+  tableLoading = 'false';
+  queryOne: any = {
+    pageIndex: 1,
+    pageSize: 10,
+    skipCount: function () { return (this.pageIndex - 1) * this.pageSize; },
+    total: 0,
+  };
   projectStatus = ["线索", "立项", "进行中", "已完成", "已回款", "取消"];
   constructor(injector: Injector, private projectService: ProjectService, private actRouter: ActivatedRoute
-    , private projectDetailService: ProjectDetailService
-    , private dataDictionaryService: DataDictionaryService) {
+    , private projectDetailService: ProjectDetailService, private tenderService: TenderService, private purchaseService: PurchaseService
+    , private dataDictionaryService: DataDictionaryService, private router: Router) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
   }
@@ -31,6 +38,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.getById();
     this.getProjectDetails();
     this.getprojectDetailTypeList();
+    this.getTenderList();
   }
 
   getById() {
@@ -38,10 +46,45 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
       this.projectService.getById(this.id).subscribe(res => {
         this.project = res;
         this.title = '项目编号：' + res.projectCode;
-        // this.setFormValues(this.document);
-        //alert(this.isAllUser)
       });
     }
+  }
+
+  //获取项目招标
+  getTenderList() {
+    this.tableLoading = "true"
+    let params: any = {};
+    params.SkipCount = this.queryOne.skipCount();
+    params.MaxResultCount = this.queryOne.pageSize;
+    params.ProjectId = this.id;
+    this.tenderService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.tableLoading = "false";
+      this.queryOne.dataList = result.items
+      this.queryOne.total = result.totalCount;
+    })
+  }
+
+  tenderDetail(id: any) {
+    this.router.navigate(['/app/pm/tender-detail', { id: id }]);
+  }
+
+  //获取项目采购
+  getPurchaseList() {
+    this.tableLoading = "true"
+    let params: any = {};
+    params.SkipCount = this.queryOne.skipCount();
+    params.MaxResultCount = this.queryOne.pageSize;
+    params.ProjectId = this.id;
+    this.purchaseService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.tableLoading = "false";
+      this.queryOne.dataList = result.items
+      this.queryOne.total = result.totalCount;
+    })
+  }
+
+  //项目采购详情
+  purchaseDetail(id: any) {
+    this.router.navigate(['/app/pm/purchase-detail', { id: id }]);
   }
 
   //查询
@@ -52,6 +95,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     params.MaxResultCount = this.query.pageSize;
     params.Name = this.projectDetailSearch.name;
     params.Type = this.projectDetailSearch.type;
+    params.projectId = this.id;
     this.projectDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.projectDetailLoading = "false"
       this.query.dataList = result.items;
@@ -84,7 +128,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
 
   //创建项目明细
   createProjectDetail() {
-    this.modalHelper.open(CreateOrUpdateProjectdetailComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { projectId: this.project.id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -95,7 +139,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
 
   //编辑项目明细
   editProjectDetail(id: any) {
-    this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { id: id, projectId: this.project.id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -108,6 +152,18 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.projectDetailSearch = {};
     this.query.pageIndex = 1;
     this.getProjectDetails();
+  }
+
+  //当前激活 tab 面板变更回调函数
+  change(args: NzTabChangeEvent) {
+    switch (args.index) {
+      case (0): this.getTenderList();
+        break;
+      case (1): this.getPurchaseList();
+        break;
+      default: null;
+    }
+
   }
 
   //返回

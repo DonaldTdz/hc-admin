@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tender } from 'entities'
 import { TenderService, ProjectService, EmployeeServiceProxy } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-create-or-update-tender',

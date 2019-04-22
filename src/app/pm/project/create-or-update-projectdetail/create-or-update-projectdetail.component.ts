@@ -14,6 +14,7 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
   projectDetail: ProjectDetail = new ProjectDetail();
   form: FormGroup;
   @Input() id: any;
+  @Input() projectId: any;
   isInput = "true";
   projectDetailTypeList: any;
   productList: any;
@@ -74,6 +75,7 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
   }
 
   save() {
+    this.projectDetail.projectId = this.projectId;
     this.projectDetailService.createOrUpdate(this.projectDetail).finally(() => {
       this.saving = false;
     }).subscribe(() => {

@@ -16,3 +16,6 @@ export * from './datadictionary';
 export * from './project';
 export * from './projectdetail';
 export * from './tender';
+export * from './purchase';
+export * from './purchasedetail';
+export * from './customer'
