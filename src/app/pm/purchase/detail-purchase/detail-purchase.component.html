@@ -1,6 +1,6 @@
-<page-header [title]="" [action]="action">
+<page-header [title]="title" [action]="action">
   <sv-container size="small" col="2">
-    <sv label="采购编码">{{purchase.code}}</sv>
+    <!-- <sv label="采购编码">{{purchase.code}}</sv> -->
     <sv label="项目名称">{{purchase.projectName}}</sv>
     <sv label="采购负责人">{{purchase.employeeName}}</sv>
     <sv label="采购日期">{{purchase.purchaseDate | date:'yyyy-MM-dd'}}</sv>

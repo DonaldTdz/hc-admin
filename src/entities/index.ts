@@ -18,4 +18,5 @@ export * from './projectdetail';
 export * from './tender';
 export * from './purchase';
 export * from './purchasedetail';
-export * from './customer'
+export * from './contract';
+export * from './contractdetail';

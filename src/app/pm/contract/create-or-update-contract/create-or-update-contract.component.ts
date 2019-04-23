@@ -1,56 +1,64 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { ModalComponentBase } from '@shared/component-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Tender } from 'entities'
-import { TenderService, ProjectService, EmployeeServiceProxy } from 'services'
+import { Contract } from 'entities'
+import { ContractService, ProjectService, PurchaseService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-create-or-update-tender',
-  templateUrl: './create-or-update-tender.component.html',
+  selector: 'app-create-or-update-contract',
+  templateUrl: './create-or-update-contract.component.html',
   styles: []
 })
-export class CreateOrUpdateTenderComponent extends ModalComponentBase implements OnInit {
+export class CreateOrUpdateContractComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
   title: string;
   form: FormGroup;
+  refList: any;
+  purchaseList: any;
   projectList: any;
-  employeeList: any;
-  readyEmployeeIds: any;
   uploadDisabled = false;
   attachments = [];
+  contractType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
-  tender: Tender = new Tender();
-  constructor(injector: Injector, private tenderService: TenderService, private fb: FormBuilder, private projectService: ProjectService
-    , private employeeServiceProxy: EmployeeServiceProxy) { super(injector); }
+  contract: Contract = new Contract();
+
+  constructor(injector: Injector, private contractService: ContractService, private fb: FormBuilder, private projectService: ProjectService
+    , private purchaseService: PurchaseService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
-      projectId: [null, Validators.compose([Validators.required])],
-      tenderTime: [null],
-      bondTime: [null],
-      readyTime: [null],
-      employeeId: [null],
-      readyEmployeeIds: [null]
+      type: [null, Validators.compose([Validators.required])],
+      contractCode: [null, Validators.compose([Validators.required, Validators.maxLength(35)])],
+      refId: [null],
+      signatureTime: [null],
+      amount: [null, Validators.compose([Validators.maxLength(18)])],
+      desc: [null, Validators.compose([Validators.maxLength(250)])]
     });
-    this.getProjectList();
-    this.getEmployeeList();
     if (this.id) {
       this.getData();
-      this.title = "编辑招标";
+      this.title = "编辑合同";
     } else {
-      this.title = "新增招标";
+      this.title = "新增合同";
     }
+    this.getProjectList();
+    this.getPurchaseList();
   }
 
   //编辑获取数据
   getData() {
-    this.tenderService.getById(this.id.toString()).subscribe((result) => {
-      this.tender = result;
-      this.readyEmployeeIds = this.tender.readyEmployeeIds.split(",");
+    this.contractService.getById(this.id.toString()).subscribe((result) => {
+      this.contract = result;
       this.jointAttachments()
     });
+  }
+
+  getRefList() {
+    if (this.contract.type == 1)
+      this.refList = this.projectList;
+    else
+      this.refList = this.purchaseList;
   }
 
   //获取项目下拉列表
@@ -60,27 +68,30 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
     });
   }
 
-  //获取人员下拉列表
-  getEmployeeList() {
-    this.employeeServiceProxy.getDropDownDtos().subscribe((result) => {
-      this.employeeList = result;
+  //获取采购下拉列表
+  getPurchaseList() {
+    this.purchaseService.getDropDownDtos().subscribe((result) => {
+      this.purchaseList = result;
     });
   }
 
   save() {
-    this.tender.readyEmployeeIds = this.readyEmployeeIds.join(',');
-    this.tenderService.createOrUpdate(this.tender).finally(() => {
+    this.contractService.createOrUpdate(this.contract).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success('保存成功！');
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 
   //处理附件
   jointAttachments() {
-    if (this.tender.attachments) {
-      let items = this.tender.attachments.split(",");
+    if (this.contract.attachments) {
+      let items = this.contract.attachments.split(",");
       let arr = [];
       for (let item of items) {
         let fileName = item.split(":")[0];
@@ -119,10 +130,10 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
         let fileName = res.data.name;
         let filePath = res.data.url;
         // this.setFormValues(this.attachment);
-        if (this.tender.attachments)
-          this.tender.attachments = this.tender.attachments + "," + fileName + ":" + filePath;
+        if (this.contract.attachments)
+          this.contract.attachments = this.contract.attachments + "," + fileName + ":" + filePath;
         else
-          this.tender.attachments = fileName + ":" + filePath;
+          this.contract.attachments = fileName + ":" + filePath;
         this.jointAttachments()
       } else {
         this.notify.error(res.msg);
@@ -133,23 +144,23 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
 
   deleteAttachment(item: any) {
     let dateleString = "," + item.fileName + ":" + item.fileUrl;
-    let items = this.tender.attachments.replace(dateleString, '');
-    if (this.tender.attachments == items) {
+    let items = this.contract.attachments.replace(dateleString, '');
+    if (this.contract.attachments == items) {
       dateleString = item.fileName + ":" + item.fileUrl + ",";
-      items = this.tender.attachments.replace(dateleString, '');
-      if (this.tender.attachments == items) {
+      items = this.contract.attachments.replace(dateleString, '');
+      if (this.contract.attachments == items) {
         dateleString = item.fileName + ":" + item.fileUrl;
-        items = this.tender.attachments.replace(dateleString, '');
-        this.tender.attachments = items;
+        items = this.contract.attachments.replace(dateleString, '');
+        this.contract.attachments = items;
         this.jointAttachments();
       } else {
-        this.tender.attachments = items;
+        this.contract.attachments = items;
         this.jointAttachments();
       }
     } else {
-      this.tender.attachments = items;
+      this.contract.attachments = items;
       this.jointAttachments();
     }
-  }
 
+  }
 }

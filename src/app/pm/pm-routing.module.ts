@@ -7,6 +7,8 @@ import { TenderComponent } from './tender/tender.component'
 import { PurchaseComponent } from './purchase/purchase.component'
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component'
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component'
+import { ContractComponent } from './contract/contract.component'
+import { DetailContractComponent } from './contract/detail-contract/detail-contract.component'
 
 const routes: Routes = [
   {
@@ -38,6 +40,17 @@ const routes: Routes = [
     component: DetailTenderComponent,
     canActivate: [AppRouteGuard],
     data: { title: " 招标详情" }
+  },
+  {
+    path: 'contract',
+    component: ContractComponent,
+    canActivate: [AppRouteGuard],
+  },
+  {
+    path: 'contract-detail',
+    component: DetailContractComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: " 合同详情" }
   },
 ];
 

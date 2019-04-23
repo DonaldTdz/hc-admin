@@ -1,0 +1,98 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="contract">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>合同分类</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="type" [nzPlaceHolder]="'请选择合同分类'" [(ngModel)]="contract.type" [nzShowSearch]="true"
+          (ngModelChange)="getRefList()" style="width:100%;">
+          <nz-option *ngFor="let i of contractType" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
+          ">请选择合同分类
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">合同编号</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="contractCode" placeholder="请输入合同编号" [(ngModel)]="contract.contractCode" />
+        <nz-form-explain *ngIf="(form.get('contractCode')?.dirty && form.get('contractCode')?.errors)
+        ">h合同编号不能为空并且不能超过35个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">参考</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择参考'" [(ngModel)]="contract.refId" [nzShowSearch]="true"
+          style="width:100%;">
+          <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">签订日期</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-date-picker placeholder="请选择采购日期" formControlName="signatureTime" [(ngModel)]="contract.signatureTime">
+        </nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">合同金额</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:25%" placeholder="合同金额"
+          [(ngModel)]="contract.amount">
+        </nz-input-number>
+        <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
+        ">合同金额不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">合同描述</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <textarea nz-input rows="2" formControlName="desc" placeholder="请输入采购描述" [(ngModel)]="contract.desc"></textarea>
+        <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
+      ">合同描述不能超过250个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <div>
+        <nz-upload style="float:left;" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
+          [nzShowUploadList]="false" (nzChange)="handleChange($event)" [nzBeforeUpload]="beforeUpload">
+          <div nz-button nzType="default" nzType="primary" style="padding-top: 5px">
+            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
+          </div>
+        </nz-upload>
+        <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>
+      </div>
+      <nz-list style="margin-top: 40px;" class="demo-loadmore-list" [nzDataSource]="attachments"
+        [nzItemLayout]="'horizontal'" [nzLoading]="initLoading" [nzRenderItem]="item" [nzLoadMore]="loadMore">
+        <ng-template #item let-item>
+          <nz-list-item [nzActions]="[delete]">
+            <ng-template #delete><a (click)="deleteAttachment(item)">删除</a></ng-template>
+            <nz-list-item-meta [nzDescription]="nzDescription">
+            </nz-list-item-meta>
+            <ng-template #nzDescription>
+              <a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </nz-form-item>
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

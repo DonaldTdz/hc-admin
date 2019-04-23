@@ -4,7 +4,10 @@ import { SharedModule } from '@shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService } from 'services'
+import {
+  ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService
+  , ContractService, ContractDetailService
+} from 'services'
 
 import { PmRoutingModule } from './pm-routing.module';
 import { ProjectComponent } from './project/project.component';
@@ -18,6 +21,10 @@ import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-pur
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
 import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component';
+import { ContractComponent } from './contract/contract.component';
+import { CreateOrUpdateContractComponent } from './contract/create-or-update-contract/create-or-update-contract.component';
+import { DetailContractComponent } from './contract/detail-contract/detail-contract.component';
+import { CreateOrUpdateContractdetailComponent } from './contract/create-or-update-contractdetail/create-or-update-contractdetail.component';
 
 @NgModule({
   imports: [
@@ -41,6 +48,10 @@ import { DetailTenderComponent } from './tender/detail-tender/detail-tender.comp
     DetailPurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,
     DetailTenderComponent,
+    ContractComponent,
+    CreateOrUpdateContractComponent,
+    DetailContractComponent,
+    CreateOrUpdateContractdetailComponent,
   ],
   entryComponents: [
     CreateOrUpdateProjectComponent,
@@ -48,9 +59,11 @@ import { DetailTenderComponent } from './tender/detail-tender/detail-tender.comp
     CreateOrUpdateProjectdetailComponent,
     CreateOrUpdateTenderComponent,
     CreateOrUpdatePurchaseComponent,
-    CreateOrUpdatePurchasedetailComponent
+    CreateOrUpdatePurchasedetailComponent,
+    CreateOrUpdateContractComponent,
+    CreateOrUpdateContractdetailComponent
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService
-    , PurchaseService]
+    , PurchaseService, ContractService, ContractDetailService]
 })
 export class PmModule { }

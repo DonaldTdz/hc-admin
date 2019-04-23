@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { Project, ProjectDetail } from 'entities';
 import { NzTabChangeEvent } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
-import { ProjectService, ProjectDetailService, DataDictionaryService, TenderService, PurchaseService } from 'services';
+import { ProjectService, ProjectDetailService, DataDictionaryService, TenderService, PurchaseService, ContractService } from 'services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdateProjectdetailComponent } from '../create-or-update-projectdetail/create-or-update-projectdetail.component';
@@ -29,7 +29,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   projectStatus = ["线索", "立项", "进行中", "已完成", "已回款", "取消"];
   constructor(injector: Injector, private projectService: ProjectService, private actRouter: ActivatedRoute
     , private projectDetailService: ProjectDetailService, private tenderService: TenderService, private purchaseService: PurchaseService
-    , private dataDictionaryService: DataDictionaryService, private router: Router) {
+    , private dataDictionaryService: DataDictionaryService, private contractService: ContractService, private router: Router) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
   }
@@ -64,8 +64,28 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     })
   }
 
+  //项目招标详情
   tenderDetail(id: any) {
     this.router.navigate(['/app/pm/tender-detail', { id: id }]);
+  }
+
+  //获取项目合同
+  getContractList() {
+    this.tableLoading = "true"
+    let params: any = {};
+    params.SkipCount = this.queryOne.skipCount();
+    params.MaxResultCount = this.queryOne.pageSize;
+    params.ProjectId = this.id;
+    this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.tableLoading = "false";
+      this.queryOne.dataList = result.items
+      this.queryOne.total = result.totalCount;
+    })
+  }
+
+  //项目合同详情
+  contractDetail(id: any) {
+    this.router.navigate(['/app/pm/contract-detail', { id: id }]);
   }
 
   //获取项目采购
@@ -160,6 +180,8 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
       case (0): this.getTenderList();
         break;
       case (1): this.getPurchaseList();
+        break;
+      case (2): this.getContractList();
         break;
       default: null;
     }

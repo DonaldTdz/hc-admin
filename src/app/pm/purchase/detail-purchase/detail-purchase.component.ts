@@ -15,6 +15,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   id: any = '';
   search: any = {};
   supplierList: any;
+  title: string;
   tableLoading = "false";
   purchase: Purchase = new Purchase();
   constructor(injector: Injector, private purchaseService: PurchaseService, private actRouter: ActivatedRoute, private purchaseDetailService: PurchaseDetailService
@@ -33,6 +34,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     if (this.id) {
       this.purchaseService.getById(this.id).subscribe(res => {
         this.purchase = res;
+        this.title = '采购编号：' + res.code;
       });
     }
   }

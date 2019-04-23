@@ -1,0 +1,60 @@
+<page-header [title]="title" [action]="action">
+  <sv-container size="small" col="2">
+    <sv label="合同分类">{{contract.typeName}}</sv>
+    <sv label="名称">{{contract.refName}}</sv>
+    <sv label="签订日期">{{contract.signatureTime | date:'yyyy-MM-dd'}}</sv>
+    <sv label="合同金额">{{contract.amount}}</sv>
+    <sv label="合同描述">{{contract.desc}}</sv>
+  </sv-container>
+</page-header>
+<nz-card nzTitle="附件">
+  <div nz-card-grid [ngStyle]="{width: '25%',textAlign: 'center'}" *ngFor="let item of attachments"><a
+      href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a></div>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="合同明细" class="mb-lg">
+  <div nz-row class="mb-md">
+    <div nz-col class="mb-md" style="text-align: right">
+      <button nz-button (click)="create()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="getPurchaseDetails()" (nzPageSizeChange)="getPurchaseDetails()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>名称</span>
+        </th>
+        <th nz-th>
+          <span>交货日期</span>
+        </th>
+        <th nz-th>
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td>{{item.refDetailId}}</td>
+        <td nz-td>{{item.deliveryDate}}</td>
+        <td nz-td>
+          <a (click)="editDing(item.id)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(item)">删除</a>
+          <span nz-table-divider></span>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<footer-toolbar>
+  <button nz-button [nzType]="'default'" (click)="return()">
+    返回
+  </button>
+</footer-toolbar>

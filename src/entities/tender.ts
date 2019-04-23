@@ -15,6 +15,9 @@ export class Tender {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
+    projectName: string;
+    employeeName: string;
+    readyEmployeeNames: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -41,6 +44,9 @@ export class Tender {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
+            this.projectName = data["projectName"];
+            this.employeeName = data["employeeName"];
+            this.readyEmployeeNames = data["readyEmployeeNames"];
         }
     }
     toJSON(data?: any) {
@@ -61,6 +67,9 @@ export class Tender {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["deletionTime"] = this.deletionTime;
         data["deleterUserId"] = this.deleterUserId;
+        data["projectName"] = this.projectName;
+        data["employeeName"] = this.employeeName;
+        data["readyEmployeeNames"] = this.readyEmployeeNames;
         return data;
     }
     static fromJS(data: any): Tender {

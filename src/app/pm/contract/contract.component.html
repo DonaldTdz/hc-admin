@@ -1,0 +1,80 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzExtra]="extraTpl">
+  <div nz-row class="mb-md">
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="contractCode">合同编号</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <input nz-input name="contractCode" placeholder="请输入合同编号" [(ngModel)]="search.contractCode" />
+      </nz-form-control>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="type">合同分类</nz-form-label>
+      <nz-form-control [nzSm]="16">
+        <nz-select name="type" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.type"
+          nzPlaceHolder="请选择合同分类">
+          <nz-option *ngFor="let i of contractType" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+    <div nz-col [nzSpan]="12" class="mb-md" style="text-align: right">
+      <button nz-button (click)="getContract()" [nzLoading]="loading" nzType="primary">
+        查询
+      </button>
+      <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
+      <button nz-button (click)="create()" nzType="primary">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getContract()"
+    (nzPageSizeChange)="getContract()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>合同分类</span>
+        </th>
+        <th nz-th>
+          <span>合同编号</span>
+        </th>
+        <th nz-th>
+          <span>名称</span>
+        </th>
+        <th nz-th>
+          <span>签订日期</span>
+        </th>
+        <th nz-th>
+          <span>合同金额</span>
+        </th>
+        <th nz-th>
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td>{{item.typeName}}</td>
+        <td nz-td>{{item.contractCode}}</td>
+        <td nz-td title="{{item.refName}}"><a *ngIf="item.type==1" [routerLink]="['/app/pm/project']"
+            [queryParams]="{id:item.refId}">{{item.refName | lengthLimit:15}}</a>
+          <a *ngIf="item.type==2">{{item.refName | lengthLimit:15}}</a>
+        </td>
+        <td nz-td>{{item.signatureTime | date:'yyyy-MM-dd'}}</td>
+        <td nz-td>{{item.amount}}</td>
+        <td nz-td>
+          <a (click)="editDing(item.id)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(item)">删除</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="details(item.id)">详情</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

@@ -34,6 +34,20 @@ export class PurchaseDetailService {
         }));
     }
 
+
+
+    /**
+     * 根据采购id获取采购明细下拉列表
+     * @param projectId 
+     */
+    GetDropDownsByPurchaseId(purchaseId: any): Observable<any> {
+        let _url = "/api/services/app/PurchaseDetail/GetDropDownsByPurchaseIdAsync";
+        return this._commonhttp.get(_url, { purchaseId: purchaseId }).pipe(map(data => {
+            return data;
+        }));
+    }
+
+
     /**
 * 获取编辑PurchaseDetail
 * @param id 
