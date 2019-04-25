@@ -1,0 +1,46 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false">
+  <form nz-form [nzLayout]="'inline'" class="search__form">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="title">发票抬头</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="search.title" name="title" placeholder="请输入发票抬头">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="type">发票分类</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.type" name="type" [nzPlaceHolder]="'请选择发票分类'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of invoiceType" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="code">发票号</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="search.code" name="code" placeholder="请输入发票号">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="6" [class.text-right]="true">
+        <button nz-button (click)="getInvoices()" [nzLoading]="loading" nzType="primary">
+          查询
+        </button>
+        <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
+        <button nz-button (click)="create()" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+      </div>
+    </div>
+  </form>
+  <st #st [columns]="columns" [data]="query.data" [loading]="loading" [page]="pages" [total]="query.total"
+    (change)="stChange($event)">
+  </st>
+</nz-card>

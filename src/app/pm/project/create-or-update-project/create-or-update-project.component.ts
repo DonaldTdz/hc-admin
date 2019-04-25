@@ -36,7 +36,7 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
       mode: [null, Validators.compose([Validators.required])],
       profitRatio: [null, Validators.compose([Validators.maxLength(18)])],
       billCost: [null, Validators.compose([Validators.maxLength(18)])],
-      projectCode: [null, Validators.compose([Validators.maxLength(50)])],
+      projectCode: [null, Validators.compose([Validators.maxLength(50), Validators.required])],
       name: [null, Validators.compose([Validators.maxLength(100)])],
       budget: [null, Validators.compose([Validators.maxLength(18)])],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
@@ -93,9 +93,13 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
   save() {
     this.projectService.createOrUpdate(this.project).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success('保存成功！');
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 

@@ -1,16 +1,16 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { ModalComponentBase } from '@shared/component-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Contract } from 'entities'
-import { ContractService, ProjectService, PurchaseService } from 'services'
+import { Invoice } from 'entities'
+import { InvoiceService, ProjectService, PurchaseService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-create-or-update-contract',
-  templateUrl: './create-or-update-contract.component.html',
+  selector: 'app-create-or-update-invoice',
+  templateUrl: './create-or-update-invoice.component.html',
   styles: []
 })
-export class CreateOrUpdateContractComponent extends ModalComponentBase implements OnInit {
+export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
   title: string;
   form: FormGroup;
@@ -19,28 +19,27 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
   projectList: any;
   uploadDisabled = false;
   attachments = [];
-  contractType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
+  invoiceType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
-  contract: Contract = new Contract();
-
-  constructor(injector: Injector, private contractService: ContractService, private fb: FormBuilder, private projectService: ProjectService
+  invoice: Invoice = new Invoice();
+  constructor(injector: Injector, private invoiceService: InvoiceService, private fb: FormBuilder, private projectService: ProjectService
     , private purchaseService: PurchaseService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
-      contractCode: [null, Validators.compose([Validators.required, Validators.maxLength(35)])],
+      title: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
       refId: [null],
-      signatureTime: [null],
+      code: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
       amount: [null, Validators.compose([Validators.maxLength(18)])],
-      desc: [null, Validators.compose([Validators.maxLength(250)])]
+      submitDate: [null]
     });
     if (this.id) {
       this.getData();
-      this.title = "编辑合同";
+      this.title = "编辑发票";
     } else {
-      this.title = "新增合同";
+      this.title = "新增发票";
     }
     this.getProjectList();
     this.getPurchaseList();
@@ -48,15 +47,15 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   //编辑获取数据
   getData() {
-    this.contractService.getById(this.id.toString()).subscribe((result) => {
-      this.contract = result;
+    this.invoiceService.getById(this.id.toString()).subscribe((result) => {
+      this.invoice = result;
       this.jointAttachments();
       this.getRefList();
     });
   }
 
   getRefList() {
-    if (this.contract.type == 1)
+    if (this.invoice.type == 1)
       this.refList = this.projectList;
     else
       this.refList = this.purchaseList;
@@ -77,7 +76,7 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
   }
 
   save() {
-    this.contractService.createOrUpdate(this.contract).finally(() => {
+    this.invoiceService.createOrUpdate(this.invoice).finally(() => {
       this.saving = false;
     }).subscribe((result: any) => {
       if (result.code == 0) {
@@ -91,8 +90,8 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   //处理附件
   jointAttachments() {
-    if (this.contract.attachments) {
-      let items = this.contract.attachments.split(",");
+    if (this.invoice.attachments) {
+      let items = this.invoice.attachments.split(",");
       let arr = [];
       for (let item of items) {
         let fileName = item.split(":")[0];
@@ -131,10 +130,10 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
         let fileName = res.data.name;
         let filePath = res.data.url;
         // this.setFormValues(this.attachment);
-        if (this.contract.attachments)
-          this.contract.attachments = this.contract.attachments + "," + fileName + ":" + filePath;
+        if (this.invoice.attachments)
+          this.invoice.attachments = this.invoice.attachments + "," + fileName + ":" + filePath;
         else
-          this.contract.attachments = fileName + ":" + filePath;
+          this.invoice.attachments = fileName + ":" + filePath;
         this.jointAttachments()
       } else {
         this.notify.error(res.msg);
@@ -145,21 +144,21 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   deleteAttachment(item: any) {
     let dateleString = "," + item.fileName + ":" + item.fileUrl;
-    let items = this.contract.attachments.replace(dateleString, '');
-    if (this.contract.attachments == items) {
+    let items = this.invoice.attachments.replace(dateleString, '');
+    if (this.invoice.attachments == items) {
       dateleString = item.fileName + ":" + item.fileUrl + ",";
-      items = this.contract.attachments.replace(dateleString, '');
-      if (this.contract.attachments == items) {
+      items = this.invoice.attachments.replace(dateleString, '');
+      if (this.invoice.attachments == items) {
         dateleString = item.fileName + ":" + item.fileUrl;
-        items = this.contract.attachments.replace(dateleString, '');
-        this.contract.attachments = items;
+        items = this.invoice.attachments.replace(dateleString, '');
+        this.invoice.attachments = items;
         this.jointAttachments();
       } else {
-        this.contract.attachments = items;
+        this.invoice.attachments = items;
         this.jointAttachments();
       }
     } else {
-      this.contract.attachments = items;
+      this.invoice.attachments = items;
       this.jointAttachments();
     }
 

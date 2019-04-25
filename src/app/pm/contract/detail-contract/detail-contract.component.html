@@ -24,7 +24,7 @@
   <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
     [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
-    (nzPageIndexChange)="getPurchaseDetails()" (nzPageSizeChange)="getPurchaseDetails()">
+    (nzPageIndexChange)="getContractDetails()" (nzPageSizeChange)="getContractDetails()">
     <thead nz-thead>
       <tr>
         <th nz-th>
@@ -41,7 +41,7 @@
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
         <td nz-td>{{item.refDetailId}}</td>
-        <td nz-td>{{item.deliveryDate}}</td>
+        <td nz-td>{{item.deliveryDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td>
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>

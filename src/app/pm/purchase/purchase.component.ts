@@ -3,7 +3,7 @@ import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { PurchaseService, ProjectService, EmployeeServiceProxy } from 'services'
 import { Purchase } from 'entities'
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CreateOrUpdatePurchaseComponent } from './create-or-update-purchase/create-or-update-purchase.component'
 
 @Component({
@@ -15,8 +15,9 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
   projectList: any;
   tableLoading = "false";
   search: any = {};
+  id: any = '';
   constructor(injector: Injector, private purchaseService: PurchaseService, private projectService: ProjectService, private employeeServiceProxy: EmployeeServiceProxy
-    , private router: Router) { super(injector); }
+    , private router: Router, private actRouter: ActivatedRoute) { super(injector); this.id = this.actRouter.snapshot.queryParams['id']; }
 
   ngOnInit() {
     this.getPurchase();
@@ -30,6 +31,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
     params.ProjectId = this.search.projectId;
+    params.Id = this.id;
     params.Code = this.search.code;
     this.purchaseService.getAll(params).subscribe((result: PagedResultDto) => {
       this.tableLoading = "false"
@@ -77,7 +79,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
   //删除
   delete(entity: Purchase) {
     this.message.confirm(
-      "是否删除该采购:'" + entity.code + "'?",
+      "是否删除该采购:'" + entity.code + "'?(请谨慎删除,如该采购下面有其他功能正在使用,可能会出现无法正常使用的情况)",
       "信息确认",
       (result: boolean) => {
         if (result) {

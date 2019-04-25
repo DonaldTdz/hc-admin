@@ -1,4 +1,3 @@
-
 export * from './wechatUser';
 export * from './wechatmessage';
 export * from './wechatsubscribe';
@@ -20,3 +19,5 @@ export * from './purchase';
 export * from './purchasedetail';
 export * from './contract';
 export * from './contractdetail';
+export * from './invoices';
+export * from './invoicedetail';

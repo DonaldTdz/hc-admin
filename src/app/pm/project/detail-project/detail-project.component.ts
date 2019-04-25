@@ -133,7 +133,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   //删除项目明细
   deleteProjectDetail(entity: ProjectDetail) {
     this.message.confirm(
-      "是否删除该项目明细:'" + entity.name + "'?",
+      "是否删除该项目明细:'" + entity.name + "'?(请谨慎删除,如该项目明详细下面有其他功能正在使用,可能会出现无法正常使用的情况)",
       "信息确认",
       (result: boolean) => {
         if (result) {

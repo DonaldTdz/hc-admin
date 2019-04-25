@@ -65,7 +65,7 @@
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
-          <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">项目编号</nz-form-label>
+          <nz-form-label nz-col [nzSm]="8" class="labelPadding" nzRequired [nzXs]="24">项目编号</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
             <input nz-input formControlName="projectCode" disabled="true" placeholder="请输入联系人"
               [(ngModel)]="project.projectCode" />

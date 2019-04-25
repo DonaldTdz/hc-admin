@@ -4,9 +4,9 @@
   </div>
   <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="contractDetail">
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>名称</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>refId</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="refDetailId" [nzPlaceHolder]="'请选择名称'" [(ngModel)]="contractDetail.refDetailId"
+        <nz-select formControlName="refDetailId" [nzPlaceHolder]="'请选择refId'" [(ngModel)]="contractDetail.refDetailId"
           [nzShowSearch]="true" style="width:100%;">
           <nz-option *ngFor="let i of refDetailList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>

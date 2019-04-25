@@ -2,33 +2,25 @@
   <div class="modal-header">
     <div class="modal-title">{{title}}</div>
   </div>
-  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="contract">
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="invoice">
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>合同分类</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>发票分类</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="type" [nzPlaceHolder]="'请选择合同分类'" [(ngModel)]="contract.type" [nzShowSearch]="true"
+        <nz-select formControlName="type" [nzPlaceHolder]="'请选择发票分类'" [(ngModel)]="invoice.type" [nzShowSearch]="true"
           (ngModelChange)="getRefList()" style="width:100%;">
-          <nz-option *ngFor="let i of contractType" [nzLabel]="i.text" [nzValue]="i.value">
+          <nz-option *ngFor="let i of invoiceType" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
         <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
-          ">请选择合同分类
+          ">请选择发票分类
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">合同编号</nz-form-label>
-      <nz-form-control [nzSm]="19" nzHasFeedback>
-        <input nz-input formControlName="contractCode" placeholder="请输入合同编号" [(ngModel)]="contract.contractCode" />
-        <nz-form-explain *ngIf="(form.get('contractCode')?.dirty && form.get('contractCode')?.errors)
-        ">合同编号不能为空并且不能超过35个字符
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24">refId</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择refId'" [(ngModel)]="contract.refId"
+        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择refId'" [(ngModel)]="invoice.refId"
           [nzShowSearch]="true" style="width:100%;">
           <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
@@ -36,30 +28,38 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">签订日期</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">发票抬头</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-date-picker placeholder="请选择采购日期" formControlName="signatureTime" [(ngModel)]="contract.signatureTime">
-        </nz-date-picker>
+        <input nz-input formControlName="title" placeholder="请输入发票抬头" [(ngModel)]="invoice.title" />
+        <nz-form-explain *ngIf="(form.get('title')?.dirty && form.get('title')?.errors)
+        ">请输入发票抬头且不能超过100个字符
+        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">合同金额</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>发票号</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:25%" placeholder="合同金额"
-          [(ngModel)]="contract.amount">
+        <input nz-input formControlName="code" placeholder="请输入发票号" [(ngModel)]="invoice.code" />
+        <nz-form-explain *ngIf="(form.get('code')?.dirty && form.get('code')?.errors)
+        ">请输入发票号且不能超过100个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">发票金额</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="amount" style="width:25%" placeholder="发票金额" [(ngModel)]="invoice.amount">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
-        ">合同金额不能超过18位
+        ">发票金额不能超过18位
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">合同描述</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">开票日期</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <textarea nz-input rows="2" formControlName="desc" placeholder="请输入采购描述" [(ngModel)]="contract.desc"></textarea>
-        <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
-      ">合同描述不能超过250个字符
-        </nz-form-explain>
+        <nz-date-picker placeholder="请选择开票日期" formControlName="submitDate" [(ngModel)]="invoice.submitDate">
+        </nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
@@ -67,7 +67,7 @@
         <nz-upload style="float:left;" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
           [nzShowUploadList]="false" (nzChange)="handleChange($event)" [nzBeforeUpload]="beforeUpload">
           <div nz-button nzType="default" nzType="primary" style="padding-top: 5px">
-            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
+            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传附件</span>
           </div>
         </nz-upload>
         <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>

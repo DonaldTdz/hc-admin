@@ -6,7 +6,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService
-  , ContractService, ContractDetailService
+  , ContractService, ContractDetailService, InvoiceService
 } from 'services'
 
 import { PmRoutingModule } from './pm-routing.module';
@@ -25,6 +25,8 @@ import { ContractComponent } from './contract/contract.component';
 import { CreateOrUpdateContractComponent } from './contract/create-or-update-contract/create-or-update-contract.component';
 import { DetailContractComponent } from './contract/detail-contract/detail-contract.component';
 import { CreateOrUpdateContractdetailComponent } from './contract/create-or-update-contractdetail/create-or-update-contractdetail.component';
+import { InvoiceComponent } from './invoice/invoice.component';
+import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component';
 
 @NgModule({
   imports: [
@@ -52,6 +54,8 @@ import { CreateOrUpdateContractdetailComponent } from './contract/create-or-upda
     CreateOrUpdateContractComponent,
     DetailContractComponent,
     CreateOrUpdateContractdetailComponent,
+    InvoiceComponent,
+    CreateOrUpdateInvoiceComponent,
   ],
   entryComponents: [
     CreateOrUpdateProjectComponent,
@@ -61,9 +65,10 @@ import { CreateOrUpdateContractdetailComponent } from './contract/create-or-upda
     CreateOrUpdatePurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateContractComponent,
-    CreateOrUpdateContractdetailComponent
+    CreateOrUpdateContractdetailComponent,
+    CreateOrUpdateInvoiceComponent
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService
-    , PurchaseService, ContractService, ContractDetailService]
+    , PurchaseService, ContractService, ContractDetailService, InvoiceService]
 })
 export class PmModule { }

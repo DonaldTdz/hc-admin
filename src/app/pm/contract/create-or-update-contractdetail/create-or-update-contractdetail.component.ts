@@ -25,16 +25,17 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
       refDetailId: [null, Validators.compose([Validators.required])],
       deliveryDate: [null]
     });
+
+    if (this.contractType == 1) {
+      this.getProjectDetailList();
+    } else {
+      this.getpurchaseDetailList();
+    }
     if (this.id) {
       this.getData();
       this.title = "编辑合同明细";
     } else {
       this.title = "新增合同明细";
-    }
-    if (this.contractType == 1) {
-      this.getProjectDetailList();
-    } else {
-      this.getpurchaseDetailList();
     }
   }
 
@@ -60,13 +61,13 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
     this.contractDetail.contractId = this.contractId;
     this.contractDetailService.createOrUpdate(this.contractDetail).finally(() => {
       this.saving = false;
-    }).subscribe((result: any) => {
-      if (result.code == 0) {
-        this.notify.error(result.msg);
-      } else {
-        this.notify.success(result.msg);
-        this.success();
-      }
+    }).subscribe((error: any) => {
+      // if (result.code == 0) {
+      //   this.notify.error(result.msg);
+      // } else {
+      //   this.notify.success(result.msg);
+      //   this.success();
+      // }
     });
   }
 

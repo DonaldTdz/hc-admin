@@ -9,6 +9,7 @@ import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purch
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component'
 import { ContractComponent } from './contract/contract.component'
 import { DetailContractComponent } from './contract/detail-contract/detail-contract.component'
+import { InvoiceComponent } from './invoice/invoice.component'
 
 const routes: Routes = [
   {
@@ -51,6 +52,11 @@ const routes: Routes = [
     component: DetailContractComponent,
     canActivate: [AppRouteGuard],
     data: { title: " 合同详情" }
+  },
+  {
+    path: 'invoice',
+    component: InvoiceComponent,
+    canActivate: [AppRouteGuard],
   },
 ];
 

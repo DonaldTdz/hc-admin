@@ -59,13 +59,9 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
     this.purchaseDetail.purchaseId = this.purchaseId;
     this.purchaseDetailService.createOrUpdate(this.purchaseDetail).finally(() => {
       this.saving = false;
-    }).subscribe((result: any) => {
-      if (result.code == 0) {
-        this.notify.error(result.msg);
-      } else {
-        this.notify.success(result.msg);
-        this.success();
-      }
+    }).subscribe(() => {
+      this.notify.success('保存成功！');
+      this.success();
     });
   }
 

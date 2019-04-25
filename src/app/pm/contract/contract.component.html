@@ -61,7 +61,8 @@
         <td nz-td>{{item.contractCode}}</td>
         <td nz-td title="{{item.refName}}"><a *ngIf="item.type==1" [routerLink]="['/app/pm/project']"
             [queryParams]="{id:item.refId}">{{item.refName | lengthLimit:15}}</a>
-          <a *ngIf="item.type==2">{{item.refName | lengthLimit:15}}</a>
+          <a *ngIf="item.type==2" [routerLink]="['/app/pm/purchase']"
+            [queryParams]="{id:item.refId}">{{item.refName | lengthLimit:15}}</a>
         </td>
         <td nz-td>{{item.signatureTime | date:'yyyy-MM-dd'}}</td>
         <td nz-td>{{item.amount}}</td>

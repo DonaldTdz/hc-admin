@@ -112,7 +112,7 @@ export class AppMenus {
                     link: "/app/pm/contract",
                     reuse: false
                 }, {
-                    text: "开票管理",
+                    text: "发票管理",
                     link: "/app/pm/invoice",
                     reuse: false
                 }
