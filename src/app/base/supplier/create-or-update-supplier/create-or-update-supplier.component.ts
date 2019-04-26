@@ -17,6 +17,7 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
   form: FormGroup;
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
+  uploadDisabled = false;
   supplier: Supplier = new Supplier();
   constructor(injector: Injector, private supplierService: SupplierService, private fb: FormBuilder) { super(injector); }
 
@@ -78,6 +79,8 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
     } else {
       this.attachments = []
     }
+    if (this.attachments.length >= 6)
+      this.uploadDisabled = true
   }
 
   beforeUpload = (file: UploadFile): boolean => {

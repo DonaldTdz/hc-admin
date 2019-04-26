@@ -40,7 +40,7 @@
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-        <td nz-td>{{item.refDetailId}}</td>
+        <td nz-td>{{item.refDetailName}}</td>
         <td nz-td>{{item.deliveryDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td>
           <a (click)="editDing(item.id)">编辑</a>

@@ -6,6 +6,7 @@ import { CompanyComponent } from './company/company.component'
 import { ProductComponent } from './product/product.component'
 import { SupplierComponent } from './supplier/supplier.component'
 import { DetailCustomerComponent } from './customer/detail-customer/detail-customer.component'
+import { DetailSupplierComponent } from './supplier/detail-supplier/detail-supplier.component'
 
 const routes: Routes = [
   {
@@ -34,6 +35,12 @@ const routes: Routes = [
     component: DetailCustomerComponent,
     canActivate: [AppRouteGuard],
     data: { title: "客户详情" }
+  },
+  {
+    path: 'supplier-detail',
+    component: DetailSupplierComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "供应商详情" }
   }
 ];
 

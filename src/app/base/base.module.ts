@@ -16,6 +16,7 @@ import { CreateOrUpdateProductComponent } from './product/create-or-update-produ
 import { SupplierComponent } from './supplier/supplier.component';
 import { CreateOrUpdateSupplierComponent } from './supplier/create-or-update-supplier/create-or-update-supplier.component';
 import { DetailCustomerComponent } from './customer/detail-customer/detail-customer.component';
+import { DetailSupplierComponent } from './supplier/detail-supplier/detail-supplier.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { DetailCustomerComponent } from './customer/detail-customer/detail-custo
     CreateOrUpdateProductComponent,
     SupplierComponent,
     CreateOrUpdateSupplierComponent,
-    DetailCustomerComponent
+    DetailCustomerComponent,
+    DetailSupplierComponent
   ],
   entryComponents: [
     CustomerComponent,

@@ -4,6 +4,7 @@ import { SupplierService } from 'services'
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { Supplier } from 'entities'
 import { CreateOrUpdateSupplierComponent } from './create-or-update-supplier/create-or-update-supplier.component'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier',
@@ -14,7 +15,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
   search: any = {};
   supplier: Supplier = new Supplier();
   tableLoading = "false"
-  constructor(injector: Injector, private supplierService: SupplierService) {
+  constructor(injector: Injector, private supplierService: SupplierService, private router: Router) {
     super(injector);
   }
 
@@ -72,6 +73,11 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
+  }
+
+  //详细
+  details(id: any) {
+    this.router.navigate(['/app/base/supplier-detail', { id: id }]);
   }
 
   //重置

@@ -17,13 +17,14 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   @Input() projectId: any;
   isInput = "true";
   supplierList: any;
-  ProjectDetailList: any;
+  projectDetailList: any;
   constructor(injector: Injector, private projectDetailService: ProjectDetailService, private supplierService: SupplierService
     , private fb: FormBuilder, private purchaseDetailService: PurchaseDetailService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
       supplierId: [null, Validators.compose([Validators.required])],
+
       projectDetailId: [null],
       price: [null]
     });
@@ -45,7 +46,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
 
   getProjectDetailList() {
     this.projectDetailService.GetDropDownsByProjectId(this.projectId).subscribe((result) => {
-      this.ProjectDetailList = result;
+      this.projectDetailList = result;
     });
   }
 

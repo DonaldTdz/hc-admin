@@ -6,8 +6,8 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>明细分类</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="type" [nzPlaceHolder]="'请选择明细分类'" [(ngModel)]="projectDetail.type"
-          [nzShowSearch]="true" style="width:100%;">
+        <nz-select formControlName="type" [nzPlaceHolder]="'请选择明细分类'" nzDisabled="{{disabled}}"
+          [(ngModel)]="projectDetail.type" [nzShowSearch]="true" style="width:100%;">
           <nz-option *ngFor="let i of projectDetailTypeList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
@@ -50,16 +50,6 @@
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item nz-row>
-        <nz-form-label nz-col [nzSm]="5" [nzXs]="24">单位</nz-form-label>
-        <nz-form-control [nzSm]="19" nzHasFeedback>
-          <input nz-input formControlName="unit" disabled placeholder="请输入单位" [(ngModel)]="projectDetail.unit" />
-          <nz-form-explain *ngIf="
-          (form.get('unit')?.dirty && form.get('unit')?.errors)
-        ">单位不能超过25个字符
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
     </div>
     <div *ngIf="isInput=='true'">
       <nz-form-item nz-row>
@@ -83,17 +73,18 @@
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item nz-row>
-        <nz-form-label nz-col [nzSm]="5" [nzXs]="24">单位</nz-form-label>
-        <nz-form-control [nzSm]="19" nzHasFeedback>
-          <input nz-input formControlName="unit" placeholder="请输入单位" [(ngModel)]="projectDetail.unit" />
-          <nz-form-explain *ngIf="
-            (form.get('unit')?.dirty && form.get('unit')?.errors)
-          ">单位不能超过25个字符
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
     </div>
+
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">单位</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="unit" placeholder="请输入单位" [(ngModel)]="projectDetail.unit" />
+        <nz-form-explain *ngIf="
+          (form.get('unit')?.dirty && form.get('unit')?.errors)
+        ">单位不能超过25个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24">数量</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>

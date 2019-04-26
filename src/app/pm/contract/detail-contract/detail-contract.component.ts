@@ -5,7 +5,6 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdateContractdetailComponent } from '../create-or-update-contractdetail/create-or-update-contractdetail.component'
-import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-detail-contract',
@@ -26,13 +25,14 @@ export class DetailContractComponent extends AppComponentBase implements OnInit 
 
   ngOnInit() {
     this.getData();
-    this.getContractDetails();
   }
 
-  //编辑获取数据
+  //获取contract数据
   getData() {
     this.contractService.getById(this.id.toString()).subscribe((result) => {
       this.contract = result;
+
+      this.getContractDetails();
       this.jointAttachments();
       this.title = '合同编号：' + result.contractCode;
     });
@@ -101,6 +101,7 @@ export class DetailContractComponent extends AppComponentBase implements OnInit 
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
     params.contractId = this.id;
+    params.Type = this.contract.type;
     this.contractDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.tableLoading = "false"
       this.query.dataList = result.items;

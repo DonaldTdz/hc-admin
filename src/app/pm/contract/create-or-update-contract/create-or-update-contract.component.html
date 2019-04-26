@@ -26,9 +26,9 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">refId</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">名称</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择refId'" [(ngModel)]="contract.refId"
+        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择关联名称'" [(ngModel)]="contract.refId"
           [nzShowSearch]="true" style="width:100%;">
           <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>

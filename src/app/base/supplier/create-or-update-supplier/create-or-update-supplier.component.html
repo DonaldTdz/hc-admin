@@ -119,28 +119,28 @@
     </div>
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="24">
-        <div style="text-align:right">
-          <nz-upload nzAction="{{postUrl | hostUrl}}" [nzShowUploadList]="false" (nzChange)="handleChange($event)"
-            [nzBeforeUpload]="beforeUpload">
-            <div nz-button nzType="primary" style="padding-top: 5px">
+        <div>
+          <nz-upload style="float:right;" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
+            [nzShowUploadList]="false" (nzChange)="handleChange($event)" [nzBeforeUpload]="beforeUpload">
+            <div nz-button nzType="default" nzType="primary" style="padding-top: 5px">
               <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
             </div>
           </nz-upload>
+          <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>
         </div>
-        <nz-table #ajaxTable [nzData]="attachments" nzBordered [nzScroll]="{ y: '200px' }" [nzShowPagination]=" false">
-          <thead>
-            <tr>
-              <th nzWidth="80%">文件名称</th>
-              <th nzWidth="20%">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of ajaxTable.data">
-              <td><a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a></td>
-              <td><a (click)="deleteAttachment(item)">删除</a></td>
-            </tr>
-          </tbody>
-        </nz-table>
+        <nz-list style="margin-top: 40px;" class="demo-loadmore-list" [nzDataSource]="attachments"
+          [nzItemLayout]="'horizontal'" [nzLoading]="initLoading" [nzRenderItem]="item" [nzLoadMore]="loadMore">
+          <ng-template #item let-item>
+            <nz-list-item [nzActions]="[delete]">
+              <ng-template #delete><a (click)="deleteAttachment(item)">删除</a></ng-template>
+              <nz-list-item-meta [nzDescription]="nzDescription">
+              </nz-list-item-meta>
+              <ng-template #nzDescription>
+                <a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a>
+              </ng-template>
+            </nz-list-item>
+          </ng-template>
+        </nz-list>
       </div>
     </div>
     <div class="modal-footer">

@@ -34,6 +34,17 @@ export class SupplierService {
         }));
     }
 
+    //获取分页数据
+    getPurchaseProductList(params: any): Observable<PagedResultDto> {
+        let url_ = "/api/services/app/Supplier/GetPurchaseProductListAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultDto();
+            result.items = data.items;
+            result.totalCount = data.totalCount;
+            return result;
+        }));
+    }
+
     /**
 * 获取供应商下拉列表
 */

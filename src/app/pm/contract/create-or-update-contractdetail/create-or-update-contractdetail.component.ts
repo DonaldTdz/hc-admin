@@ -61,13 +61,9 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
     this.contractDetail.contractId = this.contractId;
     this.contractDetailService.createOrUpdate(this.contractDetail).finally(() => {
       this.saving = false;
-    }).subscribe((error: any) => {
-      // if (result.code == 0) {
-      //   this.notify.error(result.msg);
-      // } else {
-      //   this.notify.success(result.msg);
-      //   this.success();
-      // }
+    }).subscribe(() => {
+      this.notify.success('保存成功！');
+      this.success();
     });
   }
 

@@ -10,6 +10,7 @@ export class ContractDetail {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
+    refDetailName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -31,6 +32,7 @@ export class ContractDetail {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
+            this.refDetailName = data["refDetailName"];
         }
     }
     toJSON(data?: any) {

@@ -45,6 +45,10 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
           text: '删除',
           click: (item: any) => this.delete(item),
         },
+        {
+          text: '详情',
+          click: (item: any) => this.details(item.id),
+        }
       ],
     },
   ];
@@ -95,7 +99,7 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   //详细
   details(id: any) {
-    this.router.navigate(['/app/pm/contract-detail', { id: id }]);
+    this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
   }
 
   //新增

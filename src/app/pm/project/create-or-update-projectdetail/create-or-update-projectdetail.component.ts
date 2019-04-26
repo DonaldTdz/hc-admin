@@ -17,6 +17,7 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
   @Input() projectId: any;
   isInput = "true";
   projectDetailTypeList: any;
+  disabled = false;
   productList: any;
   constructor(injector: Injector, private projectDetailService: ProjectDetailService, private productService: ProductService
     , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService) { super(injector); }
@@ -33,7 +34,9 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
     });
     this.getProjectDetailTypeList();
     if (this.id) {
+      this.disabled = true;
       this.getData();
+      this.isInput = "false"
       this.title = "编辑项目明细";
     } else {
       this.title = "新增项目明细";

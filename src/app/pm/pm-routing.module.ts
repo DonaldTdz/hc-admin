@@ -10,6 +10,7 @@ import { DetailTenderComponent } from './tender/detail-tender/detail-tender.comp
 import { ContractComponent } from './contract/contract.component'
 import { DetailContractComponent } from './contract/detail-contract/detail-contract.component'
 import { InvoiceComponent } from './invoice/invoice.component'
+import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.component'
 
 const routes: Routes = [
   {
@@ -40,7 +41,7 @@ const routes: Routes = [
     path: 'tender-detail',
     component: DetailTenderComponent,
     canActivate: [AppRouteGuard],
-    data: { title: " 招标详情" }
+    data: { title: "招标详情" }
   },
   {
     path: 'contract',
@@ -51,12 +52,18 @@ const routes: Routes = [
     path: 'contract-detail',
     component: DetailContractComponent,
     canActivate: [AppRouteGuard],
-    data: { title: " 合同详情" }
+    data: { title: "合同详情" }
   },
   {
     path: 'invoice',
     component: InvoiceComponent,
     canActivate: [AppRouteGuard],
+  },
+  {
+    path: 'invoice-detail',
+    component: DetailInvoiceComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "发票详情" }
   },
 ];
 

@@ -40,9 +40,13 @@ export class CreateOrUpdateProductComponent extends ModalComponentBase implement
     this.product.type = 0;
     this.productService.createOrUpdate(this.product).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
-      this.notify.success('保存成功！');
-      this.success();
+    }).subscribe((result: any) => {
+      if (result.code == 0) {
+        this.notify.error(result.msg);
+      } else {
+        this.notify.success(result.msg);
+        this.success();
+      }
     });
   }
 
