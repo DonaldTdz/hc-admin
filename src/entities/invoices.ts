@@ -14,6 +14,8 @@ export class Invoice {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
+    typeName: string;
+    refName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -39,6 +41,8 @@ export class Invoice {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
+            this.typeName = data["typeName"];
+            this.refName = data["refName"];
         }
     }
     toJSON(data?: any) {

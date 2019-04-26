@@ -18,10 +18,10 @@
     </nz-form-item>
 
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">refId</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">名称</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择refId'" [(ngModel)]="invoice.refId"
-          [nzShowSearch]="true" style="width:100%;">
+        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择关联名称'" [(ngModel)]="invoice.refId" [nzShowSearch]="true"
+          (ngModelChange)="getTitleByTypeAndRefId()" style="width:100%;">
           <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
@@ -48,7 +48,8 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24">发票金额</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="amount" style="width:25%" placeholder="发票金额" [(ngModel)]="invoice.amount">
+        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:25%" placeholder="发票金额"
+          [(ngModel)]="invoice.amount">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
         ">发票金额不能超过18位

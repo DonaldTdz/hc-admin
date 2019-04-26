@@ -26,7 +26,7 @@ export class InvoiceDetailService {
  * 获取单条数据
  * @param id 
  */
-    GetById(id: string): Observable<InvoiceDetail> {
+    getById(id: string): Observable<InvoiceDetail> {
         let _url = "/api/services/app/InvoiceDetail/GetByIdAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {

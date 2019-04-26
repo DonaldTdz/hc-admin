@@ -22,7 +22,7 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   @ViewChild('st')
   st: STComponent;
   columns: STColumn[] = [
-    { title: 'refId', index: 'refId' },
+    { title: '名称', index: 'refName' },
     { title: '劳务或服务名称', index: 'name' },
     { title: '规格型号', index: 'Specification' },
     { title: '单位', index: 'unit' },
@@ -56,6 +56,7 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   geInvoices() {
     this.invoiceService.getById(this.id.toString()).subscribe((result) => {
       this.invoice = result;
+      this.getInvoiceDetails();
       this.jointAttachments();
       this.title = '发票号：' + result.code;
     });
@@ -85,7 +86,8 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
     params.SkipCount = (this.st.pi - 1) * this.st.ps;
     params.MaxResultCount = this.st.ps;
     params.InvoiceId = this.id;
-    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
+    params.Type = this.invoice.type;
+    this.invoiceDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;
       this.query.data = result.items;
       this.query.total = result.totalCount;
@@ -105,23 +107,22 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
 
   //编辑
   editDing(id: any) {
-    console.log(id);
-    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { id: id, refId: this.invoice.refId, invoiceType: this.invoice.type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.getInvoiceDetails();
+        this.geInvoices();
       }
     });
   }
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { refId: this.invoice.refId, invoiceType: this.invoice.type, invoiceId: this.invoice.id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.getInvoiceDetails();
+        this.geInvoices();
       }
     });
   }
@@ -136,7 +137,7 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
         if (result) {
           this.invoiceDetailService.delete(entity.id).subscribe(() => {
             this.notify.success('删除成功！');
-            this.getInvoiceDetails();
+            this.geInvoices();
           });
         }
       }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { PurchaseService, PurchaseDetailService, SupplierService, ContractService } from 'services';
+import { PurchaseService, PurchaseDetailService, SupplierService, ContractService, InvoiceService } from 'services';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NzTabChangeEvent } from 'ng-zorro-antd';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,7 +26,8 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   tableLoading = "false";
   purchase: Purchase = new Purchase();
   constructor(injector: Injector, private purchaseService: PurchaseService, private actRouter: ActivatedRoute, private router: Router,
-    private purchaseDetailService: PurchaseDetailService, private supplierService: SupplierService, private contractService: ContractService) {
+    private purchaseDetailService: PurchaseDetailService, private supplierService: SupplierService, private contractService: ContractService
+    , private invoiceService: InvoiceService) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
   }
@@ -108,7 +109,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     )
   }
 
-  //获取项目合同
+  //获取采购合同
   getContractList() {
     this.tableLoading = "true"
     let params: any = {};
@@ -122,9 +123,28 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     })
   }
 
-  //项目合同详情
+  //采购合同详情
   contractDetail(id: any) {
     this.router.navigate(['/app/pm/contract-detail', { id: id }]);
+  }
+
+  //获取采购发票
+  getInvoiceList() {
+    this.tableLoading = "true"
+    let params: any = {};
+    params.SkipCount = this.queryOne.skipCount();
+    params.MaxResultCount = this.queryOne.pageSize;
+    params.refId = this.id;
+    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.tableLoading = "false";
+      this.queryOne.dataList = result.items
+      this.queryOne.total = result.totalCount;
+    })
+  }
+
+  //采购发票详情
+  invoiceDetail(id: any) {
+    this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
   }
 
   refreshData() {
@@ -138,8 +158,8 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     switch (args.index) {
       case (0): this.getContractList();
         break;
-      // case (1): this.getPurchaseList();
-      //   break;
+      case (1): this.getInvoiceList();
+        break;
       default: null;
     }
 

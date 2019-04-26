@@ -51,7 +51,7 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
     this.contractService.getById(this.id.toString()).subscribe((result) => {
       this.contract = result;
       this.jointAttachments();
-      this.getRefList();
+      // this.getRefList();
     });
   }
 

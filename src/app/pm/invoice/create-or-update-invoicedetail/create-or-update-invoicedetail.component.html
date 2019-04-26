@@ -1,3 +1,90 @@
-<p>
-  create-or-update-invoicedetail works!
-</p>
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="invoiceDetail">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择关联名称'" [(ngModel)]="invoiceDetail.refId"
+          [nzShowSearch]="true" (ngModelChange)="renderForm()" style="width:100%;">
+          <nz-option *ngFor="let i of refDetailList" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('refId')?.dirty && form.get('refId')?.errors)
+          ">请选择关联名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>劳务或服务名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="name" placeholder="请输入劳务或服务名称" [(ngModel)]="invoiceDetail.name" />
+        <nz-form-explain *ngIf="(form.get('name')?.dirty && form.get('name')?.errors)
+          ">劳务或服务名称不能为空且不能超过25个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">规格型号</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="specification" placeholder="请输入规格型号"
+          [(ngModel)]="invoiceDetail.specification" />
+        <nz-form-explain *ngIf="(form.get('specification')?.dirty && form.get('specification')?.errors)
+          ">规格型号不能超过100个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">单位</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="unit" placeholder="请输入单位" [(ngModel)]="invoiceDetail.unit" />
+        <nz-form-explain *ngIf="(form.get('unit')?.dirty && form.get('unit')?.errors)
+          ">单位不能超过25个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">数量</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="num" style="width:25%" placeholder="请输入数量" [(ngModel)]="invoiceDetail.num">
+        </nz-input-number>
+        <nz-form-explain *ngIf="(form.get('num')?.dirty && form.get('num')?.errors)
+          ">数量不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">单价</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number formControlName="price" style="width:25%" placeholder="请输入单价"
+          [(ngModel)]="invoiceDetail.price">
+        </nz-input-number>
+        <nz-form-explain *ngIf="(form.get('price')?.dirty && form.get('price')?.errors)
+          ">数量不能超过18位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">税率</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-select formControlName="taxRate" [nzPlaceHolder]="'请选择税率'" [(ngModel)]="invoiceDetail.taxRate"
+          [nzShowSearch]="true" style="width:100%;">
+          <nz-option *ngFor="let i of taxRateDictionaries" [nzLabel]="i.text" [nzValue]="i.value">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="(form.get('taxRate')?.dirty && form.get('taxRate')?.errors)
+          ">效率不能超过25个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

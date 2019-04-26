@@ -23,9 +23,21 @@ export class InvoiceService {
         }));
     }
     /**
- * 获取单条数据详细信息
- * @param id 
+ * 获取发票抬头
+ * @param param
  */
+    getTitleByTypeAndRefId(param: any): Observable<any> {
+        let _url = "/api/services/app/Invoice/getTitleByTypeAndRefIdAsync";
+        return this._commonhttp.get(_url, param).pipe(map(data => {
+            return data;
+        }));
+    }
+
+
+    /**
+* 获取单条数据详细信息
+* @param id 
+*/
     getById(id: any): Observable<Invoice> {
         let _url = "/api/services/app/Invoice/GetByIdAsync";
         let param = { 'id': id };

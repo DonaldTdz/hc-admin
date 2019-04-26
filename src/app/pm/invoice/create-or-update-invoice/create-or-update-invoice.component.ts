@@ -40,6 +40,7 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
       this.title = "编辑发票";
     } else {
       this.title = "新增发票";
+      this.invoice.amount = 0;
     }
     this.getProjectList();
     this.getPurchaseList();
@@ -50,8 +51,19 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
     this.invoiceService.getById(this.id.toString()).subscribe((result) => {
       this.invoice = result;
       this.jointAttachments();
-      this.getRefList();
+      // this.getRefList();
     });
+  }
+
+  getTitleByTypeAndRefId() {
+    if (this.invoice.type && this.invoice.refId) {
+      let params: any = {};
+      params.Type = this.invoice.type;
+      params.refId = this.invoice.refId;
+      this.invoiceService.getTitleByTypeAndRefId(params).subscribe((result) => {
+        this.invoice.title = result;
+      });
+    }
   }
 
   getRefList() {
@@ -78,13 +90,9 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
   save() {
     this.invoiceService.createOrUpdate(this.invoice).finally(() => {
       this.saving = false;
-    }).subscribe((result: any) => {
-      if (result.code == 0) {
-        this.notify.error(result.msg);
-      } else {
-        this.notify.success(result.msg);
-        this.success();
-      }
+    }).subscribe(() => {
+      this.notify.success('保存成功！');
+      this.success();
     });
   }
 

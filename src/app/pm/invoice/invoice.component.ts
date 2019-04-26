@@ -28,7 +28,7 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
   @ViewChild('st')
   st: STComponent;
   columns: STColumn[] = [
-    { title: 'refId', index: 'refId' },
+    { title: '名称', index: 'refName' },
     { title: '发票抬头', index: 'title' },
     { title: '发票分类', index: 'typeName' },
     { title: '发票号', index: 'code' },
