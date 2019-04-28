@@ -4,21 +4,22 @@
   </div>
   <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="contractDetail">
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>名称</nz-form-label>
-      <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-select formControlName="refDetailId" [nzPlaceHolder]="'请选择关联名称'" [(ngModel)]="contractDetail.refDetailId"
-          [nzShowSearch]="true" style="width:100%;">
+      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>项目/采购明细名称</nz-form-label>
+      <nz-form-control [nzSm]="17" nzHasFeedback>
+        <nz-select formControlName="refDetailId" [nzPlaceHolder]="'请选择项目/采购明细名称'"
+          [(ngModel)]="contractDetail.refDetailId" [nzShowSearch]="true" style="width:100%;">
           <nz-option *ngFor="let i of refDetailList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
         <nz-form-explain *ngIf="(form.get('refDetailId')?.dirty && form.get('refDetailId')?.errors)
-          ">请选择关联名称
+          ">请选择项目/采购明细名称
         </nz-form-explain>
+        <nz-alert nzType="info" nzMessage="合同分类为销项时为项目明细名称,为进项时为采购明细名称" nzShowIcon></nz-alert>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">交货日期</nz-form-label>
-      <nz-form-control [nzSm]="19" nzHasFeedback>
+      <nz-form-label nz-col [nzSm]="7" [nzXs]="24">交货日期</nz-form-label>
+      <nz-form-control [nzSm]="17" nzHasFeedback>
         <nz-date-picker placeholder="请选择交货日期" formControlName="deliveryDate" [(ngModel)]="contractDetail.deliveryDate">
         </nz-date-picker>
       </nz-form-control>

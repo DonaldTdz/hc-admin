@@ -6,11 +6,11 @@ import { Invoice } from 'entities'
 import { Router } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { CreateOrUpdateInvoiceComponent } from './create-or-update-invoice/create-or-update-invoice.component'
+import { type } from 'os';
 
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
-  styles: []
 })
 export class InvoiceComponent extends AppComponentBase implements OnInit {
   search: any = {};
@@ -28,7 +28,7 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
   @ViewChild('st')
   st: STComponent;
   columns: STColumn[] = [
-    { title: '名称', index: 'refName' },
+    { title: '项目/采购名称', index: 'refName', type: 'link', click: (item: any) => this.skip(item.type, item.refId), },
     { title: '发票抬头', index: 'title' },
     { title: '发票分类', index: 'typeName' },
     { title: '发票号', index: 'code' },
@@ -57,6 +57,14 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.getInvoices();
+  }
+
+  //跳转到相应的采购或项目
+  skip(type: any, refId: any) {
+    if (type == 1)
+      this.router.navigate(["/app/pm/project"], { queryParams: { 'id': refId } })
+    else
+      this.router.navigate(['/app/pm/purchase'], { queryParams: { 'id': refId } });
   }
 
   getInvoices() {

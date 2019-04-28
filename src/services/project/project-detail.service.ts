@@ -26,7 +26,7 @@ export class ProjectDetailService {
  * 获取单条数据
  * @param id 
  */
-    GetById(id: string): Observable<ProjectDetail> {
+    GetById(id: any): Observable<ProjectDetail> {
         let _url = "/api/services/app/ProjectDetail/GetByIdAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {

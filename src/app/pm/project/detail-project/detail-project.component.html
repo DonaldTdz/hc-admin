@@ -237,7 +237,7 @@
       </nz-tab>
       <nz-tab nzTitle="发票">
         <ng-template #totalContentMe>共{{queryOne.total}}条</ng-template>
-        <nz-table #nzContractTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
+        <nz-table #nzInvoiceTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
           [(nzPageIndex)]="queryOne.pageIndex" [(nzPageSize)]="queryOne.pageSize" [nzLoading]="tableLoading"
           [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
           (nzPageIndexChange)="getInvoiceList()" (nzPageSizeChange)="getInvoiceList()">
@@ -261,7 +261,7 @@
             </tr>
           </thead>
           <tbody nz-tbody>
-            <tr nz-tbody-tr *ngFor="let item of nzContractTable.data">
+            <tr nz-tbody-tr *ngFor="let item of nzInvoiceTable.data">
               <td nz-td>{{item.title}}</td>
               <td nz-td>{{item.code}}</td>
               <td nz-td>{{item.amount}}</td>

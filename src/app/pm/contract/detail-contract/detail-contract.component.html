@@ -1,7 +1,7 @@
 <page-header [title]="title" [action]="action">
   <sv-container size="small" col="2">
     <sv label="合同分类">{{contract.typeName}}</sv>
-    <sv label="名称">{{contract.refName}}</sv>
+    <sv label="项目/采购名称">{{contract.refName}}</sv>
     <sv label="签订日期">{{contract.signatureTime | date:'yyyy-MM-dd'}}</sv>
     <sv label="合同金额">{{contract.amount}}</sv>
     <sv label="合同描述">{{contract.desc}}</sv>
@@ -28,7 +28,7 @@
     <thead nz-thead>
       <tr>
         <th nz-th>
-          <span>名称</span>
+          <span>项目/采购明细名称</span>
         </th>
         <th nz-th>
           <span>交货日期</span>

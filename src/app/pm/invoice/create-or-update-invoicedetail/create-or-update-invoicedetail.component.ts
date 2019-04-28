@@ -72,6 +72,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
   }
 
   renderForm() {
+    // let projectDetailId: any;
     if (this.invoiceDetail.refId) {
       if (this.invoiceType == 1) {
         this.projectDetailService.GetById(this.invoiceDetail.refId).subscribe((result) => {
@@ -82,18 +83,15 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
           this.invoiceDetail.price = result.price;
         });
       } else {
-        let projectDetailId;
         this.purchaseDetailService.getById(this.invoiceDetail.refId).subscribe((result) => {
-          projectDetailId = result.projectDetailId;
+          // projectDetailId = result.projectDetailId;
           this.invoiceDetail.price = result.price;
-        });
-
-        this.projectDetailService.GetById(projectDetailId).subscribe((result) => {
-          this.invoiceDetail.specification = result.specification;
-          this.invoiceDetail.num = result.num;
-          this.invoiceDetail.unit = result.unit;
-          this.invoiceDetail.name = result.name;
-          // this.invoiceDetail.price = result.price;
+          this.projectDetailService.GetById(result.projectDetailId).subscribe((result) => {
+            this.invoiceDetail.specification = result.specification;
+            this.invoiceDetail.num = result.num;
+            this.invoiceDetail.unit = result.unit;
+            this.invoiceDetail.name = result.name;
+          });
         });
       }
     }

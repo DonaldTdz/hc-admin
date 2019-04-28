@@ -115,7 +115,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     let params: any = {};
     params.SkipCount = this.queryOne.skipCount();
     params.MaxResultCount = this.queryOne.pageSize;
-    params.PurchaseId = this.id;
+    params.refId = this.id;
     this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
       this.tableLoading = "false";
       this.queryOne.dataList = result.items

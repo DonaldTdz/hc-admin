@@ -24,12 +24,11 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   ngOnInit() {
     this.form = this.fb.group({
       supplierId: [null, Validators.compose([Validators.required])],
-
       projectDetailId: [null],
       price: [null]
     });
-    this.getProjectDetailList();
     this.getSupplierList();
+    this.getProjectDetailList();
     if (this.id) {
       this.getData();
       this.title = "编辑采购明细";

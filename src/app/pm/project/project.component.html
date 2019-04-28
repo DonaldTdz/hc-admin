@@ -1,45 +1,51 @@
 <page-header [title]="''"></page-header>
 <nz-card [nzExtra]="extraTpl">
-  <div nz-row class="mb-md">
-    <div nz-col [nzSpan]="6">
-      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">项目名称</nz-form-label>
-      <nz-form-control [nzSm]="16">
-        <input nz-input name="name" [(ngModel)]="search.name" nzSize="default" [placeholder]="'请输入项目名称'">
-      </nz-form-control>
+  <form nz-form [nzLayout]="'inline'" class="search__form">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="name">项目名称</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="name" [(ngModel)]="search.name" nzSize="default" [placeholder]="'请输入项目名称'">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
 
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="customerId">所属客户</nz-form-label>
+          <nz-form-control>
+            <nz-select name="customerId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.customerId"
+              nzPlaceHolder="请选择分类">
+              <nz-option *ngFor="let i of customerList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="status">项目状态</nz-form-label>
+          <nz-form-control>
+            <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择分类">
+              <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="6" [class.text-right]="true">
+        <button nz-button (click)="getProjects()" [nzLoading]="loading" nzType="primary">
+          查询
+        </button>
+        <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
+        <button nz-button (click)="create()" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+      </div>
     </div>
-
-    <div nz-col [nzSpan]="6">
-      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="customerId">所属客户</nz-form-label>
-      <nz-form-control [nzSm]="16">
-        <nz-select name="customerId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.customerId"
-          nzPlaceHolder="请选择分类">
-          <nz-option *ngFor="let i of customerList" [nzLabel]="i.text" [nzValue]="i.value">
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-    </div>
-    <div nz-col [nzSpan]="6">
-      <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="status">项目状态</nz-form-label>
-      <nz-form-control [nzSm]="16">
-        <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择分类">
-          <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-
-    </div>
-    <div nz-col [nzSpan]="6" class="mb-md" style="text-align: right">
-      <button nz-button (click)="getProjects()" [nzLoading]="loading" nzType="primary">
-        查询
-      </button>
-      <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
-      <button nz-button (click)="create()" nzType="primary">
-        <i class="anticon anticon-plus"></i>
-        <span>新建</span>
-      </button>
-    </div>
-  </div>
+  </form>
   <ng-template #totalContentMe>共{{query.total}}条</ng-template>
   <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"

@@ -22,7 +22,7 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   @ViewChild('st')
   st: STComponent;
   columns: STColumn[] = [
-    { title: '名称', index: 'refName' },
+    { title: '项目/采购明细名称', index: 'refName' },
     { title: '劳务或服务名称', index: 'name' },
     { title: '规格型号', index: 'Specification' },
     { title: '单位', index: 'unit' },
