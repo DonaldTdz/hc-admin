@@ -105,6 +105,14 @@
   <nz-card-tab>
     <nz-tabset nzSize="large" (nzSelectChange)="change($event)">
       <nz-tab nzTitle="招标">
+        <div nz-row class="mb-md">
+          <div nz-col class="mb-md" style="text-align: right">
+            <button nz-button (click)="createTender()" nzType="primary">
+              <i class="anticon anticon-plus"></i>
+              <span>新建</span>
+            </button>
+          </div>
+        </div>
         <ng-template #totalContentMe>共{{queryOne.total}}条</ng-template>
         <nz-table #nzTenderTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
           [(nzPageIndex)]="queryOne.pageIndex" [(nzPageSize)]="queryOne.pageSize" [nzLoading]="tableLoading"
@@ -143,10 +151,16 @@
               <td nz-td>{{item.employeeName}}</td>
               <td nz-td title="{{item.readyEmployeeNames}}">{{item.readyEmployeeNames | lengthLimit:15}} </td>
               <td nz-td>
-                <nz-badge *ngIf="item.isWinbid=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
-                <nz-badge *ngIf="item.isWinbid=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+                <nz-switch [(ngModel)]="item.isWinbid" (click)="updateIsWinbid(item)" nzCheckedChildren="是"
+                  nzUnCheckedChildren="否"></nz-switch>
               </td>
               <td nz-td>
+                <a (click)="editTender(item.id)">编辑</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="deleteTender(item)">删除</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
                 <a (click)="tenderDetail(item.id)">详情</a>
                 <span nz-table-divider></span>
               </td>
@@ -155,6 +169,14 @@
         </nz-table>
       </nz-tab>
       <nz-tab nzTitle="采购">
+        <div nz-row class="mb-md">
+          <div nz-col class="mb-md" style="text-align: right">
+            <button nz-button (click)="createPurchase()" nzType="primary">
+              <i class="anticon anticon-plus"></i>
+              <span>新建</span>
+            </button>
+          </div>
+        </div>
         <ng-template #totalContentMe>共{{queryOne.total}}条</ng-template>
         <nz-table #nzPurchaseTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
           [(nzPageIndex)]="queryOne.pageIndex" [(nzPageSize)]="queryOne.pageSize" [nzLoading]="tableLoading"
@@ -186,13 +208,28 @@
               <td nz-td>{{item.employeeName}}</td>
               <td nz-td>{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
               <td nz-td>
+                <a (click)="editPurchase(item.id)">编辑</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="deletePurchase(item)">删除</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
                 <a (click)="purchaseDetail(item.id)">详情</a>
+                <span nz-table-divider></span>
               </td>
             </tr>
           </tbody>
         </nz-table>
       </nz-tab>
       <nz-tab nzTitle="合同">
+        <div nz-row class="mb-md">
+          <div nz-col class="mb-md" style="text-align: right">
+            <button nz-button (click)="createContract()" nzType="primary">
+              <i class="anticon anticon-plus"></i>
+              <span>新建</span>
+            </button>
+          </div>
+        </div>
         <ng-template #totalContentMe>共{{queryOne.total}}条</ng-template>
         <nz-table #nzContractTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
           [(nzPageIndex)]="queryOne.pageIndex" [(nzPageSize)]="queryOne.pageSize" [nzLoading]="tableLoading"
@@ -229,13 +266,29 @@
               <td nz-td>{{item.signatureTime | date:'yyyy-MM-dd'}}</td>
               <td nz-td>{{item.amount}}</td>
               <td nz-td>
+                <a (click)="editContract(item.id)">编辑</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="deleteContract(item)">删除</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
                 <a (click)="contractDetail(item.id)">详情</a>
+                <span nz-table-divider></span>
               </td>
             </tr>
           </tbody>
         </nz-table>
       </nz-tab>
+      <nz-tab nzTitle="回款计划"></nz-tab>
       <nz-tab nzTitle="发票">
+        <div nz-row class="mb-md">
+          <div nz-col class="mb-md" style="text-align: right">
+            <button nz-button (click)="createInvoice()" nzType="primary">
+              <i class="anticon anticon-plus"></i>
+              <span>新建</span>
+            </button>
+          </div>
+        </div>
         <ng-template #totalContentMe>共{{queryOne.total}}条</ng-template>
         <nz-table #nzInvoiceTable [nzData]="queryOne.dataList" [nzFrontPagination]="false" [nzTotal]="queryOne.total"
           [(nzPageIndex)]="queryOne.pageIndex" [(nzPageSize)]="queryOne.pageSize" [nzLoading]="tableLoading"
@@ -267,7 +320,14 @@
               <td nz-td>{{item.amount}}</td>
               <td nz-td>{{item.submitDate | date:'yyyy-MM-dd'}}</td>
               <td nz-td>
+                <a (click)="editInvoice(item.id)">编辑</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="deleteInvoice(item)">删除</a>
+                <span nz-table-divider></span>
+                <nz-divider nzType="vertical"></nz-divider>
                 <a (click)="invoiceDetail(item.id)">详情</a>
+                <span nz-table-divider></span>
               </td>
             </tr>
           </tbody>

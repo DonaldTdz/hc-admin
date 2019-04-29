@@ -7,7 +7,7 @@
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>发票分类</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
         <nz-select formControlName="type" [nzPlaceHolder]="'请选择发票分类'" [(ngModel)]="invoice.type" [nzShowSearch]="true"
-          (ngModelChange)="getRefList()" style="width:100%;">
+          (ngModelChange)="getRefList()" [nzDisabled]="refIdDisabled" style="width:100%;">
           <nz-option *ngFor="let i of invoiceType" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
@@ -21,7 +21,8 @@
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24">项目/采购名称</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
         <nz-select formControlName="refId" [nzPlaceHolder]="'请选择项目/采购名称'" [(ngModel)]="invoice.refId"
-          [nzShowSearch]="true" (ngModelChange)="getTitleByTypeAndRefId()" style="width:100%;">
+          [nzShowSearch]="true" (ngModelChange)="getTitleByTypeAndRefId()" [nzDisabled]="refIdDisabled"
+          style="width:100%;">
           <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>

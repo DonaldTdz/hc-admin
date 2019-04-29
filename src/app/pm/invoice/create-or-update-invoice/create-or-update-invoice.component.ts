@@ -12,11 +12,14 @@ import { UploadFile } from 'ng-zorro-antd';
 })
 export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
+  @Input() refId: string;
+  @Input() type: number;
+  refIdDisabled = false;
   title: string;
   form: FormGroup;
   refList: any;
-  purchaseList: any;
-  projectList: any;
+  // purchaseList: any;
+  // projectList: any;
   uploadDisabled = false;
   attachments = [];
   invoiceType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
@@ -42,8 +45,14 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
       this.title = "新增发票";
       this.invoice.amount = 0;
     }
-    this.getProjectList();
-    this.getPurchaseList();
+    if (this.type) {
+      this.invoice.type = this.type;
+    }
+
+    if (this.refId) {
+      this.invoice.refId = this.refId;
+      this.refIdDisabled = true;
+    }
   }
 
   //编辑获取数据
@@ -68,22 +77,22 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
 
   getRefList() {
     if (this.invoice.type == 1)
-      this.refList = this.projectList;
+      this.getProjectList();
     else
-      this.refList = this.purchaseList;
+      this.getPurchaseList();
   }
 
   //获取项目下拉列表
   getProjectList() {
     this.projectService.getDropDownDtos().subscribe((result) => {
-      this.projectList = result;
+      this.refList = result;
     });
   }
 
   //获取采购下拉列表
   getPurchaseList() {
     this.purchaseService.getDropDownDtos().subscribe((result) => {
-      this.purchaseList = result;
+      this.refList = result;
     });
   }
 

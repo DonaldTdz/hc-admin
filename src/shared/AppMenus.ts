@@ -39,29 +39,6 @@ export class AppMenus {
             ]
         },
         {
-            text: "系统管理",
-            icon: { type: "icon", value: "setting" },
-            link: "/app/system",
-            group: true,
-            children: [
-                {
-                    text: "用户管理",
-                    link: "/app/system/users",
-                    reuse: false
-                },
-                {
-                    text: "角色管理",
-                    link: "/app/system/roles",
-                    reuse: false
-                },
-                {
-                    text: "数据字典",
-                    link: "/app/system/datadictionary",
-                    reuse: false
-                },
-            ]
-        },
-        {
             text: "基础数据",
             icon: { type: "icon", value: "bars" },
             link: "/app/base",
@@ -116,6 +93,29 @@ export class AppMenus {
                     link: "/app/pm/invoice",
                     reuse: false
                 }
+            ]
+        },
+        {
+            text: "系统管理",
+            icon: { type: "icon", value: "setting" },
+            link: "/app/system",
+            group: true,
+            children: [
+                {
+                    text: "用户管理",
+                    link: "/app/system/users",
+                    reuse: false
+                },
+                {
+                    text: "角色管理",
+                    link: "/app/system/roles",
+                    reuse: false
+                },
+                {
+                    text: "数据字典",
+                    link: "/app/system/datadictionary",
+                    reuse: false
+                },
             ]
         }
     ];

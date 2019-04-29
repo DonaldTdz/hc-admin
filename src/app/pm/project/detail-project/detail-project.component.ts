@@ -1,11 +1,15 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { Project, ProjectDetail } from 'entities';
+import { Project, ProjectDetail, Tender, Purchase, Contract, Invoice } from 'entities';
 import { NzTabChangeEvent } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ProjectService, ProjectDetailService, DataDictionaryService, TenderService, PurchaseService, ContractService, InvoiceService } from 'services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdateProjectdetailComponent } from '../create-or-update-projectdetail/create-or-update-projectdetail.component';
+import { CreateOrUpdateTenderComponent } from '../../tender/create-or-update-tender/create-or-update-tender.component'
+import { CreateOrUpdatePurchaseComponent } from '../../purchase/create-or-update-purchase/create-or-update-purchase.component'
+import { CreateOrUpdateContractComponent } from '../../contract/create-or-update-contract/create-or-update-contract.component'
+import { CreateOrUpdateInvoiceComponent } from '../../invoice/create-or-update-invoice/create-or-update-invoice.component'
 
 @Component({
   selector: 'app-detail-project',
@@ -69,6 +73,53 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.router.navigate(['/app/pm/tender-detail', { id: id }]);
   }
 
+  //新增招标
+  createTender() {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, { projectId: this.id }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getTenderList();
+      }
+    });
+  }
+
+  //编辑招标
+  editTender(id: any) {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id, projectId: this.id }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getTenderList();
+      }
+    });
+  }
+
+
+  //删除招标
+  deleteTender(entity: Tender) {
+    this.message.confirm(
+      "是否删除该项目?",
+      "信息确认",
+      (result: boolean) => {
+        if (result) {
+          this.tenderService.delete(entity.id).subscribe(() => {
+            this.notify.success('删除成功！');
+            this.getTenderList();
+          });
+        }
+      }
+    )
+  }
+
+  //修改是否中标
+  updateIsWinbid(tender: Tender) {
+    this.tenderService.createOrUpdate(tender).finally(() => {
+    }).subscribe(() => {
+      this.notify.success(this.l('中标状态修改成功'));
+    });
+  }
+
   //获取项目发票
   getInvoiceList() {
     this.tableLoading = "true"
@@ -87,6 +138,46 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   invoiceDetail(id: any) {
     this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
   }
+
+  //新增发票
+  createInvoice() {
+    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { refId: this.id, type: 1 }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getInvoiceList();
+      }
+    });
+  }
+
+  //编辑发票
+  editInvoice(id: any) {
+    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { id: id, refId: this.id, type: 1 }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getInvoiceList();
+      }
+    });
+  }
+
+
+  //删除发票
+  deleteInvoice(entity: Invoice) {
+    this.message.confirm(
+      "是否删除该发票:'" + entity.title + "'?",
+      "信息确认",
+      (result: boolean) => {
+        if (result) {
+          this.invoiceService.delete(entity.id).subscribe(() => {
+            this.notify.success('删除成功！');
+            this.getInvoiceList();
+          });
+        }
+      }
+    )
+  }
+
 
   //获取项目合同
   getContractList() {
@@ -107,6 +198,45 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.router.navigate(['/app/pm/contract-detail', { id: id }]);
   }
 
+  //新增合同
+  createContract() {
+    this.modalHelper.open(CreateOrUpdateContractComponent, { refId: this.id, type: 1 }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getContractList();
+      }
+    });
+  }
+
+  //编辑合同
+  editContract(id: any) {
+    this.modalHelper.open(CreateOrUpdateContractComponent, { id: id, refId: this.id, type: 1 }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getContractList();
+      }
+    });
+  }
+
+
+  //删除合同
+  deleteContract(entity: Contract) {
+    this.message.confirm(
+      "是否删除该合同:'" + entity.contractCode + "'?",
+      "信息确认",
+      (result: boolean) => {
+        if (result) {
+          this.contractService.delete(entity.id).subscribe(() => {
+            this.notify.success('删除成功！');
+            this.getContractList();
+          });
+        }
+      }
+    )
+  }
+
   //获取项目采购
   getPurchaseList() {
     this.tableLoading = "true"
@@ -124,6 +254,45 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   //项目采购详情
   purchaseDetail(id: any) {
     this.router.navigate(['/app/pm/purchase-detail', { id: id }]);
+  }
+
+  //新增采购
+  createPurchase() {
+    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { projectId: this.id }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getPurchaseList();
+      }
+    });
+  }
+
+  //编辑采购
+  editPurchase(id: any) {
+    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id, projectId: this.id }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getPurchaseList();
+      }
+    });
+  }
+
+
+  //删除采购
+  deletePurchase(entity: Purchase) {
+    this.message.confirm(
+      "是否删除该采购:'" + entity.code + "'?(请谨慎删除,如该采购下面有其他功能正在使用,可能会出现无法正常使用的情况)",
+      "信息确认",
+      (result: boolean) => {
+        if (result) {
+          this.purchaseService.delete(entity.id).subscribe(() => {
+            this.notify.success('删除成功！');
+            this.getPurchaseList();
+          });
+        }
+      }
+    )
   }
 
   //查询

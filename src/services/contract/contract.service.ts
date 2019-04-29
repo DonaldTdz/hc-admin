@@ -34,6 +34,17 @@ export class ContractService {
         }));
     }
 
+    /**
+     * 获取自动生成的合同编号
+     * @param codeType 
+     */
+    getPurchaseCode(codeType: any): Observable<string> {
+        let _url = "/api/services/app/Contract/GetContractCodeAsync";
+        return this._commonhttp.get(_url, { 'CodeType': codeType }).pipe(map(data => {
+            return data;
+        }));
+    }
+
 
     /**
      * 更新与创建合同

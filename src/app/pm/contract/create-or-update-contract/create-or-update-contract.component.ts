@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Contract } from 'entities'
 import { ContractService, ProjectService, PurchaseService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
+import { validateConfig } from '@angular/router/src/config';
 
 @Component({
   selector: 'app-create-or-update-contract',
@@ -12,14 +13,18 @@ import { UploadFile } from 'ng-zorro-antd';
 })
 export class CreateOrUpdateContractComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
+  @Input() refId: string;
+  @Input() type: number;
+  refIdDisabled = false;
   title: string;
   form: FormGroup;
   refList: any;
-  purchaseList: any;
-  projectList: any;
+  // purchaseList: any;
+  // projectList: any;
   uploadDisabled = false;
   attachments = [];
   contractType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
+  contractCodeType = [{ text: '软件', value: 2 }, { text: '硬件', value: 1 }];
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
   contract: Contract = new Contract();
@@ -30,6 +35,7 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
   ngOnInit() {
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
+      codeType: [null, Validators.compose([Validators.required])],
       contractCode: [null, Validators.compose([Validators.required, Validators.maxLength(35)])],
       refId: [null],
       signatureTime: [null],
@@ -42,8 +48,24 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
     } else {
       this.title = "新增合同";
     }
-    this.getProjectList();
-    this.getPurchaseList();
+    if (this.type) {
+      this.contract.type = this.type;
+    }
+
+    if (this.refId) {
+      this.contract.refId = this.refId;
+      this.refIdDisabled = true;
+    }
+
+  }
+
+  //获取自动生成的合同编号
+  getCodeType() {
+    if (this.contract.codeType) {
+      this.contractService.getPurchaseCode(this.contract.codeType).subscribe((resule) => {
+        this.contract.contractCode = resule;
+      });
+    }
   }
 
   //编辑获取数据
@@ -57,22 +79,22 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   getRefList() {
     if (this.contract.type == 1)
-      this.refList = this.projectList;
+      this.getProjectList();
     else
-      this.refList = this.purchaseList;
+      this.getPurchaseList();
   }
 
   //获取项目下拉列表
   getProjectList() {
     this.projectService.getDropDownDtos().subscribe((result) => {
-      this.projectList = result;
+      this.refList = result;
     });
   }
 
   //获取采购下拉列表
   getPurchaseList() {
     this.purchaseService.getDropDownDtos().subscribe((result) => {
-      this.purchaseList = result;
+      this.refList = result;
     });
   }
 

@@ -12,6 +12,8 @@ import { UploadFile } from 'ng-zorro-antd';
 })
 export class CreateOrUpdateTenderComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
+  @Input() projectId: string;
+  projectIdDisabled = false;
   title: string;
   form: FormGroup;
   projectList: any;
@@ -36,6 +38,10 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
     });
     this.getProjectList();
     this.getEmployeeList();
+    if (this.projectId) {
+      this.tender.projectId = this.projectId;
+      this.projectIdDisabled = true;
+    }
     if (this.id) {
       this.getData();
       this.title = "编辑招标";

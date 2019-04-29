@@ -2,6 +2,7 @@ export class Contract {
     id: string;
     type: number;
     contractCode: string;
+    codeType: number;
     refId: string;
     signatureTime: Date;
     amount: number;
@@ -29,6 +30,7 @@ export class Contract {
             this.id = data["id"];
             this.type = data["type"];
             this.contractCode = data["contractCode"];
+            this.codeType = data["codeType"];
             this.refId = data["refId"];
             this.signatureTime = data["signatureTime"];
             this.amount = data["amount"];
@@ -50,6 +52,7 @@ export class Contract {
         data["id"] = this.id;
         data["type"] = this.type;
         data["contractCode"] = this.contractCode;
+        data["codeType"] = this.codeType;
         data["refId"] = this.refId;
         data["signatureTime"] = this.signatureTime;
         data["amount"] = this.amount;

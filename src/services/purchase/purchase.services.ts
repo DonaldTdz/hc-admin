@@ -67,6 +67,17 @@ export class PurchaseService {
         }))
     }
 
+    /**
+        * 获取自动生成的采购编号
+        * @param type 
+        */
+    getPurchaseCode(type: any): Observable<string> {
+        let _url = "/api/services/app/Purchase/GetPurchaseCodeAsync";
+        return this._commonhttp.get(_url, { 'type': type }).pipe(map(data => {
+            return data;
+        }));
+    }
+
 
     /**
      * 删除采购

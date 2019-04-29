@@ -2,6 +2,7 @@ export class Purchase {
     id: string;
     code: string;
     projectId: string;
+    type: number;
     employeeId: string;
     purchaseDate: Date;
     desc: string;
@@ -14,6 +15,7 @@ export class Purchase {
     deleterUserId: number;
     employeeName: string;
     projectName: string;
+    typeName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -27,6 +29,7 @@ export class Purchase {
             this.id = data["id"];
             this.code = data["code"];
             this.projectId = data["projectId"];
+            this.type = data["type"];
             this.employeeId = data["employeeId"];
             this.purchaseDate = data["purchaseDate"];
             this.desc = data["desc"];
@@ -39,6 +42,7 @@ export class Purchase {
             this.deleterUserId = data["deleterUserId"];
             this.employeeName = data["employeeName"];
             this.projectName = data["projectName"];
+            this.typeName = data["typeName"];
         }
     }
     toJSON(data?: any) {
@@ -46,6 +50,7 @@ export class Purchase {
         data["id"] = this.id;
         data["code"] = this.code;
         data["projectId"] = this.projectId;
+        data["type"] = this.type;
         data["employeeId"] = this.employeeId;
         data["purchaseDate"] = this.purchaseDate;
         data["desc"] = this.desc;
