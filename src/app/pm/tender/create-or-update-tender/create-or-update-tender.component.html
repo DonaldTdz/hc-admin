@@ -93,7 +93,7 @@
         [nzItemLayout]="'horizontal'" [nzLoading]="initLoading" [nzRenderItem]="item" [nzLoadMore]="loadMore">
         <ng-template #item let-item>
           <nz-list-item [nzActions]="[delete]">
-            <ng-template #delete><a (click)="deleteAttachment(item)">删除</a></ng-template>
+            <ng-template #delete><a style="color:#ff4d4f;" (click)="deleteAttachment(item)">删除</a></ng-template>
             <nz-list-item-meta [nzDescription]="nzDescription">
             </nz-list-item-meta>
             <ng-template #nzDescription>

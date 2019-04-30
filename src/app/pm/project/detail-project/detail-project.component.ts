@@ -371,7 +371,9 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
         break;
       case (2): this.getContractList();
         break;
-      case (3): this.getInvoiceList();
+      // case (3): this.getInvoiceList();
+      //   break;
+      case (4): this.getInvoiceList();
         break;
       default: null;
     }
