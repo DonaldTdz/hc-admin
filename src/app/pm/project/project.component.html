@@ -53,11 +53,11 @@
     (nzPageSizeChange)="getProjects()">
     <thead nz-thead>
       <tr>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>项目模式</span>
         </th>
         <th nz-th>
-          <span>过单费用</span>
+          <span>项目编号</span>
         </th>
         <th nz-th>
           <span>项目名称</span>
@@ -68,20 +68,40 @@
         <th nz-th>
           <span>负责人</span>
         </th>
-        <th>
+        <th nz-th style="text-align: center">
+          <span>项目状态</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>开始日期</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>结束日期</span>
+        </th>
+        <th style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let ding of nzTable.data">
-        <td nz-td>{{ding.modeName}}</td>
-        <td nz-td>{{ding.billCost}}</td>
-        <td nz-td>{{ding.name}}</td>
+        <td nz-td style="text-align: center">{{ding.modeName}}</td>
+        <td nz-td>{{ding.projectCode}}</td>
+        <td nz-td title="ding.name">{{ding.name | lengthLimit:10}}</td>
         <td nz-td>{{ding.customerName}}</td>
-        <td nz-td>{{ding.employeeName}}
+        <td nz-td>{{ding.employeeName}}</td>
+        <td nz-td style="text-align: center">
+          <nz-badge *ngIf="ding.status=='1'" [nzStatus]="'warning'" [nzText]="'线索'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='2'" [nzStatus]="'color'" [nzText]="'立项'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='3'" [nzStatus]="'processing'" [nzText]="'进行中'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='4'" [nzStatus]="'success'" [nzText]="'已完成'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='5'" [nzStatus]="'default'" [nzText]="'已回款'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='0'" [nzStatus]="'error'" [nzText]="'取消'"></nz-badge>
         </td>
-        <td nz-td>
+        <td nz-td style="text-align: center">
+          {{ding.startDate | date:'yyyy-MM-dd'}}</td>
+        <td nz-td style="text-align: center">{{ding.endDate | date:'yyyy-MM-dd'}}
+        </td>
+        <td nz-td style="text-align: center">
           <a (click)="editDing(ding.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

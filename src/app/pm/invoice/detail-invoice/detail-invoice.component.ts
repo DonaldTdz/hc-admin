@@ -5,7 +5,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdateInvoicedetailComponent } from '../create-or-update-invoicedetail/create-or-update-invoicedetail.component'
-import { STComponent, STColumn, STChange } from '@delon/abc';
+import { STComponent, STColumn, STChange, STPage } from '@delon/abc';
 
 @Component({
   selector: 'app-detail-invoice',
@@ -19,18 +19,26 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   invoice: Invoice = new Invoice();
   attachments = [];
   title: string;
+  pages: STPage = {
+    total: true,//分页显示多少条数据，字符串型
+    show: true,//显示分页
+    front: false, //关闭前端分页，true是前端分页，false后端控制分页
+    showSize: true,
+    pageSizes: [10, 20, 30, 40]
+  };
   @ViewChild('st')
   st: STComponent;
   columns: STColumn[] = [
     { title: '项目/采购明细名称', index: 'refName' },
     { title: '劳务或服务名称', index: 'name' },
-    { title: '规格型号', index: 'Specification' },
+    { title: '规格型号', index: 'specification' },
     { title: '单位', index: 'unit' },
-    { title: '数量', index: 'num' },
-    { title: '单价', index: 'price' },
-    { title: '税率', index: 'taxRate' },
+    { title: '数量', index: 'num', className: 'text-right' },
+    { title: '单价(元)', index: 'price', className: 'text-right' },
+    { title: '税率', index: 'taxRate', className: 'text-center' },
     {
       title: '操作',
+      className: 'text-center',
       buttons: [
         {
           text: '编辑',

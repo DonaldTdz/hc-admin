@@ -2,6 +2,7 @@ export class PurchaseDetail {
     id: string;
     purchaseId: string;
     supplierId: number;
+    num: number;
     price: number;
     projectDetailId: string;
     isDeleted: boolean;
@@ -24,6 +25,7 @@ export class PurchaseDetail {
             this.id = data["id"];
             this.purchaseId = data["purchaseId"];
             this.supplierId = data["supplierId"];
+            this.num = data["num"];
             this.price = data["price"];
             this.projectDetailId = data["projectDetailId"];
             this.isDeleted = data["isDeleted"];
@@ -40,6 +42,7 @@ export class PurchaseDetail {
         data["id"] = this.id;
         data["purchaseId"] = this.purchaseId;
         data["supplierId"] = this.supplierId;
+        data["num"] = this.num;
         data["price"] = this.price;
         data["projectDetailId"] = this.projectDetailId;
         data["isDeleted"] = this.isDeleted;

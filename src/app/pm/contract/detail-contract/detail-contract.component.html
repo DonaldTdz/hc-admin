@@ -3,7 +3,7 @@
     <sv label="合同分类">{{contract.typeName}}</sv>
     <sv label="项目/采购名称">{{contract.refName}}</sv>
     <sv label="签订日期">{{contract.signatureTime | date:'yyyy-MM-dd'}}</sv>
-    <sv label="合同金额">{{contract.amount}}</sv>
+    <sv label="合同金额(元)">{{contract.amount}}</sv>
     <sv label="合同描述">{{contract.desc}}</sv>
   </sv-container>
 </page-header>
@@ -30,10 +30,10 @@
         <th nz-th>
           <span>项目/采购明细名称</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>交货日期</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -41,8 +41,8 @@
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
         <td nz-td>{{item.refDetailName}}</td>
-        <td nz-td>{{item.deliveryDate | date:'yyyy-MM-dd'}}</td>
-        <td nz-td>
+        <td nz-td style="text-align: center">{{item.deliveryDate | date:'yyyy-MM-dd'}}</td>
+        <td nz-td style="text-align: center">
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

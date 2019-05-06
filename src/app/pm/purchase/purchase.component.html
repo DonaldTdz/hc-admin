@@ -47,16 +47,16 @@
         <th nz-th>
           <span>项目名称</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>采购分类</span>
         </th>
         <th nz-th>
           <span>负责人</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>采购日期</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -67,10 +67,10 @@
         <td nz-td title="item.projectName"><a [routerLink]="['/app/pm/project']"
             [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:15}}</a>
         </td>
+        <td nz-td style="text-align: center">{{item.typeName}}</td>
         <td nz-td>{{item.employeeName}}</td>
-        <td nz-td>{{item.typeName}}</td>
-        <td nz-td>{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
-        <td nz-td>
+        <td nz-td style="text-align: center">{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
+        <td nz-td style="text-align: center">
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

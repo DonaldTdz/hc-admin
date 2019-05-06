@@ -38,7 +38,7 @@
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
-          <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">过单费用</nz-form-label>
+          <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">过单费用(元)</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
             <nz-input-number formControlName="billCost" style="width:100%" placeholder="请输入过单费用"
               [(ngModel)]="project.billCost">
@@ -118,7 +118,7 @@
         <nz-form-item nzFlex>
           <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">开始日期</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-            <nz-date-picker [nzStyle]='{width:"100%"}' nzShowTime placeholder="请选择开始日期" formControlName="startDate"
+            <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开始日期" formControlName="startDate"
               [(ngModel)]="project.startDate"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
@@ -127,8 +127,8 @@
         <nz-form-item nzFlex>
           <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">结束日期</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-            <nz-date-picker nzShowTime [nzStyle]='{width:"100%"}' placeholder="请选择开始日期" [nzFormat]="yyyy"
-              formControlName="endDate" [(ngModel)]="project.endDate">
+            <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开始日期" [nzFormat]="yyyy" formControlName="endDate"
+              [(ngModel)]="project.endDate">
             </nz-date-picker>
           </nz-form-control>
         </nz-form-item>
@@ -145,7 +145,7 @@
       </div>
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
-          <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">预算金额</nz-form-label>
+          <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">预算金额(元)</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
             <nz-input-number formControlName="budget" style="width:100%" placeholder="请输入预算金额"
               [(ngModel)]="project.budget">

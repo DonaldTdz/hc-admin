@@ -2,8 +2,11 @@ export class Tender {
     id: string;
     projectId: string;
     tenderTime: Date;
+    bond: number;
     bondTime: Date;
+    isPayBond: boolean;
     readyTime: Date;
+    isReady: boolean;
     employeeId: string;
     readyEmployeeIds: string;
     isWinbid: boolean;
@@ -31,8 +34,11 @@ export class Tender {
             this.id = data["id"];
             this.projectId = data["projectId"];
             this.tenderTime = data["tenderTime"];
+            this.bond = data["bond"];
             this.bondTime = data["bondTime"];
+            this.isPayBond = data["isPayBond"];
             this.readyTime = data["readyTime"];
+            this.isReady = data["isReady"];
             this.employeeId = data["employeeId"];
             this.readyEmployeeIds = data["readyEmployeeIds"];
             this.isWinbid = data["isWinbid"];
@@ -54,8 +60,11 @@ export class Tender {
         data["id"] = this.id;
         data["projectId"] = this.projectId;
         data["tenderTime"] = this.tenderTime;
+        data["bond"] = this.bond;
         data["bondTime"] = this.bondTime;
+        data["isPayBond"] = this.isPayBond;
         data["readyTime"] = this.readyTime;
+        data["isReady"] = this.isReady;
         data["employeeId"] = this.employeeId;
         data["readyEmployeeIds"] = this.readyEmployeeIds;
         data["isWinbid"] = this.isWinbid;

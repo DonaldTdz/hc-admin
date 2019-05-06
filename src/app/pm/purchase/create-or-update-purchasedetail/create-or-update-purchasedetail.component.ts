@@ -24,6 +24,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   ngOnInit() {
     this.form = this.fb.group({
       supplierId: [null, Validators.compose([Validators.required])],
+      num: [null],
       projectDetailId: [null],
       price: [null]
     });
@@ -41,6 +42,15 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
     this.supplierService.getDropDownDtos().subscribe((result) => {
       this.supplierList = result;
     })
+  }
+
+  //获取采购数量
+  getPurchaseNum() {
+    if (this.purchaseDetail.projectDetailId) {
+      this.projectDetailService.GetById(this.purchaseDetail.projectDetailId).subscribe((resule) => {
+        this.purchaseDetail.num = resule.num;
+      });
+    }
   }
 
   getProjectDetailList() {

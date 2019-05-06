@@ -8,7 +8,7 @@ import { UploadFile } from 'ng-zorro-antd';
 @Component({
   selector: 'app-create-or-update-tender',
   templateUrl: './create-or-update-tender.component.html',
-  styles: []
+  styleUrls: ['./create-or-update-tender.component.scss']
 })
 export class CreateOrUpdateTenderComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
@@ -31,8 +31,11 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
     this.form = this.fb.group({
       projectId: [null, Validators.compose([Validators.required])],
       tenderTime: [null],
+      bond: [null, Validators.compose([Validators.maxLength(18)])],
       bondTime: [null],
+      isPayBond: [null],
       readyTime: [null],
+      isReady: [null],
       employeeId: [null],
       readyEmployeeIds: [null]
     });

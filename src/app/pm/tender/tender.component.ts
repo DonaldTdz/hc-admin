@@ -38,7 +38,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //编辑
   editDing(id: any) {
-    this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id }, 'lg', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -54,7 +54,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateTenderComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, {}, 'lg', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {

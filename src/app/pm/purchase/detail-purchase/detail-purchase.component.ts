@@ -23,6 +23,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     skipCount: function () { return (this.pageIndex - 1) * this.pageSize; },
     total: 0,
   };
+  purchaseDetailLoading = "false";
   tableLoading = "false";
   purchase: Purchase = new Purchase();
   constructor(injector: Injector, private purchaseService: PurchaseService, private actRouter: ActivatedRoute, private router: Router,
@@ -56,14 +57,14 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
 
   //查询
   getPurchaseDetails() {
-    this.tableLoading = "true"
+    this.purchaseDetailLoading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
     params.SupplierId = this.search.supplierId;
     params.PurchaseId = this.id;
     this.purchaseDetailService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.purchaseDetailLoading = "false"
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })

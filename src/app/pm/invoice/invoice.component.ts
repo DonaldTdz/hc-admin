@@ -6,6 +6,7 @@ import { Invoice } from 'entities'
 import { Router } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { CreateOrUpdateInvoiceComponent } from './create-or-update-invoice/create-or-update-invoice.component'
+import { type } from 'os';
 
 @Component({
   selector: 'app-invoice',
@@ -29,13 +30,13 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
   columns: STColumn[] = [
     { title: '项目/采购名称', index: 'refName', type: 'link', click: (item: any) => this.skip(item.type, item.refId), },
     { title: '发票抬头', index: 'title' },
-    { title: '发票分类', index: 'typeName', },
+    { title: '发票分类', index: 'typeName', className: 'text-center' },
     { title: '发票号', index: 'code' },
-    { title: '发票金额', index: 'amount' },
+    { title: '发票金额(元)', index: 'amount', className: 'text-right' },
     { title: '开票日期', index: 'submitDate', type: 'date', dateFormat: 'YYYY-MM-DD' },
     {
       title: '操作',
-      className: "text-success",
+      className: 'text-center',
       buttons: [
         {
           text: '编辑',
