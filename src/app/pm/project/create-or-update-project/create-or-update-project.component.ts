@@ -4,6 +4,7 @@ import { ProjectService, CustomerService, EmployeeServiceProxy, DataDictionarySe
 import { ModalComponentBase } from '@shared/component-base';
 import { Project } from 'entities'
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-update-project',
@@ -24,20 +25,20 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
   customerList: any;
   employeeList: any;
   form: FormGroup;
-  isShow = false;
+  // isShow = false;
   project: Project = new Project();
   constructor(injector: Injector, private projectService: ProjectService, private datePipe: DatePipe, private customerService: CustomerService
-    , private employeeServiceProxy: EmployeeServiceProxy
+    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router
     , private dataDictionaryService: DataDictionaryService, private fb: FormBuilder) { super(injector); }
 
   ngOnInit() {
-    this.project.projectCode = 'hc' + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')
+    this.project.projectCode = 'HC' + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')
     this.form = this.fb.group({
       mode: [null, Validators.compose([Validators.required])],
       profitRatio: [null, Validators.compose([Validators.maxLength(18)])],
       billCost: [null, Validators.compose([Validators.maxLength(18)])],
       projectCode: [null, Validators.compose([Validators.maxLength(50), Validators.required])],
-      name: [null, Validators.compose([Validators.maxLength(100)])],
+      name: [null, Validators.compose([Validators.maxLength(100), Validators.required])],
       budget: [null, Validators.compose([Validators.maxLength(18)])],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
       type: [null],
@@ -51,6 +52,7 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
     this.getCustomerList();
     this.getEmployeeList();
     this.getTypeList();
+    this.project.status = 1;
     if (this.id) {
       this.getData();
       this.title = "编辑项目";
@@ -59,12 +61,12 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
     }
   }
 
-  profitRatioWhetherShow() {
-    if (this.project.mode == 2)
-      this.isShow = true;
-    else
-      this.isShow = false;
-  }
+  // profitRatioWhetherShow() {
+  //   if (this.project.mode == 2)
+  //     this.isShow = true;
+  //   else
+  //     this.isShow = false;
+  // }
 
   getTypeList() {
     this.dataDictionaryService.getDropDownDtos("1").subscribe((result) => {
@@ -90,6 +92,20 @@ export class CreateOrUpdateProjectComponent extends ModalComponentBase implement
     });
   }
 
+  //保存并添加明细
+  preservation() {
+    this.projectService.createOrUpdate(this.project).finally(() => {
+      this.saving = false;
+    }).subscribe((result: any) => {
+      console.log(result);
+      this.notify.success('保存成功！');
+      this.router.navigate(['/app/pm/dprojectoc-detail', { id: result.data.id }]);
+      // this.success();
+    });
+    // this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+  }
+
+  //保存
   save() {
     this.projectService.createOrUpdate(this.project).finally(() => {
       this.saving = false;

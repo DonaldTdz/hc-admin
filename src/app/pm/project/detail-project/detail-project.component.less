@@ -1,4 +1,5 @@
 @import '~@delon/theme/styles/default';
+
 :host {
   ::ng-deep {
     @media screen and (max-width: @screen-sm) {
@@ -6,14 +7,20 @@
         left: 8px;
       }
     }
+
     .desc {
       font-size: @font-size-base;
-      position: relative;
-      left: 38px;
-      & > div {
-        margin-top: 8px;
+      position : relative;
+      left     : 38px;
+
+      &>div {
+        margin-top   : 8px;
         margin-bottom: 4px;
       }
+    }
+
+    .mb-lg table tbody tr:last-child {
+      font-weight: bold
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { TenderService, ProjectService } from 'services'
@@ -13,7 +13,8 @@ import { CreateOrUpdateTenderComponent } from './create-or-update-tender/create-
 })
 export class TenderComponent extends AppComponentBase implements OnInit {
   projectList: any;
-  tableLoading = "false";
+  loading = "false";
+  @Input() projectId;
   search: any = {};
   constructor(injector: Injector, private tenderService: TenderService, private projectService: ProjectService, private router: Router) { super(injector); }
 
@@ -24,13 +25,16 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //查询
   getTenders() {
-    this.tableLoading = "true"
+    this.loading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    params.ProjectId = this.search.projectId;
+    if (this.projectId)
+      params.ProjectId = this.projectId
+    else
+      params.ProjectId = this.search.projectId;
     this.tenderService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.loading = "false"
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
@@ -38,7 +42,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //编辑
   editDing(id: any) {
-    this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id }, 'lg', {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, { id: id, projectId: this.projectId }, 'lg', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -54,7 +58,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateTenderComponent, {}, 'lg', {
+    this.modalHelper.open(CreateOrUpdateTenderComponent, { projectId: this.projectId }, 'lg', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {

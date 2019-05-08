@@ -92,6 +92,14 @@ export class AppMenus {
                     text: "发票管理",
                     link: "/app/pm/invoice",
                     reuse: false
+                }, {
+                    text: "报销查询",
+                    link: "/app/pm/reimburse",
+                    reuse: false
+                }, {
+                    text: "工时查询",
+                    link: "/app/pm/timesheet",
+                    reuse: false
                 }
             ]
         },

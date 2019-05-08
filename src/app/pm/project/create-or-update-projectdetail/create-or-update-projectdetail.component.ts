@@ -26,11 +26,11 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       product: [null],
-      name: [null, Validators.compose([Validators.maxLength(100)])],
+      name: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
       specification: [null, Validators.compose([Validators.maxLength(100)])],
       unit: [null, Validators.compose([Validators.maxLength(25)])],
-      num: [null, Validators.compose([Validators.maxLength(18)])],
-      price: [null, Validators.compose([Validators.maxLength(18)])],
+      num: [null, Validators.compose([Validators.required, Validators.maxLength(18)])],
+      price: [null, Validators.compose([Validators.required, Validators.maxLength(18)])],
     });
     this.getProjectDetailTypeList();
     if (this.id) {

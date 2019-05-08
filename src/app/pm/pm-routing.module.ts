@@ -11,6 +11,9 @@ import { ContractComponent } from './contract/contract.component'
 import { DetailContractComponent } from './contract/detail-contract/detail-contract.component'
 import { InvoiceComponent } from './invoice/invoice.component'
 import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.component'
+import { ReimburseComponent } from './reimburse/reimburse.component'
+import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component'
+import { TimesheetComponent } from './timesheet/timesheet.component'
 
 const routes: Routes = [
   {
@@ -64,6 +67,21 @@ const routes: Routes = [
     component: DetailInvoiceComponent,
     canActivate: [AppRouteGuard],
     data: { title: "发票详情" }
+  },
+  {
+    path: 'reimburse',
+    component: ReimburseComponent,
+    canActivate: [AppRouteGuard],
+  }, {
+    path: 'reimburse-detail',
+    component: DetailReimburseComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "报销详情" }
+  },
+  {
+    path: 'timesheet',
+    component: TimesheetComponent,
+    canActivate: [AppRouteGuard],
   },
 ];
 

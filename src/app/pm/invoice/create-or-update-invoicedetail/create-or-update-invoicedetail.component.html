@@ -4,7 +4,7 @@
   </div>
   <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="invoiceDetail">
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24">项目/采购明细名称</nz-form-label>
+      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>项目/采购明细名称</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
         <nz-select formControlName="refId" [nzPlaceHolder]="'请选择项目/采购明细名称'" [(ngModel)]="invoiceDetail.refId"
           [nzShowSearch]="true" (ngModelChange)="renderForm()" style="width:100%;">
@@ -48,7 +48,7 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24">数量</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-input-number formControlName="num" style="width:25%" placeholder="请输入数量" [(ngModel)]="invoiceDetail.num">
+        <nz-input-number formControlName="num" style="width:100%" placeholder="请输入数量" [(ngModel)]="invoiceDetail.num">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('num')?.dirty && form.get('num')?.errors)
           ">数量不能超过18位
@@ -58,7 +58,7 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24">单价(元)</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-input-number formControlName="price" style="width:25%" placeholder="请输入单价"
+        <nz-input-number formControlName="price" style="width:100%" placeholder="请输入单价"
           [(ngModel)]="invoiceDetail.price">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('price')?.dirty && form.get('price')?.errors)

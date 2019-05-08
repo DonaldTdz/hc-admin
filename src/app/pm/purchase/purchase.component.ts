@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { PurchaseService, ProjectService, EmployeeServiceProxy } from 'services'
@@ -13,7 +13,8 @@ import { CreateOrUpdatePurchaseComponent } from './create-or-update-purchase/cre
 })
 export class PurchaseComponent extends AppComponentBase implements OnInit {
   projectList: any;
-  tableLoading = "false";
+  @Input() projectId;
+  loading = "false";
   search: any = {};
   id: any = '';
   constructor(injector: Injector, private purchaseService: PurchaseService, private projectService: ProjectService, private employeeServiceProxy: EmployeeServiceProxy
@@ -26,15 +27,18 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
 
   //查询
   getPurchase() {
-    this.tableLoading = "true"
+    this.loading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    params.ProjectId = this.search.projectId;
+    if (this.projectId)
+      params.ProjectId = this.projectId
+    else
+      params.ProjectId = this.search.projectId;
     params.Id = this.id;
     params.Code = this.search.code;
     this.purchaseService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.loading = "false"
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
@@ -50,7 +54,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
   //编辑
   editDing(id: any) {
     console.log(id);
-    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id, projectId: this.projectId }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -66,7 +70,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdatePurchaseComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { projectId: this.projectId }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {

@@ -1,0 +1,91 @@
+<page-header *ngIf="!projectId" [title]="''"></page-header>
+<nz-card [nzBordered]="false">
+  <form nz-form [nzLayout]="'inline'" class="search__form" *ngIf="!projectId">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="projectId">所属项目</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.projectId" name="projectId" [nzPlaceHolder]="'请选择所属项目'"
+              [nzShowSearch]="true">
+              <nz-option *ngFor="let i of projects" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="employeeId">报销人</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.employeeId" name="employeeId" [nzPlaceHolder]="'请选择所属项目'"
+              [nzShowSearch]="true">
+              <nz-option *ngFor="let i of employees" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="status">状态</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.status" name="status" [nzPlaceHolder]="'请选择状态'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of statuss" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="6" [class.text-right]="true">
+        <button nz-button (click)="getReimburse()" [nzLoading]="loading" nzType="primary">
+          查询
+        </button>
+        <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
+      </div>
+    </div>
+  </form>
+  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <nz-table #nzTable [nzData]="query.data" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="getReimburse()" (nzPageSizeChange)="getReimburse()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th *ngIf="!projectId">
+          <span>项目</span>
+        </th>
+        <th nz-th>
+          <span>报销人</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>报销总金额(元)</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>状态</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>申请时间</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td *ngIf="!projectId" title="item.projectName"><a [routerLink]="['/app/pm/project']"
+            [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:25}}</a>
+        </td>
+        <td nz-td>{{item.employeeName}}</td>
+        <td nz-td style="text-align: right">{{item.amount}}</td>
+        <td nz-td style="text-align: center">
+          <nz-badge *ngIf="item.status=='1'" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
+          <nz-badge *ngIf="item.status=='2'" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
+          <nz-badge *ngIf="item.status=='3'" [nzStatus]="'default'" [nzText]="'取消'"></nz-badge>
+        </td>
+        <td nz-td style="text-align: center">{{item.submitDate | date:'yyyy-MM-dd'}}</td>
+        <td nz-td style="text-align: center">
+          <a (click)="details(item.id)">详情</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

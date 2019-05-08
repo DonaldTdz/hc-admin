@@ -66,7 +66,7 @@ export class InvoiceService {
     createOrUpdate(input: Invoice | null): Observable<Invoice> {
         let _url = "/api/services/app/Invoice/CreateOrUpdateAsync";
         return this._commonhttp.post(_url, { "Invoice": input }).pipe(map(data => {
-            return data;
+            return Invoice.fromJS(data);;
         }))
     }
 

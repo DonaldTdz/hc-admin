@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tender } from 'entities'
 import { TenderService, ProjectService, EmployeeServiceProxy } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-update-tender',
@@ -25,16 +26,16 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
   uploadLoading = false;
   tender: Tender = new Tender();
   constructor(injector: Injector, private tenderService: TenderService, private fb: FormBuilder, private projectService: ProjectService
-    , private employeeServiceProxy: EmployeeServiceProxy) { super(injector); }
+    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
       projectId: [null, Validators.compose([Validators.required])],
-      tenderTime: [null],
+      tenderTime: [null, Validators.compose([Validators.required])],
       bond: [null, Validators.compose([Validators.maxLength(18)])],
       bondTime: [null],
       isPayBond: [null],
-      readyTime: [null],
+      readyTime: [null, Validators.compose([Validators.required])],
       isReady: [null],
       employeeId: [null],
       readyEmployeeIds: [null]

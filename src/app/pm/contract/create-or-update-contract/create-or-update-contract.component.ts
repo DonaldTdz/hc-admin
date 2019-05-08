@@ -5,6 +5,7 @@ import { Contract } from 'entities'
 import { ContractService, ProjectService, PurchaseService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
 import { validateConfig } from '@angular/router/src/config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-update-contract',
@@ -30,7 +31,7 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
   contract: Contract = new Contract();
 
   constructor(injector: Injector, private contractService: ContractService, private fb: FormBuilder, private projectService: ProjectService
-    , private purchaseService: PurchaseService) { super(injector); }
+    , private purchaseService: PurchaseService, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -98,6 +99,20 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
     });
   }
 
+  //保存并添加明细
+  preservation() {
+    this.contractService.createOrUpdate(this.contract).finally(() => {
+      this.saving = false;
+    }).subscribe((result: any) => {
+      console.log(result);
+      this.notify.success('保存成功！');
+      this.router.navigate(['/app/pm/contract-detail', { id: result.data.id }]);
+      // this.success();
+    });
+    // this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+  }
+
+  //保存
   save() {
     this.contractService.createOrUpdate(this.contract).finally(() => {
       this.saving = false;

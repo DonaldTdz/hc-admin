@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector, Input } from '@angular/core';
 import { STComponent, STColumn, STChange, STPage } from '@delon/abc';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { InvoiceService } from 'services'
@@ -6,7 +6,6 @@ import { Invoice } from 'entities'
 import { Router } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { CreateOrUpdateInvoiceComponent } from './create-or-update-invoice/create-or-update-invoice.component'
-import { type } from 'os';
 
 @Component({
   selector: 'app-invoice',
@@ -14,70 +13,28 @@ import { type } from 'os';
 })
 export class InvoiceComponent extends AppComponentBase implements OnInit {
   search: any = {};
-  data: any[] = [];
-  total: any;
+  @Input() refId;
   loading = false;
   invoiceType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
-  pages: STPage = {
-    total: true,//分页显示多少条数据，字符串型
-    show: true,//显示分页
-    front: false, //关闭前端分页，true是前端分页，false后端控制分页
-    showSize: true,
-    pageSizes: [10, 20, 30, 40]
-  };
-  @ViewChild('st')
-  st: STComponent;
-  columns: STColumn[] = [
-    { title: '项目/采购名称', index: 'refName', type: 'link', click: (item: any) => this.skip(item.type, item.refId), },
-    { title: '发票抬头', index: 'title' },
-    { title: '发票分类', index: 'typeName', className: 'text-center' },
-    { title: '发票号', index: 'code' },
-    { title: '发票金额(元)', index: 'amount', className: 'text-right' },
-    { title: '开票日期', index: 'submitDate', type: 'date', dateFormat: 'YYYY-MM-DD' },
-    {
-      title: '操作',
-      className: 'text-center',
-      buttons: [
-        {
-          text: '编辑',
-          type: "link",
-          click: (item: any) => this.editDing(item.id),
-        },
-        {
-          text: '详情',
-          type: "link",
-          click: (item: any) => this.details(item.id),
-        },
-        {
-          text: '删除',
-          type: "link",
-          click: (item: any) => this.delete(item),
-        }
-      ],
-    },
-  ];
 
   constructor(injector: Injector, private invoiceService: InvoiceService, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.getInvoices();
-  }
-
-  //跳转到相应的采购或项目
-  skip(type: any, refId: any) {
-    if (type == 1)
-      this.router.navigate(["/app/pm/project"], { queryParams: { 'id': refId } })
-    else
-      this.router.navigate(['/app/pm/purchase'], { queryParams: { 'id': refId } });
+    if (this.refId) {
+      this.search.Type = 1;
+    }
   }
 
   getInvoices() {
     this.loading = true;
     let params: any = {};
-    params.SkipCount = (this.st.pi - 1) * this.st.ps;
-    params.MaxResultCount = this.st.ps;
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
     params.Type = this.search.type;
     params.Title = this.search.title;
+    if (this.refId)
+      params.RefId = this.refId
     params.Code = this.search.code;
     this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;
@@ -86,21 +43,10 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  stChange(e: STChange) {
-    switch (e.type) {
-      case 'pi':
-        this.getInvoices();
-        break;
-      case 'ps':
-        this.getInvoices();
-        break;
-    }
-  }
-
   //编辑
   editDing(id: any) {
     console.log(id);
-    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { id: id, refId: this.refId, type: this.search.Type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -116,7 +62,7 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateInvoiceComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { refId: this.refId, type: this.search.Type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -144,6 +90,7 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   refresh() {
     this.search = {};
-    this.st.reset();
+    this.query.pageIndex = 1;
+    this.getInvoices();
   }
 }

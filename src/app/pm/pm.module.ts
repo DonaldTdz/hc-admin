@@ -6,7 +6,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService
-  , ContractService, ContractDetailService, InvoiceService, InvoiceDetailService
+  , ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService
 } from 'services'
 
 import { PmRoutingModule } from './pm-routing.module';
@@ -29,6 +29,10 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component';
 import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.component';
 import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
+import { ReimburseComponent } from './reimburse/reimburse.component';
+import { TimesheetComponent } from './timesheet/timesheet.component';
+import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
+import { DetailReimbursedetailsComponent } from './reimburse/detail-reimbursedetails/detail-reimbursedetails.component';
 
 @NgModule({
   imports: [
@@ -60,6 +64,10 @@ import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update
     CreateOrUpdateInvoiceComponent,
     DetailInvoiceComponent,
     CreateOrUpdateInvoicedetailComponent,
+    ReimburseComponent,
+    TimesheetComponent,
+    DetailReimburseComponent,
+    DetailReimbursedetailsComponent,
   ],
   entryComponents: [
     CreateOrUpdateProjectComponent,
@@ -71,10 +79,11 @@ import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update
     CreateOrUpdateContractComponent,
     CreateOrUpdateContractdetailComponent,
     CreateOrUpdateInvoiceComponent,
-    CreateOrUpdateInvoicedetailComponent
+    CreateOrUpdateInvoicedetailComponent,
+    DetailReimbursedetailsComponent
 
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService
-    , PurchaseService, ContractService, ContractDetailService, InvoiceService, InvoiceDetailService]
+    , PurchaseService, ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService],
 })
 export class PmModule { }

@@ -1,0 +1,26 @@
+<page-header [title]="" [action]="action">
+  <sv-container size="small" col="2">
+    <sv label="项目">{{reimburse.projectName}}</sv>
+    <sv label="报销人">{{reimburse.employeeName}}</sv>
+    <sv label="报销总金额(元)">{{reimburse.amount}}</sv>
+    <sv label="状态">
+      <nz-badge *ngIf="reimburse.status=='1'" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
+      <nz-badge *ngIf="reimburse.status=='2'" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
+      <nz-badge *ngIf="reimburse.status=='3'" [nzStatus]="'default'" [nzText]="'取消'"></nz-badge>
+    </sv>
+    <sv label="申请时间">{{reimburse.submitDate | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
+    <sv label="审批人">{{reimburse.approverName}}</sv>
+    <sv label="取消时间">{{reimburse.cancelTime | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
+    <sv label="创建时间">{{reimburse.creationTime | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
+  </sv-container>
+</page-header>
+<nz-card [nzBordered]="false" nzTitle="报销明细" class="mb-lg">
+  <st #st [columns]="columns" [data]="query.data" [loading]="loading" [page]="pages" [total]="query.total"
+    (change)="stChange($event)">
+  </st>
+</nz-card>
+<footer-toolbar>
+  <button nz-button [nzType]="'default'" (click)="return()">
+    返回
+  </button>
+</footer-toolbar>

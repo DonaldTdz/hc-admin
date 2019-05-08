@@ -4,11 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Invoice } from 'entities'
 import { InvoiceService, ProjectService, PurchaseService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-update-invoice',
   templateUrl: './create-or-update-invoice.component.html',
-  styles: []
 })
 export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;
@@ -27,13 +27,13 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
   uploadLoading = false;
   invoice: Invoice = new Invoice();
   constructor(injector: Injector, private invoiceService: InvoiceService, private fb: FormBuilder, private projectService: ProjectService
-    , private purchaseService: PurchaseService) { super(injector); }
+    , private purchaseService: PurchaseService, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       title: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
-      refId: [null],
+      refId: [null, Validators.compose([Validators.required])],
       code: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
       amount: [null, Validators.compose([Validators.maxLength(18)])],
       submitDate: [null]
@@ -96,6 +96,19 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
     });
   }
 
+  //保存并添加明细
+  preservation() {
+    this.invoiceService.createOrUpdate(this.invoice).finally(() => {
+      this.saving = false;
+    }).subscribe((result) => {
+      this.notify.success('保存成功！');
+      this.router.navigate(['/app/pm/invoice-detail', { id: result.id }]);
+      // this.success();
+    });
+    // this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+  }
+
+  //保存
   save() {
     this.invoiceService.createOrUpdate(this.invoice).finally(() => {
       this.saving = false;

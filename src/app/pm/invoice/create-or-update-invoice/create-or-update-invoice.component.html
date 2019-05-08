@@ -18,7 +18,7 @@
     </nz-form-item>
 
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24">项目/采购名称</nz-form-label>
+      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>项目/采购名称</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
         <nz-select formControlName="refId" [nzPlaceHolder]="'请选择项目/采购名称'" [(ngModel)]="invoice.refId"
           [nzShowSearch]="true" (ngModelChange)="getTitleByTypeAndRefId()" [nzDisabled]="refIdDisabled"
@@ -26,6 +26,9 @@
           <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
           </nz-option>
         </nz-select>
+        <nz-form-explain *ngIf="(form.get('refId')?.dirty && form.get('refId')?.errors)
+        ">请选择项目/采购名称
+        </nz-form-explain>
         <nz-alert nzType="info" nzMessage="发票分类为销项时为项目名称,为进项时为采购名称" nzShowIcon></nz-alert>
       </nz-form-control>
     </nz-form-item>
@@ -50,7 +53,7 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24">发票金额(元)</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:25%" placeholder="发票金额"
+        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:100%" placeholder="发票金额"
           [(ngModel)]="invoice.amount">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
@@ -61,7 +64,8 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="7" [nzXs]="24">开票日期</nz-form-label>
       <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-date-picker placeholder="请选择开票日期" formControlName="submitDate" [(ngModel)]="invoice.submitDate">
+        <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开票日期" formControlName="submitDate"
+          [(ngModel)]="invoice.submitDate">
         </nz-date-picker>
       </nz-form-control>
     </nz-form-item>
@@ -95,6 +99,10 @@
       </button>
       <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
         保存
+      </button>
+      <button nz-button type="button" [nzType]="'primary'" [disabled]="!validateForm.valid||saving"
+        (click)="preservation()">
+        保存并添加明细
       </button>
     </div>
   </form>

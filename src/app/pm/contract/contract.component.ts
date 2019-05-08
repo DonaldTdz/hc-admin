@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { ContractService } from 'services'
@@ -12,7 +12,8 @@ import { CreateOrUpdateContractComponent } from './create-or-update-contract/cre
   styles: []
 })
 export class ContractComponent extends AppComponentBase implements OnInit {
-  tableLoading = "false";
+  loading = "false";
+  @Input() refId;
   search: any = {};
   contractType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }]
   projectList: any;
@@ -22,18 +23,24 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.getContract();
+    if (this.refId) {
+      this.search.Type = 1;
+    }
+
   }
 
   //查询
   getContract() {
-    this.tableLoading = "true"
+    this.loading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
     params.ContractCode = this.search.contractCode;
+    if (this.refId)
+      params.RefId = this.refId
     params.Type = this.search.type;
     this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.loading = "false"
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
@@ -42,7 +49,7 @@ export class ContractComponent extends AppComponentBase implements OnInit {
   //编辑
   editDing(id: any) {
     console.log(id);
-    this.modalHelper.open(CreateOrUpdateContractComponent, { id: id }, 'md', {
+    this.modalHelper.open(CreateOrUpdateContractComponent, { id: id, refId: this.refId, type: this.search.Type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
@@ -58,7 +65,7 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateContractComponent, {}, 'md', {
+    this.modalHelper.open(CreateOrUpdateContractComponent, { refId: this.refId, type: this.search.Type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {

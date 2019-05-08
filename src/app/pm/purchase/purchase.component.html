@@ -1,5 +1,5 @@
-<page-header [title]="''"></page-header>
-<nz-card [nzExtra]="extraTpl">
+<page-header *ngIf="!projectId" [title]="''"></page-header>
+<nz-card [nzBordered]="false">
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
       <div nz-col nzMd="8" nzSm="24">
@@ -10,7 +10,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="8" nzSm="24">
+      <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
         <nz-form-item>
           <nz-form-label nzFor="projectId">所属项目</nz-form-label>
           <nz-form-control>
@@ -22,7 +22,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="8" [class.text-right]="true">
+      <div nz-col [nzSpan]="projectId?16:8" [class.text-right]="true">
         <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary">
           查询
         </button>
@@ -36,7 +36,7 @@
   </form>
   <ng-template #totalContentMe>共{{query.total}}条</ng-template>
   <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
-    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading"
     [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getPurchase()"
     (nzPageSizeChange)="getPurchase()">
     <thead nz-thead>
@@ -44,8 +44,8 @@
         <th nz-th>
           <span>采购编号</span>
         </th>
-        <th nz-th>
-          <span>项目名称</span>
+        <th nz-th *ngIf="!projectId">
+          <span>项目</span>
         </th>
         <th nz-th style="text-align: center">
           <span>采购分类</span>
@@ -64,8 +64,8 @@
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
         <td nz-td>{{item.code}}</td>
-        <td nz-td title="item.projectName"><a [routerLink]="['/app/pm/project']"
-            [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:15}}</a>
+        <td nz-td *ngIf="!projectId" title="{{item.projectName}}"><a [routerLink]="['/app/pm/project']"
+            [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:25}}</a>
         </td>
         <td nz-td style="text-align: center">{{item.typeName}}</td>
         <td nz-td>{{item.employeeName}}</td>
