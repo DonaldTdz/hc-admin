@@ -20,11 +20,9 @@
       </button>
     </div>
   </div>
-  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <!-- <ng-template #totalContentMe>共{{query.total}}条</ng-template> -->
   <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
-    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="tableLoading"
-    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
-    (nzPageIndexChange)="getContractDetails()" (nzPageSizeChange)="getContractDetails()">
+    [nzLoading]="tableLoading" [nzShowSizeChanger]="true" [nzShowPagination]="false" [nzShowTotal]="'true'">
     <thead nz-thead>
       <tr>
         <th nz-th>

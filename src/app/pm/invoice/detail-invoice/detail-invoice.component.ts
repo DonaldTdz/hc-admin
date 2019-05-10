@@ -21,7 +21,7 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   title: string;
   pages: STPage = {
     total: true,//分页显示多少条数据，字符串型
-    show: true,//显示分页
+    show: false,//显示分页
     front: false, //关闭前端分页，true是前端分页，false后端控制分页
     showSize: true,
     pageSizes: [10, 20, 30, 40]
@@ -91,8 +91,8 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
   getInvoiceDetails() {
     this.loading = true;
     let params: any = {};
-    params.SkipCount = (this.st.pi - 1) * this.st.ps;
-    params.MaxResultCount = this.st.ps;
+    // params.SkipCount = (this.st.pi - 1) * this.st.ps;
+    // params.MaxResultCount = this.st.ps;
     params.InvoiceId = this.id;
     params.Type = this.invoice.type;
     this.invoiceDetailService.getAll(params).subscribe((result: PagedResultDto) => {
@@ -102,16 +102,16 @@ export class DetailInvoiceComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  stChange(e: STChange) {
-    switch (e.type) {
-      case 'pi':
-        this.getInvoiceDetails();
-        break;
-      case 'ps':
-        this.getInvoiceDetails();
-        break;
-    }
-  }
+  // stChange(e: STChange) {
+  //   switch (e.type) {
+  //     case 'pi':
+  //       this.getInvoiceDetails();
+  //       break;
+  //     case 'ps':
+  //       this.getInvoiceDetails();
+  //       break;
+  //   }
+  // }
 
   //编辑
   editDing(id: any) {

@@ -13,7 +13,9 @@ import { CreateOrUpdateContractComponent } from './create-or-update-contract/cre
 })
 export class ContractComponent extends AppComponentBase implements OnInit {
   loading = "false";
-  @Input() refId;
+  @Input() projectId;
+  @Input() purchaseId;
+  refId: string;
   search: any = {};
   contractType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }]
   projectList: any;
@@ -23,10 +25,6 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.getContract();
-    if (this.refId) {
-      this.search.Type = 1;
-    }
-
   }
 
   //查询
@@ -36,8 +34,15 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
     params.ContractCode = this.search.contractCode;
-    if (this.refId)
-      params.RefId = this.refId
+    if (this.purchaseId) {
+      this.search.Type = 2;
+      this.refId = this.purchaseId;
+      params.RefId = this.refId;
+    } else if (this.projectId) {
+      this.search.Type = 1;
+      this.refId = this.projectId;
+      params.RefId = this.refId;
+    }
     params.Type = this.search.type;
     this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = "false"

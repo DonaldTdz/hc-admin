@@ -10,6 +10,14 @@
       <nz-badge *ngIf="tender.isWinbid=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
       <nz-badge *ngIf="tender.isWinbid=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
     </sv>
+    <sv label="是否完成准备">
+      <nz-badge *ngIf="tender.isReady=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+      <nz-badge *ngIf="tender.isReady=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+    </sv>
+    <sv label="是否缴纳保证金">
+      <nz-badge *ngIf="tender.isPayBond=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+      <nz-badge *ngIf="tender.isPayBond=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+    </sv>
   </sv-container>
 </page-header>
 <nz-card nzTitle="附件">

@@ -18,7 +18,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期初余额</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期初余额(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <nz-input-number formControlName="initial" [nzDisabled]="true" style="width:25%" placeholder="期初余额"
           [(ngModel)]="account.initial">
@@ -29,9 +29,9 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">发生金额</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">发生金额(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="amount" style="width:25%" id="amount" placeholder="发生金额"
+        <nz-input-number formControlName="amount" [nzPrecision]='2' style="width:25%" id="amount" placeholder="发生金额"
           [(ngModel)]="account.amount" (ngModelChange)="countEnding()">
         </nz-input-number>
         <nz-form-explain *ngIf="
@@ -41,7 +41,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期末余额</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">期末余额(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <nz-input-number formControlName="ending" [nzDisabled]="true" style="width:25%" placeholder="期末余额"
           [(ngModel)]="account.ending">

@@ -72,6 +72,10 @@
       <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
         保存
       </button>
+      <button nz-button type="button" [nzType]="'primary'" [disabled]="!validateForm.valid||saving"
+        (click)="preservation()">
+        保存并添加明细
+      </button>
     </div>
   </form>
 </div>

@@ -2,7 +2,7 @@
 <nz-card [nzBordered]="false">
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
-      <div nz-col nzMd="8" nzSm="24">
+      <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
         <nz-form-item>
           <nz-form-label nzFor="code">采购编号</nz-form-label>
           <nz-form-control>
@@ -22,11 +22,11 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="projectId?16:8" [class.text-right]="true">
-        <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary">
+      <div nz-col [nzSpan]="projectId?24:8" [class.text-right]="true">
+        <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary" *ngIf="!projectId">
           查询
         </button>
-        <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
+        <button nz-button type="reset" (click)="refreshData()" *ngIf="!projectId" class="mx-sm">重置</button>
         <button nz-button (click)="create()" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>

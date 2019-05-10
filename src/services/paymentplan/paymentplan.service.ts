@@ -2,11 +2,11 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map } from "rxjs/operators";
-import { Invoice } from "entities";
+import { PaymentPlan } from "entities";
 import { PagedResultDto } from "@shared/component-base";
 
 @Injectable()
-export class InvoiceService {
+export class PaymentPlanService {
     private _commonhttp: CommonHttpClient;
 
     constructor(@Inject(CommonHttpClient) commonhttp: CommonHttpClient) {
@@ -14,22 +14,12 @@ export class InvoiceService {
     }
     //获取分页数据
     getAll(params: any): Observable<PagedResultDto> {
-        let url_ = "/api/services/app/Invoice/GetPagedAsync";
+        let url_ = "/api/services/app/PaymentPlan/GetPagedAsync";
         return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;
             result.totalCount = data.totalCount;
             return result;
-        }));
-    }
-    /**
- * 获取发票抬头
- * @param param
- */
-    getTitleByTypeAndRefId(param: any): Observable<any> {
-        let _url = "/api/services/app/Invoice/getTitleByTypeAndRefIdAsync";
-        return this._commonhttp.get(_url, param).pipe(map(data => {
-            return data;
         }));
     }
 
@@ -38,45 +28,45 @@ export class InvoiceService {
 * 获取单条数据详细信息
 * @param id 
 */
-    getById(id: any): Observable<Invoice> {
-        let _url = "/api/services/app/Invoice/GetByIdAsync";
+    getById(id: any): Observable<PaymentPlan> {
+        let _url = "/api/services/app/PaymentPlan/GetByIdAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {
-            return Invoice.fromJS(data);
+            return PaymentPlan.fromJS(data);
         }));
     }
 
     /**
-* 获取编辑Invoice
+* 获取编辑PaymentPlan
 * @param id 
 */
-    getForEdit(id: any): Observable<Invoice> {
-        let _url = "/api/services/app/Invoice/GetForEditAsync";
+    getForEdit(id: any): Observable<PaymentPlan> {
+        let _url = "/api/services/app/PaymentPlan/GetForEditAsync";
         let param = { 'id': id };
         return this._commonhttp.get(_url, param).pipe(map(data => {
-            return Invoice.fromJS(data.Invoice);
+            return PaymentPlan.fromJS(data.PaymentPlan);
         }));
     }
 
 
     /**
-     * 更新与创建发票
+     * 更新与创建回款计划
      * @param input 
      */
-    createOrUpdate(input: Invoice | null): Observable<Invoice> {
-        let _url = "/api/services/app/Invoice/CreateOrUpdateAsync";
-        return this._commonhttp.post(_url, { "Invoice": input }).pipe(map(data => {
-            return Invoice.fromJS(data);;
+    createOrUpdate(input: PaymentPlan | null): Observable<PaymentPlan> {
+        let _url = "/api/services/app/PaymentPlan/CreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "PaymentPlan": input }).pipe(map(data => {
+            return PaymentPlan.fromJS(data);;
         }))
     }
 
 
     /**
-     * 删除发票
+     * 删除回款计划
      * @param id 
      */
     delete(id: string): Observable<any> {
-        let _url = "/api/services/app/Invoice/DeleteAsync";
+        let _url = "/api/services/app/PaymentPlan/DeleteAsync";
         let param = { 'id': id };
         return this._commonhttp.delete(_url, param);
     }

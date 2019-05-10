@@ -98,8 +98,8 @@ export class DetailContractComponent extends AppComponentBase implements OnInit 
   getContractDetails() {
     this.tableLoading = "true"
     let params: any = {};
-    params.SkipCount = this.query.skipCount();
-    params.MaxResultCount = this.query.pageSize;
+    // params.SkipCount = this.query.skipCount();
+    // params.MaxResultCount = this.query.pageSize;
     params.contractId = this.id;
     params.Type = this.contract.type;
     this.contractDetailService.getAll(params).subscribe((result: PagedResultDto) => {

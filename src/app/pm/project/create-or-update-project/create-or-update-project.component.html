@@ -103,7 +103,7 @@
         <nz-form-item nzFlex>
           <nz-form-label nz-col [nzSm]="8" class="labelPadding" [nzXs]="24">预算金额(元)</nz-form-label>
           <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-            <nz-input-number formControlName="budget" style="width:100%" placeholder="请输入预算金额"
+            <nz-input-number formControlName="budget" [nzPrecision]='2' style="width:100%" placeholder="请输入预算金额"
               [(ngModel)]="project.budget">
             </nz-input-number>
             <nz-form-explain *ngIf="(form.get('budget')?.dirty && form.get('budget')?.errors)

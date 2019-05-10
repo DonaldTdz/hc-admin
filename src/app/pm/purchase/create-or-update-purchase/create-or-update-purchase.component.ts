@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Purchase } from 'entities'
 import { PurchaseService, ProjectService, EmployeeServiceProxy } from 'services'
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-update-purchase',
@@ -21,7 +22,7 @@ export class CreateOrUpdatePurchaseComponent extends ModalComponentBase implemen
   purchase: Purchase = new Purchase();
   purchaseType = [{ text: '软件', value: 2 }, { text: '硬件', value: 1 }];
   constructor(injector: Injector, private purchaseService: PurchaseService, private datePipe: DatePipe, private fb: FormBuilder, private projectService: ProjectService
-    , private employeeServiceProxy: EmployeeServiceProxy) { super(injector); }
+    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -76,6 +77,20 @@ export class CreateOrUpdatePurchaseComponent extends ModalComponentBase implemen
     });
   }
 
+  //保存并添加明细
+  preservation() {
+    this.purchaseService.createOrUpdate(this.purchase).finally(() => {
+      this.saving = false;
+    }).subscribe((result: any) => {
+      console.log(result);
+      this.notify.success('保存成功！');
+      this.router.navigate(['/app/pm/purchase-detail', { id: result.data.id }]);
+      // this.success();
+    });
+    // this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+  }
+
+  //保存
   save() {
     this.purchaseService.createOrUpdate(this.purchase).finally(() => {
       this.saving = false;

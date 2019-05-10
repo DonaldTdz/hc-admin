@@ -23,8 +23,9 @@
   </sv-container>
 </page-header>
 <nz-card [nzBordered]="false" nzTitle="项目明细" class="mb-lg">
-  <div nz-row class="mb-md">
-    <!-- <div nz-col [nzSpan]="6">
+  <form nz-form [nzLayout]="'inline'" class="search__form">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <!-- <div nz-col [nzSpan]="6">
       <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="type">明细分类</nz-form-label>
       <nz-form-control [nzSm]="16">
         <nz-select name="type" style="width: 100%;" [(ngModel)]="projectDetailSearch.type" nzPlaceHolder="请选择分类">
@@ -41,17 +42,18 @@
       </nz-form-control>
 
     </div> -->
-    <div nz-col [nzSpan]="24" class="mb-md" style="text-align: right">
-      <!-- <button nz-button (click)="getProjectDetails()" nzType="primary">
+      <div nz-col [nzSpan]="24" style="text-align: right">
+        <!-- <button nz-button (click)="getProjectDetails()" nzType="primary">
         查询
       </button>
       <button nz-button type="reset" (click)="refreshProjectDetails()" class="mx-sm">重置</button> -->
-      <button nz-button (click)="createProjectDetail()" nzType="primary">
-        <i class="anticon anticon-plus"></i>
-        <span>新建</span>
-      </button>
+        <button nz-button (click)="createProjectDetail()" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
   <!-- <ng-template #totalContentMe>共{{query.total}}条</ng-template> -->
   <nz-table #nzprojectDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [nzLoading]="projectDetailLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" [nzShowPagination]="false">
@@ -104,8 +106,9 @@
     </tbody>
   </nz-table>
 </nz-card>
+<app-paymentplan [projectId]="id"></app-paymentplan>
 <nz-card [nzBordered]="false">
-  <nz-tabset nzSize="large" (nzSelectChange)="change($event)">
+  <nz-tabset nzSize="large">
     <nz-tab nzTitle="招标">
       <app-tender [projectId]="id"></app-tender>
     </nz-tab>
@@ -113,11 +116,11 @@
       <app-purchase [projectId]="id"></app-purchase>
     </nz-tab>
     <nz-tab nzTitle="合同">
-      <app-contract [refId]="id"></app-contract>
+      <app-contract [projectId]="id"></app-contract>
     </nz-tab>
-    <nz-tab nzTitle="回款计划"></nz-tab>
+    <!-- <nz-tab nzTitle="回款计划"></nz-tab> -->
     <nz-tab nzTitle="发票">
-      <app-invoice [refId]="id"></app-invoice>
+      <app-invoice [projectId]="id"></app-invoice>
     </nz-tab>
     <nz-tab nzTitle="报销">
       <app-reimburse [projectId]="id"></app-reimburse>

@@ -77,7 +77,8 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>数量</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="num" style="width:100%" placeholder="请输入数量" [(ngModel)]="projectDetail.num">
+        <nz-input-number formControlName="num" style="width:100%" [nzPrecision]='0' placeholder="请输入数量"
+          [(ngModel)]="projectDetail.num">
         </nz-input-number>
         <nz-form-explain *ngIf="
             (form.get('num')?.dirty && form.get('num')?.errors)
@@ -88,7 +89,7 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>销售单价(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="price" style="width:100%" placeholder="请输入销售单价"
+        <nz-input-number formControlName="price" [nzPrecision]='2' style="width:100%" placeholder="请输入销售单价"
           [(ngModel)]="projectDetail.price">
         </nz-input-number>
         <nz-form-explain *ngIf="

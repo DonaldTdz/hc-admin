@@ -17,12 +17,12 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   search: any = {};
   supplierList: any;
   title: string;
-  queryOne: any = {
-    pageIndex: 1,
-    pageSize: 10,
-    skipCount: function () { return (this.pageIndex - 1) * this.pageSize; },
-    total: 0,
-  };
+  // queryOne: any = {
+  //   pageIndex: 1,
+  //   pageSize: 10,
+  //   skipCount: function () { return (this.pageIndex - 1) * this.pageSize; },
+  //   total: 0,
+  // };
   purchaseDetailLoading = "false";
   tableLoading = "false";
   purchase: Purchase = new Purchase();
@@ -37,7 +37,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     this.getProductById();
     this.getSupplierList();
     this.getPurchaseDetails();
-    this.getContractList();
+    // this.getContractList();
   }
 
   getProductById() {
@@ -60,8 +60,8 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     this.purchaseDetailLoading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
-    params.MaxResultCount = this.query.pageSize;
-    params.SupplierId = this.search.supplierId;
+    // params.MaxResultCount = this.query.pageSize;
+    // params.SupplierId = this.search.supplierId;
     params.PurchaseId = this.id;
     this.purchaseDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.purchaseDetailLoading = "false"
@@ -77,7 +77,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.refreshData();
+        this.getPurchaseDetails();
       }
     });
   }
@@ -88,7 +88,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       nzMask: true
     }).subscribe(isSave => {
       if (isSave) {
-        this.refreshData();
+        this.getPurchaseDetails();
       }
     });
   }
@@ -110,61 +110,61 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     )
   }
 
-  //获取采购合同
-  getContractList() {
-    this.tableLoading = "true"
-    let params: any = {};
-    params.SkipCount = this.queryOne.skipCount();
-    params.MaxResultCount = this.queryOne.pageSize;
-    params.refId = this.id;
-    this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false";
-      this.queryOne.dataList = result.items
-      this.queryOne.total = result.totalCount;
-    })
-  }
+  // //获取采购合同
+  // getContractList() {
+  //   this.tableLoading = "true"
+  //   let params: any = {};
+  //   params.SkipCount = this.queryOne.skipCount();
+  //   params.MaxResultCount = this.queryOne.pageSize;
+  //   params.refId = this.id;
+  //   this.contractService.getAll(params).subscribe((result: PagedResultDto) => {
+  //     this.tableLoading = "false";
+  //     this.queryOne.dataList = result.items
+  //     this.queryOne.total = result.totalCount;
+  //   })
+  // }
 
-  //采购合同详情
-  contractDetail(id: any) {
-    this.router.navigate(['/app/pm/contract-detail', { id: id }]);
-  }
+  // //采购合同详情
+  // contractDetail(id: any) {
+  //   this.router.navigate(['/app/pm/contract-detail', { id: id }]);
+  // }
 
-  //获取采购发票
-  getInvoiceList() {
-    this.tableLoading = "true"
-    let params: any = {};
-    params.SkipCount = this.queryOne.skipCount();
-    params.MaxResultCount = this.queryOne.pageSize;
-    params.refId = this.id;
-    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false";
-      this.queryOne.dataList = result.items
-      this.queryOne.total = result.totalCount;
-    })
-  }
+  // //获取采购发票
+  // getInvoiceList() {
+  //   this.tableLoading = "true"
+  //   let params: any = {};
+  //   params.SkipCount = this.queryOne.skipCount();
+  //   params.MaxResultCount = this.queryOne.pageSize;
+  //   params.refId = this.id;
+  //   this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
+  //     this.tableLoading = "false";
+  //     this.queryOne.dataList = result.items
+  //     this.queryOne.total = result.totalCount;
+  //   })
+  // }
 
-  //采购发票详情
-  invoiceDetail(id: any) {
-    this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
-  }
+  // //采购发票详情
+  // invoiceDetail(id: any) {
+  //   this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+  // }
 
-  refreshData() {
-    this.search = {};
-    this.query.pageIndex = 1;
-    this.getPurchaseDetails();
-  }
+  // refreshData() {
+  //   this.search = {};
+  //   this.query.pageIndex = 1;
+  //   this.getPurchaseDetails();
+  // }
 
-  //当前激活 tab 面板变更回调函数
-  change(args: NzTabChangeEvent) {
-    switch (args.index) {
-      case (0): this.getContractList();
-        break;
-      case (1): this.getInvoiceList();
-        break;
-      default: null;
-    }
+  // //当前激活 tab 面板变更回调函数
+  // change(args: NzTabChangeEvent) {
+  //   switch (args.index) {
+  //     case (0): this.getContractList();
+  //       break;
+  //     case (1): this.getInvoiceList();
+  //       break;
+  //     default: null;
+  //   }
 
-  }
+  // }
 
   //返回
   return() {

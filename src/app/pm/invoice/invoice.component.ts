@@ -13,7 +13,9 @@ import { CreateOrUpdateInvoiceComponent } from './create-or-update-invoice/creat
 })
 export class InvoiceComponent extends AppComponentBase implements OnInit {
   search: any = {};
-  @Input() refId;
+  @Input() projectId;
+  @Input() purchaseId;
+  refId: string;
   loading = false;
   invoiceType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
 
@@ -21,9 +23,6 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.getInvoices();
-    if (this.refId) {
-      this.search.Type = 1;
-    }
   }
 
   getInvoices() {
@@ -31,10 +30,16 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    params.Type = this.search.type;
     params.Title = this.search.title;
-    if (this.refId)
+    if (this.purchaseId) {
+      this.search.Type = 2;
+      this.refId = this.purchaseId;
       params.RefId = this.refId
+    } else if (this.projectId) {
+      this.search.Type = 1;
+      this.refId = this.projectId;
+      params.RefId = this.refId
+    }
     params.Code = this.search.code;
     this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;

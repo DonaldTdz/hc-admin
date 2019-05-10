@@ -64,7 +64,7 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item nz-row>
-              <nz-form-label [nzSpan]="4">账户余额</nz-form-label>
+              <nz-form-label [nzSpan]="4">账户余额(元)</nz-form-label>
               <nz-form-control [nzSpan]="10" nzHasFeedback>
                 <nz-input-number formControlName="balance" [nzDisabled]="true" style="width:20%" placeholder="账户余额"
                   [(ngModel)]="company.balance">
@@ -161,13 +161,13 @@
                 <span>类型</span>
               </th>
               <th nz-th>
-                <span>期初余额</span>
+                <span>期初余额(元)</span>
               </th>
               <th nz-th>
-                <span>发生金额</span>
+                <span>发生金额(元)</span>
               </th>
               <th nz-th>
-                <span>期末余额</span>
+                <span>期末余额(元)</span>
               </th>
               <th nz-th nzWidth="40%">
                 <span>描述</span>

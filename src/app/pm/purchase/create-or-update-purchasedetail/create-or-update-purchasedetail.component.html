@@ -30,14 +30,15 @@
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24">采购数量</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="num" style="width:25%" placeholder="采购数量" [(ngModel)]="purchaseDetail.num">
+        <nz-input-number formControlName="num" style="width:25%" [nzPrecision]='0' placeholder="采购数量"
+          [(ngModel)]="purchaseDetail.num">
         </nz-input-number>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24">采购单价(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
-        <nz-input-number formControlName="price" style="width:25%" placeholder="请输入采购单价"
+        <nz-input-number formControlName="price" style="width:25%" [nzPrecision]='2' placeholder="请输入采购单价"
           [(ngModel)]="purchaseDetail.price">
         </nz-input-number>
       </nz-form-control>

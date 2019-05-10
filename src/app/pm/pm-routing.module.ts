@@ -14,6 +14,7 @@ import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.
 import { ReimburseComponent } from './reimburse/reimburse.component'
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component'
 import { TimesheetComponent } from './timesheet/timesheet.component'
+import { PaymentplanComponent } from './paymentplan/paymentplan.component'
 
 const routes: Routes = [
   {
@@ -81,6 +82,11 @@ const routes: Routes = [
   {
     path: 'timesheet',
     component: TimesheetComponent,
+    canActivate: [AppRouteGuard],
+  },
+  {
+    path: 'paymentplan',
+    component: PaymentplanComponent,
     canActivate: [AppRouteGuard],
   },
 ];
