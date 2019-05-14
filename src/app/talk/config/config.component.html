@@ -14,7 +14,7 @@
       <ng-template #totalContentMeConfig>共{{query.total}}条</ng-template>
       <nz-table #nzTableConfig [nzData]="commonConfiguration" [nzFrontPagination]="false" [nzTotal]="query.total"
         [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzShowTotal]="totalContentMeConfig"
-        [nzLoading]="isTableLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getConfig()"
+        [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getConfig()"
         (nzPageSizeChange)="getConfig()">
         <thead nz-thead>
           <tr>
@@ -71,7 +71,7 @@
       <ng-template #totalContentMe>共{{queryOffice.total}}条</ng-template>
       <nz-table #nzTableOffice [nzData]="intelligentOffice" [nzFrontPagination]="false" [nzTotal]="queryOffice.total"
         [(nzPageIndex)]="queryOffice.pageIndex" [(nzPageSize)]="queryOffice.pageSize" [nzShowTotal]="totalContentMe"
-        [nzLoading]="isTableLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getOffice()"
+        [nzShowTotal]="'true'" [nzShowSizeChanger]="true" (nzPageIndexChange)="getOffice()"
         (nzPageSizeChange)="getOffice()">
         <thead nz-thead>
           <tr>

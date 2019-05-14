@@ -1,5 +1,5 @@
 <page-header [title]="''"></page-header>
-<nz-card [nzExtra]="extraTpl">
+<nz-card>
   <div nz-row class="mb-md">
     <div nz-col [nzSpan]="6">
       <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="name">产品名称</nz-form-label>
@@ -19,7 +19,7 @@
 
     </div>
     <div nz-col [nzSpan]="18" class="mb-md" style="text-align: right">
-      <button nz-button (click)="refresh()" [nzLoading]="loading" nzType="primary">
+      <button nz-button (click)="refresh()" nzType="primary">
         查询
       </button>
       <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>

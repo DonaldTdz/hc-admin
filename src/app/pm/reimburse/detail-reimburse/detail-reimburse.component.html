@@ -1,12 +1,12 @@
-<page-header [title]="" [action]="action">
+<page-header [title]="">
   <sv-container size="small" col="2">
     <sv label="项目">{{reimburse.projectName}}</sv>
     <sv label="报销人">{{reimburse.employeeName}}</sv>
     <sv label="报销总金额(元)">{{reimburse.amount}}</sv>
     <sv label="状态">
-      <nz-badge *ngIf="reimburse.status=='1'" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
-      <nz-badge *ngIf="reimburse.status=='2'" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
-      <nz-badge *ngIf="reimburse.status=='3'" [nzStatus]="'default'" [nzText]="'取消'"></nz-badge>
+      <nz-badge *ngIf="reimburse.status==1" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
+      <nz-badge *ngIf="reimburse.status==2" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
+      <nz-badge *ngIf="reimburse.status==3" [nzStatus]="'default'" [nzText]="'取消'"></nz-badge>
     </sv>
     <sv label="申请时间">{{reimburse.submitDate | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
     <sv label="审批人">{{reimburse.approverName}}</sv>

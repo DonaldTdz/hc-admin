@@ -1,4 +1,4 @@
-<page-header [title]="" [action]="action">
+<page-header [title]="">
   <sv-container size="small" col="2">
     <sv label="项目名称">{{tender.projectName}}</sv>
     <sv label="招标时间">{{tender.tenderTime | date:'yyyy-MM-dd HH:mm:ss'}}</sv>
@@ -7,16 +7,16 @@
     <sv label="招标负责人">{{tender.employeeName}}</sv>
     <sv label="招标准备人">{{tender.readyEmployeeNames}}</sv>
     <sv label="是否中标">
-      <nz-badge *ngIf="tender.isWinbid=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
-      <nz-badge *ngIf="tender.isWinbid=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+      <nz-badge *ngIf="tender.isWinbid" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+      <nz-badge *ngIf="!tender.isWinbid" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
     </sv>
     <sv label="是否完成准备">
-      <nz-badge *ngIf="tender.isReady=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
-      <nz-badge *ngIf="tender.isReady=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+      <nz-badge *ngIf="tender.isReady" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+      <nz-badge *ngIf="!tender.isReady" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
     </sv>
     <sv label="是否缴纳保证金">
-      <nz-badge *ngIf="tender.isPayBond=='1'" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
-      <nz-badge *ngIf="tender.isPayBond=='0'" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
+      <nz-badge *ngIf="tender.isPayBond" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+      <nz-badge *ngIf="!tender.isPayBond" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
     </sv>
   </sv-container>
 </page-header>

@@ -1,4 +1,4 @@
-<page-header [title]="title" [action]="action">
+<page-header [title]="title">
   <nz-card [nzBordered]="false">
     <nz-steps [nzCurrent]="projectStatus.indexOf(project.statusName)" nzProgressDot>
       <nz-step *ngFor="let text of projectStatus" [nzTitle]="text">
