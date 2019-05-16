@@ -30,7 +30,7 @@ export class CreateCustomerComponent extends ModalComponentBase implements OnIni
       name: [null, Validators.compose([Validators.required])],  //客户名称
       type: [null, Validators.compose([Validators.required])],  //客户类型
       address: [null, Validators.compose([Validators.required])],  //地址
-      zipCode: [null, Validators.compose([Validators.required, Validators.email])],  //邮编
+      zipCode: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],  //邮编
       tel: [null, Validators.compose([Validators.required, Validators.pattern('(\\+\\d+)?1[34578]\\d{9}$')])],  //电话
       contact: [null, Validators.compose([])],
       position: [null, Validators.compose([])],

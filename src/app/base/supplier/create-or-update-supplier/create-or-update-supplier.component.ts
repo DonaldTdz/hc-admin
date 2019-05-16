@@ -26,7 +26,7 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
     let verifyPhone = /^1[3|4|5|8][0-9]\d{8}$/
     this.form = this.fb.group({
       name: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
-      zipCode: [null, Validators.compose([Validators.maxLength(20), Validators.email])],
+      zipCode: [null, Validators.compose([Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],
       tel: [null, Validators.compose([Validators.pattern(verifyTel)])],
       contact: [null, Validators.compose([Validators.maxLength(50)])],
       position: [null, Validators.compose([Validators.maxLength(25)])],
