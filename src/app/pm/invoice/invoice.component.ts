@@ -49,31 +49,18 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
   }
 
   //编辑
-  editDing(id: any) {
-    console.log(id);
-    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { id: id, refId: this.refId, type: this.search.Type }, 'md', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.refresh();
-      }
-    });
-  }
+  // editDing(id: any) {
+  //   this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId, id: id }]);
+  // }
 
   //详细
   details(id: any) {
-    this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
+    this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId, id: id }]);
   }
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateInvoiceComponent, { refId: this.refId, type: this.search.Type }, 'md', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.refresh();
-      }
-    });
+    this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId }]);
   }
 
 

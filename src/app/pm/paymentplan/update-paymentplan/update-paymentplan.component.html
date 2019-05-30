@@ -14,13 +14,13 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">回款金额(元)</nz-form-label>
+      <nz-form-label nz-col [nzSm]="5" nzRequired="true" [nzXs]="24">回款金额(元)</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <nz-input-number formControlName="amount" [nzPrecision]='2' style="width:100%" placeholder="回款金额"
           [(ngModel)]="paymentPlan.amount">
         </nz-input-number>
         <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
-          ">回款金额不能超过18位
+          ">回款金额不能为空且不能超过18位
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>

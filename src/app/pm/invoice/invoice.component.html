@@ -48,7 +48,7 @@
     <thead nz-thead>
       <tr>
         <th nz-th *ngIf="!projectId">
-          <span>项目/采购名称</span>
+          <span>{{projectId?'项目明细名称':'采购明细名称'}}</span>
         </th>
         <th nz-th>
           <span>发票抬头</span>
@@ -84,9 +84,9 @@
         <td nz-td style="text-align: right">{{item.amount}}</td>
         <td nz-td style="text-align: center">{{item.submitDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">
-          <a (click)="editDing(item.id)">编辑</a>
+          <!-- <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
-          <nz-divider nzType="vertical"></nz-divider>
+          <nz-divider nzType="vertical"></nz-divider> -->
           <a (click)="details(item.id)">详情</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

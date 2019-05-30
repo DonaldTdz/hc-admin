@@ -1,35 +1,43 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { ModalComponentBase } from '@shared/component-base';
+import { AppComponentBase, PagedResultDto } from '@shared/component-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Invoice } from 'entities'
-import { InvoiceService, ProjectService, PurchaseService } from 'services'
+import { InvoiceService, ProjectService, PurchaseService, InvoiceDetailService } from 'services'
 import { UploadFile } from 'ng-zorro-antd';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { CreateOrUpdateInvoicedetailComponent } from '../create-or-update-invoicedetail/create-or-update-invoicedetail.component'
 
 @Component({
   selector: 'app-create-or-update-invoice',
   templateUrl: './create-or-update-invoice.component.html',
+  styleUrls: ['./create-or-update-invoice.component.scss']
 })
-export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implements OnInit {
-  @Input() id: number;
-  @Input() refId: string;
-  @Input() type: number;
+export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements OnInit {
+  id: string;
+  projectId: any;
+  @Input() purchaseId;
   refIdDisabled = false;
   title: string;
+  loading = false;
   form: FormGroup;
   refList: any;
-  // purchaseList: any;
-  // projectList: any;
   uploadDisabled = false;
+  invoiceDetails: any;
   attachments = [];
   invoiceType = [{ text: '销项', value: 1 }, { text: '进项', value: 2 }];
   postUrl: string = '/File/DocFilesPostsAsync';
   uploadLoading = false;
   invoice: Invoice = new Invoice();
   constructor(injector: Injector, private invoiceService: InvoiceService, private fb: FormBuilder, private projectService: ProjectService
-    , private purchaseService: PurchaseService, private router: Router) { super(injector); }
+    , private purchaseService: PurchaseService, private location: Location, private actRouter: ActivatedRoute
+    , private invoiceDetailService: InvoiceDetailService) {
+    super(injector); this.id = this.actRouter.snapshot.params['id'];
+    this.projectId = this.actRouter.snapshot.params['projectId'];
+  }
 
   ngOnInit() {
+    console.log(this.projectId);
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       title: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
@@ -38,21 +46,24 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
       amount: [null, Validators.compose([Validators.maxLength(18)])],
       submitDate: [null]
     });
-    if (this.id) {
-      this.getData();
-      this.title = "编辑发票";
+    if (this.purchaseId) {
+      this.invoice.type = 2;
+      this.invoice.refId = this.purchaseId;
     } else {
-      this.title = "新增发票";
-      this.invoice.amount = 0;
+      this.invoice.type = 1;
+      this.invoice.refId = this.projectId;
+      if (this.id) {
+        this.invoice.id = this.id;
+        this.getData();
+        this.getInvoiceDetails();
+        this.title = "编辑发票";
+      } else {
+        this.title = "新增发票";
+        this.invoice.amount = 0;
+      }
     }
-    if (this.type) {
-      this.invoice.type = this.type;
-    }
-
-    if (this.refId) {
-      this.invoice.refId = this.refId;
-      this.refIdDisabled = true;
-    }
+    this.getTitleByTypeAndRefId();
+    this.getRefList();
   }
 
   //编辑获取数据
@@ -60,7 +71,6 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
     this.invoiceService.getById(this.id.toString()).subscribe((result) => {
       this.invoice = result;
       this.jointAttachments();
-      // this.getRefList();
     });
   }
 
@@ -70,9 +80,29 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
       params.Type = this.invoice.type;
       params.refId = this.invoice.refId;
       this.invoiceService.getTitleByTypeAndRefId(params).subscribe((result) => {
-        this.invoice.title = result;
+        if (result.value != null)
+          this.invoice.title = result;
       });
     }
+  }
+
+  //查询发票明细
+  getInvoiceDetails() {
+    this.loading = true;
+    let params: any = {};
+    // params.SkipCount = (this.st.pi - 1) * this.st.ps;
+    // params.MaxResultCount = this.st.ps;
+    params.InvoiceId = this.invoice.id;
+    params.Type = this.invoice.type;
+    this.invoiceDetailService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.loading = false;
+      this.invoiceDetails = result.items;
+    })
+  }
+
+  //返回
+  goBack(): void {
+    this.location.back();
   }
 
   getRefList() {
@@ -96,26 +126,55 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
     });
   }
 
-  //保存并添加明细
-  preservation() {
-    this.invoiceService.createOrUpdate(this.invoice).finally(() => {
-      this.saving = false;
-    }).subscribe((result) => {
-      this.notify.success('保存成功！');
-      this.router.navigate(['/app/pm/invoice-detail', { id: result.id }]);
-      // this.success();
-    });
-    // this.router.navigate(['/app/pm/invoice-detail', { id: id }]);
-  }
-
   //保存
   save() {
     this.invoiceService.createOrUpdate(this.invoice).finally(() => {
       this.saving = false;
-    }).subscribe(() => {
+    }).subscribe((data) => {
+      this.invoice = data;
       this.notify.success('保存成功！');
-      this.success();
     });
+  }
+
+  //编辑
+  editDing(id: any) {
+    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { id: id, refId: this.invoice.refId, invoiceType: this.invoice.type }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getInvoiceDetails();
+        this.getData();
+      }
+    });
+  }
+
+  //新增
+  create() {
+    this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { refId: this.invoice.refId, invoiceType: this.invoice.type, invoiceId: this.invoice.id }, 'md', {
+      nzMask: true
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getInvoiceDetails();
+        this.getData();
+      }
+    });
+  }
+
+  //删除
+  delete(entity: Invoice) {
+    this.message.confirm(
+      "是否删除该发票明细?",
+      "信息确认",
+      (result: boolean) => {
+        if (result) {
+          this.invoiceDetailService.delete(entity.id).subscribe(() => {
+            this.notify.success('删除成功！');
+            this.getInvoiceDetails();
+            this.getData();
+          });
+        }
+      }
+    )
   }
 
   //处理附件
@@ -135,9 +194,11 @@ export class CreateOrUpdateInvoiceComponent extends ModalComponentBase implement
     }
     if (this.attachments.length >= 6)
       this.uploadDisabled = true
+    else
+      this.uploadDisabled = false;
   }
 
-  beforeUpload = (file: UploadFile): boolean => {
+  beforeUpload = (): boolean => {
     if (this.uploadLoading) {
       this.notify.info('正在上传中');
       return false;

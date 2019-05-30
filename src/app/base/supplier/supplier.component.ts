@@ -41,7 +41,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
   //编辑
   editDing(id: number) {
     this.modalHelper.open(CreateOrUpdateSupplierComponent, { id: id }, 'lg', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.refreshData();
@@ -52,7 +52,7 @@ export class SupplierComponent extends AppComponentBase implements OnInit {
   //新增
   create() {
     this.modalHelper.open(CreateOrUpdateSupplierComponent, {}, 'lg', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.refreshData();

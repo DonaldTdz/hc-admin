@@ -1,10 +1,11 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
-import { PaymentPlanService } from 'services'
+import { PaymentPlanService, ProjectService } from 'services'
 import { PaymentPlan } from 'entities'
 import { CreatePaymentplanComponent } from './create-paymentplan/create-paymentplan.component'
 import { UpdatePaymentplanComponent } from './update-paymentplan/update-paymentplan.component'
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-paymentplan',
@@ -14,11 +15,14 @@ import { UpdatePaymentplanComponent } from './update-paymentplan/update-paymentp
 export class PaymentplanComponent extends AppComponentBase implements OnInit {
   loading = "false";
   @Input() projectId;
+  @Input() projectStatus;
   // contractType = [{ text: '未回款', value: 1 }, { text: '已回款', value: 2 }]
-  constructor(injector: Injector, private paymentPlanService: PaymentPlanService) { super(injector); }
+  constructor(injector: Injector, private paymentPlanService: PaymentPlanService
+    , private projectService: ProjectService, private nzMessage: NzMessageService) { super(injector); }
 
   ngOnInit() {
     this.getPaymentPlan();
+    console.log(this.projectStatus + '222');
   }
 
   //查询
@@ -79,6 +83,18 @@ export class PaymentplanComponent extends AppComponentBase implements OnInit {
         }
       }
     )
+  }
+
+  //修改项目状态
+  modifyProjectStatus() {
+    for (let item of this.query.data) {
+      if (item.status == 0)
+        return this.nzMessage.warning("还存在未回款的款项,请确认回款以后在点击完成收款")
+    }
+    const projectStatus = 5;
+    this.projectService.modifyProjectStatusAsync(this.projectId, projectStatus).subscribe(() => {
+      this.notify.success('修改成功！');
+    })
   }
 
 }

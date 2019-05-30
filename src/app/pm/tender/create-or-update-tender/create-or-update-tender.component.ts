@@ -56,11 +56,11 @@ export class CreateOrUpdateTenderComponent extends ModalComponentBase implements
 
   //编辑获取数据
   getData() {
-    this.tenderService.getById(this.id.toString()).subscribe((result) => {
-      this.tender = result;
-      this.readyEmployeeIds = this.tender.readyEmployeeIds.split(",");
-      this.jointAttachments()
-    });
+    // this.tenderService.getById(this.id.toString()).subscribe((result) => {
+    //   this.tender = result;
+    //   this.readyEmployeeIds = this.tender.readyEmployeeIds.split(",");
+    //   this.jointAttachments()
+    // });
   }
 
   //获取项目下拉列表

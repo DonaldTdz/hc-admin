@@ -20,7 +20,7 @@ export class UpdatePaymentplanComponent extends ModalComponentBase implements On
   ngOnInit() {
     this.form = this.fb.group({
       planTime: [null, Validators.compose([Validators.required])],
-      amount: [null, Validators.compose([Validators.maxLength(18)])],
+      amount: [null, Validators.compose([Validators.maxLength(18), Validators.required])],
       status: [null],
       paymentTime: [null],
       desc: [null, Validators.compose([Validators.maxLength(250)])]

@@ -76,31 +76,32 @@ export class AppMenus {
                     text: "项目管理",
                     link: "/app/pm/project",
                     reuse: false
-                }, {
-                    text: "招标管理",
-                    link: "/app/pm/tender",
-                    reuse: false
-                }, {
-                    text: "采购管理",
-                    link: "/app/pm/purchase",
-                    reuse: false
-                }, {
-                    text: "合同管理",
-                    link: "/app/pm/contract",
-                    reuse: false
-                }, {
-                    text: "发票管理",
-                    link: "/app/pm/invoice",
-                    reuse: false
-                }, {
-                    text: "报销查询",
-                    link: "/app/pm/reimburse",
-                    reuse: false
-                }, {
-                    text: "工时查询",
-                    link: "/app/pm/timesheet",
-                    reuse: false
-                }
+                }//, {
+                //     text: "采购管理",
+                //     link: "/app/pm/purchase",
+                //     reuse: false
+                // }, {
+                //     text: "报销查询",
+                //     link: "/app/pm/reimburse",
+                //     reuse: false
+                // }
+                // {
+                //     text: "招标管理",
+                //     link: "/app/pm/tender",
+                //     reuse: false
+                // }, {
+                //     text: "合同管理",
+                //     link: "/app/pm/contract",
+                //     reuse: false
+                // }, {
+                //     text: "发票管理",
+                //     link: "/app/pm/invoice",
+                //     reuse: false
+                // }, {
+                //     text: "工时查询",
+                //     link: "/app/pm/timesheet",
+                //     reuse: false
+                // }
             ]
         },
         {

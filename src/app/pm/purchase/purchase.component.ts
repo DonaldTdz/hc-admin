@@ -51,17 +51,17 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  //编辑
-  editDing(id: any) {
-    console.log(id);
-    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id, projectId: this.projectId }, 'md', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.refreshData();
-      }
-    });
-  }
+  // //编辑
+  // editDing(id: any) {
+  //   console.log(id);
+  //   this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id, projectId: this.projectId }, 'md', {
+  //     nzMask: true
+  //   }).subscribe(isSave => {
+  //     if (isSave) {
+  //       this.refreshData();
+  //     }
+  //   });
+  // }
 
   //详细
   details(id: any) {

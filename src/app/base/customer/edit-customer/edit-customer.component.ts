@@ -36,12 +36,12 @@ export class EditCustomerComponent extends ModalComponentBase implements OnInit 
     this.customer.type = 1;
     this.form = this.fb.group({
       name: [null, Validators.compose([Validators.required])],  //客户名称
-      type: [null, Validators.compose([Validators.required])],  //客户类型
-      address: [null, Validators.compose([Validators.required])],  //地址
-      zipCode: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],  //邮编
-      tel: [null, Validators.compose([Validators.required, Validators.pattern('(\\+\\d+)?1[34578]\\d{9}$')])],  //电话
-      contact: [null, Validators.compose([])],  //联系人
-      position: [null, Validators.compose([])],  //联系人职位      
+      type: [null],  //客户类型
+      address: [null],  //地址
+      zipCode: [null, Validators.compose([Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],  //邮编
+      tel: [null, Validators.compose([Validators.pattern('(\\+\\d+)?1[34578]\\d{9}$')])],  //电话
+      contact: [null],  //联系人
+      position: [null],  //联系人职位      
       phone: [null, Validators.compose([Validators.pattern('(\\+\\d+)?1[34578]\\d{9}$')])],  //联系人电话
       desc: [null, Validators.compose([Validators.maxLength(500)])],  //描述
       remark: [null, Validators.compose([Validators.maxLength(500)])],  //备注

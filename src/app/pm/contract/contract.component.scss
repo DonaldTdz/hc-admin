@@ -19,16 +19,3 @@
 .ant-calendar-picker {
   width: 100% !important;
 }
-
-.ant-layout-content {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-}
-
-:host {
-  ::ng-deep {
-    .mb-lg table tbody tr:last-child {
-      font-weight: bold
-    }
-  }
-}

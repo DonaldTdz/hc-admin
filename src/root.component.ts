@@ -1,17 +1,23 @@
 import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { NzModalService, NzNotificationService, NzMessageService, VERSION as VERSION_ZORRO } from 'ng-zorro-antd';
+import {
+  NzModalService,
+  NzNotificationService,
+  NzMessageService,
+  VERSION as VERSION_ZORRO,
+} from 'ng-zorro-antd';
 import { TitleService, VERSION as VERSION_ALAIN } from '@delon/theme';
 import { MessageExtension } from '@shared/helpers/message.extension';
 
 import { preloaderFinished } from '@delon/theme';
 preloaderFinished();
 
-
 @Component({
   selector: 'app-root',
-  template: `<router-outlet></router-outlet>`,
+  template: `
+    <router-outlet></router-outlet>
+  `,
 })
 export class RootComponent implements OnInit {
   constructor(
@@ -23,7 +29,6 @@ export class RootComponent implements OnInit {
     private router: Router,
     private titleSrv: TitleService,
   ) {
-
     renderer.setAttribute(
       el.nativeElement,
       'ng-alain-version',

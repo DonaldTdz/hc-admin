@@ -56,7 +56,7 @@ export class WechatConfigComponent extends PagedListingComponentBase<any> {
     //#region 消息回复
     create() {
         this.modalHelper.open(CreateWecahtMessgeComponent, {}, 'md', {
-            nzMask: true
+            nzMask: true, nzMaskClosable: false
         }).subscribe(isSave => {
             if (isSave) {
                 this.refresh();
@@ -66,7 +66,7 @@ export class WechatConfigComponent extends PagedListingComponentBase<any> {
 
     edit(item: WechatMessage): void {
         this.modalHelper.open(EditWechatMessageComponent, { id: item.id }, 'md', {
-            nzMask: true
+            nzMask: true, nzMaskClosable: false
         }).subscribe(isSave => {
             if (isSave) {
                 this.refresh();

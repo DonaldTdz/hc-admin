@@ -1,7 +1,7 @@
-<page-header [title]="title">
-  <sv-container size="small" col="2">
-    <!-- <sv label="采购编码">{{purchase.code}}</sv> -->
-    <sv label="项目名称">{{purchase.projectName}}</sv>
+<!-- <page-header [title]="title">
+  <sv-container size="small" col="2"> -->
+<!-- <sv label="采购编码">{{purchase.code}}</sv> -->
+<!-- <sv label="项目名称">{{purchase.projectName}}</sv>
     <sv label="采购分类">{{purchase.typeName}}</sv>
     <sv label="采购负责人">{{purchase.employeeName}}</sv>
     <sv label="采购日期">{{purchase.purchaseDate | date:'yyyy-MM-dd'}}</sv>
@@ -9,8 +9,8 @@
   </sv-container>
 </page-header>
 <nz-card [nzBordered]="false" nzTitle="采购明细" class="mb-lg">
-  <div nz-row class="mb-md">
-    <!-- <div nz-col [nzSpan]="6">
+  <div nz-row class="mb-md"> -->
+<!-- <div nz-col [nzSpan]="6">
       <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="supplierId">供应商</nz-form-label>
       <nz-form-control [nzSm]="16">
         <nz-select name="supplierId" style="width: 100%;" [(ngModel)]="search.supplierId" nzPlaceHolder="请选择供应商">
@@ -19,19 +19,19 @@
         </nz-select>
       </nz-form-control>
     </div> -->
-    <div nz-col [nzSpan]="24" class="mb-md" style="text-align: right">
-      <!-- <button nz-button (click)="getPurchaseDetails()" [nzLoading]="loading" nzType="primary">
+<!-- <div nz-col [nzSpan]="24" class="mb-md" style="text-align: right"> -->
+<!-- <button nz-button (click)="getPurchaseDetails()" [nzLoading]="loading" nzType="primary">
         查询
       </button>
       <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button> -->
-      <button nz-button (click)="create()" nzType="primary">
+<!-- <button nz-button (click)="create()" nzType="primary">
         <i class="anticon anticon-plus"></i>
         <span>新建</span>
       </button>
     </div>
-  </div>
-  <!-- <ng-template #totalContentMe>共{{query.total}}条</ng-template> -->
-  <nz-table #nzPurchaseDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
+  </div> -->
+<!-- <ng-template #totalContentMe>共{{query.total}}条</ng-template> -->
+<!-- <nz-table #nzPurchaseDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
     [nzLoading]="purchaseDetailLoading" [nzShowTotal]="'true'" [nzShowSizeChanger]="true" [nzShowPagination]="false">
     <thead nz-thead>
       <tr>
@@ -83,4 +83,22 @@
       返回
     </button>
   </footer-toolbar>
-</nz-card>
+</nz-card> -->
+
+<nz-tabset nzSize="large" (nzSelectChange)="change($event)">
+  <nz-tab nzTitle="采购详情">
+    <!-- <app-contract [purchaseId]="id"></app-contract> -->
+    <app-create-or-update-purchase [id]="id"></app-create-or-update-purchase>
+  </nz-tab>
+  <nz-tab nzTitle="合同">
+    <app-contract [purchaseId]="id"></app-contract>
+  </nz-tab>
+  <nz-tab nzTitle="发票">
+    <app-invoice [purchaseId]="id"></app-invoice>
+  </nz-tab>
+</nz-tabset>
+<footer-toolbar *ngIf="tabIndex!=0">
+  <button nz-button [nzType]="'default'" (click)="return()">
+    返回
+  </button>
+</footer-toolbar>

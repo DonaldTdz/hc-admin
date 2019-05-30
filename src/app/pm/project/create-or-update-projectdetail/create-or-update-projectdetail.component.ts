@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectDetailService, ProductService, DataDictionaryService } from 'services'
 import { ModalComponentBase } from '@shared/component-base';
 import { SelectionProductComponent } from '@app/base/product/selection-product/selection-product.component'
+import { config } from 'rxjs';
 
 @Component({
   selector: 'app-create-or-update-projectdetail',
@@ -11,10 +12,11 @@ import { SelectionProductComponent } from '@app/base/product/selection-product/s
   styles: []
 })
 export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase implements OnInit {
-  projectDetail: ProjectDetail = new ProjectDetail();
+  // projectDetail: ProjectDetail = new ProjectDetail();
   form: FormGroup;
   @Input() id: any;
   @Input() projectId: any;
+  @Input() projectDetail: ProjectDetail = new ProjectDetail();
   isInput = "true";
   projectDetailTypeList: any;
   disabled = false;
@@ -23,6 +25,7 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
     , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService) { super(injector); }
 
   ngOnInit() {
+    console.log(this.projectDetail);
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       product: [null],
@@ -33,9 +36,10 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
       price: [null, Validators.compose([Validators.required, Validators.maxLength(18)])],
     });
     this.getProjectDetailTypeList();
-    if (this.id) {
+    if (this.projectDetail.type || this.id) {
       this.disabled = true;
-      this.getData();
+      if (this.id)
+        this.getData();
       this.isInput = "false"
       this.title = "编辑项目明细";
     } else {
@@ -78,13 +82,22 @@ export class CreateOrUpdateProjectdetailComponent extends ModalComponentBase imp
   }
 
   save() {
-    this.projectDetail.projectId = this.projectId;
-    this.projectDetailService.createOrUpdate(this.projectDetail).finally(() => {
-      this.saving = false;
-    }).subscribe(() => {
+    // this.projectDetail.projectId = this.projectId;
+    // this.projectDetailService.createOrUpdate(this.projectDetail).finally(() => {
+    //   this.saving = false;
+    // }).subscribe(() => {
+    if (!this.projectId && !this.id) {
       this.notify.success('保存成功！');
-      this.success();
-    });
+      this.success(this.projectDetail);
+    } else {
+      this.projectDetail.projectId = this.projectId;
+      this.projectDetailService.createOrUpdate(this.projectDetail).finally(() => {
+        this.saving = false;
+      }).subscribe(() => {
+        this.notify.success('保存成功！');
+        this.success();
+      });
+    }
   }
 
 }

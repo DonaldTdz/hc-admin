@@ -68,6 +68,25 @@ export class ProjectService {
         }))
     }
 
+    /**
+    * 创建项目与项目明细
+    * @param input 
+    */
+    createProjectAndDetail(input: Project | null, projectDetails: any): Observable<Project> {
+        let _url = "/api/services/app/Project/CreateProjectAndDetailAsync";
+        return this._commonhttp.post(_url, { "Project": input, "ProjectDetails": projectDetails }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+   * 修改项目状态
+   * @param input 
+   */
+    modifyProjectStatusAsync(id: string, projectStatus: number): Observable<Project> {
+        let _url = "/api/services/app/Project/ModifyProjectStatusAsync";
+        return this._commonhttp.post(_url, { "id": id, "projectStatus": projectStatus });
+    }
 
     /**
      * 删除项目
@@ -78,5 +97,6 @@ export class ProjectService {
         let param = { 'id': id };
         return this._commonhttp.delete(_url, param);
     }
+
 
 }

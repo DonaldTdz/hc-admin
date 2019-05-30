@@ -1,7 +1,10 @@
-<nz-card [nzBordered]="false" nzTitle="回款计划" class="mb-lg">
-  <form nz-form [nzLayout]="'inline'" class="search__form">
+<nz-card [nzBordered]="false" class="mb-lg">
+  <form nz-form *ngIf="projectStatus=='4'" [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
       <div nz-col [nzSpan]="24" [class.text-right]="true">
+        <button nz-button (click)="modifyProjectStatus()" nzType="primary">
+          <span>完成收款</span>
+        </button>
         <button nz-button (click)="create()" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
@@ -28,7 +31,7 @@
         <th nz-th style="text-align: center">
           <span>回款时间</span>
         </th>
-        <th nz-th style="text-align: center">
+        <th nz-th *ngIf="!projectStatus>4" style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -41,9 +44,9 @@
           <nz-switch [(ngModel)]="item.status" (click)="updateIsWinbid(item)" nzCheckedChildren="已回款"
             nzUnCheckedChildren="未回款"></nz-switch>
         </td>
-        <td nz-td>{{item.desc}}</td>
+        <td nz-td title="item.desc">{{item.desc | lengthLimit:20}}</td>
         <td nz-td style="text-align: center">{{item.paymentTime | date:'yyyy-MM-dd'}}</td>
-        <td nz-td style="text-align: center">
+        <td nz-td style="text-align: center" *ngIf="!projectStatus>4">
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

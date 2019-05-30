@@ -4,7 +4,6 @@ import { ProjectService, CustomerService } from 'services'
 import { AppComponentBase } from '@shared/app-component-base';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
-import { CreateOrUpdateProjectComponent } from './create-or-update-project/create-or-update-project.component';
 
 @Component({
   selector: 'app-project',
@@ -13,17 +12,17 @@ import { CreateOrUpdateProjectComponent } from './create-or-update-project/creat
 })
 export class ProjectComponent extends AppComponentBase implements OnInit {
   projectMode = [{ text: "内部", value: 1 }, { text: "合伙", value: 2 }, { text: "外部", value: 3 }];
-  projectStatus = [{ text: "线索", "value": 1 }
-    , { text: "立项", value: 2 }
-    , { text: "进行中", value: 3 }
-    , { text: "已完成", value: 4 }
-    , { text: "已回款", value: 5 }
-    , { text: "取消", value: 0 }];
+  projectStatus = [{ "text": "立项", "value": 1 }
+    , { text: "招标", value: 2 }
+    , { text: "合同", value: 3 }
+    , { text: "收款", value: 4 }
+    , { text: "已完成", value: 5 }
+    , { text: "丢单", value: 6 }];
   search: any = {};
   customerList: any;
   id: any = '';
   project: Project = new Project();
-  tableLoading = "false"
+  loading = "false"
   constructor(injector: Injector, private router: Router, private projectService: ProjectService, private customerService: CustomerService, private actRouter: ActivatedRoute) {
     super(injector);
     this.id = this.actRouter.snapshot.queryParams['id'];
@@ -36,7 +35,7 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
 
   //查询
   getProjects() {
-    this.tableLoading = "true"
+    this.loading = "true"
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
@@ -45,7 +44,7 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
     params.customerId = this.search.customerId;
     params.Id = this.id;
     this.projectService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.loading = "false"
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })
@@ -58,31 +57,32 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
   }
 
   //编辑
-  editDing(id: any) {
-    console.log(id)
-    this.modalHelper.open(CreateOrUpdateProjectComponent, { id: id }, 'lg', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.getProjects();
-      }
-    });
-  }
+  // editDing(id: any) {
+  //   console.log(id)
+  //   this.modalHelper.open(CreateOrUpdateProjectComponent, { id: id }, 'lg', {
+  //     nzMask: true
+  //   }).subscribe(isSave => {
+  //     if (isSave) {
+  //       this.getProjects();
+  //     }
+  //   });
+  // } 
 
   //详细
-  details(id: any) {
-    this.router.navigate(['/app/pm/dprojectoc-detail', { id: id }]);
+  details(id: any, status: number) {
+    this.router.navigate(['/app/pm/projectoc-detail', { id: id }]);
   }
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdateProjectComponent, {}, 'lg', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.getProjects();
-      }
-    });
+    // this.modalHelper.open(CreateOrUpdateProjectComponent, {}, 'lg', {
+    //   nzMask: true
+    // }).subscribe(isSave => {
+    //   if (isSave) {
+    //     this.getProjects();
+    //   }
+    // });
+    this.router.navigate(['/app/pm/modify-project']);
   }
 
   //删除

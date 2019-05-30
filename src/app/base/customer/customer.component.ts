@@ -54,7 +54,7 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
   //新增
   create() {
     this.modalHelper.open(CreateCustomerComponent, {}, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.getProjects();
@@ -80,7 +80,7 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
   //更新
   edit(item: Customer): void {
     this.modalHelper.open(EditCustomerComponent, { id: item.id }, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.getProjects();

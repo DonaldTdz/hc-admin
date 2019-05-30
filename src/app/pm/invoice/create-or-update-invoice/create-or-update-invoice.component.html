@@ -1,77 +1,103 @@
-<div class="padding-bottom-45">
-  <div class="modal-header">
-    <div class="modal-title">{{title}}</div>
-  </div>
-  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="invoice">
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>发票分类</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-select formControlName="type" [nzPlaceHolder]="'请选择发票分类'" [(ngModel)]="invoice.type" [nzShowSearch]="true"
-          (ngModelChange)="getRefList()" [nzDisabled]="refIdDisabled" style="width:100%;">
-          <nz-option *ngFor="let i of invoiceType" [nzLabel]="i.text" [nzValue]="i.value">
-          </nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
+<page-header *ngIf="projectId" title="{{title}}">
+</page-header>
+<form nz-form [formGroup]="form" #validateForm="ngForm" class="ant-advanced-search-form" (ngSubmit)="save()"
+  *ngIf="invoice">
+  <!-- <div nz-row [nzGutter]="24">
+      <nz-card [nzBordered]="false" [nzExtra]="extraTemplate">
+        <ng-template #extraTemplate>
+          <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>
+        </ng-template>
+      </nz-card>
+    </div> -->
+  <nz-card [nzBordered]="false" [nzExtra]=" extraTemplate">
+    <ng-template #extraTemplate>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>
+    </ng-template>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>发票分类</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-select formControlName="type" [nzPlaceHolder]="'请选择发票分类'" [(ngModel)]="invoice.type" [nzDisabled]="true"
+              style="width:100%;">
+              <nz-option *ngFor="let i of invoiceType" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
           ">请选择发票分类
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>项目/采购名称</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-select formControlName="refId" [nzPlaceHolder]="'请选择项目/采购名称'" [(ngModel)]="invoice.refId"
-          [nzShowSearch]="true" (ngModelChange)="getTitleByTypeAndRefId()" [nzDisabled]="refIdDisabled"
-          style="width:100%;">
-          <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
-          </nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="(form.get('refId')?.dirty && form.get('refId')?.errors)
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>{{invoice.type==1?'项目名称':'采购名称'}}</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-select formControlName="refId" [nzPlaceHolder]="invoice.type==1?'请选择项目名称':'请选择采购名称'"
+              [(ngModel)]="invoice.refId" [nzDisabled]="true" style="width:100%;">
+              <nz-option *ngFor="let i of refList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <!-- <nz-form-explain *ngIf="(form.get('refId')?.dirty && form.get('refId')?.errors)
         ">请选择项目/采购名称
-        </nz-form-explain>
-        <nz-alert nzType="info" nzMessage="发票分类为销项时为项目名称,为进项时为采购名称" nzShowIcon></nz-alert>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" nzRequired [nzXs]="24">发票抬头</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <input nz-input formControlName="title" placeholder="请输入发票抬头" [(ngModel)]="invoice.title" />
-        <nz-form-explain *ngIf="(form.get('title')?.dirty && form.get('title')?.errors)
+            </nz-form-explain> -->
+            <!-- <nz-alert nzType="info" nzMessage="发票分类为销项时为项目名称,为进项时为采购名称" nzShowIcon></nz-alert> -->
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>发票抬头</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <input nz-input formControlName="title" placeholder="请输入发票抬头" [(ngModel)]="invoice.title" />
+            <nz-form-explain *ngIf="(form.get('title')?.dirty && form.get('title')?.errors)
         ">请输入发票抬头且不能超过100个字符
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24" nzRequired>发票号</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <input nz-input formControlName="code" placeholder="请输入发票号" [(ngModel)]="invoice.code" />
-        <nz-form-explain *ngIf="(form.get('code')?.dirty && form.get('code')?.errors)
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>发票号</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <input nz-input formControlName="code" placeholder="请输入发票号" [(ngModel)]="invoice.code" />
+            <nz-form-explain *ngIf="(form.get('code')?.dirty && form.get('code')?.errors)
         ">请输入发票号且不能超过100个字符
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24">发票金额(元)</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:100%" placeholder="发票金额"
-          [(ngModel)]="invoice.amount">
-        </nz-input-number>
-        <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label class="labelPadding" [nzSpan]="6">发票金额(元)</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-input-number formControlName="amount" [nzDisabled]="true" style="width:100%" placeholder="发票金额"
+              [(ngModel)]="invoice.amount">
+            </nz-input-number>
+            <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
         ">发票金额不能超过18位
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label nz-col [nzSm]="7" [nzXs]="24">开票日期</nz-form-label>
-      <nz-form-control [nzSm]="17" nzHasFeedback>
-        <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开票日期" formControlName="submitDate"
-          [(ngModel)]="invoice.submitDate">
-        </nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label class="labelPadding" [nzSpan]="6">开票日期</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开票日期" formControlName="submitDate"
+              [(ngModel)]="invoice.submitDate">
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
     <nz-form-item nz-row>
       <div>
-        <nz-upload style="float:left;" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
+        <nz-upload style="float:right;" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
           [nzShowUploadList]="false" (nzChange)="handleChange($event)" [nzBeforeUpload]="beforeUpload">
           <div nz-button nzType="default" nzType="primary" style="padding-top: 5px">
             <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传附件</span>
@@ -80,7 +106,8 @@
         <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>
       </div>
       <nz-list style="margin-top: 40px;" class="demo-loadmore-list" [nzDataSource]="attachments"
-        [nzItemLayout]="'horizontal'" [nzLoading]="initLoading" [nzRenderItem]="item" [nzLoadMore]="loadMore">
+        [nzItemLayout]="'horizontal'" nzHeader="合同文件列表" [nzLoading]="initLoading" [nzRenderItem]="item"
+        [nzLoadMore]="loadMore">
         <ng-template #item let-item>
           <nz-list-item [nzActions]="[delete]">
             <ng-template #delete><a style="color:#ff4d4f;" (click)="deleteAttachment(item)">删除</a></ng-template>
@@ -93,17 +120,71 @@
         </ng-template>
       </nz-list>
     </nz-form-item>
+    <nz-card [nzBordered]="false" nzTitle="发票明细" class="mb-lg">
+      <form nz-form [nzLayout]="'inline'" class="search__form">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+          <div nz-col [nzSpan]="24" style="text-align: right">
+            <button nz-button (click)="create()" nzType="primary">
+              <i class="anticon anticon-plus"></i>
+              <span>新建</span>
+            </button>
+          </div>
+        </div>
+      </form>
+      <nz-table #nzTable [nzData]="invoiceDetails" [nzFrontPagination]="false" [nzLoading]="loading"
+        [nzShowPagination]="false">
+        <thead nz-thead>
+          <tr>
+            <th nz-th>
+              <span>{{invoice.type==1?'项目明细名称':'采购明细名称'}}</span>
+            </th>
+            <th nz-th>
+              <span>劳务或服务名称</span>
+            </th>
+            <th nz-th>
+              <span>规格型号</span>
+            </th>
+            <th nz-th>
+              <span>单位</span>
+            </th>
+            <th nz-th style="text-align: right">
+              <span>数量</span>
+            </th>
+            <th nz-th style="text-align: right">
+              <span>单价(元)</span>
+            </th>
+            <th nz-th style="text-align: center">
+              <span>税率</span>
+            </th>
+            <th nz-th style="text-align: center">
+              <span>操作</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+            <td nz-td>{{item.refName}}</td>
+            <td nz-td>{{item.name}}</td>
+            <td nz-td>{{item.specification}}</td>
+            <td nz-td>{{item.unit}}</td>
+            <td nz-td style="text-align: right">{{item.num}}</td>
+            <td nz-td style="text-align: right">{{item.price}}</td>
+            <td nz-td style="text-align: center">{{item.taxRate}}</td>
+            <td nz-td style="text-align: center">
+              <a (click)="editDing(item.id)">编辑</a>
+              <span nz-table-divider></span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a style="color:#ff4d4f;" (click)="delete(item)">删除</a>
+              <span nz-table-divider></span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
     <div class="modal-footer">
-      <button nz-button type="button" [disabled]="saving" (click)="close()">
-        {{l("Cancel")}}
-      </button>
-      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
-        保存
-      </button>
-      <button nz-button type="button" [nzType]="'primary'" [disabled]="!validateForm.valid||saving"
-        (click)="preservation()">
-        保存并添加明细
+      <button nz-button type="button" [disabled]="saving" (click)="goBack()">
+        返回
       </button>
     </div>
-  </form>
-</div>
+  </nz-card>
+</form>

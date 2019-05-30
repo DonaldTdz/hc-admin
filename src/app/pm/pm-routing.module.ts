@@ -15,6 +15,8 @@ import { ReimburseComponent } from './reimburse/reimburse.component'
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component'
 import { TimesheetComponent } from './timesheet/timesheet.component'
 import { PaymentplanComponent } from './paymentplan/paymentplan.component'
+import { CreateOrUpdateProjectComponent } from './project/create-or-update-project/create-or-update-project.component'
+import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component'
 
 const routes: Routes = [
   {
@@ -23,7 +25,7 @@ const routes: Routes = [
     canActivate: [AppRouteGuard],
   },
   {
-    path: 'dprojectoc-detail',
+    path: 'projectoc-detail',
     component: DetailProjectComponent,
     canActivate: [AppRouteGuard],
     data: { title: "项目详情" }
@@ -66,8 +68,7 @@ const routes: Routes = [
   {
     path: 'invoice-detail',
     component: DetailInvoiceComponent,
-    canActivate: [AppRouteGuard],
-    data: { title: "发票详情" }
+    canActivate: [AppRouteGuard]
   },
   {
     path: 'reimburse',
@@ -85,10 +86,20 @@ const routes: Routes = [
     canActivate: [AppRouteGuard],
   },
   {
+    path: 'modify-project',
+    component: CreateOrUpdateProjectComponent,
+    canActivate: [AppRouteGuard],
+  },
+  {
     path: 'paymentplan',
     component: PaymentplanComponent,
     canActivate: [AppRouteGuard],
   },
+  {
+    path: 'modify-invoice',
+    component: CreateOrUpdateInvoiceComponent,
+    canActivate: [AppRouteGuard],
+  }
 ];
 
 @NgModule({

@@ -103,7 +103,7 @@ export class ConfigComponent extends AppComponentBase implements OnInit {
 
   editDing(item: DingTalkConfig): void {
     this.modalHelper.open(EditTalkConfigComponent, { id: item.id }, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.ngOnInit();
@@ -112,7 +112,7 @@ export class ConfigComponent extends AppComponentBase implements OnInit {
   }
   create() {
     this.modalHelper.open(CreateTalkConfigComponent, {}, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.ngOnInit();

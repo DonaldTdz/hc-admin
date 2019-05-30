@@ -26,9 +26,9 @@ export class TenderService {
  * 获取单条数据详细信息
  * @param id 
  */
-    getById(id: any): Observable<Tender> {
+    getById(id: any, projectId: any): Observable<Tender> {
         let _url = "/api/services/app/Tender/GetByIdAsync";
-        let param = { 'id': id };
+        let param = { 'id': id, 'projectId': projectId };
         return this._commonhttp.get(_url, param).pipe(map(data => {
             return Tender.fromJS(data);
         }));

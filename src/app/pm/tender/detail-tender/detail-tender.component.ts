@@ -24,10 +24,10 @@ export class DetailTenderComponent extends AppComponentBase implements OnInit {
 
   //编辑获取数据
   getData() {
-    this.tenderService.getById(this.id.toString()).subscribe((result) => {
-      this.tender = result;
-      this.jointAttachments()
-    });
+    // this.tenderService.getById(this.id.toString()).subscribe((result) => {
+    //   this.tender = result;
+    //   this.jointAttachments()
+    // });
   }
 
   //处理附件

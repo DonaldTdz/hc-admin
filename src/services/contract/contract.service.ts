@@ -59,6 +59,18 @@ export class ContractService {
 
 
     /**
+    * 创建合同与合同明细
+    * @param input 
+    */
+    CreateContractAndDetail(input: Contract | null, contractDetails: any): Observable<Contract> {
+        let _url = "/api/services/app/Contract/CreateContractAndDetailAsync";
+        return this._commonhttp.post(_url, { "Contract": input, "ContractDetails": contractDetails }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+
+    /**
      * 删除合同
      * @param id 
      */

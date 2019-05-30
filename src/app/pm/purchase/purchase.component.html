@@ -1,8 +1,8 @@
-<page-header *ngIf="!projectId" [title]="''"></page-header>
+<!-- <page-header *ngIf="!projectId" [title]="''"></page-header> -->
 <nz-card [nzBordered]="false">
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
-      <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
+      <!-- <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
         <nz-form-item>
           <nz-form-label nzFor="code">采购编号</nz-form-label>
           <nz-form-control>
@@ -21,12 +21,12 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="projectId?24:8" [class.text-right]="true">
-        <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary" *ngIf="!projectId">
+      </div> -->
+      <div nz-col [nzSpan]="24" [class.text-right]="true">
+        <!-- <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary" *ngIf="!projectId">
           查询
         </button>
-        <button nz-button type="reset" (click)="refreshData()" *ngIf="!projectId" class="mx-sm">重置</button>
+        <button nz-button type="reset" (click)="refreshData()" *ngIf="!projectId" class="mx-sm">重置</button> -->
         <button nz-button (click)="create()" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
@@ -71,9 +71,9 @@
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align: center">{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">
-          <a (click)="editDing(item.id)">编辑</a>
+          <!-- <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
-          <nz-divider nzType="vertical"></nz-divider>
+          <nz-divider nzType="vertical"></nz-divider> -->
           <a (click)="details(item.id)">详情</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

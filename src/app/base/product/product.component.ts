@@ -50,7 +50,7 @@ export class ProductComponent extends AppComponentBase implements OnInit {
 
   editDing(item: Product) {
     this.modalHelper.open(CreateOrUpdateProductComponent, { id: item.id }, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.refresh();
@@ -59,7 +59,7 @@ export class ProductComponent extends AppComponentBase implements OnInit {
   }
   create() {
     this.modalHelper.open(CreateOrUpdateProductComponent, {}, 'md', {
-      nzMask: true
+      nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.refresh();
