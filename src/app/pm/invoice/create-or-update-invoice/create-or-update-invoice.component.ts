@@ -3,7 +3,7 @@ import { AppComponentBase, PagedResultDto } from '@shared/component-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Invoice } from 'entities'
 import { InvoiceService, ProjectService, PurchaseService, InvoiceDetailService } from 'services'
-import { UploadFile } from 'ng-zorro-antd';
+import { UploadFile, NzMessageService } from 'ng-zorro-antd';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateOrUpdateInvoicedetailComponent } from '../create-or-update-invoicedetail/create-or-update-invoicedetail.component'
@@ -16,7 +16,7 @@ import { CreateOrUpdateInvoicedetailComponent } from '../create-or-update-invoic
 export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements OnInit {
   id: string;
   projectId: any;
-  @Input() purchaseId;
+  purchaseId: any;
   refIdDisabled = false;
   title: string;
   loading = false;
@@ -31,13 +31,13 @@ export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements 
   invoice: Invoice = new Invoice();
   constructor(injector: Injector, private invoiceService: InvoiceService, private fb: FormBuilder, private projectService: ProjectService
     , private purchaseService: PurchaseService, private location: Location, private actRouter: ActivatedRoute
-    , private invoiceDetailService: InvoiceDetailService) {
+    , private invoiceDetailService: InvoiceDetailService, private nzMessage: NzMessageService) {
     super(injector); this.id = this.actRouter.snapshot.params['id'];
     this.projectId = this.actRouter.snapshot.params['projectId'];
+    this.purchaseId = this.actRouter.snapshot.params['purchaseId'];
   }
 
   ngOnInit() {
-    console.log(this.projectId);
     this.form = this.fb.group({
       type: [null, Validators.compose([Validators.required])],
       title: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
@@ -52,15 +52,16 @@ export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements 
     } else {
       this.invoice.type = 1;
       this.invoice.refId = this.projectId;
-      if (this.id) {
-        this.invoice.id = this.id;
-        this.getData();
-        this.getInvoiceDetails();
-        this.title = "编辑发票";
-      } else {
-        this.title = "新增发票";
-        this.invoice.amount = 0;
-      }
+    }
+
+    if (this.id) {
+      this.invoice.id = this.id;
+      this.getData();
+      this.getInvoiceDetails();
+      this.title = "发票详情";
+    } else {
+      this.title = "新增发票";
+      this.invoice.amount = 0;
     }
     this.getTitleByTypeAndRefId();
     this.getRefList();
@@ -132,11 +133,12 @@ export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements 
       this.saving = false;
     }).subscribe((data) => {
       this.invoice = data;
+      this.id = this.invoice.id;
       this.notify.success('保存成功！');
     });
   }
 
-  //编辑
+  //编辑发票明细
   editDing(id: any) {
     this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { id: id, refId: this.invoice.refId, invoiceType: this.invoice.type }, 'md', {
       nzMask: true
@@ -148,8 +150,11 @@ export class CreateOrUpdateInvoiceComponent extends AppComponentBase implements 
     });
   }
 
-  //新增
+  //新增发票明细
   create() {
+    if (!this.invoice.id) {
+      return this.nzMessage.warning("请先保存发票")
+    }
     this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { refId: this.invoice.refId, invoiceType: this.invoice.type, invoiceId: this.invoice.id }, 'md', {
       nzMask: true
     }).subscribe(isSave => {

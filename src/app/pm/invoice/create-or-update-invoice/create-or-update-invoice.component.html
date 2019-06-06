@@ -1,4 +1,4 @@
-<page-header *ngIf="projectId" title="{{title}}">
+<page-header title="{{title}}">
 </page-header>
 <form nz-form [formGroup]="form" #validateForm="ngForm" class="ant-advanced-search-form" (ngSubmit)="save()"
   *ngIf="invoice">
@@ -106,7 +106,7 @@
         <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>
       </div>
       <nz-list style="margin-top: 40px;" class="demo-loadmore-list" [nzDataSource]="attachments"
-        [nzItemLayout]="'horizontal'" nzHeader="合同文件列表" [nzLoading]="initLoading" [nzRenderItem]="item"
+        [nzItemLayout]="'horizontal'" nzHeader="发票附件列表" [nzLoading]="initLoading" [nzRenderItem]="item"
         [nzLoadMore]="loadMore">
         <ng-template #item let-item>
           <nz-list-item [nzActions]="[delete]">

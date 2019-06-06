@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, Injector, Input } from '@angular/core';
-import { STComponent, STColumn, STChange, STPage } from '@delon/abc';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { InvoiceService } from 'services'
 import { Invoice } from 'entities'
 import { Router } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
-import { CreateOrUpdateInvoiceComponent } from './create-or-update-invoice/create-or-update-invoice.component'
 
 @Component({
   selector: 'app-invoice',
@@ -55,12 +53,18 @@ export class InvoiceComponent extends AppComponentBase implements OnInit {
 
   //详细
   details(id: any) {
-    this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId, id: id }]);
+    if (this.purchaseId)
+      this.router.navigate(['/app/pm/modify-invoice', { id: id, purchaseId: this.purchaseId }]);
+    else
+      this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId, id: id }]);
   }
 
   //新增
   create() {
-    this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId }]);
+    if (this.purchaseId)
+      this.router.navigate(['/app/pm/modify-invoice', { purchaseId: this.purchaseId }]);
+    else
+      this.router.navigate(['/app/pm/modify-invoice', { projectId: this.projectId }]);
   }
 
 

@@ -68,6 +68,17 @@ export class PurchaseService {
     }
 
     /**
+  * 创建采购与采购明细
+  * @param input 
+  */
+    createPurchaseAndDetail(input: Purchase | null, purchaseDetails: any): Observable<Purchase> {
+        let _url = "/api/services/app/Purchase/CreatePurchaseAndDetailAsync";
+        return this._commonhttp.post(_url, { "Purchase": input, "PurchaseDetails": purchaseDetails }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
         * 获取自动生成的采购编号
         * @param type 
         */

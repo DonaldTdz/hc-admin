@@ -31,7 +31,7 @@
         <th nz-th style="text-align: center">
           <span>回款时间</span>
         </th>
-        <th nz-th *ngIf="!projectStatus>4" style="text-align: center">
+        <th nz-th *ngIf="projectStatus==4" style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -46,7 +46,7 @@
         </td>
         <td nz-td title="item.desc">{{item.desc | lengthLimit:20}}</td>
         <td nz-td style="text-align: center">{{item.paymentTime | date:'yyyy-MM-dd'}}</td>
-        <td nz-td style="text-align: center" *ngIf="!projectStatus>4">
+        <td nz-td style="text-align: center" *ngIf="projectStatus==4">
           <a (click)="editDing(item.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>

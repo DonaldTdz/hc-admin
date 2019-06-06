@@ -12,6 +12,8 @@ export class PurchaseDetail {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
+    supplierName: string;
+    projectDetailName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {

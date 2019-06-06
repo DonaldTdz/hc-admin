@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector, Input, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { ContractService, ContractDetailService, ProjectService, PurchaseService } from 'services'
@@ -14,8 +14,10 @@ import { UploadFile, NzMessageService } from 'ng-zorro-antd';
 })
 export class ContractComponent extends AppComponentBase implements OnInit {
   loading = "false";
+  @Output() voted = new EventEmitter<boolean>();
   @Input() projectId;
   @Input() purchaseId;
+  @Input() projectStatus;
   refIdDisabled = false;
   form: FormGroup;
   contractDetails = [];
@@ -117,10 +119,16 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       if (result.code == 1) {
         this.notify.success(result.msg);
         this.contract = result.data;
+        this.vote(true);
       } else {
         this.notify.error(result.msg);
       }
     });
+  }
+
+  //刷新状态
+  vote(status: boolean) {
+    this.voted.emit();
   }
 
   //处理附件
@@ -217,15 +225,6 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   //编辑合同明细
   editDing(contractDetail: ContractDetail, index: number) {
-    // if (!this.contract.id) {
-    //   this.modalHelper.open(CreateOrUpdateContractdetailComponent, { contractDetail, refId: this.contract.refId, contractType: this.contract.type }, 'md', {
-    //     nzMask: true
-    //   }).subscribe((result: any) => {
-    //     if (!this.contract.id) {
-    //       this.contractDetails.splice(index, 1, result)
-    //     }
-    //   });
-    // } else {
     this.modalHelper.open(CreateOrUpdateContractdetailComponent, { id: contractDetail.id, refId: this.contract.refId, contractType: this.contract.type }, 'md', {
       nzMask: true
     }).subscribe(isSave => {
@@ -248,6 +247,7 @@ export class ContractComponent extends AppComponentBase implements OnInit {
             this.contractDetailService.delete(contractDetail.id).subscribe(() => {
               this.notify.success('删除成功！');
               this.getContractDetails(this.contract.id);
+              this.getContract();
             });
           }
         }

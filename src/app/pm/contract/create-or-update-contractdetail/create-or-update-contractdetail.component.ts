@@ -31,11 +31,11 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
     } else {
       this.getpurchaseDetailList();
     }
-    if (this.id || this.contractDetail.refDetailId) {
-      if (this.id)
-        this.getData();
+    if (this.id) {
+      this.getData();
       this.title = "编辑合同明细";
     } else {
+      this.contractDetail.contractId = this.contractId;
       this.title = "新增合同明细";
     }
   }
@@ -59,11 +59,6 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
   }
 
   save() {
-    // if (!this.contractId && !this.id) {
-    //   this.notify.success('保存成功！');
-    //   this.success(this.contractDetail);
-    // } else {
-    this.contractDetail.contractId = this.contractId;
     this.contractDetailService.createOrUpdate(this.contractDetail).finally(() => {
       this.saving = false;
     }).subscribe(() => {

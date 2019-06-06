@@ -94,9 +94,9 @@
           <nz-badge *ngIf="ding.status=='2'" [nzStatus]="'default'" [nzStyle]="{'background-color':'#2f54eb'}"
             [nzText]="'招标'"></nz-badge>
           <nz-badge *ngIf="ding.status=='3'" [nzStatus]="'processing'" [nzText]="'合同'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='5'" [nzStatus]="'success'" [nzText]="'已完成'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='4'" [nzStatus]="'default'" [nzText]="'收款'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='0'" [nzStatus]="'error'" [nzText]="'取消'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='5'" [nzStatus]="'success'" [nzText]="'收款'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='4'" [nzStatus]="'default'" [nzText]="'已完成'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='6'" [nzStatus]="'error'" [nzText]="'丢单'"></nz-badge>
         </td>
         <td nz-td style="text-align: center">
           {{ding.startDate | date:'yyyy-MM-dd'}}</td>

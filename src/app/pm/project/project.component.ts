@@ -75,13 +75,6 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    // this.modalHelper.open(CreateOrUpdateProjectComponent, {}, 'lg', {
-    //   nzMask: true
-    // }).subscribe(isSave => {
-    //   if (isSave) {
-    //     this.getProjects();
-    //   }
-    // });
     this.router.navigate(['/app/pm/modify-project']);
   }
 

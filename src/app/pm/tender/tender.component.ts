@@ -1,10 +1,11 @@
-import { Component, OnInit, Injector, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injector, Output, Input, EventEmitter, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { TenderService, ProjectService, EmployeeServiceProxy } from 'services'
 import { Tender } from 'entities'
 import { UploadFile, NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DetailProjectComponent } from '../project/detail-project/detail-project.component'
 
 @Component({
   selector: 'app-tender',
@@ -16,7 +17,9 @@ export class TenderComponent extends AppComponentBase implements OnInit {
   projectList: any;
   form: FormGroup;
   projectIdDisabled = false;
+
   @Input() projectId;
+  @Input() projectStatus;
   @Output() voted = new EventEmitter<boolean>();
   employeeList: any;
   readyEmployeeIds: any;
@@ -45,6 +48,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.getEmployeeList();
     this.getTender();
     this.projectIdDisabled = true;
+    // console.log('222' + this.projectStatus)
   }
 
   //查询
@@ -57,6 +61,11 @@ export class TenderComponent extends AppComponentBase implements OnInit {
         this.readyEmployeeIds = this.tender.readyEmployeeIds.split(",");
       this.jointAttachments()
     });
+  }
+
+  //刷新状态
+  vote(status: boolean) {
+    this.voted.emit();
   }
 
   //获取项目下拉列表
@@ -124,6 +133,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.tenderService.createOrUpdate(this.tender).finally(() => {
     }).subscribe(() => {
       this.notify.success(this.l('中标状态修改成功'));
+      this.vote(true);
     });
   }
 
@@ -133,6 +143,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.tenderService.createOrUpdate(this.tender).finally(() => {
     }).subscribe(() => {
       this.notify.success(this.l('中标状态修改成功'));
+      this.vote(true);
     });
   }
 

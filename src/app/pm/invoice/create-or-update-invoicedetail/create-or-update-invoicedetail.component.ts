@@ -43,6 +43,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
       this.title = "编辑发票明细";
     } else {
       this.title = "新增发票明细";
+      this.invoiceDetail.invoiceId = this.invoiceId;
     }
   }
 
@@ -77,18 +78,22 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
       if (this.invoiceType == 1) {
         this.projectDetailService.GetById(this.invoiceDetail.refId).subscribe((result) => {
           this.invoiceDetail.specification = result.specification;
-          this.invoiceDetail.num = result.num;
           this.invoiceDetail.unit = result.unit;
           this.invoiceDetail.name = result.name;
-          this.invoiceDetail.price = result.price;
+          if (!this.invoiceDetail.price)
+            this.invoiceDetail.price = result.price;
+          if (!this.invoiceDetail.num)
+            this.invoiceDetail.num = result.num;
         });
       } else {
         this.purchaseDetailService.getById(this.invoiceDetail.refId).subscribe((result) => {
           // projectDetailId = result.projectDetailId;
-          this.invoiceDetail.price = result.price;
+          if (!this.invoiceDetail.price)
+            this.invoiceDetail.price = result.price;
           this.projectDetailService.GetById(result.projectDetailId).subscribe((result) => {
             this.invoiceDetail.specification = result.specification;
-            this.invoiceDetail.num = result.num;
+            if (!this.invoiceDetail.num)
+              this.invoiceDetail.num = result.num;
             this.invoiceDetail.unit = result.unit;
             this.invoiceDetail.name = result.name;
           });
@@ -98,7 +103,6 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
   }
 
   save() {
-    this.invoiceDetail.invoiceId = this.invoiceId;
     this.invoiceDetailService.createOrUpdate(this.invoiceDetail).finally(() => {
       this.saving = false;
     }).subscribe(() => {

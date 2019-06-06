@@ -70,13 +70,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateOrUpdatePurchaseComponent, { projectId: this.projectId }, 'md', {
-      nzMask: true
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.refreshData();
-      }
-    });
+    this.router.navigate(['/app/pm/modify-purchase', { projectId: this.projectId }]);
   }
 
 

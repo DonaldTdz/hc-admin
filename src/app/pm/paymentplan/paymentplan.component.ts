@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector, Input, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase, } from '@shared/app-component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { PaymentPlanService, ProjectService } from 'services'
@@ -16,13 +16,13 @@ export class PaymentplanComponent extends AppComponentBase implements OnInit {
   loading = "false";
   @Input() projectId;
   @Input() projectStatus;
+  @Output() voted = new EventEmitter<boolean>();
   // contractType = [{ text: '未回款', value: 1 }, { text: '已回款', value: 2 }]
   constructor(injector: Injector, private paymentPlanService: PaymentPlanService
     , private projectService: ProjectService, private nzMessage: NzMessageService) { super(injector); }
 
   ngOnInit() {
     this.getPaymentPlan();
-    console.log(this.projectStatus + '222');
   }
 
   //查询
@@ -37,7 +37,7 @@ export class PaymentplanComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  //修改是否中标
+  //修改是否完成回款
   updateIsWinbid(paymentPlan: PaymentPlan) {
     this.paymentPlanService.createOrUpdate(paymentPlan).finally(() => {
     }).subscribe(() => {
@@ -85,6 +85,11 @@ export class PaymentplanComponent extends AppComponentBase implements OnInit {
     )
   }
 
+  //刷新状态
+  vote(status: boolean) {
+    this.voted.emit(status);
+  }
+
   //修改项目状态
   modifyProjectStatus() {
     for (let item of this.query.data) {
@@ -94,6 +99,7 @@ export class PaymentplanComponent extends AppComponentBase implements OnInit {
     const projectStatus = 5;
     this.projectService.modifyProjectStatusAsync(this.projectId, projectStatus).subscribe(() => {
       this.notify.success('修改成功！');
+      this.vote(true);
     })
   }
 

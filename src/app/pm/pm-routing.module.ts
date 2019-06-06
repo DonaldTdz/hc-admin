@@ -17,6 +17,7 @@ import { TimesheetComponent } from './timesheet/timesheet.component'
 import { PaymentplanComponent } from './paymentplan/paymentplan.component'
 import { CreateOrUpdateProjectComponent } from './project/create-or-update-project/create-or-update-project.component'
 import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component'
+import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-purchase/create-or-update-purchase.component'
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
     canActivate: [AppRouteGuard],
   },
   {
-    path: 'projectoc-detail',
+    path: 'project-detail',
     component: DetailProjectComponent,
     canActivate: [AppRouteGuard],
     data: { title: "项目详情" }
@@ -41,7 +42,6 @@ const routes: Routes = [
     path: 'purchase-detail',
     component: DetailPurchaseComponent,
     canActivate: [AppRouteGuard],
-    data: { title: "采购详情" }
   },
   {
     path: 'tender-detail',
@@ -98,6 +98,11 @@ const routes: Routes = [
   {
     path: 'modify-invoice',
     component: CreateOrUpdateInvoiceComponent,
+    canActivate: [AppRouteGuard],
+  },
+  {
+    path: 'modify-purchase',
+    component: CreateOrUpdatePurchaseComponent,
     canActivate: [AppRouteGuard],
   }
 ];

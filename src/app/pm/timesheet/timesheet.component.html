@@ -64,32 +64,31 @@
         <th nz-th>
           <span>工作内容</span>
         </th>
-        <th nz-th style="text-align: center">
-          <span>状态</span>
-        </th>
         <th nz-th>
           <span>审批人</span>
         </th>
         <th nz-th style="text-align: center">
           <span>审批时间</span>
         </th>
+        <th nz-th style="text-align: center">
+          <span>状态</span>
+        </th>
       </tr>
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-        <td nz-td *ngIf="!projectId" title="{{item.projectName}}"><a [routerLink]="['/app/pm/project']"
+        <td nz-td *ngIf="!projectId" title="{{item.projectName}}"><a [routerLink]="['/app/pm/project-detail']"
             [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:25}}</a></td>
         <td nz-td style="text-align: center">{{item.workeDate | date:'yyyy-MM-dd'}}</td>
-
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align:right">{{item.hour}}</td>
         <td nz-td title="{{item.content}}">{{item.content | lengthLimit:35}}</td>
+        <td nz-td>{{item.approverName}}</td>
+        <td nz-td style="text-align: center">{{item.approvalTime | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">
           <nz-badge *ngIf="item.status=='1'" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
           <nz-badge *ngIf="item.status=='2'" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
         </td>
-        <td nz-td>{{item.approverName}}</td>
-        <td nz-td style="text-align: center">{{item.approvalTime | date:'yyyy-MM-dd'}}</td>
       </tr>
     </tbody>
   </nz-table>

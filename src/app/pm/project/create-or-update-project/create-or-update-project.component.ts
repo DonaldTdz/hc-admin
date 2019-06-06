@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Injector } from '@angular/core';
+import { Component, OnInit, Input, Injector, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService
@@ -18,6 +18,7 @@ import { CreateOrUpdateProjectdetailComponent } from '../create-or-update-projec
 })
 export class CreateOrUpdateProjectComponent extends AppComponentBase implements OnInit {
   @Input() id: any;
+  @Output() voted = new EventEmitter<boolean>();
   loading = 'false';
   title: string;
   projectDetails = [];
@@ -92,8 +93,10 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
       if (!this.project.id) {
-        result.totalSum = result.price * result.num;
-        this.projectDetails.push(result);
+        if (result) {
+          result.totalSum = result.price * result.num;
+          this.projectDetails.push(result);
+        }
       } else {
         this.getProjectDetails();
       }
@@ -107,8 +110,10 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
         nzMask: true
       }).subscribe((result: any) => {
         if (!this.project.id) {
-          result.totalSum = result.price * result.num;
-          this.projectDetails.splice(index, 1, result)
+          if (result) {
+            result.totalSum = result.price * result.num;
+            this.projectDetails.splice(index, 1, result);
+          }
         }
       });
     } else {
@@ -152,7 +157,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
 
   //丢单
   losing() {
-    this.project.status = 0;
+    this.project.status = 6;
     this.project.statusName = "丢单";
     this.save();
   }
@@ -164,7 +169,11 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
     this.project.status = 2;
     this.project.statusName = "招标";
     this.save();
-    // this.ngOnInit();
+  }
+
+  //刷新状态
+  vote(status: boolean) {
+    this.voted.emit(status);
   }
 
   //删除
@@ -187,6 +196,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
     }
   }
 
+
   //保存
   save() {
     if (this.id) {
@@ -194,6 +204,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
       }).subscribe((result: any) => {
         if (result.code == 1) {
           this.notify.success(result.msg);
+          this.vote(true);
           // if (result.data)
           //   this.router.navigate(['/app/pm/projectoc-detail', { id: result.data.id, projectStatus: result.data.status }]);
         } else {

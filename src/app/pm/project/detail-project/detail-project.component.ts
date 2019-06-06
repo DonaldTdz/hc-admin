@@ -1,10 +1,9 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { Project } from 'entities';
 import { NzTabChangeEvent } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'services'
-import { CreateOrUpdateProjectComponent } from '../create-or-update-project/create-or-update-project.component'
 
 @Component({
   selector: 'app-detail-project',
@@ -12,12 +11,11 @@ import { CreateOrUpdateProjectComponent } from '../create-or-update-project/crea
   styleUrls: ['./detail-project.component.less'],
 })
 export class DetailProjectComponent extends AppComponentBase implements OnInit {
-  // @ViewChild(CreateOrUpdateProjectComponent)
-  // private projectComponent: CreateOrUpdateProjectComponent;
-  tabIndex: number = 1;
+  tabIndex: number = 0;
   project: Project = new Project();
-  url1 = '<app-tender [projectId]="id"></app-tender>';
-
+  tenderShow: boolean = false;
+  paymentplanShow: boolean = false;
+  contractShow: boolean = false;
   id: any = '';
   constructor(injector: Injector, private actRouter: ActivatedRoute, private projectService: ProjectService) {
     super(injector);
@@ -28,6 +26,10 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.getById();
   }
 
+  voted(status: boolean) {
+    if (status == true)
+      this.getById();
+  }
 
   getById() {
     this.projectService.getById(this.id).subscribe(res => {
@@ -41,11 +43,11 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     switch (args.index) {
       case (0):
         break;
-      case (1):
+      case (1): this.tenderShow = true; //显示招标
         break;
-      case (2):
+      case (2): this.contractShow = true; //显示合同
         break;
-      case (3):
+      case (3): this.paymentplanShow = true; //显示回款计划
         break;
       case (4):
         break;

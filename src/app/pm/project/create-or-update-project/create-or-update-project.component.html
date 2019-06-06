@@ -4,7 +4,7 @@
   <form nz-form [formGroup]="projectForm" #validateForm="ngForm" class="ant-advanced-search-form" (ngSubmit)="save()"
     *ngIf="project">
     <div nz-row [nzGutter]="24">
-      <nz-card [nzBordered]="false" nzTitle="项目编号：{{project.projectCode}}" [nzExtra]=" extraTemplate">
+      <nz-card [nzBordered]="false" nzTitle="项目编号：{{project.projectCode}}" [nzExtra]="extraTemplate">
         <nz-steps [nzCurrent]="projectStatus.indexOf(project.statusName)" nzProgressDot>
           <nz-step *ngFor="let text of projectStatus" [nzTitle]="text">
           </nz-step>
@@ -185,8 +185,8 @@
         </nz-form-item>
       </div>
     </div>
-    <nz-card [nzBordered]="false" nzTitle="项目明细" class="mb-lg">
-      <form nz-form [nzLayout]="'inline'" class="search__form">
+    <nz-card [nzBordered]="true" nzTitle="项目明细" class="mb-lg" [nzExtra]="project.status!=6?detailTemplate:''">
+      <!-- <form nz-form [nzLayout]="'inline'" class="search__form">
         <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
           <div nz-col [nzSpan]="24" style="text-align: right" *ngIf="project.status!=0">
             <button nz-button (click)="createProjectDetail()" nzType="primary">
@@ -195,7 +195,13 @@
             </button>
           </div>
         </div>
-      </form>
+      </form> -->
+      <ng-template #detailTemplate>
+        <button nz-button type="button" (click)="createProjectDetail()" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+      </ng-template>
       <nz-table #nzprojectDetailTable [nzData]="projectDetails" [nzFrontPagination]="false" [nzLoading]="loading"
         [nzShowPagination]="false">
         <thead nz-thead>
@@ -221,7 +227,7 @@
             <th style="text-align: right">
               <span>总金额(元)</span>
             </th>
-            <th style="text-align: center" *ngIf="project.status!=0">
+            <th style="text-align: center" *ngIf="project.status!=6">
               <span>操作</span>
             </th>
           </tr>
@@ -235,11 +241,11 @@
             <td nz-td style="text-align: right">{{item.num}} </td>
             <td nz-td style="text-align: right">{{item.price}} </td>
             <td nz-td style="text-align: right">{{item.totalSum}} </td>
-            <td nz-td style="text-align: center" *ngIf="project.status!=0">
-              <a (click)="editProjectDetail(item,i)">编辑</a>
+            <td nz-td style="text-align: center" *ngIf="project.status!=6">
+              <a (click)="editProjectDetail(item,i)" *ngIf="item.name!='合计'">编辑</a>
               <span nz-table-divider></span>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a style="color:#ff4d4f;" (click)="delete(item,i)">删除</a>
+              <nz-divider nzType="vertical" *ngIf="item.name!='合计'"></nz-divider>
+              <a style="color:#ff4d4f;" *ngIf="item.name!='合计'" (click)="delete(item,i)">删除</a>
               <span nz-table-divider></span>
             </td>
           </tr>

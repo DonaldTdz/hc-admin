@@ -6,7 +6,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService
-  , ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService
+  , ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService, PurchaseDetailService
 } from 'services'
 
 import { PmRoutingModule } from './pm-routing.module';
@@ -92,6 +92,6 @@ import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/upd
 
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService
-    , PurchaseService, ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService],
+    , PurchaseService, ContractService, ContractDetailService, PurchaseDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService],
 })
 export class PmModule { }

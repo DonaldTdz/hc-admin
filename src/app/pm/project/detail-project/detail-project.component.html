@@ -1,15 +1,18 @@
 <nz-tabset nzSize="large" (nzSelectChange)="change($event)">
   <nz-tab nzTitle="项目" (nzClick)="projects.getData()">
-    <app-create-or-update-project [id]="id" #projects></app-create-or-update-project>
+    <app-create-or-update-project [id]="id" #projects (voted)="ngOnInit()"></app-create-or-update-project>
   </nz-tab>
-  <nz-tab nzTitle="招标">
-    <app-tender [projectId]="id"></app-tender>
+  <nz-tab nzTitle="招标" [nzDisabled]="project.status>=2?false:true">
+    <app-tender [projectId]="id" *ngIf="tenderShow" (voted)="ngOnInit()" [projectStatus]="project.status">
+    </app-tender>
   </nz-tab>
-  <nz-tab nzTitle="合同">
-    <app-contract [projectId]="id"></app-contract>
+  <nz-tab nzTitle="合同" [nzDisabled]="project.status>=3?false:true">
+    <app-contract [projectId]="id" *ngIf="contractShow" (voted)="ngOnInit()" [projectStatus]="project.status">
+    </app-contract>
   </nz-tab>
-  <nz-tab nzTitle="回款计划">
-    <app-paymentplan [projectId]="id" [projectStatus]="project.status"></app-paymentplan>
+  <nz-tab nzTitle="回款计划" [nzDisabled]="project.status>=4?false:true">
+    <app-paymentplan [projectId]="id" *ngIf="paymentplanShow" (voted)="ngOnInit()" [projectStatus]="project.status">
+    </app-paymentplan>
   </nz-tab>
   <nz-tab nzTitle="采购">
     <app-purchase [projectId]="id"></app-purchase>
