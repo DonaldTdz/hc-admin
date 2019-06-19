@@ -15,7 +15,7 @@ import { ReimburseComponent } from './reimburse/reimburse.component'
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component'
 import { TimesheetComponent } from './timesheet/timesheet.component'
 import { PaymentplanComponent } from './paymentplan/paymentplan.component'
-import { CreateOrUpdateProjectComponent } from './project/create-or-update-project/create-or-update-project.component'
+import { ModifyProjectComponent } from './project/modify-project/modify-project.component'
 import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component'
 import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-purchase/create-or-update-purchase.component'
 
@@ -87,7 +87,7 @@ const routes: Routes = [
   },
   {
     path: 'modify-project',
-    component: CreateOrUpdateProjectComponent,
+    component: ModifyProjectComponent,
     canActivate: [AppRouteGuard],
   },
   {

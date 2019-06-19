@@ -43,11 +43,7 @@
         <th>客户地址</th>
         <th>邮编</th>
         <th>电话</th>
-        <th>联系人</th>
-        <th>联系人职位</th>
-        <th>联系人电话</th>
         <th>创建时间</th>
-        <th>最新更新时间</th>
         <th>操作</th>
       </tr>
     </thead>
@@ -58,19 +54,15 @@
         <td>{{item.address}}</td>
         <td>{{item.zipCode}}</td>
         <td>{{item.tel}}</td>
-        <td>{{item.contact}}</td>
-        <td>{{item.position}}</td>
-        <td>{{item.phone}}</td>
         <td>{{item.creationTime| _date: 'YYYY-MM-DD'}}</td>
-        <td>{{item.lastModificationTime| _date: 'YYYY-MM-DD'}}</td>
         <td>
-          <a (click)="edit(item)">编辑</a>
-          <nz-divider nzType="vertical"></nz-divider>
+          <!-- <a (click)="edit(item)">编辑</a> -->
+          <!-- <nz-divider nzType="vertical"></nz-divider> -->
           <a (click)="details(item.id)">详情</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>
           <a style="color:#ff4d4f;" (click)="delete(item)">删除</a>
-          <nz-divider nzType="vertical"></nz-divider>
+          <!-- <nz-divider nzType="vertical"></nz-divider> -->
         </td>
 
       </tr>

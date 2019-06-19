@@ -36,6 +36,7 @@ export class EditCustomerComponent extends ModalComponentBase implements OnInit 
     this.customer.type = 1;
     this.form = this.fb.group({
       name: [null, Validators.compose([Validators.required])],  //客户名称
+      deptName: [null, Validators.compose([Validators.required])],  //客户部门名称
       type: [null],  //客户类型
       address: [null],  //地址
       zipCode: [null, Validators.compose([Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],  //邮编

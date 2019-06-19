@@ -73,22 +73,22 @@ export class AppMenus {
             group: true,
             children: [
                 {
-                    text: "项目管理",
+                    text: "项目",
                     link: "/app/pm/project",
                     reuse: false
                 }, {
-                    text: "采购管理",
+                    text: "采购",
                     link: "/app/pm/purchase",
                     reuse: false
                 }, {
-                    text: "报销查询",
+                    text: "报销",
                     link: "/app/pm/reimburse",
                     reuse: false
-                }, {
-                    text: "工时查询",
-                    link: "/app/pm/timesheet",
-                    reuse: false
-                }
+                }//, {
+                //     text: "工时查询",
+                //     link: "/app/pm/timesheet",
+                //     reuse: false
+                // }
                 // {
                 //     text: "招标管理",
                 //     link: "/app/pm/tender",

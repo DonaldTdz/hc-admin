@@ -53,13 +53,7 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.modalHelper.open(CreateCustomerComponent, {}, 'md', {
-      nzMask: true, nzMaskClosable: false
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.getProjects();
-      }
-    });
+    this.router.navigate(['/app/base/customer-detail']);
   }
   //删除
   delete(entity: Customer) {

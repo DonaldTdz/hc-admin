@@ -1,3 +1,4 @@
+
 export class Project {
     id: string;
     mode: number;
@@ -5,13 +6,14 @@ export class Project {
     billCost: number;
     type: string;
     projectCode: string;
+    projectSalesId: string;
+    salesAssistantId: string;
     name: string;
     customerId: number;
-    employeeId: string;
     startDate: Date;
     endDate: Date;
-    year: number;
     budget: number;
+    implementMoney: number;
     status: number;
     desc: string;
     isDeleted: boolean;
@@ -21,10 +23,12 @@ export class Project {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
-    employeeName: string;
+    projectSalesName: string;
+    salesAssistantName: string
     customerName: string;
     modeName: string;
     statusName: string;
+    customerContactId: number;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -41,13 +45,16 @@ export class Project {
             this.billCost = data["billCost"];
             this.type = data["type"];
             this.projectCode = data["projectCode"];
+            this.projectSalesId = data["projectSalesId"];
+            this.salesAssistantId = data["salesAssistantId"];
             this.name = data["name"];
-            this.customerId = data["customerId"];
-            this.employeeId = data["employeeId"];
+            this.customerId = data["customerId"].toString();
+            // this.employeeId = data["employeeId"];
             this.startDate = data["startDate"];
             this.endDate = data["endDate"];
-            this.year = data["year"];
+            // this.year = data["year"];
             this.budget = data["budget"];
+            this.implementMoney = data["implementMoney"];
             this.status = data["status"];
             this.desc = data["desc"];
             this.isDeleted = data["isDeleted"];
@@ -57,10 +64,12 @@ export class Project {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
-            this.employeeName = data["employeeName"];
+            this.projectSalesName = data["projectSalesName"];
+            this.salesAssistantName = data["salesAssistantName"];
             this.customerName = data["customerName"];
             this.modeName = data["modeName"];
             this.statusName = data["statusName"];
+            this.customerContactId = data["customerContactId"].toString();
         }
     }
     toJSON(data?: any) {
@@ -71,13 +80,16 @@ export class Project {
         data["billCost"] = this.billCost;
         data["type"] = this.type;
         data["projectCode"] = this.projectCode;
+        data["projectSalesId"] = this.projectSalesId;
+        data["salesAssistantId"] = this.salesAssistantId;
         data["name"] = this.name;
         data["customerId"] = this.customerId;
-        data["employeeId"] = this.employeeId;
+        // data["employeeId"] = this.employeeId;
         data["startDate"] = this.startDate;
         data["endDate"] = this.endDate;
-        data["year"] = this.year;
+        // data["year"] = this.year;
         data["budget"] = this.budget;
+        data["implementMoney"] = this.implementMoney;
         data["status"] = this.status;
         data["desc"] = this.desc;
         data["isDeleted"] = this.isDeleted;
@@ -87,6 +99,7 @@ export class Project {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["deletionTime"] = this.deletionTime;
         data["deleterUserId"] = this.deleterUserId;
+        data["customerContactId"] = this.customerContactId;
         return data;
     }
     static fromJS(data: any): Project {

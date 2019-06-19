@@ -36,6 +36,8 @@ import { DetailReimbursedetailsComponent } from './reimburse/detail-reimbursedet
 import { PaymentplanComponent } from './paymentplan/paymentplan.component';
 import { CreatePaymentplanComponent } from './paymentplan/create-paymentplan/create-paymentplan.component';
 import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/update-paymentplan.component';
+import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
+import { ModifyProjectComponent } from './project/modify-project/modify-project.component';
 
 @NgModule({
   imports: [
@@ -74,6 +76,8 @@ import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/upd
     PaymentplanComponent,
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
+    ModifyReimburseComponent,
+    ModifyProjectComponent,
   ],
   entryComponents: [
     CreateOrUpdateProjectComponent,
@@ -91,7 +95,9 @@ import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/upd
     UpdatePaymentplanComponent
 
   ],
-  providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService
-    , PurchaseService, ContractService, ContractDetailService, PurchaseDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService],
+  providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
+    ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,
+    ContractDetailService, PurchaseDetailService, InvoiceService, InvoiceDetailService,
+    ReimburseService, ReimburseDetailService, TimesheetService],
 })
 export class PmModule { }

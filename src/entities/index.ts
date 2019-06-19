@@ -25,3 +25,4 @@ export * from './reimburse';
 export * from './reimbursedetail';
 export * from './timesheet';
 export * from './paymentplan';
+export * from './customercontact';

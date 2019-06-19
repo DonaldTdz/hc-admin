@@ -16,6 +16,15 @@
     </nz-form-item>
 
     <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired nzFor="name">部门名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="deptName" [(ngModel)]="customer.deptName" id="deptName">
+        <nz-form-explain *ngIf="form.get('deptName').dirty&&form.get('deptName').hasError('required')">请输入部门名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row>
       <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzFor="type">客户类型</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <nz-select formControlName="type" [nzPlaceHolder]="'客户类型'" [(ngModel)]="customer.type" [nzShowSearch]="true"

@@ -24,4 +24,5 @@ export * from './invoice/invoice-detail.service';
 export * from './timesheet/timesheet.services';
 export * from './reimburse/reimburse.services';
 export * from './reimburse/reimburse-detail.services'
-export * from './paymentplan/paymentplan.service'
+export * from './paymentplan/paymentplan.service';
+export * from './customer/customercontact.service';

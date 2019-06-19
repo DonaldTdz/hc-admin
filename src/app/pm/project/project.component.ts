@@ -1,9 +1,11 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { Project } from 'entities'
+import { Project } from 'entities';
 import { ProjectService, CustomerService } from 'services'
 import { AppComponentBase } from '@shared/app-component-base';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
+
+var nowDate = new Date();
 
 @Component({
   selector: 'app-project',
@@ -12,14 +14,15 @@ import { PagedResultDto } from '@shared/component-base/paged-listing-component-b
 })
 export class ProjectComponent extends AppComponentBase implements OnInit {
   projectMode = [{ text: "内部", value: 1 }, { text: "合伙", value: 2 }, { text: "外部", value: 3 }];
-  projectStatus = [{ "text": "立项", "value": 1 }
-    , { text: "招标", value: 2 }
-    , { text: "合同", value: 3 }
-    , { text: "收款", value: 4 }
-    , { text: "已完成", value: 5 }
-    , { text: "丢单", value: 6 }];
+  projectStatus = [{ "text": "线索", "value": 1 }
+    , { text: "立项", value: 2 }
+    , { text: "招标", value: 3 }
+    , { text: "执行", value: 4 }
+    , { text: "丢单", value: 5 }];
   search: any = {};
   customerList: any;
+  expandForm = false;
+  shedateFormat = 'yyyy-MM-dd';
   id: any = '';
   project: Project = new Project();
   loading = "false"
@@ -29,6 +32,8 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
+    this.search.createDate = [new Date(nowDate.getFullYear(), 0, 1)
+      , new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate())]
     this.getProjects();
     this.getCustomerList();
   }
@@ -69,8 +74,8 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
   // } 
 
   //详细
-  details(id: any, status: number) {
-    this.router.navigate(['/app/pm/projectoc-detail', { id: id }]);
+  details(id: any) {
+    this.router.navigate(['/app/pm/modify-project', { id: id }]);
   }
 
   //新增

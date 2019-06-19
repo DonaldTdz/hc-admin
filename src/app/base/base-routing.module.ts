@@ -34,13 +34,11 @@ const routes: Routes = [
     path: 'customer-detail',
     component: DetailCustomerComponent,
     canActivate: [AppRouteGuard],
-    data: { title: "客户详情" }
   },
   {
     path: 'supplier-detail',
     component: DetailSupplierComponent,
     canActivate: [AppRouteGuard],
-    data: { title: "供应商详情" }
   }
 ];
 

@@ -1,0 +1,55 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="customerContact">
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" nzRequired [nzXs]="24">联系人名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="name" placeholder="请输入联系人名称" [(ngModel)]="customerContact.name" />
+        <nz-form-explain *ngIf="(form.get('name')?.dirty && form.get('name')?.errors)
+        ">联系人名称不能为空,且不能超过50个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24" nzRequired>部门名称</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="deptName" placeholder="请输入部门名称" [(ngModel)]="customerContact.deptName" />
+        <nz-form-explain *ngIf="
+          (form.get('deptName')?.dirty && form.get('deptName')?.errors)
+        ">部门名称不能为空,且不能超过50个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">职位</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="position" placeholder="请输入职位" [(ngModel)]="customerContact.position" />
+        <nz-form-explain *ngIf="
+            (form.get('position')?.dirty && form.get('position')?.errors)
+          ">单位不能超过25个字符
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSm]="5" [nzXs]="24">联系电话</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <nz-input-number nz-input formControlName="phone" style="width:100%" placeholder="请输入电话"
+          [(ngModel)]="customerContact.phone">
+        </nz-input-number>
+        <nz-form-explain *ngIf="(form.get('phone')?.dirty && form.get('phone')?.errors)
+            ">请输入正确的电话
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+      <button nz-button type="button" [disabled]="saving" (click)="close()">
+        {{l("Cancel")}}
+      </button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">
+        保存
+      </button>
+    </div>
+  </form>
+</div>

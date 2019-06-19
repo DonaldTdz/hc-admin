@@ -1,4 +1,6 @@
-<page-header [title]="">
+<page-header [title]="'供应商详情'">
+</page-header>
+<nz-card>
   <sv-container size="small" col="2">
     <!-- <sv label="供应商类型">{{supplier.typeName}}</sv> -->
     <sv label="供应商名称">{{supplier.name}}</sv>
@@ -11,7 +13,7 @@
     <sv label="描述,经营范围">{{supplier.desc}}</sv>
     <sv label="备注">{{supplier.remark}}</sv>
   </sv-container>
-</page-header>
+</nz-card>
 <nz-card nzTitle="附件">
   <div nz-card-grid [ngStyle]="{width: '25%',textAlign: 'center'}" *ngFor="let item of attachments"><a
       href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a></div>

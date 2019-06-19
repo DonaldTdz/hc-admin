@@ -2,7 +2,7 @@
 <nz-card>
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
-      <div nz-col nzMd="6" nzSm="24">
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="name">项目名称</nz-form-label>
           <nz-form-control>
@@ -10,31 +10,51 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-
-      <div nz-col nzMd="6" nzSm="24">
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="customerId">所属客户</nz-form-label>
           <nz-form-control>
             <nz-select name="customerId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.customerId"
-              nzPlaceHolder="请选择分类">
+              nzPlaceHolder="请选择所属客户">
               <nz-option *ngFor="let i of customerList" [nzLabel]="i.text" [nzValue]="i.value">
               </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="6" nzSm="24">
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="status">项目状态</nz-form-label>
           <nz-form-control>
-            <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择分类">
+            <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择项目状态">
               <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
               </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="6" [class.text-right]="true">
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24" *ngIf="expandForm">
+        <nz-form-item>
+          <nz-form-label nzFor="createDate">创建日期</nz-form-label>
+          <nz-form-control>
+            <nz-range-picker [nzFormat]="shedateFormat" name="createDate" [(ngModel)]="search.createDate">
+            </nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="!expandForm ? 6 : 8" [class.float-rigth]="true">
+        <button nz-button (click)="getProjects()" [nzType]="'primary'" [nzLoading]="loading">查询</button>
+        <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
+        <a (click)="expandForm=!expandForm">
+          {{expandForm ? '收起' : '展开'}}
+          <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
+        </a>
+        <button nz-button (click)="create()" style="float: right" nzType="primary">
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+      </div>
+      <!-- <div nz-col [nzSpan]="6" [class.text-right]="true">
         <button nz-button (click)="getProjects()" nzType="primary" [nzLoading]="loading">
           查询
         </button>
@@ -43,7 +63,7 @@
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
         </button>
-      </div>
+      </div> -->
     </div>
   </form>
   <ng-template #totalContentMe>共{{query.total}}条</ng-template>
@@ -66,16 +86,13 @@
           <span>所属客户</span>
         </th>
         <th nz-th>
-          <span>负责人</span>
+          <span>项目销售</span>
         </th>
         <th nz-th style="text-align: center">
           <span>项目状态</span>
         </th>
-        <th nz-th style="text-align: center">
-          <span>开始日期</span>
-        </th>
-        <th nz-th style="text-align: center">
-          <span>结束日期</span>
+        <th nz-th style="text-align: right">
+          <span>执行金额(元)</span>
         </th>
         <th style="text-align: center">
           <span>操作</span>
@@ -88,25 +105,22 @@
         <td nz-td title="ding.name">{{ding.name | lengthLimit:10}}</td>
         <td nz-td style="text-align: center">{{ding.modeName}}</td>
         <td nz-td>{{ding.customerName}}</td>
-        <td nz-td>{{ding.employeeName}}</td>
+        <td nz-td>{{ding.projectSalesName}}</td>
         <td nz-td style="text-align: center">
-          <nz-badge *ngIf="ding.status=='1'" [nzStatus]="'warning'" [nzText]="'立项'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='2'" [nzStatus]="'default'" [nzStyle]="{'background-color':'#2f54eb'}"
-            [nzText]="'招标'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='3'" [nzStatus]="'processing'" [nzText]="'合同'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='5'" [nzStatus]="'success'" [nzText]="'收款'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='4'" [nzStatus]="'default'" [nzText]="'已完成'"></nz-badge>
-          <nz-badge *ngIf="ding.status=='6'" [nzStatus]="'error'" [nzText]="'丢单'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='1'" [nzStatus]="'processing'" [nzText]="'线索'"></nz-badge>
+          <nz-badge *ngIf="ding.status=='2'" [nzStatus]="'color'" [nzStyle]="{'background-color':'#2f54eb'}"
+            [nzText]="'立项'"></nz-badge>
+          <nz-badge *ngIf=" ding.status=='3'" [nzStatus]="'warning'" [nzText]="'招标'"></nz-badge>
+          <nz-badge *ngIf=" ding.status=='4'" [nzStatus]="'success'" [nzText]="'执行'"></nz-badge>
+          <nz-badge *ngIf=" ding.status=='5'" [nzStatus]="'default'" [nzText]="'丢单'"></nz-badge>
         </td>
-        <td nz-td style="text-align: center">
-          {{ding.startDate | date:'yyyy-MM-dd'}}</td>
-        <td nz-td style="text-align: center">{{ding.endDate | date:'yyyy-MM-dd'}}
+        <td nz-td style=" text-align: right">{{ding.implementMoney}}
         </td>
         <td nz-td style="text-align: center">
           <!-- <a (click)="editDing(ding.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider> -->
-          <a (click)="details(ding.id,ding.status)">详情</a>
+          <a (click)="details(ding.id)">详情</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>
           <a style="color:#ff4d4f;" (click)="delete(ding)">删除</a>

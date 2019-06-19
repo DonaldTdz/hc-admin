@@ -69,6 +69,17 @@ export class ProjectService {
     }
 
     /**
+    * 获取生成的项目编号
+    * @param type 
+    */
+    generateProjectCode(type: string | null): Observable<string> {
+        let _url = "/api/services/app/Project/GenerateProjectCodeAsync";
+        return this._commonhttp.post(_url, null, { 'type': type }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
     * 创建项目与项目明细
     * @param input 
     */
