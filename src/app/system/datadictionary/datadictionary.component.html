@@ -19,7 +19,7 @@
 
     </div>
     <div nz-col [nzSpan]="12" class="mb-md" style="text-align: right">
-      <button nz-button (click)="getDataDictionarys()" [nzLoading]="totalContentMe" nzType="primary">
+      <button nz-button (click)="getDataDictionarys()" [nzLoading]="tableLoading" nzType="primary">
         查询
       </button>
       <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>

@@ -19,9 +19,12 @@ export class TenderComponent extends AppComponentBase implements OnInit {
   projectIdDisabled = false;
 
   @Input() projectId;
+  @Input() projectCode;
+  @Input() projectName;
   @Input() projectStatus;
   @Output() voted = new EventEmitter<boolean>();
   employeeList: any;
+  projectTitle: string = '';
   readyEmployeeIds: any;
   uploadDisabled = false;
   attachments = [];
@@ -44,6 +47,8 @@ export class TenderComponent extends AppComponentBase implements OnInit {
       employeeId: [null, Validators.compose([Validators.required])],
       readyEmployeeIds: [null, Validators.compose([Validators.required])]
     });
+    if (this.projectCode && this.projectName)
+      this.projectTitle = "项目编号：" + this.projectCode + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0项目名称：" + this.projectName;
     this.getProjectList();
     this.getEmployeeList();
     this.getTender();

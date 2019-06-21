@@ -1,13 +1,11 @@
 export class ProjectDetail {
     id: string;
     projectId: string;
-    type: string;
     name: string;
-    specification: string;
-    unit: string;
     num: number;
     price: number;
-    productId: number;
+    totalAmount: number;
+    totalSum: number;
     isDeleted: boolean;
     creationTime: Date;
     creatorUserId: number;
@@ -27,13 +25,11 @@ export class ProjectDetail {
         if (data) {
             this.id = data["id"];
             this.projectId = data["projectId"];
-            this.type = data["type"];
             this.name = data["name"];
-            this.specification = data["specification"];
-            this.unit = data["unit"];
             this.num = data["num"];
             this.price = data["price"];
-            this.productId = data["productId"];
+            this.totalAmount = data["totalAmount"];
+            this.totalSum = data["totalSum"];
             this.isDeleted = data["isDeleted"];
             this.creationTime = data["creationTime"];
             this.creatorUserId = data["creatorUserId"];
@@ -47,13 +43,9 @@ export class ProjectDetail {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["projectId"] = this.projectId;
-        data["type"] = this.type;
         data["name"] = this.name;
-        data["specification"] = this.specification;
-        data["unit"] = this.unit;
         data["num"] = this.num;
         data["price"] = this.price;
-        data["productId"] = this.productId;
         data["isDeleted"] = this.isDeleted;
         data["creationTime"] = this.creationTime;
         data["creatorUserId"] = this.creatorUserId;

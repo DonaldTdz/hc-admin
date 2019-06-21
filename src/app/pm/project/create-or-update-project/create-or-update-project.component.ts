@@ -9,7 +9,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { Project, ProjectDetail } from 'entities'
 import { DatePipe, Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { CreateOrUpdateProjectdetailComponent } from '../create-or-update-projectdetail/create-or-update-projectdetail.component'
+import { ModifyProjectdetailComponent } from '../modify-projectdetail/modify-projectdetail.component'
 
 @Component({
   selector: 'app-create-or-update-project',
@@ -89,7 +89,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
 
   //创建项目明细
   createProjectDetail() {
-    this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { projectId: this.project.id }, 'md', {
+    this.modalHelper.open(ModifyProjectdetailComponent, { projectId: this.project.id }, 'md', {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
       if (!this.project.id) {
@@ -106,7 +106,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
   //编辑项目明细
   editProjectDetail(projectDetail: ProjectDetail, index: number) {
     if (!this.project.id) {
-      this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { projectDetail }, 'md', {
+      this.modalHelper.open(ModifyProjectdetailComponent, { projectDetail }, 'md', {
         nzMask: true
       }).subscribe((result: any) => {
         if (!this.project.id) {
@@ -117,7 +117,7 @@ export class CreateOrUpdateProjectComponent extends AppComponentBase implements 
         }
       });
     } else {
-      this.modalHelper.open(CreateOrUpdateProjectdetailComponent, { id: projectDetail.id }, 'md', {
+      this.modalHelper.open(ModifyProjectdetailComponent, { id: projectDetail.id }, 'md', {
         nzMask: true
       }).subscribe(isSave => {
         if (isSave) {

@@ -47,9 +47,9 @@ textarea:read-only {
 
 :host {
   ::ng-deep {
-    .mb-lg table tbody tr:last-child {
-      font-weight: bold
-    }
+    // .mb-lg table tbody tr:last-child {
+    //   font-weight: bold
+    // }
 
     .ant-steps {
       margin-top: 30px;

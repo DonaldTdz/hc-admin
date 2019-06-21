@@ -1,34 +1,28 @@
-<nz-tabset nzSize="large" (nzSelectChange)="change($event)">
-  <nz-tab nzTitle="项目" (nzClick)="projects.getData()">
-    <app-create-or-update-project [id]="id" #projects (voted)="ngOnInit()"></app-create-or-update-project>
-  </nz-tab>
-  <nz-tab nzTitle="招标" [nzDisabled]="project.status>=2?false:true">
-    <app-tender [projectId]="id" *ngIf="tenderShow" (voted)="ngOnInit()" [projectStatus]="project.status">
-    </app-tender>
-  </nz-tab>
-  <nz-tab nzTitle="合同" [nzDisabled]="project.status>=3?false:true">
-    <app-contract [projectId]="id" *ngIf="contractShow" (voted)="ngOnInit()" [projectStatus]="project.status">
-    </app-contract>
-  </nz-tab>
-  <nz-tab nzTitle="回款计划" [nzDisabled]="project.status>=4?false:true">
-    <app-paymentplan [projectId]="id" *ngIf="paymentplanShow" (voted)="ngOnInit()" [projectStatus]="project.status">
-    </app-paymentplan>
-  </nz-tab>
-  <nz-tab nzTitle="采购">
-    <app-purchase [projectId]="id"></app-purchase>
-  </nz-tab>
-  <nz-tab nzTitle="发票">
-    <app-invoice [projectId]="id"></app-invoice>
-  </nz-tab>
-  <nz-tab nzTitle="报销">
-    <app-reimburse [projectId]="id"></app-reimburse>
-  </nz-tab>
-  <nz-tab nzTitle="工时">
-    <app-timesheet [projectId]="id"></app-timesheet>
-  </nz-tab>
-</nz-tabset>
-<footer-toolbar *ngIf="tabIndex!=0">
-  <button nz-button [nzType]="'default'" (click)="return()">
-    返回
-  </button>
-</footer-toolbar>
+<page-header title="{{title}}">
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-steps [nzCurrent]="projectStatus.indexOf(project.statusName)" nzProgressDot>
+    <nz-step *ngFor="let text of projectStatus" [nzTitle]="text" (click)="step($event)">
+    </nz-step>
+  </nz-steps>
+  <!-- <page-header title="{{projectTitle}}" [action]="extraTemplate">
+    <ng-template #extraTemplate>
+      <button nz-button type="button" class="button-gray" *ngIf="project.status==2" (click)="loseOrder()">丢单</button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>
+      <button nz-button type="button" class="button-green" *ngIf="project.status==1" (click)="submit()">去立项</button>
+      <button nz-button type="button" class="button-green" *ngIf="project.status==2" (click)="submit()">完成立项</button>
+    </ng-template>
+  </page-header> -->
+  <app-modify-project [projectId]="id" (voted)="voted($event)" (updateStep)="updateStep($event)"
+    *ngIf="project.statusName=='线索'||project.statusName=='立项'||loseOrder=='线索'||loseOrder=='立项'">
+  </app-modify-project>
+  <app-tender [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
+    [projectCode]="project.projectCode" (voted)="voted($event)" (updateStep)="updateStep($event)"
+    *ngIf="project.statusName=='招标'||loseOrder=='招标'"></app-tender>
+
+  <div class="modal-footer">
+    <button nz-button type="button" [disabled]="saving" (click)="goBack()">
+      返回
+    </button>
+  </div>
+</nz-card>

@@ -1,13 +1,14 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
-import { AppComponentBase } from '@shared/component-base';
+import { Component, OnInit, Injector, Input, EventEmitter, Output } from '@angular/core';
+import { AppComponentBase } from '@shared/app-component-base';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService
   , ProjectDetailService, CustomerContactService
 } from 'services';
-import { DatePipe } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Project } from 'entities';
+import { ModifyProjectdetailComponent } from '../modify-projectdetail/modify-projectdetail.component'
+import { PagedResultDto } from '@shared/component-base';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-modify-project',
@@ -16,34 +17,37 @@ import { Project } from 'entities';
   providers: [CustomerContactService]
 })
 export class ModifyProjectComponent extends AppComponentBase implements OnInit {
-  id: any = '';
+  @Input() projectId;
+  @Output() voted = new EventEmitter<string>();
+  @Output() updateStep = new EventEmitter<string>();
   loading = 'false';
+  projectTitle: any;
+  totalAmount: number = 0;
   title: string;
+  editIndex = -1;
   current = 0;
   projectCustomerId: string;
   typeList: any;
   employeeList: any;
+  editObj = {};
   customerList: any;
   CustomerContacts: any;
-  projectStatus = ["线索", "立项", "招标", "执行"];
   projectMode = [{ text: "内部", value: 1 }, { text: "合伙", value: 2 }, { text: "外部", value: 3 }];
   project: Project = new Project();
   form: FormGroup;
+  projectFrom: FormGroup;
 
-  constructor(injector: Injector, private projectService: ProjectService, private datePipe: DatePipe
-    , private customerService: CustomerService, private projectDetailService: ProjectDetailService
-    , private customerContactService: CustomerContactService
-    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router, private actRouter: ActivatedRoute
+  constructor(injector: Injector, private projectService: ProjectService, private customerService: CustomerService
+    , private projectDetailService: ProjectDetailService, private nzMsg: NzMessageService
+    , private customerContactService: CustomerContactService, private employeeServiceProxy: EmployeeServiceProxy
     , private dataDictionaryService: DataDictionaryService, private fb: FormBuilder) {
     super(injector);
-    this.id = this.actRouter.snapshot.params['id'];
   }
 
   ngOnInit() {
-    // this.project.projectCode = 'HC' + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     this.form = this.fb.group({
       mode: [null, Validators.compose([Validators.required])],
-      implementMoney: [null, Validators.compose([Validators.maxLength(18)])],
+      implementMoney: [null, Validators.compose([Validators.maxLength(18), Validators.required])],
       projectSalesId: [null, Validators.compose([Validators.required])],
       salesAssistantId: [null, Validators.compose([Validators.required])],
       customerContactId: [null, Validators.compose([Validators.required])],
@@ -57,8 +61,9 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       startDate: [null],
       endDate: [null],
       status: [null],
+      projectDetails: this.fb.array([])
     });
-    if (!this.id) {
+    if (!this.projectId) {
       this.project.implementMoney = 0;
       this.project.statusName = "线索";
       this.project.status = 1;
@@ -66,8 +71,9 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       this.title = "新建项目";
     } else {
       this.title = "项目详情";
-      this.project.id = this.id;
+      this.project.id = this.projectId;
       this.getProjectById();
+      this.getProjectDetail();
     }
     this.getTypeList();
     this.getEmployeeList();
@@ -76,9 +82,15 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
   //获取项目详情
   getProjectById() {
-    this.projectService.getById(this.id).subscribe((result) => {
+    this.projectService.getById(this.projectId).subscribe((result) => {
       this.project = result;
+      this.projectTitle = "项目编号：" + this.project.projectCode + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0项目名称：" + this.project.name;
     });
+  }
+
+  //刷新状态
+  vote() {
+    this.voted.emit(this.project.id);
   }
 
   //获取项目类型
@@ -92,23 +104,28 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
   generateProjectCode() {
     this.projectService.generateProjectCode(this.project.type).subscribe((result) => {
       this.project.projectCode = result;
+      this.projectTitle = "项目编号：" + this.project.projectCode;
     });
   }
-
-  //获取客户联系人
-  // getCustomerContact() {
-  //   for (let customer of this.customers) {
-  //     if (customer.value == this.project.customerId)
-  //       this.project.customerContact = customer.text;
-  //     else
-  //       this.project.customerContact = '';
-  //   }
-  // }
 
   //获取客户列表
   getCustomerList() {
     this.customerService.getDropDownDtos().subscribe((result) => {
       this.customerList = result;
+    });
+  }
+
+  //丢单
+  loseOrder() {
+    // let index = this.projectStatus.indexOf(this.project.statusName);
+    // this.projectStatus=this.projectStatus.
+    // this.project.statusName = "丢单";
+    this.project.status = 6;
+    this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
+      if (result._isScalar == true) {
+        this.getProjectById();
+        this.updateStep.emit(this.project.statusName);
+      }
     });
   }
 
@@ -123,22 +140,31 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
   }
 
   //立项
-  submit() {
-    this.project.statusName = "立项";
-    this.save();
+  async submit() {
+    // this.projectTitle = "项目编号：" + this.project.projectCode + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0项目名称：" + this.project.name;
+    if (!this.project.id)
+      return this.nzMsg.warning("请先保存")
+
+    this.project.status = 2;
+    await this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
+      if (result._isScalar == true) {
+        this.vote();
+      }
+    });
   }
 
-  step(item: any) {
-    let bb = item.path[0].innerText;
-    this.project.statusName = bb;
-    // if (bb == "线索" && this.project.status == 1)
-    //   this.project.statusName = bb;
-    // else if (bb == "立项" && this.project.status == 2)
-    //   this.project.statusName = bb;
-    // else if (bb == "招标" && this.project.status == 3)
-    //   this.project.statusName = bb;
-    // else if (bb == "执行" && this.project.status == 4)
-    //   this.project.statusName = bb;
+  //完成立项
+  async tenders() {
+    if (this.project.status == 2 && !this.project.budget)
+      return this.nzMsg.warning("销售预算金额不能为空");
+    await this.save();
+
+    this.project.status = 3;
+    await this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
+      if (result._isScalar == true) {
+        this.vote();
+      }
+    });
   }
 
   //获取销售人员列表
@@ -148,32 +174,118 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  //返回
-  goBack(): void {
-    history.back();
+  //预计成本
+  estimatedCost() {
+    this.modalHelper.open(ModifyProjectdetailComponent, { 'projectId': this.project.id }, 'lg', {
+      nzMask: true, nzMaskClosable: false
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.getProjectDetail();
+      }
+    });
   }
+
+  projectDetail(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      projectId: [null],
+      name: [null, [Validators.required]],
+      num: [null, [Validators.required]],
+      price: [null, [Validators.required]],
+    });
+  }
+
+  getProjectDetail() {
+    this.loading = 'true';
+    let params: any = {};
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
+    params.projectId = this.project.id;
+    this.projectDetailService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.loading = "false";
+      for (let item of result.items) {
+        this.totalAmount += item.num * item.price;
+        const field = this.projectDetail();
+        field.patchValue(item);
+        this.projectDetails.push(field);
+      }
+    });
+  }
+
+  get projectDetails() {
+    return this.form.controls.projectDetails as FormArray;
+  }
+
+
 
   //保存
   save() {
     if (this.project.status == 2 && !this.project.budget)
-      return this.notify.warn("销售预算金额不能为空");
+      return this.nzMsg.warning("销售预算金额不能为空");
     if (this.project.mode == 2 && !this.project.profitRatio)
-      return this.notify.warn("收益比例不能为空");
+      return this.nzMsg.warning("收益比例不能为空");
     if (this.project.mode == 3 && !this.project.billCost)
-      return this.notify.warn("过单费用不能为空");
-    if (this.project.statusName == "立项")
-      this.project.status = 2;
+      return this.nzMsg.warning("过单费用不能为空");
     this.projectService.createOrUpdate(this.project).finally(() => {
     }).subscribe((result: any) => {
       if (result.code == 1) {
         this.project.id = result.data.id;
-        this.notify.success(result.msg);
+        this.nzMsg.success(result.msg);
       } else {
         this.project.status = 1;
         this.project.statusName = "线索";
-        this.notify.error(result.msg);
+        this.nzMsg.error(result.msg);
       }
     });
+  }
+
+  //删除成本
+  del(index: number, id: any) {
+    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.projectDetails.removeAt(index);
+    this.projectDetailService.delete(id).subscribe(() => {
+      this.notify.success('删除成功！');
+    });
+  }
+
+  //新增成本
+  add() {
+    this.projectDetails.push(this.projectDetail());
+    this.edit(this.projectDetails.length - 1);
+  }
+
+  //修改成本
+  edit(index: number) {
+    if (this.editIndex !== -1 && this.editObj) {
+      this.projectDetails.at(this.editIndex).patchValue(this.editObj);
+    }
+    this.editObj = { ...this.projectDetails.at(index).value };
+    this.editIndex = index;
+    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+  }
+
+  //保存成本
+  async saveProjectDetail(index: number) {
+    this.projectDetails.at(index).markAsDirty();
+    if (this.projectDetails.at(index).invalid) return;
+    this.editIndex = -1;
+    this.totalAmount += this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.projectDetails.value[index].projectId = this.project.id;
+    await this.projectDetailService.createOrUpdate(this.projectDetails.value[index])
+      .subscribe((result: any) => {
+        this.notify.success("保存成功");
+        this.projectDetails.value[index].id = result.id;
+      });
+  }
+
+  //取消成本
+  cancel(index: number, id: any) {
+    if (!this.projectDetails.at(index).value.id) {
+      this.projectDetails.removeAt(index);
+    } else {
+      this.del(index, id);
+    }
+    this.editIndex = -1;
   }
 
 }

@@ -13,7 +13,7 @@ import { PmRoutingModule } from './pm-routing.module';
 import { ProjectComponent } from './project/project.component';
 import { CreateOrUpdateProjectComponent } from './project/create-or-update-project/create-or-update-project.component';
 import { DetailProjectComponent } from './project/detail-project/detail-project.component';
-import { CreateOrUpdateProjectdetailComponent } from './project/create-or-update-projectdetail/create-or-update-projectdetail.component';
+import { ModifyProjectdetailComponent } from './project/modify-projectdetail/modify-projectdetail.component';
 import { TenderComponent } from './tender/tender.component';
 import { CreateOrUpdateTenderComponent } from './tender/create-or-update-tender/create-or-update-tender.component';
 import { PurchaseComponent } from './purchase/purchase.component';
@@ -53,7 +53,7 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
     ProjectComponent,
     CreateOrUpdateProjectComponent,
     DetailProjectComponent,
-    CreateOrUpdateProjectdetailComponent,
+    ModifyProjectdetailComponent,
     TenderComponent,
     CreateOrUpdateTenderComponent,
     PurchaseComponent,
@@ -82,7 +82,7 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
   entryComponents: [
     CreateOrUpdateProjectComponent,
     DetailProjectComponent,
-    CreateOrUpdateProjectdetailComponent,
+    ModifyProjectdetailComponent,
     CreateOrUpdateTenderComponent,
     CreateOrUpdatePurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,

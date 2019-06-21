@@ -45,6 +45,17 @@ export class ProjectDetailService {
         }))
     }
 
+    /**
+ * 批量新增
+ * @param input 
+ */
+    batchCreate(input: ProjectDetail[] | null): Observable<ProjectDetail> {
+        let _url = "/api/services/app/ProjectDetail/BatchCreateAsync";
+        return this._commonhttp.post(_url, { "ProjectDetails": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
 
     /**
      * 根据项目id获取项目明细下拉列表

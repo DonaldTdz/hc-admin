@@ -77,8 +77,8 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
     if (this.invoiceDetail.refId) {
       if (this.invoiceType == 1) {
         this.projectDetailService.GetById(this.invoiceDetail.refId).subscribe((result) => {
-          this.invoiceDetail.specification = result.specification;
-          this.invoiceDetail.unit = result.unit;
+          // this.invoiceDetail.specification = result.specification;
+          // this.invoiceDetail.unit = result.unit;
           this.invoiceDetail.name = result.name;
           if (!this.invoiceDetail.price)
             this.invoiceDetail.price = result.price;
@@ -91,10 +91,10 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
           if (!this.invoiceDetail.price)
             this.invoiceDetail.price = result.price;
           this.projectDetailService.GetById(result.projectDetailId).subscribe((result) => {
-            this.invoiceDetail.specification = result.specification;
+            // this.invoiceDetail.specification = result.specification;
             if (!this.invoiceDetail.num)
               this.invoiceDetail.num = result.num;
-            this.invoiceDetail.unit = result.unit;
+            // this.invoiceDetail.unit = result.unit;
             this.invoiceDetail.name = result.name;
           });
         });

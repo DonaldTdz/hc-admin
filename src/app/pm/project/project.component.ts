@@ -75,12 +75,12 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
 
   //详细
   details(id: any) {
-    this.router.navigate(['/app/pm/modify-project', { id: id }]);
+    this.router.navigate(['/app/pm/project-detail', { id: id }]);
   }
 
   //新增
   create() {
-    this.router.navigate(['/app/pm/modify-project']);
+    this.router.navigate(['/app/pm/project-detail']);
   }
 
   //删除
