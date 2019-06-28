@@ -2,7 +2,7 @@
 </page-header>
 <nz-card [nzBordered]="false">
   <nz-steps [nzCurrent]="projectStatus.indexOf(project.statusName)" nzProgressDot>
-    <nz-step *ngFor="let text of projectStatus" [nzTitle]="text" (click)="step($event)">
+    <nz-step *ngFor="let text of projectStatus" [nzTitle]="text" (click)="step($event)" style="cursor: pointer;">
     </nz-step>
   </nz-steps>
   <!-- <page-header title="{{projectTitle}}" [action]="extraTemplate">
@@ -13,13 +13,14 @@
       <button nz-button type="button" class="button-green" *ngIf="project.status==2" (click)="submit()">完成立项</button>
     </ng-template>
   </page-header> -->
-  <app-modify-project [projectId]="id" (voted)="voted($event)" (updateStep)="updateStep($event)"
-    *ngIf="project.statusName=='线索'||project.statusName=='立项'||loseOrder=='线索'||loseOrder=='立项'">
+  <!--(voted)="voted($event)"  -->
+  <app-modify-project [projectId]="id" [prjectName]="loseOrder" (voted)="voted($event)"
+    (updateStep)="updateStep($event)" *ngIf="loseOrder=='线索'||loseOrder=='立项'">
   </app-modify-project>
   <app-tender [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
-    [projectCode]="project.projectCode" (voted)="voted($event)" (updateStep)="updateStep($event)"
-    *ngIf="project.statusName=='招标'||loseOrder=='招标'"></app-tender>
-
+    [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='招标'"></app-tender>
+  <app-contract [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
+    [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='执行'"></app-contract>
   <div class="modal-footer">
     <button nz-button type="button" [disabled]="saving" (click)="goBack()">
       返回

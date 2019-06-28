@@ -3,55 +3,62 @@
     <div class="modal-title">{{title}}</div>
   </div>
   <form nz-form [formGroup]="form" [nzLayout]="'vertical'">
-    <nz-table #nzTable formArrayName="projectDetails" [nzData]="projectDetails.value" [nzShowPagination]="false">
+    <nz-table #nzTable formArrayName="contractDetails" [nzData]="contractDetails.value" [nzShowPagination]="false">
       <thead nz-thead>
         <tr>
           <th nz-th>名称</th>
-          <th nz-th style="text-align: center">数量</th>
-          <th nz-th style="text-align: center">单价</th>
-          <th nz-th style="text-align: center">合计</th>
+          <th nz-th>型号</th>
+          <th nz-th style="text-align: right">数量</th>
+          <th nz-th style="text-align: right">单价(元)</th>
+          <th nz-th style="text-align: right">合计(元)</th>
           <th nz-th style="text-align: center">操作</th>
         </tr>
       </thead>
       <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let item of projectDetails.controls; let i = index" [formGroupName]="i">
+        <tr nz-tbody-tr *ngFor="let item of contractDetails.controls; let i = index" [formGroupName]="i">
           <td nz-td>
-            <span *ngIf="editIndex!==i">{{projectDetails.value[i].name}}</span>
+            <span *ngIf="editIndex!==i">{{contractDetails.value[i].name}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
               <input nz-input formControlName="name" placeholder="请输入名称">
             </span>
           </td>
-          <td nz-td style="text-align: center">
-            <span *ngIf="editIndex!==i">{{projectDetails.value[i].num}}</span>
+          <td nz-td>
+            <span *ngIf="editIndex!==i">{{contractDetails.value[i].model}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="num" nzMin="0" nzMax="99999999999999" nzPrecision="2"
+              <input nz-input formControlName="model" placeholder="请输入型号">
+            </span>
+          </td>
+          <td nz-td style="text-align: right">
+            <span *ngIf="editIndex!==i">{{contractDetails.value[i].num}}</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <nz-input-number nz-input formControlName="num" nzMin="0" nzMax="99999999999999" nzPrecision="0"
                 placeholder="请输入数量">
               </nz-input-number>
             </span>
           </td>
-          <td nz-td style="text-align: center">
-            <span *ngIf="editIndex!==i">{{projectDetails.value[i].price}}</span>
+          <td nz-td style="text-align: right">
+            <span *ngIf="editIndex!==i">{{contractDetails.value[i].price}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
               <nz-input-number nz-input formControlName="price" nzMin="0" nzMax="99999999999999" nzPrecision="2"
                 placeholder="请输入单价">
               </nz-input-number>
             </span>
           </td>
-          <td nz-td style="text-align: center">
-            <span *ngIf="editIndex!==i">{{projectDetails.value[i].price*projectDetails.value[i].num}}</span>
+          <td nz-td style="text-align: right">
+            <span *ngIf="editIndex!==i">{{contractDetails.value[i].totalAmount}}</span>
           </td>
           <td nz-td style="text-align: center">
             <span *ngIf="editIndex!==i">
               <a (click)="edit(i)">编辑</a>
               <nz-divider nzType="vertical"></nz-divider>
-              <nz-popconfirm (nzOnConfirm)="del(i)" [nzTitle]="'是否要删除此行？'">
+              <nz-popconfirm (nzOnConfirm)="del(i,contractDetails.value[i].id)" [nzTitle]="'是否要删除此行？'">
                 <a nz-popconfirm>删除</a>
               </nz-popconfirm>
             </span>
             <span *ngIf="editIndex===i">
               <a (click)="save(i)">保存</a>
               <nz-divider nzType="vertical"></nz-divider>
-              <nz-popconfirm (nzOnConfirm)="del(i)" [nzTitle]="'是否要取消操作？'">
+              <nz-popconfirm (nzOnConfirm)="del(i,contractDetails.value[i].id)" [nzTitle]="'是否要取消操作？'">
                 <a nz-popconfirm>删除</a>
               </nz-popconfirm>
             </span>
@@ -61,10 +68,10 @@
     </nz-table>
     <button *ngIf="editIndex===-1" nz-button [nzType]="'dashed'" (click)="add()" nzBlock class="mt-md">
       <i nz-icon type="plus"></i>
-      <span>新增预计成本</span>
+      <span>新增合同明细</span>
     </button>
     <div class="modal-footer">
-      <label style="margin-right: 10px">总计：{{totalAmount}}</label>
+      <label style="margin-right: 10px">总计：{{contractAmount}}</label>
       <button nz-button type="primary" (click)="onSubmit()" nzType="primary">保存</button>
     </div>
   </form>

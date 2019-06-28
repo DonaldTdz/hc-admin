@@ -18,6 +18,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class ModifyProjectComponent extends AppComponentBase implements OnInit {
   @Input() projectId;
+  @Input() prjectName;
   @Output() voted = new EventEmitter<string>();
   @Output() updateStep = new EventEmitter<string>();
   loading = 'false';
@@ -151,6 +152,8 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
         this.vote();
       }
     });
+
+    // this.prjectName = '立项';
   }
 
   //完成立项
@@ -204,7 +207,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.projectDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = "false";
       for (let item of result.items) {
-        this.totalAmount += item.num * item.price;
+        this.totalAmount += parseFloat(item.num) * item.price;
         const field = this.projectDetail();
         field.patchValue(item);
         this.projectDetails.push(field);
@@ -241,7 +244,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
   //删除成本
   del(index: number, id: any) {
-    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
     this.projectDetails.removeAt(index);
     this.projectDetailService.delete(id).subscribe(() => {
       this.notify.success('删除成功！');
@@ -261,7 +264,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     }
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
-    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
   }
 
   //保存成本
@@ -269,7 +272,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.projectDetails.at(index).markAsDirty();
     if (this.projectDetails.at(index).invalid) return;
     this.editIndex = -1;
-    this.totalAmount += this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount += parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
     this.projectDetails.value[index].projectId = this.project.id;
     await this.projectDetailService.createOrUpdate(this.projectDetails.value[index])
       .subscribe((result: any) => {

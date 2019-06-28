@@ -1,169 +1,267 @@
 <!-- <nz-card [nzBordered]="false"> -->
-<form nz-form [formGroup]="form" #validateForm="ngForm" class="ant-advanced-search-form" (ngSubmit)="save()"
-  *ngIf="tender">
-  <div nz-row [nzGutter]="24">
-    <page-header title="{{projectTitle}}" [action]="extraTemplate">
-      <ng-template #extraTemplate>
-        <button nz-button type="button" class="button-gray" *ngIf="projectStatus==3" (click)="loseOrder()">未中标</button>
-        <button nz-button [nzType]="'primary'" type="submit" *ngIf="projectStatus==3"
-          [disabled]="!validateForm.valid||saving">保存</button>
-        <button nz-button type="button" class="button-green" *ngIf="projectStatus==3" (click)="submit()">中标</button>
-      </ng-template>
-    </page-header>
-  </div>
-  <nz-card [nzBordered]="false">
+
+<div nz-row [nzGutter]="24">
+  <page-header title="{{projectTitle}}" [action]="extraTemplate">
+    <ng-template #extraTemplate>
+      <button nz-button type="button" class="button-gray" *ngIf="projectStatus==3" (click)="loseABid()">未中标</button>
+      <button nz-button [nzType]="'primary'" type="button" (click)="save()" [disabled]="!form.valid"
+        *ngIf="projectStatus==3">保存</button>
+      <button nz-button type="button" class="button-green" *ngIf="projectStatus==3" (click)="winningBid()">中标</button>
+    </ng-template>
+  </page-header>
+</div>
+<nz-card [nzBordered]="false" style="background-color: #ffc53d14;">
+  <form nz-form [formGroup]="form" class="ant-advanced-search-form" *ngIf="tender">
     <nz-divider nzText="购买标书"></nz-divider>
     <div nz-row [nzGutter]="24">
-
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">负责人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择负责人'" [nzDisabled]="projectStatus!=3" formControlName="buyBidingPerson"
+              [(ngModel)]="tender.buyBidingPerson" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('buyBidingPerson')?.dirty && form.get('buyBidingPerson')?.errors)
+            ">负责人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">购买人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择购买人'" [nzDisabled]="projectStatus!=3" formControlName="bidPurchaser"
+              [(ngModel)]="tender.bidPurchaser" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('bidPurchaser')?.dirty && form.get('bidPurchaser')?.errors)
+            ">购买人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired="true" [nzXs]="24">开始日期</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker [nzStyle]='{width:"100%"}' [nzDisabled]="projectStatus!=3" placeholder="请选择开始日期"
+              formControlName="purchaseStartDate" [(ngModel)]="tender.purchaseStartDate"></nz-date-picker>
+            <nz-form-explain *ngIf="(form.get('purchaseStartDate')?.dirty && form.get('purchaseStartDate')?.errors)
+            ">开始日期不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired="true" [nzXs]="24">结束日期</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker [nzStyle]='{width:"100%"}' [nzDisabled]="projectStatus!=3" placeholder="请选择结束日期"
+              formControlName="purchaseEndDate" [(ngModel)]="tender.purchaseEndDate"></nz-date-picker>
+            <nz-form-explain *ngIf="(form.get('purchaseEndDate')?.dirty && form.get('purchaseEndDate')?.errors)
+              ">结束日期不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <button nz-button type="button" nzType="primary" [disabled]="projectStatus!=3" (click)="attachments()"
+            style="margin-top: 5px">
+            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传招标文件</span>
+          </button>
+        </nz-form-item>
+      </div>
     </div>
-  </nz-card>
-  <nz-card [nzBordered]="false">
+  </form>
+  <div nz-row [nzGutter]="24">
+    <nz-form-item nzFlex>
+      <nz-form-label [nzSm]="2" style="width: 10.1% !important" class="labelPadding" nzRequired="true" [nzXs]="24">
+        购买资料
+      </nz-form-label>
+      <nz-form-control [nzSm]="20" style="width: 89.9% !important" class="controlPadding" nzHasFeedback>
+        <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="purchaseCallback($event)">
+          <div nz-row>
+            <div nz-col *ngFor="let item of tenderDatas"
+              style="margin-top:10px;margin-right: 40px;background-color: white" nzSpan="10"><label class="lableBorder"
+                nz-checkbox [ngModel]="item.checked" nzValue="{{item.value}}">{{item.text}}</label></div>
+            <div nz-col style="margin-top:10px" nzSpan="10" *ngIf="projectStatus==3">
+              <button nz-button type="button" style="width: 60%" nzType="dashed" nzSize="small"
+                (click)="addTenderData()">
+                <i nz-icon type="plus"></i>添加购买资料
+              </button>
+            </div>
+          </div>
+        </nz-checkbox-wrapper>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</nz-card>
+<nz-card [nzBordered]="false" style="background-color: #fadb1426;">
+  <form nz-form [formGroup]="form" class="ant-advanced-search-form" *ngIf="tender">
     <nz-divider nzText="招标准备"></nz-divider>
-  </nz-card>
-  <div nz-row [nzGutter]="24">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">负责人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择负责人'" [nzDisabled]="projectStatus!=3" formControlName="preparationPerson"
+              [(ngModel)]="tender.preparationPerson" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('preparationPerson')?.dirty && form.get('preparationPerson')?.errors)
+            ">负责人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired="true" [nzXs]="24">招标截止日期</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker [nzStyle]='{width:"100%"}' [nzDisabled]="projectStatus!=3" placeholder="请选择招标截止日期"
+              formControlName="tenderTime" [(ngModel)]="tender.tenderTime"></nz-date-picker>
+            <nz-form-explain *ngIf="(form.get('tenderTime')?.dirty && form.get('tenderTime')?.errors)
+            ">招标截止日期不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label nz-col [nzSpan]="8" nzRequired="true" class="labelPadding">招标保证金(元)</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-input-number formControlName="bond" style="width:100%" [nzDisabled]="projectStatus!=3" placeholder="保证金"
+              [(ngModel)]="tender.bond">
+            </nz-input-number>
+            <nz-form-explain *ngIf="(form.get('bond')?.dirty && form.get('bond')?.errors)
+              ">保证金不能超过18位,且不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired="true" [nzXs]="24">缴纳截止日期</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker [nzStyle]='{width:"100%"}' [nzDisabled]="projectStatus!=3" placeholder="请选择缴纳截止日期"
+              formControlName="bondTime" [(ngModel)]="tender.bondTime"></nz-date-picker>
+            <nz-form-explain *ngIf="(form.get('bondTime')?.dirty && form.get('bondTime')?.errors)
+              ">缴纳截止日期不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
 
-  </div>
-  <!-- <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>所属项目</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-select formControlName="projectId" [nzPlaceHolder]="'请选择所属项目'" [nzDisabled]="projectIdDisabled"
-            [(ngModel)]="tender.projectId" [nzShowSearch]="true" style="width:100%;">
-            <nz-option *ngFor="let i of projectList" [nzLabel]="i.text" [nzValue]="i.value">
-            </nz-option>
-          </nz-select>
-          <nz-form-explain *ngIf="(form.get('projectId')?.dirty && form.get('projectId')?.errors)
-                ">所属项目不能为空
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label nz-col [nzSpan]="8" class="labelPadding">是否缴纳保证金</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding">
+            <nz-switch formControlName="isPayBond" [nzDisabled]="projectStatus!=3" [(ngModel)]="tender.isPayBond"
+              nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <button nz-button type="button" nzType="primary" [disabled]="projectStatus!=3" (click)="voucher()"
+            style="margin-top: 5px">
+            <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传标书凭证</span>
+          </button>
+        </nz-form-item>
+      </div>
     </div>
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="8" class="labelPadding" nzRequired>招标时间</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-date-picker placeholder="请选择招标时间" formControlName="tenderTime" style="width:100%"
-            [(ngModel)]="tender.tenderTime"></nz-date-picker>
-          <nz-form-explain *ngIf="(form.get('tenderTime')?.dirty && form.get('tenderTime')?.errors)
-            ">招标时间不能为空
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
+  </form>
   <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="6" class="labelPadding" nzRequired>准备完成时间</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-date-picker style="width:100%" placeholder="请选择准备完成时间" formControlName="readyTime"
-            [(ngModel)]="tender.readyTime"></nz-date-picker>
-          <nz-form-explain *ngIf="(form.get('readyTime')?.dirty && form.get('readyTime')?.errors)
-              ">准备完成时间不能为空
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
+    <nz-form-item nzFlex>
+      <nz-form-label [nzSm]="2" style="width: 10.1% !important" class="labelPadding" nzRequired="true" [nzXs]="24">
+        资质证明
+      </nz-form-label>
+      <nz-form-control [nzSm]="20" style="width: 89.9% !important" class="controlPadding" nzHasFeedback>
+        <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="qualificationCallback($event)">
+          <div nz-row>
+            <div nz-col *ngFor="let item of qualifications"
+              style="margin-top:10px;margin-right: 40px;background-color: white" nzSpan="10">
+              <label nz-checkbox class="lableBorder" [ngModel]="item.checked"
+                nzValue="{{item.value}}">{{item.text}}</label>
+            </div>
+            <div nz-col style="margin-top:10px" nzSpan="10" *ngIf="projectStatus==3">
+              <button nz-button type="button" (click)="addQualification()" style="width: 60%" nzType="dashed"
+                nzSize="small">
+                <i nz-icon type="plus"></i>添加资质证明
+              </button>
+            </div>
+          </div>
+        </nz-checkbox-wrapper>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <form nz-form [formGroup]="form" class="ant-advanced-search-form" *ngIf="tender">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">招标文件整理人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择招标文件整理人'" [nzDisabled]="projectStatus!=3" formControlName="organizer"
+              [(ngModel)]="tender.organizer" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('organizer')?.dirty && form.get('organizer')?.errors)
+            ">招标文件整理人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">招标文件检查人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择招标文件检查人'" [nzDisabled]="projectStatus!=3" formControlName="inspector"
+              [(ngModel)]="tender.inspector" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('inspector')?.dirty && form.get('inspector')?.errors)
+            ">招标文件检查人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="7" class="labelPadding" nzRequired="true" [nzXs]="24">招标文件装订人</nz-form-label>
+          <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择招标文件装订人'" [nzDisabled]="projectStatus!=3" formControlName="binder"
+              [(ngModel)]="tender.binder" [nzShowSearch]="true" style="width:100%;">
+              <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="(form.get('binder')?.dirty && form.get('binder')?.errors)
+            ">招标文件装订人不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
     </div>
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="8" class="labelPadding">是否完成准备</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding">
-          <nz-switch formControlName="isReady" [(ngModel)]="tender.isReady" nzCheckedChildren="是"
-            nzUnCheckedChildren="否"></nz-switch>
-        </nz-form-control>
-      </nz-form-item>
+  </form>
+
+</nz-card>
+<!-- <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="qualificationCallback($event)">
+  <div nz-row>
+    <div nz-col *ngFor="let item of qualifications" style="margin-top:10px;margin-right: 40px;background-color: white"
+      nzSpan="10">
+      <label nz-checkbox class="lableBorder" [ngModel]="item.checked" nzValue="{{item.value}}">{{item.text}}</label>
+    </div>
+    <div nz-col style="margin-top:10px" nzSpan="10" *ngIf="projectStatus==3">
+      <button nz-button type="button" (click)="addQualification()" style="width: 60%" nzType="dashed" nzSize="small">
+        <i nz-icon type="plus"></i>添加资质证明
+      </button>
     </div>
   </div>
-  <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="6" nzRequired="true" class="labelPadding">保证金截止时间</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-date-picker style="width:100%" placeholder="请选择保证金截止时间" formControlName="bondTime"
-            [(ngModel)]="tender.bondTime"></nz-date-picker>
-        </nz-form-control>
-        <nz-form-explain *ngIf="(form.get('bondTime')?.dirty && form.get('bondTime')?.errors)
-              ">保证金截止时间不能为空
-        </nz-form-explain>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="8" class="labelPadding">是否缴纳保证金</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding">
-          <nz-switch formControlName="isPayBond" [(ngModel)]="tender.isPayBond" nzCheckedChildren="是"
-            nzUnCheckedChildren="否"></nz-switch>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="12">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="6" nzRequired="true" class="labelPadding">招标负责人</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-select formControlName="employeeId" [nzPlaceHolder]="'请选择招标负责人'" [(ngModel)]="tender.employeeId"
-            [nzShowSearch]="true" style="width:100%;">
-            <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzSpan]="12" *ngIf="tender.isPayBond=='1'">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="8" nzRequired="true" class="labelPadding">保证金(元)</nz-form-label>
-        <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-          <nz-input-number formControlName="bond" style="width:100%" placeholder="保证金" [(ngModel)]="tender.bond">
-          </nz-input-number>
-          <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
-            ">保证金不能超过18位
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="24">
-      <nz-form-item nzFlex>
-        <nz-form-label nz-col [nzSpan]="3" nzRequired="true" class="labelPadding">标书准备人</nz-form-label>
-        <nz-form-control [nzSpan]="21" class="controlPadding" nzHasFeedback>
-          <nz-select formControlName="readyEmployeeIds" nzMode="tags" [nzPlaceHolder]="'请选择标书准备人'"
-            [(ngModel)]="readyEmployeeIds" [nzShowSearch]="true" style="width:100%;">
-            <nz-option *ngFor="let i of employeeList" [nzLabel]="i.text" [nzValue]="i.value">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <nz-form-item nz-row>
-    <div>
-      <nz-upload style="float:right;" *ngIf="projectStatus==2" [nzDisabled]="uploadDisabled"
-        nzAction="{{postUrl | hostUrl}}" [nzShowUploadList]="false" (nzChange)="handleChange($event)"
-        [nzBeforeUpload]="beforeUpload">
-        <div nz-button nzType="default" nzType="primary" style="padding-top: 5px">
-          <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
-        </div>
-      </nz-upload>
-      <p style="float:left;margin-top: 5px;color:red" *ngIf="uploadDisabled==true">附件数量大于6不能继续上传</p>
-    </div>
-    <nz-list style="margin-top: 40px;" class="demo-loadmore-list" [nzDataSource]="attachments"
-      [nzItemLayout]="'horizontal'" nzHeader="招标文件列表" nzBordered="true" [nzLoading]="initLoading" [nzRenderItem]="item"
-      [nzLoadMore]="loadMore">
-      <ng-template #item let-item>
-        <nz-list-item [nzActions]="[delete]">
-          <ng-template #delete><a style="color:#ff4d4f;" *ngIf="projectStatus==2"
-              (click)="deleteAttachment(item)">删除</a></ng-template>
-          <nz-list-item-meta [nzDescription]="nzDescription">
-          </nz-list-item-meta>
-          <ng-template #nzDescription>
-            <a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a>
-          </ng-template>
-        </nz-list-item>
-      </ng-template>
-    </nz-list>
-  </nz-form-item> -->
-</form>
-<!-- </nz-card> -->
+</nz-checkbox-wrapper> -->

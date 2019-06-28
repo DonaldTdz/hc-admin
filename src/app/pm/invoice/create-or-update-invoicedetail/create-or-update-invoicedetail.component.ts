@@ -1,114 +1,128 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { InvoiceDetail } from 'entities'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProjectDetailService, InvoiceDetailService, PurchaseDetailService, DataDictionaryService } from 'services'
-import { ModalComponentBase } from '@shared/component-base';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { InvoiceDetailService, PurchaseDetailService, DataDictionaryService } from 'services'
+import { ModalComponentBase, PagedResultDto } from '@shared/component-base';
 
 @Component({
   selector: 'app-create-or-update-invoicedetail',
-  templateUrl: './create-or-update-invoicedetail.component.html',
-  providers: [PurchaseDetailService]
+  templateUrl: './create-or-update-invoicedetail.component.html'
 })
 export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase implements OnInit {
-  invoiceDetail: InvoiceDetail = new InvoiceDetail();
   form: FormGroup;
-  @Input() id: any;
-  @Input() refId: any;
-  @Input() invoiceId: any;
-  @Input() invoiceType: any;
-  refDetailList: any;
-  taxRateDictionaries: any;
-  constructor(injector: Injector, private projectDetailService: ProjectDetailService, private invoiceDetailService: InvoiceDetailService
-    , private fb: FormBuilder, private purchaseDetailService: PurchaseDetailService, private dataDictionaryService: DataDictionaryService) { super(injector); }
+  @Input() invoiceId: number;
+  editIndex = -1;
+  loading: boolean = false;
+  invoiceAmount: number = 0;
+  editObj = {};
+  taxRates: any;
+  title: string;
+  // totalAmount: number = 0;
+  constructor(injector: Injector, private invoiceDetailService: InvoiceDetailService
+    , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
-      refId: [null, Validators.compose([Validators.required])],
-      name: [null, Validators.compose([Validators.required, Validators.maxLength(25)])],
-      specification: [null, Validators.compose([Validators.maxLength(100)])],
-      unit: [null, Validators.compose([Validators.maxLength(25)])],
-      num: [null, Validators.compose([Validators.maxLength(18)])],
-      price: [null, Validators.compose([Validators.maxLength(18)])],
-      taxRate: [null, Validators.compose([Validators.maxLength(25)])]
+      invoiceDetails: this.fb.array([]),
     });
-
-    if (this.invoiceType == 1) {
-      this.getProjectDetailList();
-    } else {
-      this.getpurchaseDetailList();
-    }
-    this.getTaxRateDictionaries();
-    if (this.id) {
-      this.getData();
-      this.title = "编辑发票明细";
-    } else {
-      this.title = "新增发票明细";
-      this.invoiceDetail.invoiceId = this.invoiceId;
+    this.title = "编辑发票明细";
+    if (this.invoiceId) {
+      this.getInvoiceDetails();
+      this.getTaxRates();
     }
   }
 
-  getProjectDetailList() {
-    this.projectDetailService.GetDropDownsByProjectId(this.refId).subscribe((result) => {
-      this.refDetailList = result;
+  //获取发票明细
+  getInvoiceDetails() {
+    this.loading = true;
+    let params: any = {};
+    params.SkipCount = 0;
+    params.MaxResultCount = 10;
+    params.invoiceId = this.invoiceId;
+    this.invoiceDetailService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.loading = false;
+      for (let item of result.items) {
+        const field = this.invoiceDetail();
+        field.patchValue(item);
+        this.invoiceDetails.push(field);
+        this.invoiceAmount += item.totalAmount;
+      }
+    });
+  }
+
+  getTaxRates() {
+    this.dataDictionaryService.getDropDownDtos("5").subscribe((result: any) => {
+      this.taxRates = result;
     })
   }
 
-  getpurchaseDetailList() {
-    this.purchaseDetailService.GetDropDownsByPurchaseId(this.refId).subscribe((result) => {
-      this.refDetailList = result;
+  invoiceDetail(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      invoiceId: [null],
+      name: [null, [Validators.required, Validators.maxLength(120)]],
+      specification: [null, [Validators.required, Validators.maxLength(100)]],
+      price: [null, [Validators.required, Validators.maxLength(18)]],
+      num: [null, [Validators.required, Validators.maxLength(18)]],
+      amount: [null],
+      taxRate: [null, [Validators.required]],
+      taxAmount: [null],
+      totalAmount: [null]
     });
   }
 
-  getTaxRateDictionaries() {
-    this.dataDictionaryService.getDropDownDtos("5").subscribe((result) => {
-      this.taxRateDictionaries = result;
-    });
+  get invoiceDetails() {
+    return this.form.controls.invoiceDetails as FormArray;
   }
 
-
-  getData() {
-    this.invoiceDetailService.getById(this.id).subscribe((result) => {
-      this.invoiceDetail = result;
-    });
+  //新增
+  add() {
+    this.invoiceDetails.push(this.invoiceDetail());
+    this.edit(this.invoiceDetails.length - 1);
   }
 
-  renderForm() {
-    // let projectDetailId: any;
-    if (this.invoiceDetail.refId) {
-      if (this.invoiceType == 1) {
-        this.projectDetailService.GetById(this.invoiceDetail.refId).subscribe((result) => {
-          // this.invoiceDetail.specification = result.specification;
-          // this.invoiceDetail.unit = result.unit;
-          this.invoiceDetail.name = result.name;
-          if (!this.invoiceDetail.price)
-            this.invoiceDetail.price = result.price;
-          if (!this.invoiceDetail.num)
-            this.invoiceDetail.num = result.num;
+  //修改
+  edit(index: number) {
+    if (this.editIndex !== -1 && this.editObj) {
+      this.invoiceDetails.at(this.editIndex).patchValue(this.editObj);
+    }
+    this.editObj = { ...this.invoiceDetails.at(index).value };
+    this.editIndex = index;
+    this.invoiceAmount -= this.invoiceDetails.value[index].totalAmount;
+  }
+
+  //保存
+  save(index: number) {
+    this.invoiceDetails.at(index).markAsDirty();
+    if (this.invoiceDetails.at(index).invalid) return;
+    this.editIndex = -1;
+    this.invoiceDetails.value[index].amount = parseFloat(this.invoiceDetails.value[index].num) * this.invoiceDetails.value[index].price;
+    this.invoiceDetails.value[index].taxAmount = this.invoiceDetails.value[index].amount * this.invoiceDetails.value[index].taxRate;
+    this.invoiceDetails.value[index].totalAmount = this.invoiceDetails.value[index].amount + this.invoiceDetails.value[index].taxAmount;
+    this.invoiceDetails.value[index].invoiceId = this.invoiceId;
+    this.invoiceAmount += this.invoiceDetails.value[index].totalAmount;
+    if (this.invoiceDetails.value[index].invoiceId) {
+      this.invoiceDetailService.createOrUpdate(this.invoiceDetails.value[index])
+        .subscribe((result: any) => {
+          this.notify.success("保存成功");
+          this.invoiceDetails.value[index].id = result.id;
         });
-      } else {
-        this.purchaseDetailService.getById(this.invoiceDetail.refId).subscribe((result) => {
-          // projectDetailId = result.projectDetailId;
-          if (!this.invoiceDetail.price)
-            this.invoiceDetail.price = result.price;
-          this.projectDetailService.GetById(result.projectDetailId).subscribe((result) => {
-            // this.invoiceDetail.specification = result.specification;
-            if (!this.invoiceDetail.num)
-              this.invoiceDetail.num = result.num;
-            // this.invoiceDetail.unit = result.unit;
-            this.invoiceDetail.name = result.name;
-          });
-        });
-      }
     }
   }
 
-  save() {
-    this.invoiceDetailService.createOrUpdate(this.invoiceDetail).finally(() => {
-      this.saving = false;
-    }).subscribe(() => {
-      this.notify.success('保存成功！');
-      this.success();
-    });
+  //删除
+  del(index: number, id: any) {
+    this.invoiceAmount -= this.invoiceDetails.value[index].totalAmount;
+    this.invoiceDetails.removeAt(index);
+    if (id) {
+      this.invoiceDetailService.delete(id).subscribe(() => {
+        this.notify.success('删除成功！');
+      });
+    }
+  }
+
+  //提交
+  onSubmit() {
+    this.notify.success("保存成功");
   }
 
 }

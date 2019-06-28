@@ -62,11 +62,11 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   //获取自动生成的合同编号
   getCodeType() {
-    if (this.contract.codeType) {
-      this.contractService.getPurchaseCode(this.contract.codeType).subscribe((resule) => {
-        this.contract.contractCode = resule;
-      });
-    }
+    // if (this.contract.codeType) {
+    //   this.contractService.getPurchaseCode(this.contract.codeType).subscribe((resule) => {
+    //     this.contract.contractCode = resule;
+    //   });
+    // }
   }
 
   //编辑获取数据

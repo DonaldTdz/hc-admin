@@ -5,17 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService, ProductService, TenderService, PurchaseService
-  , ContractService, ContractDetailService, InvoiceService, InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService, PurchaseDetailService
+  ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService,
+  ProductService, TenderService, PurchaseService, ContractService, InvoiceService,
+  InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService, PurchaseDetailService,
+  PaymentPlanService
 } from 'services'
 
 import { PmRoutingModule } from './pm-routing.module';
 import { ProjectComponent } from './project/project.component';
-import { CreateOrUpdateProjectComponent } from './project/create-or-update-project/create-or-update-project.component';
 import { DetailProjectComponent } from './project/detail-project/detail-project.component';
 import { ModifyProjectdetailComponent } from './project/modify-projectdetail/modify-projectdetail.component';
 import { TenderComponent } from './tender/tender.component';
-import { CreateOrUpdateTenderComponent } from './tender/create-or-update-tender/create-or-update-tender.component';
+import { CreateTenderDataComponent } from './tender/create-tenderdata/create-tenderdata.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-purchase/create-or-update-purchase.component';
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
@@ -38,6 +39,8 @@ import { CreatePaymentplanComponent } from './paymentplan/create-paymentplan/cre
 import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/update-paymentplan.component';
 import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
 import { ModifyProjectComponent } from './project/modify-project/modify-project.component';
+import { FileComponent } from './file/file.component';
+import { ModifContractdetailComponent } from './contract/modif-contractdetail/modif-contractdetail.component';
 
 @NgModule({
   imports: [
@@ -51,11 +54,10 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
   ],
   declarations: [
     ProjectComponent,
-    CreateOrUpdateProjectComponent,
     DetailProjectComponent,
     ModifyProjectdetailComponent,
     TenderComponent,
-    CreateOrUpdateTenderComponent,
+    CreateTenderDataComponent,
     PurchaseComponent,
     CreateOrUpdatePurchaseComponent,
     DetailPurchaseComponent,
@@ -78,12 +80,13 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
     UpdatePaymentplanComponent,
     ModifyReimburseComponent,
     ModifyProjectComponent,
+    FileComponent,
+    ModifContractdetailComponent,
   ],
   entryComponents: [
-    CreateOrUpdateProjectComponent,
     DetailProjectComponent,
     ModifyProjectdetailComponent,
-    CreateOrUpdateTenderComponent,
+    CreateTenderDataComponent,
     CreateOrUpdatePurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateContractComponent,
@@ -92,12 +95,14 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
     CreateOrUpdateInvoicedetailComponent,
     DetailReimbursedetailsComponent,
     CreatePaymentplanComponent,
-    UpdatePaymentplanComponent
+    UpdatePaymentplanComponent,
+    FileComponent,
+    ModifContractdetailComponent
 
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,
-    ContractDetailService, PurchaseDetailService, InvoiceService, InvoiceDetailService,
-    ReimburseService, ReimburseDetailService, TimesheetService],
+    , PurchaseDetailService, InvoiceService, InvoiceDetailService,
+    ReimburseService, ReimburseDetailService, TimesheetService, PaymentPlanService],
 })
 export class PmModule { }

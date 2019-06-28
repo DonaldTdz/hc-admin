@@ -45,6 +45,17 @@ export class ContractDetailService {
         }))
     }
 
+    /**
+ * 批量创建合同明细
+ * @param input 
+ */
+    batchCreate(input: any, contractId: any): Observable<ContractDetail> {
+        let _url = "/api/services/app/ContractDetail/BatchCreateAsync";
+        return this._commonhttp.post(_url, { "ContractDetails": input, "ContractId": contractId }).pipe(map(data => {
+            return data;
+        }))
+    }
+
 
     /**
      * 删除合同明细

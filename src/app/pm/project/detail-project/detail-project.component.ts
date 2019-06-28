@@ -26,6 +26,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
     if (!this.id) {
       this.project.statusName = "线索";
+      this.loseOrder = "线索";
       this.title = "新建项目";
     } else {
       this.title = "项目详情";
@@ -39,26 +40,24 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   }
 
   updateStep(statusName: string) {
-    this.loseOrder = this.project.statusName;
+    // this.loseOrder = this.project.statusName;
     let index = this.projectStatus.indexOf(this.project.statusName);
     this.projectStatus = this.projectStatus.slice(0, index + 1);
     this.projectStatus.push(statusName);
-    this.project.statusName = statusName;
+    // this.project.statusName = statusName;
+    this.ngOnInit();
   }
 
 
 
   step(item: any) {
+    console.log(item);
     let bb = item.path[0].innerText;
-    this.project.statusName = bb;
-    // if (bb == "线索" && this.project.status == 1)
-    //   this.project.statusName = bb;
-    // else if (bb == "立项" && this.project.status == 2)
-    //   this.project.statusName = bb;
-    // else if (bb == "招标" && this.project.status == 3)
-    //   this.project.statusName = bb;
-    // else if (bb == "执行" && this.project.status == 4)
-    //   this.project.statusName = bb;
+    if (!bb)
+      bb = item.path[1].innerText;
+    if (!bb)
+      bb = item.path[3].innerText;
+    this.loseOrder = bb;
   }
 
   getById() {

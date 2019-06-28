@@ -26,9 +26,9 @@ export class ContractService {
  * 获取单条数据详细信息
  * @param id 
  */
-    getById(id: any): Observable<Contract> {
+    getById(id: any, projectId: any): Observable<Contract> {
         let _url = "/api/services/app/Contract/GetByIdAsync";
-        let param = { 'id': id };
+        let param = { 'id': id, 'projectId': projectId };
         return this._commonhttp.get(_url, param).pipe(map(data => {
             return Contract.fromJS(data);
         }));
@@ -36,11 +36,11 @@ export class ContractService {
 
     /**
      * 获取自动生成的合同编号
-     * @param codeType 
+     * @param Type 
      */
-    getPurchaseCode(codeType: any): Observable<string> {
+    getContractCode(Type: any): Observable<string> {
         let _url = "/api/services/app/Contract/GetContractCodeAsync";
-        return this._commonhttp.get(_url, { 'CodeType': codeType }).pipe(map(data => {
+        return this._commonhttp.get(_url, { 'type': Type }).pipe(map(data => {
             return data;
         }));
     }

@@ -1,0 +1,40 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">上传文件</div>
+  </div>
+  <!-- <nz-card nzTitle="文件列表" [nzExtra]="extraTemplate">
+    <ng-template #extraTemplate> -->
+  <p style="float:left;margin-top: 5px;color:red" *ngIf="spanHidden==true">附件数量大于6不能继续上传</p>
+  <nz-upload style="float:right" [nzDisabled]="uploadDisabled" nzAction="{{postUrl | hostUrl}}"
+    [nzShowUploadList]="false" (nzChange)="handleChange($event)" [nzBeforeUpload]="beforeUpload">
+    <div nz-button nzType="default" nzType="primary" style="padding-top: 3px">
+      <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传</span>
+    </div>
+  </nz-upload>
+  <!-- <div style="margin-bottom: 8px;"><button nz-button (click)="change()">Switch Data</button></div> -->
+  <!-- </ng-template> -->
+  <nz-list style="margin-top: 60px;" class="demo-loadmore-list" [nzDataSource]="attachments"
+    [nzItemLayout]="'horizontal'" nzHeader="文件列表" nzBordered="true" [nzLoading]="initLoading" [nzRenderItem]="item"
+    [nzLoadMore]="loadMore">
+    <ng-template #item let-item>
+      <nz-list-item [nzActions]="[delete]">
+        <ng-template #delete><a style="color:#ff4d4f;" (click)="deleteAttachment(item)">删除</a>
+        </ng-template>
+        <nz-list-item-meta [nzDescription]="nzDescription">
+        </nz-list-item-meta>
+        <ng-template #nzDescription>
+          <a href="{{item.fileUrl | hostUrl}}" target="_blank">{{item.fileName}}</a>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <!-- </nz-card> -->
+  <div class="modal-footer">
+    <button nz-button type="button" [disabled]="saving" (click)="close()">
+      {{l("Cancel")}}
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="save()">
+      保存
+    </button>
+  </div>
+</div>

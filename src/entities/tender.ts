@@ -7,10 +7,21 @@ export class Tender {
     isPayBond: boolean;
     readyTime: Date;
     isReady: boolean;
+    purchaseStartDate: Date;
+    purchaseEndDate: Date;
+    bidPurchaser: string;
+    purchaseInformation: string;
+    buyBidingPerson: string;
+    preparationPerson: string;
+    qualification: string;
+    organizer: string;
+    inspector: string;
+    binder: string;
     employeeId: string;
     readyEmployeeIds: string;
     isWinbid: boolean;
     attachments: string;
+    voucher: string;
     isDeleted: boolean;
     creationTime: Date;
     creatorUserId: number;
@@ -18,9 +29,6 @@ export class Tender {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
-    projectName: string;
-    employeeName: string;
-    readyEmployeeNames: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -39,10 +47,21 @@ export class Tender {
             this.isPayBond = data["isPayBond"];
             this.readyTime = data["readyTime"];
             this.isReady = data["isReady"];
+            this.purchaseStartDate = data["purchaseStartDate"];
+            this.purchaseEndDate = data["purchaseEndDate"];
+            this.bidPurchaser = data["bidPurchaser"];
+            this.purchaseInformation = data["purchaseInformation"];
+            this.buyBidingPerson = data["buyBidingPerson"];
+            this.preparationPerson = data["preparationPerson"];
+            this.qualification = data["qualification"];
+            this.organizer = data["organizer"];
+            this.inspector = data["inspector"];
+            this.binder = data["binder"];
             this.employeeId = data["employeeId"];
             this.readyEmployeeIds = data["readyEmployeeIds"];
             this.isWinbid = data["isWinbid"];
             this.attachments = data["attachments"];
+            this.voucher = data["voucher"];
             this.isDeleted = data["isDeleted"];
             this.creationTime = data["creationTime"];
             this.creatorUserId = data["creatorUserId"];
@@ -50,9 +69,6 @@ export class Tender {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
-            this.projectName = data["projectName"];
-            this.employeeName = data["employeeName"];
-            this.readyEmployeeNames = data["readyEmployeeNames"];
         }
     }
     toJSON(data?: any) {
@@ -65,10 +81,21 @@ export class Tender {
         data["isPayBond"] = this.isPayBond;
         data["readyTime"] = this.readyTime;
         data["isReady"] = this.isReady;
+        data["purchaseStartDate"] = this.purchaseStartDate;
+        data["purchaseEndDate"] = this.purchaseEndDate;
+        data["bidPurchaser"] = this.bidPurchaser;
+        data["purchaseInformation"] = this.purchaseInformation;
+        data["buyBidingPerson"] = this.buyBidingPerson;
+        data["preparationPerson"] = this.preparationPerson;
+        data["qualification"] = this.qualification;
+        data["organizer"] = this.organizer;
+        data["inspector"] = this.inspector;
+        data["binder"] = this.binder;
         data["employeeId"] = this.employeeId;
         data["readyEmployeeIds"] = this.readyEmployeeIds;
         data["isWinbid"] = this.isWinbid;
         data["attachments"] = this.attachments;
+        data["voucher"] = this.voucher;
         data["isDeleted"] = this.isDeleted;
         data["creationTime"] = this.creationTime;
         data["creatorUserId"] = this.creatorUserId;
@@ -76,9 +103,6 @@ export class Tender {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["deletionTime"] = this.deletionTime;
         data["deleterUserId"] = this.deleterUserId;
-        data["projectName"] = this.projectName;
-        data["employeeName"] = this.employeeName;
-        data["readyEmployeeNames"] = this.readyEmployeeNames;
         return data;
     }
     static fromJS(data: any): Tender {

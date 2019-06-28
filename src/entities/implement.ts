@@ -1,10 +1,9 @@
-export class ContractDetail {
+export class Implement {
     id: string;
-    contractId: string;
+    projectId: string;
     name: string;
-    model: string;
-    num: number;
-    price: number;
+    isImplement: boolean;
+    attachments: string;
     isDeleted: boolean;
     creationTime: Date;
     creatorUserId: number;
@@ -12,7 +11,6 @@ export class ContractDetail {
     lastModifierUserId: number;
     deletionTime: Date;
     deleterUserId: number;
-    refDetailName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -24,11 +22,10 @@ export class ContractDetail {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.contractId = data["contractId"];
+            this.projectId = data["projectId"];
             this.name = data["name"];
-            this.model = data["model"];
-            this.num = data["num"];
-            this.price = data["price"];
+            this.isImplement = data["isImplement"];
+            this.attachments = data["attachments"];
             this.isDeleted = data["isDeleted"];
             this.creationTime = data["creationTime"];
             this.creatorUserId = data["creatorUserId"];
@@ -36,17 +33,15 @@ export class ContractDetail {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
-            this.refDetailName = data["refDetailName"];
         }
     }
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["contractId"] = this.contractId;
+        data["projectId"] = this.projectId;
         data["name"] = this.name;
-        data["model"] = this.model;
-        data["num"] = this.num;
-        data["price"] = this.price;
+        data["isImplement"] = this.isImplement;
+        data["attachments"] = this.attachments;
         data["isDeleted"] = this.isDeleted;
         data["creationTime"] = this.creationTime;
         data["creatorUserId"] = this.creatorUserId;
@@ -56,15 +51,15 @@ export class ContractDetail {
         data["deleterUserId"] = this.deleterUserId;
         return data;
     }
-    static fromJS(data: any): ContractDetail {
-        let result = new ContractDetail();
+    static fromJS(data: any): Implement {
+        let result = new Implement();
         result.init(data);
         return result;
     }
-    static fromJSArray(dataArray: any[]): ContractDetail[] {
+    static fromJSArray(dataArray: any[]): Implement[] {
         let array = [];
         dataArray.forEach(result => {
-            let item = new ContractDetail();
+            let item = new Implement();
             item.init(result);
             array.push(item);
         });
@@ -72,7 +67,7 @@ export class ContractDetail {
     }
     clone() {
         const json = this.toJSON();
-        let result = new ContractDetail();
+        let result = new Implement();
         result.init(json);
         return result;
     }

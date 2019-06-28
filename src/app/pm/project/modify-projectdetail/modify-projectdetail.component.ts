@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ProjectDetailService, ProductService, DataDictionaryService } from 'services'
+import { ProjectDetailService } from 'services'
 import { ModalComponentBase } from '@shared/component-base';
 
 @Component({
@@ -50,7 +50,7 @@ export class ModifyProjectdetailComponent extends ModalComponentBase implements 
     }
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
-    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
   }
 
   //保存
@@ -58,13 +58,13 @@ export class ModifyProjectdetailComponent extends ModalComponentBase implements 
     this.projectDetails.at(index).markAsDirty();
     if (this.projectDetails.at(index).invalid) return;
     this.editIndex = -1;
-    this.totalAmount += this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount += parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
     this.projectDetails.value[index].projectId = this.projectId;
   }
 
   //删除
   del(index: number) {
-    this.totalAmount -= this.projectDetails.value[index].num * this.projectDetails.value[index].price;
+    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
     this.projectDetails.removeAt(index);
     this.editIndex = -1;
   }
