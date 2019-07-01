@@ -64,6 +64,8 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.projectService.getById(this.id).subscribe(res => {
       this.project = res;
       this.loseOrder = this.project.statusName;
+      if (this.loseOrder == "已完成")
+        this.projectStatus.push(this.loseOrder);
       console.log(this.loseOrder);
     });
   }

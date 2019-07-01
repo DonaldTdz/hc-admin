@@ -1,11 +1,11 @@
 <page-header [title]="title">
-  <sv-container size="small" col="2">
+  <!-- <sv-container size="small" col="2">
     <sv label="合同分类">{{contract.typeName}}</sv>
     <sv label="项目/采购名称">{{contract.refName}}</sv>
     <sv label="签订日期">{{contract.signatureTime | date:'yyyy-MM-dd'}}</sv>
     <sv label="合同金额(元)">{{contract.amount}}</sv>
     <sv label="合同描述">{{contract.desc}}</sv>
-  </sv-container>
+  </sv-container> -->
 </page-header>
 <nz-card nzTitle="附件">
   <div nz-card-grid [ngStyle]="{width: '25%',textAlign: 'center'}" *ngFor="let item of attachments"><a

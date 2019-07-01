@@ -10,7 +10,7 @@
 <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
   [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzShowTotal]="totalContentMe"
   [nzShowTotal]="'true'" [nzShowSizeChanger]="getCustomerContacts" (nzPageIndexChange)="getCustomerContacts()"
-  (nzPageSizeChange)="refresh()">
+  (nzPageSizeChange)="getCustomerContacts()">
   <thead nz-thead>
     <tr>
       <th nz-th>

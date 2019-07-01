@@ -14,8 +14,7 @@
   <!-- <div style="margin-bottom: 8px;"><button nz-button (click)="change()">Switch Data</button></div> -->
   <!-- </ng-template> -->
   <nz-list style="margin-top: 60px;" class="demo-loadmore-list" [nzDataSource]="attachments"
-    [nzItemLayout]="'horizontal'" nzHeader="文件列表" nzBordered="true" [nzLoading]="initLoading" [nzRenderItem]="item"
-    [nzLoadMore]="loadMore">
+    [nzItemLayout]="'horizontal'" nzHeader="文件列表" nzBordered="true" [nzLoading]="uploadDisabled" [nzRenderItem]="item">
     <ng-template #item let-item>
       <nz-list-item [nzActions]="[delete]">
         <ng-template #delete><a style="color:#ff4d4f;" (click)="deleteAttachment(item)">删除</a>

@@ -1,5 +1,5 @@
 <page-header [title]="">
-  <sv-container size="small" col="2">
+  <!-- <sv-container size="small" col="2">
     <sv label="项目名称">{{tender.projectName}}</sv>
     <sv label="招标时间">{{tender.tenderTime | date:'yyyy-MM-dd HH:mm:ss'}}</sv>
     <sv label="保证金截止时间">{{tender.bondTime | date:'yyyy-MM-dd HH:mm:ss'}}</sv>
@@ -18,7 +18,7 @@
       <nz-badge *ngIf="tender.isPayBond" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
       <nz-badge *ngIf="!tender.isPayBond" [nzStatus]="'default'" [nzText]="'否'"></nz-badge>
     </sv>
-  </sv-container>
+  </sv-container> -->
 </page-header>
 <nz-card nzTitle="附件">
   <div nz-card-grid [ngStyle]="{width: '25%',textAlign: 'center'}" *ngFor="let item of attachments"><a

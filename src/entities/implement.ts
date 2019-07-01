@@ -24,7 +24,7 @@ export class Implement {
             this.id = data["id"];
             this.projectId = data["projectId"];
             this.name = data["name"];
-            this.isImplement = data["isImplement"];
+            this.isImplement = data["isImplement"].toString();
             this.attachments = data["attachments"];
             this.isDeleted = data["isDeleted"];
             this.creationTime = data["creationTime"];

@@ -50,10 +50,10 @@ export class ContractService {
      * 更新与创建合同
      * @param input 
      */
-    createOrUpdate(input: Contract | null): Observable<Contract> {
+    createOrUpdate(input: Contract | null): Observable<any> {
         let _url = "/api/services/app/Contract/CreateOrUpdateAsync";
         return this._commonhttp.post(_url, { "Contract": input }).pipe(map(data => {
-            return Contract.fromJS(data);
+            return data;
         }))
     }
 

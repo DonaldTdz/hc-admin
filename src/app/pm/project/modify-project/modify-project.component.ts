@@ -224,7 +224,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
 
   //保存
-  save() {
+  async save() {
     if (this.project.status == 2 && !this.project.budget)
       return this.nzMsg.warning("销售预算金额不能为空");
     if (this.project.mode == 2 && !this.project.profitRatio)
@@ -234,7 +234,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.projectService.createOrUpdate(this.project).finally(() => {
     }).subscribe((result: any) => {
       if (result.code == 1) {
-        this.project = result.data;
+        this.project = Project.fromJS(result.data);
         this.nzMsg.success(result.msg);
       } else {
         this.project.status = 1;

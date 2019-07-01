@@ -9,7 +9,7 @@ import {
   ProductService, TenderService, PurchaseService, ContractService, InvoiceService,
   InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService, PurchaseDetailService,
   PaymentPlanService
-} from 'services'
+} from 'services';
 
 import { PmRoutingModule } from './pm-routing.module';
 import { ProjectComponent } from './project/project.component';
@@ -97,12 +97,13 @@ import { ModifContractdetailComponent } from './contract/modif-contractdetail/mo
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
     FileComponent,
-    ModifContractdetailComponent
-
+    ModifContractdetailComponent,
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,
-    , PurchaseDetailService, InvoiceService, InvoiceDetailService,
-    ReimburseService, ReimburseDetailService, TimesheetService, PaymentPlanService],
-})
+    PurchaseDetailService, InvoiceService, InvoiceDetailService,
+    ReimburseService, ReimburseDetailService, TimesheetService, PaymentPlanService
+  ],
+}
+)
 export class PmModule { }

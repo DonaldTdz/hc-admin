@@ -46,6 +46,17 @@ export class ImplementService {
         }))
     }
 
+    /**
+* 批量更新与创建执行
+* @param input 
+*/
+    batchCreateOrUpdate(input: any): Observable<any> {
+        let _url = "/api/services/app/Implement/BatchCreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "Implements": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
 
     /**
      * 删除执行

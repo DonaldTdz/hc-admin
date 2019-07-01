@@ -25,6 +25,11 @@
   color: white
 }
 
+input:read-only {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
 :host {
   ::ng-deep {
     // .mb-lg table tbody tr:last-child {

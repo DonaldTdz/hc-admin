@@ -20,10 +20,11 @@
   <app-tender [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
     [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='招标'"></app-tender>
   <app-contract [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
-    [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='执行' || loseOrder=='已完成'">
+    [projectCode]="project.projectCode" (voted)="voted($event)" *ngIf="loseOrder=='执行' || loseOrder=='已完成'">
   </app-contract>
   <div class="modal-footer">
-    <button nz-button type="button" [disabled]="saving" (click)="goBack()">
+    <button nz-button type="button" nzType="default" (click)="goBack()">
+      <!--[disabled]="saving"  -->
       返回
     </button>
   </div>
