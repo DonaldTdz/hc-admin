@@ -94,7 +94,7 @@ export class ProjectService {
    * 修改项目状态
    * @param input 
    */
-    modifyProjectStatusAsync(id: string, projectStatus: number): Observable<any> {
+    modifyProjectStatusAsync(id: string, projectStatus: number): Observable<boolean> {
         let _url = "/api/services/app/Project/ModifyProjectStatusAsync";
         return this._commonhttp.post(_url, null, { "id": id, "projectStatus": projectStatus });
     }

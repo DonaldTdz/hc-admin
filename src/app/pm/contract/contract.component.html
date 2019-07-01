@@ -241,7 +241,7 @@
               </nz-popconfirm>
             </span>
             <span *ngIf="incoiceEditIndex===i">
-              <a (click)="saveIncoice(i)">保存</a>
+              <a (click)="saveIncoice(i,false)">保存</a>
               <nz-divider nzType="vertical"></nz-divider>
               <a (click)="modifyIncoiceDetail(i)">编辑明细</a>
               <nz-divider nzType="vertical"></nz-divider>
@@ -256,6 +256,68 @@
     <button *ngIf="incoiceEditIndex===-1" nz-button [nzType]="'dashed'" (click)="addIncoice()" nzBlock class="mt-md">
       <i nz-icon type="plus"></i>
       <span>新增发票</span>
+    </button>
+  </nz-card>
+
+  <nz-card [nzBordered]="false" style="background-color: #f4f4f4;">
+    <nz-divider nzText="执行"></nz-divider>
+    <nz-table #nzTable [nzLoading]="loading" formArrayName="implements" [nzData]="implements.value"
+      [nzShowPagination]="false">
+      <!-- <thead nz-thead>
+        <tr>
+          <th nz-th>发票号</th>
+          <th nz-th style="text-align: center">开票日期</th>
+          <th nz-th style="text-align: right">金额(元)</th>
+          <th nz-th style="text-align: center">操作</th>
+        </tr>
+      </thead> -->
+      <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let item of implements.controls; let i = index" [formGroupName]="i">
+          <td nz-td>
+            <!-- <span *ngIf="implementEditIndex!==i">{{implements.value[i].name}}</span> -->
+            <span nz-form-control>
+              <input nz-input formControlName="name" [(ngModel)]="implements.value[i].name" placeholder="请输入名称">
+            </span>
+          </td>
+          <td nz-td style="text-align: center">
+            <!-- <span *ngIf="implementEditIndex!==i">{{incoices.value[i].isImplement}}</span> -->
+            <nz-radio-group [(ngModel)]="implements.value[i].isImplement" formControlName="isImplement">
+              <label nz-radio nzValue="true">是</label>
+              <label nz-radio nzValue="false">否</label>
+            </nz-radio-group>
+            <span nz-form-control>
+              <button nz-button type="button" nzType="primary" (click)="uploadImplement(i)" style="margin-top: 5px">
+                <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
+              </button>
+              <!-- <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开票日期" formControlName="submitDate">
+              </nz-date-picker> -->
+            </span>
+          </td>
+          <td nz-td style="text-align: center">
+            <span *ngIf="implementEditIndex!==i">
+              <!-- <a (click)="editIncoice(i)">编辑</a>
+              <nz-divider nzType="vertical"></nz-divider> -->
+              <nz-popconfirm (nzOnConfirm)="delIncoice(i,incoices.value[i].id)" [nzTitle]="'是否要删除此行数据？'">
+                <a nz-popconfirm>删除</a>
+              </nz-popconfirm>
+            </span>
+            <span *ngIf="implementEditIndex===i">
+              <!-- <a (click)="saveIncoice(i,false)">保存</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="modifyIncoiceDetail(i)">编辑明细</a>
+              <nz-divider nzType="vertical"></nz-divider> -->
+              <nz-popconfirm (nzOnConfirm)="cancelIncoice(i,incoices.value[i].id)" [nzTitle]="'是否要取消操作？'">
+                <a nz-popconfirm>删除</a>
+              </nz-popconfirm>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <button *ngIf="implementEditIndex===-1" nz-button [nzType]="'dashed'" (click)="addIimplement()" nzBlock
+      class="mt-md">
+      <i nz-icon type="plus"></i>
+      <span>新增执行</span>
     </button>
   </nz-card>
 </form>

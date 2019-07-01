@@ -64,6 +64,7 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
     this.projectService.getById(this.id).subscribe(res => {
       this.project = res;
       this.loseOrder = this.project.statusName;
+      console.log(this.loseOrder);
     });
   }
 

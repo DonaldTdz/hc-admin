@@ -20,7 +20,8 @@
   <app-tender [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
     [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='招标'"></app-tender>
   <app-contract [projectId]="id" [projectName]="project.name" [projectStatus]="project.status"
-    [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='执行'"></app-contract>
+    [projectCode]="project.projectCode" (updateStep)="updateStep($event)" *ngIf="loseOrder=='执行' || loseOrder=='已完成'">
+  </app-contract>
   <div class="modal-footer">
     <button nz-button type="button" [disabled]="saving" (click)="goBack()">
       返回

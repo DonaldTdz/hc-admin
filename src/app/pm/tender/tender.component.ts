@@ -174,7 +174,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
       this.notify.success(this.l('中标状态修改成功'));
     });
     await this.projectService.modifyProjectStatusAsync(this.projectId, this.projectStatus).subscribe((result) => {
-      if (result._isScalar == true) {
+      if (result == true) {
         this.updateStep.emit("丢单");
       }
     });
@@ -193,7 +193,7 @@ export class TenderComponent extends AppComponentBase implements OnInit {
       this.notify.success(this.l('中标状态修改成功'));
     });
     await this.projectService.modifyProjectStatusAsync(this.projectId, this.projectStatus).subscribe((result) => {
-      if (result._isScalar == true) {
+      if (result == true) {
         this.updateStep.emit("执行");
       }
     });

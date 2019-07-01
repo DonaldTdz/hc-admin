@@ -50,11 +50,12 @@
           <td nz-td style="text-align: right">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].amount}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="amount" nzMin="0" nzMax="99999999999999" nzPrecision="2">
+              <nz-input-number nz-input formControlName="amount" [nzDisabled]="true" nzMin="0" nzMax="99999999999999"
+                nzPrecision="2">
               </nz-input-number>
             </span>
           </td>
-          <td nz-td style="text-align: right">
+          <td nz-td style="text-align: right;width: 150px">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].taxRate}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
               <nz-select style="width: 100%;" formControlName="taxRate" nzPlaceHolder="请选择税率">
@@ -66,15 +67,15 @@
           <td nz-td style="text-align: right">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].taxAmount}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="taxAmount" [nzDisabled]="disabled" nzMin="0"
-                nzMax="99999999999999" nzPrecision="2">
+              <nz-input-number nz-input formControlName="taxAmount" [nzDisabled]="true" nzMin="0" nzMax="99999999999999"
+                nzPrecision="2">
               </nz-input-number>
             </span>
           </td>
           <td nz-td style="text-align: right">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].totalAmount}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="totalAmount" [nzDisabled]="disabled" nzMin="0"
+              <nz-input-number nz-input formControlName="totalAmount" [nzDisabled]="true" nzMin="0"
                 nzMax="99999999999999" nzPrecision="2">
               </nz-input-number>
             </span>
@@ -103,7 +104,7 @@
       <span>新增合同明细</span>
     </button>
     <div class="modal-footer">
-      <label style="margin-right: 10px">总计：{{contractAmount}}</label>
+      <label style="margin-right: 10px">总计：{{invoiceAmount}}</label>
       <button nz-button type="primary" (click)="onSubmit()" nzType="primary">保存</button>
     </div>
   </form>

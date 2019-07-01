@@ -16,7 +16,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
   editIndex = -1;
   loading: boolean = false;
   contractAmount: number = 0;
-  editObj = {};
+  editObj: any;
   title: string;
   // totalAmount: number = 0;
   constructor(injector: Injector, private contractDetailService: ContractDetailService, private fb: FormBuilder) { super(injector); }
@@ -58,7 +58,9 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       model: [null, [Validators.required, Validators.maxLength(50)]],
       price: [null, [Validators.required, Validators.maxLength(18)]],
       num: [null, [Validators.required, Validators.maxLength(18)]],
-      totalAmount: [null]
+      totalAmount: [null],
+      creationTime: [null],
+      creatorUserId: [null],
     });
   }
 
@@ -79,13 +81,23 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
     }
     this.editObj = { ...this.contractDetails.at(index).value };
     this.editIndex = index;
-    this.contractAmount -= this.contractDetails.value[index].totalAmount;
+    if (this.contractDetails.value[index].totalAmount)
+      this.contractAmount -= this.contractDetails.value[index].totalAmount;
   }
 
   //保存
   save(index: number) {
     this.contractDetails.at(index).markAsDirty();
     if (this.contractDetails.at(index).invalid) return;
+    if (!this.contractDetails.value[index].id && this.editObj.id) {
+      this.contractDetails.value[index].id = this.editObj.id;
+      this.contractDetails.value[index].creationTime = this.editObj.creationTime;
+      this.contractDetails.value[index].creatorUserId = this.editObj.creatorUserId;
+    }
+    if (!this.contractDetails.value[index].id) {
+      delete (this.contractDetails.value[index].creationTime);
+      delete (this.contractDetails.value[index].creatorUserId);
+    }
     this.editIndex = -1;
     console.log(parseFloat(this.contractDetails.value[index].num));
     this.contractDetails.value[index].totalAmount = parseFloat(this.contractDetails.value[index].num) * this.contractDetails.value[index].price;
@@ -96,6 +108,8 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
         .subscribe((result: any) => {
           this.notify.success("保存成功");
           this.contractDetails.value[index].id = result.id;
+          this.contractDetails.value[index].creationTime = result.creationTime;
+          this.contractDetails.value[index].creatorUserId = result.creatorUserId;
         });
     }
   }

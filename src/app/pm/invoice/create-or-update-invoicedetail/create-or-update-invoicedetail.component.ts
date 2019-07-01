@@ -24,6 +24,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
     this.form = this.fb.group({
       invoiceDetails: this.fb.array([]),
     });
+    console.log(this.invoiceId + "fsd");
     this.title = "编辑发票明细";
     if (this.invoiceId) {
       this.getInvoiceDetails();
@@ -96,7 +97,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
     if (this.invoiceDetails.at(index).invalid) return;
     this.editIndex = -1;
     this.invoiceDetails.value[index].amount = parseFloat(this.invoiceDetails.value[index].num) * this.invoiceDetails.value[index].price;
-    this.invoiceDetails.value[index].taxAmount = this.invoiceDetails.value[index].amount * this.invoiceDetails.value[index].taxRate;
+    this.invoiceDetails.value[index].taxAmount = this.invoiceDetails.value[index].amount * (parseFloat(this.invoiceDetails.value[index].taxRate.replace("%", "")) / 100);
     this.invoiceDetails.value[index].totalAmount = this.invoiceDetails.value[index].amount + this.invoiceDetails.value[index].taxAmount;
     this.invoiceDetails.value[index].invoiceId = this.invoiceId;
     this.invoiceAmount += this.invoiceDetails.value[index].totalAmount;
@@ -123,6 +124,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
   //提交
   onSubmit() {
     this.notify.success("保存成功");
+    this.success(this.invoiceAmount);
   }
 
 }

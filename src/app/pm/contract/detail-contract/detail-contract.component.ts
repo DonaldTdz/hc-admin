@@ -29,13 +29,13 @@ export class DetailContractComponent extends AppComponentBase implements OnInit 
 
   //获取contract数据
   getData() {
-    this.contractService.getById(this.id.toString()).subscribe((result) => {
-      this.contract = result;
+    // this.contractService.getById(this.id.toString()).subscribe((result) => {
+    //   this.contract = result;
 
-      this.getContractDetails();
-      this.jointAttachments();
-      this.title = '合同编号：' + result.contractCode;
-    });
+    //   this.getContractDetails();
+    //   this.jointAttachments();
+    //   this.title = '合同编号：' + result.contractCode;
+    // });
   }
 
   //处理附件

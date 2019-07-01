@@ -50,7 +50,8 @@ export class ModifyProjectdetailComponent extends ModalComponentBase implements 
     }
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
-    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    if (this.projectDetails.value[index].num && this.projectDetails.value[index].price)
+      this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
   }
 
   //保存

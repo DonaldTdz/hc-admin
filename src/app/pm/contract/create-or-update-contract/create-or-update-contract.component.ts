@@ -71,11 +71,11 @@ export class CreateOrUpdateContractComponent extends ModalComponentBase implemen
 
   //编辑获取数据
   getData() {
-    this.contractService.getById(this.id.toString()).subscribe((result) => {
-      this.contract = result;
-      this.jointAttachments();
-      // this.getRefList();
-    });
+    // this.contractService.getById(this.id.toString()).subscribe((result) => {
+    //   this.contract = result;
+    //   this.jointAttachments();
+    //   // this.getRefList();
+    // });
   }
 
   getRefList() {

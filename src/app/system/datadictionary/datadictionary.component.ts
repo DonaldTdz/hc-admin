@@ -21,7 +21,8 @@ export class DatadictionaryComponent extends AppComponentBase implements OnInit 
     , { value: 3, text: '报销分类' }
     , { value: 4, text: '公共配置' }
     , { value: 5, text: '税率' }
-    , { value: 6, text: '招标' }];
+    , { value: 6, text: '招标' }
+    , { value: 7, text: '执行' }];
   constructor(injector: Injector, private dataDictionaryService: DataDictionaryService) {
     super(injector);
   }

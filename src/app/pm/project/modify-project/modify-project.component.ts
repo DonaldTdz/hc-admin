@@ -30,7 +30,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
   projectCustomerId: string;
   typeList: any;
   employeeList: any;
-  editObj = {};
+  editObj: any;
   customerList: any;
   CustomerContacts: any;
   projectMode = [{ text: "内部", value: 1 }, { text: "合伙", value: 2 }, { text: "外部", value: 3 }];
@@ -123,7 +123,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     // this.project.statusName = "丢单";
     this.project.status = 6;
     this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
-      if (result._isScalar == true) {
+      if (result == true) {
         this.getProjectById();
         this.updateStep.emit(this.project.statusName);
       }
@@ -148,7 +148,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
     this.project.status = 2;
     await this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
-      if (result._isScalar == true) {
+      if (result == true) {
         this.vote();
       }
     });
@@ -164,7 +164,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
     this.project.status = 3;
     await this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
-      if (result._isScalar == true) {
+      if (result == true) {
         this.vote();
       }
     });
@@ -195,6 +195,8 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       name: [null, [Validators.required]],
       num: [null, [Validators.required]],
       price: [null, [Validators.required]],
+      creationTime: [null],
+      creatorUserId: [null],
     });
   }
 
@@ -232,7 +234,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.projectService.createOrUpdate(this.project).finally(() => {
     }).subscribe((result: any) => {
       if (result.code == 1) {
-        this.project.id = result.data.id;
+        this.project = result.data;
         this.nzMsg.success(result.msg);
       } else {
         this.project.status = 1;
@@ -264,13 +266,23 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     }
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
-    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    if (this.projectDetails.value[index].num && this.projectDetails.value[index].price)
+      this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
   }
 
   //保存成本
   async saveProjectDetail(index: number) {
     this.projectDetails.at(index).markAsDirty();
     if (this.projectDetails.at(index).invalid) return;
+    if (!this.projectDetails.value[index].id && this.editObj.id) {
+      this.projectDetails.value[index].id = this.editObj.id;
+      this.projectDetails.value[index].creationTime = this.editObj.creationTime;
+      this.projectDetails.value[index].creatorUserId = this.editObj.creatorUserId;
+    }
+    if (!this.projectDetails.value[index].id) {
+      delete (this.projectDetails.value[index].creationTime);
+      delete (this.projectDetails.value[index].creatorUserId);
+    }
     this.editIndex = -1;
     this.totalAmount += parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
     this.projectDetails.value[index].projectId = this.project.id;
@@ -278,6 +290,8 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       .subscribe((result: any) => {
         this.notify.success("保存成功");
         this.projectDetails.value[index].id = result.id;
+        this.projectDetails.value[index].creationTime = result.creationTime;
+        this.projectDetails.value[index].creatorUserId = result.creatorUserId;
       });
   }
 

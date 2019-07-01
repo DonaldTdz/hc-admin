@@ -53,7 +53,7 @@ export class ContractService {
     createOrUpdate(input: Contract | null): Observable<Contract> {
         let _url = "/api/services/app/Contract/CreateOrUpdateAsync";
         return this._commonhttp.post(_url, { "Contract": input }).pipe(map(data => {
-            return data;
+            return Contract.fromJS(data);
         }))
     }
 
