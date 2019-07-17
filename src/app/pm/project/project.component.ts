@@ -47,6 +47,9 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
     params.Name = this.search.name;
     params.Status = this.search.status;
     params.customerId = this.search.customerId;
+    params.projectCode = this.search.projectCode;
+    params.startDate = this.search.createDate[0];
+    params.endDate = this.search.createDate[1];
     params.Id = this.id;
     this.projectService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = "false"
@@ -102,6 +105,8 @@ export class ProjectComponent extends AppComponentBase implements OnInit {
   //重置
   refreshData() {
     this.search = {};
+    this.search.createDate = [new Date(nowDate.getFullYear(), 0, 1)
+      , new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate())]
     this.query.pageIndex = 1;
     this.getProjects();
   }

@@ -271,7 +271,7 @@
             </span>
           </td>
           <td nz-td style="text-align: center">
-            <span *ngIf="editIndex!==i">{{projectDetails.value[i].price*projectDetails.value[i].num}}</span>
+            <span *ngIf="editIndex!==i">{{(projectDetails.value[i].price*100)*projectDetails.value[i].num/100}}</span>
           </td>
           <td nz-td style="text-align: center">
             <span *ngIf="editIndex!==i && projectDetails.value[i].name!='合计'">

@@ -128,7 +128,6 @@ export class TenderComponent extends AppComponentBase implements OnInit {
           this.tender.purchaseInformation.match(item.value) ? item.checked = true : item.checked = false;
           this.tenderDatas[index] = item;
         }
-        console.log(this.tenderDatas);
       }
     });
   }
@@ -205,9 +204,10 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.modalHelper.open(FileComponent, { 'attachment': this.tender.attachments }, 'md', {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
-      if (result) {
-        this.tender.attachments = result
-      }
+      if (result)
+        this.tender.attachments = result;
+      else
+        this.tender.attachments = '';
     });
   }
 
@@ -216,9 +216,10 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.modalHelper.open(FileComponent, { 'attachment': this.tender.voucher }, 'md', {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
-      if (result) {
-        this.tender.voucher = result
-      }
+      if (result)
+        this.tender.voucher = result;
+      else
+        this.tender.voucher = '';
     });
   }
   purchaseCallback(value: string[]): void {
@@ -230,7 +231,6 @@ export class TenderComponent extends AppComponentBase implements OnInit {
   }
 
   save() {
-    this.tender.isPayBond = false;
     this.tender.projectId = this.projectId;
     // for (const i in this.form.controls) {
     //   this.form.controls[i].markAsDirty();

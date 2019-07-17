@@ -41,7 +41,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
     this.contractDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;
       for (let item of result.items) {
-        item.totalAmount = parseFloat(item.num) * item.price;
+        item.totalAmount = item.num * (item.price * 100) / 100;
         const field = this.contractDetail();
         field.patchValue(item);
         this.contractDetails.push(field);
@@ -99,8 +99,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       delete (this.contractDetails.value[index].creatorUserId);
     }
     this.editIndex = -1;
-    console.log(parseFloat(this.contractDetails.value[index].num));
-    this.contractDetails.value[index].totalAmount = parseFloat(this.contractDetails.value[index].num) * this.contractDetails.value[index].price;
+    this.contractDetails.value[index].totalAmount = this.contractDetails.value[index].num * (this.contractDetails.value[index].price * 100) / 100;
     this.contractDetails.value[index].contractId = this.contractId;
     this.contractAmount += this.contractDetails.value[index].totalAmount;
     if (this.contractDetails.value[index].contractId) {

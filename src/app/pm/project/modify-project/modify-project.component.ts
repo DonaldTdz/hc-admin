@@ -209,7 +209,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.projectDetailService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = "false";
       for (let item of result.items) {
-        this.totalAmount += parseFloat(item.num) * item.price;
+        this.totalAmount += item.num * (item.price * 100) / 100;
         const field = this.projectDetail();
         field.patchValue(item);
         this.projectDetails.push(field);
@@ -246,7 +246,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
   //删除成本
   del(index: number, id: any) {
-    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    this.totalAmount -= this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
     this.projectDetails.removeAt(index);
     this.projectDetailService.delete(id).subscribe(() => {
       this.notify.success('删除成功！');
@@ -267,7 +267,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
     if (this.projectDetails.value[index].num && this.projectDetails.value[index].price)
-      this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+      this.totalAmount -= this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
   }
 
   //保存成本
@@ -284,7 +284,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       delete (this.projectDetails.value[index].creatorUserId);
     }
     this.editIndex = -1;
-    this.totalAmount += parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    this.totalAmount += this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
     this.projectDetails.value[index].projectId = this.project.id;
     await this.projectDetailService.createOrUpdate(this.projectDetails.value[index])
       .subscribe((result: any) => {

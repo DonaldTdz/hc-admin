@@ -113,16 +113,16 @@
           <td nz-td style="text-align: right">
             <span *ngIf="editIndex!==i">{{paymentPlans.value[i].ratio}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="ratio" nzMax="99999999999999" nzPrecision="2"
-                placeholder="请输入回款比率">
+              <nz-input-number nz-input formControlName="ratio" [(ngModel)]="paymentPlansRatio" nzMax="99999999999999"
+                nzPrecision="2" placeholder="请输入回款比率">
               </nz-input-number>
             </span>
           </td>
           <td nz-td style="text-align: right">
             <span *ngIf="editIndex!==i">{{paymentPlans.value[i].amount}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <nz-input-number nz-input formControlName="amount" nzMax="99999999999999" nzPrecision="2"
-                placeholder="请输入金额">
+              <nz-input-number nz-input formControlName="amount" [ngModel]="contract.amount*paymentPlansRatio/100"
+                nzMax="99999999999999" nzPrecision="2" placeholder="请输入金额">
               </nz-input-number>
             </span>
           </td>
@@ -279,9 +279,9 @@
           <td nz-td>
             <!-- <span *ngIf="implementEditIndex!==i">{{implements.value[i].name}}</span> -->
             <span nz-form-control>
-              <input nz-input *ngIf="projectStatus==4 && !implements.value[i].name" formControlName="name"
-                [(ngModel)]="implements.value[i].name" placeholder="请输入名称">
-              <input nz-input *ngIf="projectStatus!=4 || implements.value[i].name" formControlName="name" readonly
+              <input nz-input *ngIf="projectStatus==4" formControlName="name" [(ngModel)]="implements.value[i].name"
+                placeholder="请输入名称">
+              <input nz-input *ngIf="projectStatus!=4 " formControlName="name" readonly
                 [(ngModel)]="implements.value[i].name" placeholder="请输入名称">
             </span>
           </td>

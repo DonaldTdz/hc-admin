@@ -27,6 +27,7 @@ export class ContractComponent extends AppComponentBase implements OnInit {
   @Input() projectCode;
   @Input() projectName;
   @Input() projectStatus;
+  paymentPlansRatio: number = 0;
   incoiceEditIndex = -1;
   incoiceEditObj: any;
   implementEditIndex = -1;
@@ -106,6 +107,43 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     })
   }
 
+
+
+  //填写合同明细
+  modifyContractDetail() {
+    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id }, 'lg', {
+      nzMask: true, nzMaskClosable: false
+    }).subscribe(isSave => {
+      if (isSave) {
+        this.contractDetails = isSave.contractDetails;
+        this.contract.amount = isSave.contractAmount;
+        console.log(this.contractDetails);
+      }
+    });
+  }
+
+  //上传合同原始文件
+  uploadOriginal() {
+    this.modalHelper.open(FileComponent, { 'attachment': this.contract.originalAnnex }, 'md', {
+      nzMask: true, nzMaskClosable: false
+    }).subscribe((result: any) => {
+      if (result) {
+        this.contract.originalAnnex = result
+      }
+    });
+  }
+
+  //上传合同文件
+  uploadContract() {
+    this.modalHelper.open(FileComponent, { 'attachment': this.contract.attachments }, 'md', {
+      nzMask: true, nzMaskClosable: false
+    }).subscribe((result: any) => {
+      if (result) {
+        this.contract.attachments = result
+      }
+    });
+  }
+
   //获取回款计划
   getpaymentPlans() {
     this.loading = true;
@@ -124,156 +162,6 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  //获取执行
-  getImplements() {
-    this.loading = true;
-    let params: any = {};
-    params.SkipCount = this.query.skipCount();
-    params.MaxResultCount = this.query.pageSize;
-    params.projectId = this.projectId;
-    this.implementService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.loading = false;
-      if (result.totalCount > 0) {
-        for (let item of result.items) {
-          const field = this.implement();
-          field.patchValue(Implement.fromJS(item));
-          this.implements.push(field);
-        }
-      } else {
-        this.addImplement();
-      }
-    });
-  }
-
-  //新增执行
-  addImplement() {
-    this.dataDictionaryService.getDropDownDtos("7").subscribe((result) => {
-      for (let item of result) {
-        let field = this.implement();
-        field.patchValue({ "name": item.value, "isImplement": "false", "projectId": this.projectId, });
-        this.implements.push(field);
-      }
-      console.log(this.implements);
-    });
-  }
-
-
-
-  implement(): FormGroup {
-    return this.fb.group({
-      id: [null],
-      projectId: [null],
-      name: [null, [Validators.required]],
-      isImplement: [null, [Validators.required]],
-      attachments: [null],
-      creationTime: [null],
-      creatorUserId: [null],
-    });
-  }
-
-  //获取发票
-  getIncoices() {
-    this.loading = true;
-    let params: any = {};
-    params.SkipCount = this.query.skipCount();
-    params.MaxResultCount = this.query.pageSize;
-    params.refId = this.projectId;
-    params.type = this.contract.type;
-    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.loading = false;
-      for (let item of result.items) {
-        const field = this.incoice();
-        field.patchValue(item);
-        this.incoices.push(field);
-        this.incoiceTotalAmount += item.amount;
-      }
-    });
-  }
-
-  get implements() {
-    return this.form.controls.implements as FormArray;
-  }
-
-  //删除执行
-  delIimplement(index: number, id: any) {
-    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
-    this.implements.removeAt(index);
-    if (id) {
-      this.implementService.delete(id).subscribe(() => {
-        this.notify.success('删除成功！');
-      });
-    }
-  }
-
-  //新增执行
-  addIimplement() {
-    this.implements.push(this.implement());
-    this.editIimplement(this.incoices.length - 1);
-  }
-
-  //修改执行
-  editIimplement(index: number) {
-    if (this.implementEditIndex !== -1 && this.implementEditObj) {
-      this.implements.at(this.implementEditIndex).patchValue(this.implementEditObj);
-    }
-    this.implementEditObj = { ...this.implements.at(index).value };
-    this.implementEditIndex = index;
-    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
-  }
-
-  //取消执行
-  cancelIimplement(index: number, id: any) {
-    if (!this.implements.at(index).value.id) {
-      this.implements.removeAt(index);
-    } else {
-      this.delIimplement(index, id);
-    }
-    this.incoiceEditIndex = -1;
-  }
-
-  //保存执行
-  // async saveIimplement(index: number, modifyDetail: boolean) {
-  //   this.incoices.at(index).markAsDirty();
-  //   if (this.incoices.at(index).invalid) return;
-  //   this.incoiceEditIndex = -1;
-  //   if (!this.incoices.value[index].id && this.incoiceEditObj.id) {
-  //     this.incoices.value[index].id = this.incoiceEditObj.id;
-  //     this.incoices.value[index].creationTime = this.incoiceEditObj.creationTime;
-  //     // this.incoices.value[index].creatorUserId = this.incoiceEditObj.creatorUserId;
-  //     this.incoices.value[index].refId = this.incoiceEditObj.refId;
-  //     this.incoices.value[index].type = this.incoiceEditObj.type;
-  //     this.incoices.value[index].amount = this.incoiceEditObj.amount;
-  //   }
-  //   // this.paymentPlanTotalAmount += this.incoices.value[index].amount;
-  //   if (!this.incoices.value[index].id) {
-  //     delete (this.incoices.value[index].creationTime);
-  //     delete (this.incoices.value[index].creatorUserId);
-  //     this.incoices.value[index].refId = this.contract.refId;
-  //     this.incoices.value[index].type = this.contract.type;
-  //     this.incoices.value[index].amount = 0;
-  //   }
-  //   await this.invoiceService.createOrUpdate(this.incoices.value[index])
-  //     .subscribe((result: any) => {
-  //       // this.notify.success("保存成功");
-  //       this.incoices.value[index].id = result.id;
-  //       this.incoices.value[index].creationTime = result.creationTime;
-  //       this.incoices.value[index].creatorUserId = result.creatorUserId;
-  //       console.log(this.incoices.value[index]);
-  //       if (modifyDetail == true) {
-  //         console.log(result.id);
-  //         this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id }, 'xl', {
-  //           nzMask: true, nzMaskClosable: false
-  //         }).subscribe(invoiceAmount => {
-  //           this.incoices.value[index].amount = invoiceAmount;
-  //           this.incoiceTotalAmount += invoiceAmount;
-  //           this.notify.success("保存成功");
-  //         });
-  //       } else {
-  //         this.notify.success("保存成功");
-  //       }
-  //     });
-  // }
-
   paymentPlan(): FormGroup {
     return this.fb.group({
       id: [null],
@@ -289,123 +177,9 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  incoice(): FormGroup {
-    return this.fb.group({
-      id: [null],
-      refId: [null],
-      type: [null],
-      code: [null, [Validators.required]],
-      amount: [null],
-      submitDate: [null, [Validators.required]],
-      creationTime: [null],
-      creatorUserId: [null],
-    });
-  }
-
   get paymentPlans() {
     return this.form.controls.paymentPlans as FormArray;
   }
-
-  get incoices() {
-    return this.form.controls.incoices as FormArray;
-  }
-
-  //删除发票
-  delIncoice(index: number, id: any) {
-    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
-    this.incoices.removeAt(index);
-    this.incoiceTotalAmount -= this.incoices.value[index].amount;
-    this.invoiceService.delete(id).subscribe(() => {
-      this.notify.success('删除成功！');
-    });
-  }
-
-  //新增发票
-  addIncoice() {
-    this.incoices.push(this.incoice());
-    this.editIncoice(this.incoices.length - 1);
-    // delete (this.incoices.value[this.incoices.length - 1]["creationTime"]);
-  }
-
-  //修改发票
-  editIncoice(index: number) {
-    if (this.incoiceEditIndex !== -1 && this.incoiceEditObj) {
-      this.incoices.at(this.incoiceEditIndex).patchValue(this.incoiceEditObj);
-    }
-    this.incoiceEditObj = { ...this.incoices.at(index).value };
-    this.incoiceEditIndex = index;
-    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
-  }
-
-  //取消发票
-  cancelIncoice(index: number, id: any) {
-    if (!this.incoices.at(index).value.id) {
-      this.incoices.removeAt(index);
-    } else {
-      this.delIncoice(index, id);
-    }
-    this.incoiceEditIndex = -1;
-  }
-
-  //保存发票
-  async saveIncoice(index: number, modifyDetail: boolean) {
-    this.incoices.at(index).markAsDirty();
-    if (this.incoices.at(index).invalid) return;
-    this.incoiceEditIndex = -1;
-    if (!this.incoices.value[index].id && this.incoiceEditObj.id) {
-      this.incoices.value[index].id = this.incoiceEditObj.id;
-      this.incoices.value[index].creationTime = this.incoiceEditObj.creationTime;
-      // this.incoices.value[index].creatorUserId = this.incoiceEditObj.creatorUserId;
-      this.incoices.value[index].refId = this.incoiceEditObj.refId;
-      this.incoices.value[index].type = this.incoiceEditObj.type;
-      this.incoices.value[index].amount = this.incoiceEditObj.amount;
-    }
-    // this.paymentPlanTotalAmount += this.incoices.value[index].amount;
-    if (!this.incoices.value[index].id) {
-      delete (this.incoices.value[index].creationTime);
-      delete (this.incoices.value[index].creatorUserId);
-      this.incoices.value[index].refId = this.contract.refId;
-      this.incoices.value[index].type = this.contract.type;
-      this.incoices.value[index].amount = 0;
-    }
-    await this.invoiceService.createOrUpdate(this.incoices.value[index])
-      .subscribe((result: any) => {
-        // this.notify.success("保存成功");
-        this.incoices.value[index].id = result.id;
-        this.incoices.value[index].creationTime = result.creationTime;
-        this.incoices.value[index].creatorUserId = result.creatorUserId;
-        console.log(this.incoices.value[index]);
-        if (modifyDetail == true) {
-          console.log(result.id);
-          this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id }, 'xl', {
-            nzMask: true, nzMaskClosable: false
-          }).subscribe(invoiceAmount => {
-            this.incoices.value[index].amount = invoiceAmount;
-            this.incoiceTotalAmount += invoiceAmount;
-            this.notify.success("保存成功");
-          });
-        } else {
-          this.notify.success("保存成功");
-        }
-      });
-  }
-
-  //填写发票明细
-  async modifyIncoiceDetail(index: number) {
-    if (!this.incoices.value[index].id)
-      await this.saveIncoice(index, true);
-    else {
-      await this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": this.incoices.value[index].id }, 'xl', {
-        nzMask: true, nzMaskClosable: false
-      }).subscribe(invoiceAmount => {
-        this.incoices.value[index].amount = invoiceAmount;
-        this.incoiceTotalAmount += invoiceAmount;
-        this.notify.success("保存成功");
-      });
-    }
-  }
-
-
   //删除回款计划
   del(index: number, id: any) {
     this.paymentPlanTotalAmount -= this.paymentPlans.value[index].amount;
@@ -458,7 +232,7 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       });
   }
 
-  //取消成本计划
+  //取消回款计划
   cancel(index: number, id: any) {
     if (!this.paymentPlans.at(index).value.id) {
       this.paymentPlans.removeAt(index);
@@ -468,39 +242,92 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     this.editIndex = -1;
   }
 
-  //填写合同明细
-  modifyContractDetail() {
-    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id }, 'lg', {
-      nzMask: true, nzMaskClosable: false
-    }).subscribe(isSave => {
-      if (isSave) {
-        this.contractDetails = isSave.contractDetails;
-        this.contract.amount = isSave.contractAmount;
-        console.log(this.contractDetails);
+  //获取执行
+  getImplements() {
+    this.loading = true;
+    let params: any = {};
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
+    params.projectId = this.projectId;
+    this.implementService.getAll(params).subscribe((result: PagedResultDto) => {
+      this.loading = false;
+      while (this.implements.length !== 0) {
+        this.implements.removeAt(0)
+      }
+      if (result.totalCount > 0) {
+        for (let item of result.items) {
+          const field = this.implement();
+          field.patchValue(Implement.fromJS(item));
+          this.implements.push(field);
+        }
+      } else {
+        this.addImplement();
       }
     });
   }
 
-  //上传合同原始文件
-  uploadOriginal() {
-    this.modalHelper.open(FileComponent, { 'attachment': this.contract.originalAnnex }, 'md', {
-      nzMask: true, nzMaskClosable: false
-    }).subscribe((result: any) => {
-      if (result) {
-        this.contract.originalAnnex = result
-      }
+  implement(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      projectId: [null],
+      name: [null, [Validators.required]],
+      isImplement: [null, [Validators.required]],
+      attachments: [null],
+      creationTime: [null],
+      creatorUserId: [null],
     });
   }
 
-  //上传合同文件
-  uploadContract() {
-    this.modalHelper.open(FileComponent, { 'attachment': this.contract.attachments }, 'md', {
-      nzMask: true, nzMaskClosable: false
-    }).subscribe((result: any) => {
-      if (result) {
-        this.contract.attachments = result
+  get implements() {
+    return this.form.controls.implements as FormArray;
+  }
+
+  //新增执行
+  addImplement() {
+    this.dataDictionaryService.getDropDownDtos("7").subscribe((result) => {
+      for (let item of result) {
+        let field = this.implement();
+        field.patchValue({ "name": item.value, "isImplement": "false", "projectId": this.projectId, });
+        this.implements.push(field);
       }
+      console.log(this.implements);
     });
+  }
+
+  //删除执行
+  delIimplement(index: number, id: any) {
+    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
+    this.implements.removeAt(index);
+    if (id) {
+      this.implementService.delete(id).subscribe(() => {
+        this.notify.success('删除成功！');
+      });
+    }
+  }
+
+  //新增执行
+  addIimplement() {
+    this.implements.push(this.implement());
+    // this.editIimplement(this.incoices.length - 1);
+  }
+
+  //修改执行
+  editIimplement(index: number) {
+    if (this.implementEditIndex !== -1 && this.implementEditObj) {
+      this.implements.at(this.implementEditIndex).patchValue(this.implementEditObj);
+    }
+    this.implementEditObj = { ...this.implements.at(index).value };
+    this.implementEditIndex = index;
+  }
+
+  //取消执行
+  cancelIimplement(index: number, id: any) {
+    if (!this.implements.at(index).value.id) {
+      this.implements.removeAt(index);
+    } else {
+      this.delIimplement(index, id);
+    }
+    this.incoiceEditIndex = -1;
   }
 
   //上传执行文件
@@ -512,6 +339,141 @@ export class ContractComponent extends AppComponentBase implements OnInit {
         this.implements.value[index].attachments = result
       }
     });
+  }
+
+
+  //获取发票
+  getIncoices() {
+    this.loading = true;
+    let params: any = {};
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
+    params.refId = this.projectId;
+    params.type = this.contract.type;
+    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
+      while (this.incoices.length !== 0) {
+        this.incoices.removeAt(0)
+      }
+      this.loading = false;
+      for (let item of result.items) {
+        const field = this.incoice();
+        field.patchValue(item);
+        this.incoices.push(field);
+        this.incoiceTotalAmount += item.amount;
+      }
+    });
+  }
+
+  incoice(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      refId: [null],
+      type: [null],
+      code: [null, [Validators.required]],
+      amount: [null],
+      submitDate: [null, [Validators.required]],
+      creationTime: [null],
+      creatorUserId: [null],
+    });
+  }
+
+  get incoices() {
+    return this.form.controls.incoices as FormArray;
+  }
+
+  //删除发票
+  delIncoice(index: number, id: any) {
+    this.incoiceTotalAmount -= this.incoices.value[index].amount;
+    this.incoices.removeAt(index);
+    this.invoiceService.delete(id).subscribe(() => {
+      this.notify.success('删除成功！');
+    });
+  }
+
+  //新增发票
+  addIncoice() {
+    this.incoices.push(this.incoice());
+    this.editIncoice(this.incoices.length - 1);
+    // delete (this.incoices.value[this.incoices.length - 1]["creationTime"]);
+  }
+
+  //修改发票
+  editIncoice(index: number) {
+    if (this.incoiceEditIndex !== -1 && this.incoiceEditObj) {
+      this.incoices.at(this.incoiceEditIndex).patchValue(this.incoiceEditObj);
+    }
+    this.incoiceEditObj = { ...this.incoices.at(index).value };
+    this.incoiceEditIndex = index;
+    // this.paymentPlanTotalAmount -= this.incoices.value[index].amount;
+  }
+
+  //取消发票
+  cancelIncoice(index: number, id: any) {
+    if (!this.incoices.at(index).value.id) {
+      this.incoices.removeAt(index);
+    } else {
+      this.delIncoice(index, id);
+    }
+    this.incoiceEditIndex = -1;
+  }
+
+  //保存发票
+  saveIncoice(index: number, modifyDetail: boolean) {
+    this.incoices.at(index).markAsDirty();
+    if (this.incoices.at(index).invalid) return;
+    this.incoiceEditIndex = -1;
+    if (!this.incoices.value[index].id && this.incoiceEditObj.id) {
+      this.incoices.value[index].id = this.incoiceEditObj.id;
+      this.incoices.value[index].creationTime = this.incoiceEditObj.creationTime;
+      this.incoices.value[index].creatorUserId = this.incoiceEditObj.creatorUserId;
+      this.incoices.value[index].refId = this.incoiceEditObj.refId;
+      this.incoices.value[index].type = this.incoiceEditObj.type;
+      this.incoices.value[index].amount = this.incoiceEditObj.amount;
+    }
+    if (!this.incoices.value[index].id) {
+      delete (this.incoices.value[index].creationTime);
+      delete (this.incoices.value[index].creatorUserId);
+      this.incoices.value[index].refId = this.contract.refId;
+      this.incoices.value[index].type = this.contract.type;
+      this.incoices.value[index].amount = 0;
+    }
+    this.invoiceService.createOrUpdate(this.incoices.value[index])
+      .subscribe((result: any) => {
+        this.getIncoices();
+        if (modifyDetail == true) {
+          console.log(result.id);
+          this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id }, 'xl', {
+            nzMask: true, nzMaskClosable: false
+          }).subscribe(invoiceAmount => {
+            if (!invoiceAmount)
+              invoiceAmount = 0;
+            this.incoices.value[index].amount = invoiceAmount;
+            this.incoiceTotalAmount += invoiceAmount;
+            this.notify.success("保存成功");
+          });
+        } else {
+          this.notify.success("保存成功");
+        }
+      });
+  }
+
+  //填写发票明细
+  async modifyIncoiceDetail(index: number) {
+    if (!this.incoiceEditObj.id)
+      await this.saveIncoice(index, true);
+    else {
+      this.incoiceTotalAmount -= this.incoiceEditObj.amount;
+      await this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": this.incoiceEditObj.id }, 'xl', {
+        nzMask: true, nzMaskClosable: false
+      }).subscribe(invoiceAmount => {
+        if (!invoiceAmount)
+          invoiceAmount = 0;
+        this.incoices.value[index].amount = invoiceAmount;
+        this.incoiceEditObj.amount = invoiceAmount
+        this.incoiceTotalAmount += invoiceAmount;
+        this.notify.success("保存成功");
+      });
+    }
   }
 
   async save() {
@@ -545,14 +507,14 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     });
     await this.implementService.batchCreateOrUpdate(implementList).finally(() => {
     }).subscribe((result: any) => {
-      this.ngOnInit();
+      this.getImplements();
     });
   }
 
   //项目完成
-  async projectComplete() {
-    await this.save();
-    await this.projectService.modifyProjectStatusAsync(this.projectId, 5).subscribe((result) => {
+  projectComplete() {
+    this.save();
+    this.projectService.modifyProjectStatusAsync(this.projectId, 5).subscribe((result) => {
       if (result == true) {
         this.message.confirm(
           this.projectTitle + "该项目已完成,点击确认后返回项目总表",

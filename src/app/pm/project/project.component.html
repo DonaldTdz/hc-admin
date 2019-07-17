@@ -24,12 +24,10 @@
       </div>
       <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
         <nz-form-item>
-          <nz-form-label nzFor="status">项目状态</nz-form-label>
+          <nz-form-label nzFor="projectCode">项目编号</nz-form-label>
           <nz-form-control>
-            <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择项目状态">
-              <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
-              </nz-option>
-            </nz-select>
+            <input nz-input name="projectCode" [(ngModel)]="search.projectCode" nzSize="default"
+              [placeholder]="'请输入项目编号'">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -39,6 +37,17 @@
           <nz-form-control>
             <nz-range-picker [nzFormat]="shedateFormat" name="createDate" [(ngModel)]="search.createDate">
             </nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24" *ngIf="expandForm">
+        <nz-form-item>
+          <nz-form-label nzFor="status">项目状态</nz-form-label>
+          <nz-form-control>
+            <nz-select name="status" style="width: 100%;" [(ngModel)]="search.status" nzPlaceHolder="请选择项目状态">
+              <nz-option *ngFor="let i of projectStatus" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -119,7 +128,7 @@
         <td nz-td style=" text-align: right">{{ding.implementMoney}}
         </td>
         <td nz-td style="text-align: center">
-          <!-- <a (click)="editDing(ding.id)">编辑</a>
+          <!--<a (click)="editDing(ding.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider> -->
           <a (click)="details(ding.id)">详情</a>

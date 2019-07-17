@@ -13,7 +13,7 @@ import {
 
 import { PmRoutingModule } from './pm-routing.module';
 import { ProjectComponent } from './project/project.component';
-import { DetailProjectComponent } from './project/detail-project/detail-project.component';
+import { DetailProjectComponent } from './project/detail-project/detail-project.component'
 import { ModifyProjectdetailComponent } from './project/modify-projectdetail/modify-projectdetail.component';
 import { TenderComponent } from './tender/tender.component';
 import { CreateTenderDataComponent } from './tender/create-tenderdata/create-tenderdata.component';
@@ -24,7 +24,6 @@ import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-upda
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component';
 import { ContractComponent } from './contract/contract.component';
 import { CreateOrUpdateContractComponent } from './contract/create-or-update-contract/create-or-update-contract.component';
-import { DetailContractComponent } from './contract/detail-contract/detail-contract.component';
 import { CreateOrUpdateContractdetailComponent } from './contract/create-or-update-contractdetail/create-or-update-contractdetail.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component';
@@ -65,7 +64,6 @@ import { ModifContractdetailComponent } from './contract/modif-contractdetail/mo
     DetailTenderComponent,
     ContractComponent,
     CreateOrUpdateContractComponent,
-    DetailContractComponent,
     CreateOrUpdateContractdetailComponent,
     InvoiceComponent,
     CreateOrUpdateInvoiceComponent,

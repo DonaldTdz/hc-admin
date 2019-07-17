@@ -51,7 +51,7 @@ export class ModifyProjectdetailComponent extends ModalComponentBase implements 
     this.editObj = { ...this.projectDetails.at(index).value };
     this.editIndex = index;
     if (this.projectDetails.value[index].num && this.projectDetails.value[index].price)
-      this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+      this.totalAmount -= this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
   }
 
   //保存
@@ -59,13 +59,15 @@ export class ModifyProjectdetailComponent extends ModalComponentBase implements 
     this.projectDetails.at(index).markAsDirty();
     if (this.projectDetails.at(index).invalid) return;
     this.editIndex = -1;
-    this.totalAmount += parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    console.log(this.projectDetails.value[index].num);
+    console.log(this.projectDetails.value[index].price);
+    this.totalAmount += this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
     this.projectDetails.value[index].projectId = this.projectId;
   }
 
   //删除
   del(index: number) {
-    this.totalAmount -= parseFloat(this.projectDetails.value[index].num) * this.projectDetails.value[index].price;
+    this.totalAmount -= this.projectDetails.value[index].num * (this.projectDetails.value[index].price * 100) / 100;
     this.projectDetails.removeAt(index);
     this.editIndex = -1;
   }
