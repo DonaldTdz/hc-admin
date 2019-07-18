@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { HomeComponent } from '@app/home/home.component';
 import { LayoutDefaultComponent } from '../layout/default/layout-default.component';
+import { ACLGuard } from '@delon/acl';
 
 const routes: Routes = [
   {
@@ -21,17 +22,20 @@ const routes: Routes = [
       {
         path: 'system',
         loadChildren: './system/system.module#SystemModule',
-        data: { preload: true },
+        canActivate: [ACLGuard],
+        data: { preload: true, guard: 'Administration' },
       },
       {
         path: 'wechat',
         loadChildren: './wechat/wechat.module#WechatModule',
-        data: { preload: true },
+        canActivate: [ACLGuard],
+        data: { preload: true, guard: 'Admin' },
       },
       {
         path: 'talk',
         loadChildren: './talk/talk.module#TalkModule',
-        data: { preload: true },
+        canActivate: [ACLGuard],
+        data: { preload: true, guard: 'Administration' },
       },
       {
         path: 'base',

@@ -13,7 +13,7 @@ const routes: Routes = [
     {
         path: 'organization',
         component: OrganizationComponent,
-        canActivate: [AppRouteGuard],
+        canActivate: [AppRouteGuard]
     }
 ];
 

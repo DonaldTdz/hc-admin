@@ -18,6 +18,7 @@ export class AppMenus {
             text: "微信配置",
             icon: { type: "icon", value: "wechat" },
             link: "/app/wechat/config",
+            acl: "Admin",
             reuse: false
         },
         {
@@ -25,6 +26,7 @@ export class AppMenus {
             icon: { type: "icon", value: "dingding" },
             link: "/app/talk",
             group: true,
+            acl: "Administration",// 权限
             children: [
                 {
                     text: "组织架构",
@@ -42,26 +44,31 @@ export class AppMenus {
             text: "基础数据",
             icon: { type: "icon", value: "bars" },
             link: "/app/base",
+            // acl: "role: [ 'SaleBusiness','CompanyAdmin','Purchase' ]",  //SaleBusiness,CompanyAdmin,Purchase"
             group: true,
             children: [
                 {
                     text: "客户管理",
                     link: "/app/base/customer",
+                    acl: "SaleBusiness",
                     reuse: false
                 },
                 {
                     text: "公司管理",
                     link: "/app/base/company",
+                    acl: "CompanyAdmin",
                     reuse: false
                 },
                 {
                     text: "产品管理",
                     link: "/app/base/product",
+                    acl: "Purchase",
                     reuse: false
                 },
                 {
                     text: "供应商管理",
                     link: "/app/base/supplier",
+                    acl: "Purchase",
                     reuse: false
                 },
             ]
@@ -79,6 +86,7 @@ export class AppMenus {
                 }, {
                     text: "采购",
                     link: "/app/pm/purchase",
+                    acl: "Purchase",
                     reuse: false
                 }, {
                     text: "报销",
@@ -108,6 +116,7 @@ export class AppMenus {
             text: "系统管理",
             icon: { type: "icon", value: "setting" },
             link: "/app/system",
+            acl: "Administration",// 权限
             group: true,
             children: [
                 {

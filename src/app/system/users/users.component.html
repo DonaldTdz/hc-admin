@@ -1,7 +1,11 @@
 <page-header [title]="''"></page-header>
 
 
-<nz-card [nzExtra]="extraTpl">
+<nz-card [nzTitle]="title" [nzExtra]="extraTpl">
+  <ng-template #title>
+    <button nz-button type="button" (click)="synchroDingUser()" nzType="primary" [nzLoading]="syncDataLoading">
+      同步钉钉用户</button>
+  </ng-template>
 
   <ng-template #extraTpl>
     <button nz-button (click)="refresh()" nzShape="circle">

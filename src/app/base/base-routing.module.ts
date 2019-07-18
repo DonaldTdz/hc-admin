@@ -7,38 +7,46 @@ import { ProductComponent } from './product/product.component'
 import { SupplierComponent } from './supplier/supplier.component'
 import { DetailCustomerComponent } from './customer/detail-customer/detail-customer.component'
 import { DetailSupplierComponent } from './supplier/detail-supplier/detail-supplier.component'
+import { ACLGuard } from '@delon/acl';
+import { group } from '@angular/animations';
 
 const routes: Routes = [
   {
     path: 'customer',
     component: CustomerComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'SaleBusiness' }
   },
   {
     path: 'company',
     component: CompanyComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'CompanyAdmin' }
   }
   ,
   {
     path: 'product',
     component: ProductComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'Purchase' }
   },
   {
     path: 'supplier',
     component: SupplierComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'Purchase' }
   },
   {
     path: 'customer-detail',
     component: DetailCustomerComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'Purchase' }
   },
   {
     path: 'supplier-detail',
     component: DetailSupplierComponent,
-    canActivate: [AppRouteGuard],
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: 'Purchase' }
   }
 ];
 
