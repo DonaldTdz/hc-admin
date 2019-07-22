@@ -111,13 +111,12 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   //填写合同明细
   modifyContractDetail() {
-    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id }, 'lg', {
+    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id, 'contractDetailList': this.contractDetails }, 'lg', {
       nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
         this.contractDetails = isSave.contractDetails;
         this.contract.amount = isSave.contractAmount;
-        console.log(this.contractDetails);
       }
     });
   }
@@ -128,7 +127,10 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
       if (result) {
-        this.contract.originalAnnex = result
+        if (result == "false")
+          this.contract.originalAnnex = '';
+        else
+          this.contract.originalAnnex = result;
       }
     });
   }
@@ -139,7 +141,12 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
       if (result) {
-        this.contract.attachments = result
+        if (result) {
+          if (result == "false")
+            this.contract.attachments = '';
+          else
+            this.contract.attachments = result;
+        }
       }
     });
   }
@@ -336,7 +343,10 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
       if (result) {
-        this.implements.value[index].attachments = result
+        if (result == "false")
+          this.implements.value[index].attachments = '';
+        else
+          this.implements.value[index].attachments = result;
       }
     });
   }
@@ -496,7 +506,9 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     await this.contractService.createOrUpdate(this.contract).finally(() => {
     }).subscribe((result: any) => {
       if (result.code == 1) {
+        const amount = this.contract.amount;
         this.contract = Contract.fromJS(result.data);
+        this.contract.amount = amount;
         this.contractDetailService.batchCreate(this.contractDetails, this.contract.id).subscribe(() => {
           this.notify.success(result.msg);
         });

@@ -101,7 +101,7 @@
           <span>项目状态</span>
         </th>
         <th nz-th style="text-align: right">
-          <span>执行金额(元)</span>
+          <span>销售预算金额(元)</span>
         </th>
         <th style="text-align: center">
           <span>操作</span>
@@ -125,7 +125,7 @@
           <nz-badge *ngIf="ding.status==5" [nzStatus]="'success'" [nzText]="'已完成'"></nz-badge>
           <nz-badge *ngIf="ding.status==6" [nzStatus]="'default'" [nzText]="'丢单'"></nz-badge>
         </td>
-        <td nz-td style=" text-align: right">{{ding.implementMoney}}
+        <td nz-td style=" text-align: right">{{ding.budget}}
         </td>
         <td nz-td style="text-align: center">
           <!--<a (click)="editDing(ding.id)">编辑</a>

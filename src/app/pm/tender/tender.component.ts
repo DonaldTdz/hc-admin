@@ -204,10 +204,12 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.modalHelper.open(FileComponent, { 'attachment': this.tender.attachments }, 'md', {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
-      if (result)
-        this.tender.attachments = result;
-      else
-        this.tender.attachments = '';
+      if (result) {
+        if (result == "false")
+          this.tender.attachments = '';
+        else
+          this.tender.attachments = result;
+      }
     });
   }
 
@@ -216,10 +218,12 @@ export class TenderComponent extends AppComponentBase implements OnInit {
     this.modalHelper.open(FileComponent, { 'attachment': this.tender.voucher }, 'md', {
       nzMask: true, nzMaskClosable: false
     }).subscribe((result: any) => {
-      if (result)
-        this.tender.voucher = result;
-      else
-        this.tender.voucher = '';
+      if (result) {
+        if (result == "false")
+          this.tender.voucher = '';
+        else
+          this.tender.voucher = result;
+      }
     });
   }
   purchaseCallback(value: string[]): void {

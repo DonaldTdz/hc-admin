@@ -7,7 +7,7 @@
     <button nz-button (click)="refresh()" nzShape="circle">
       <i class="anticon anticon-reload"></i>
     </button>
-    <button nz-button (click)="create()" nzShape="circle" nzType="primary">
+    <button nz-button (click)="create()" [acl]="'Admin'" nzShape="circle" nzType="primary">
       <i class="anticon anticon-plus"></i>
     </button>
   </ng-template>

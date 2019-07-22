@@ -34,8 +34,8 @@ export class Contract {
             this.refId = data["refId"];
             this.signatureTime = data["signatureTime"];
             this.amount = data["amount"];
-            this.contractDrafting = data["contractDrafting"].toString();
-            this.originalRecycling = data["originalRecycling"].toString();
+            this.contractDrafting = data["contractDrafting"] != null ? data["contractDrafting"].toString() : '';
+            this.originalRecycling = data["originalRecycling"] != null ? data["originalRecycling"].toString() : '';
             this.originalAnnex = data["originalAnnex"];
             this.attachments = data["attachments"];
             this.isDeleted = data["isDeleted"];

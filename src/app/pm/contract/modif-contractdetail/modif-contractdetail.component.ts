@@ -13,6 +13,7 @@ import { PagedResultDto } from '@shared/component-base/paged-listing-component-b
 export class ModifContractdetailComponent extends ModalComponentBase implements OnInit {
   form: FormGroup;
   @Input() contractId: number;
+  @Input() contractDetailList: any;
   editIndex = -1;
   loading: boolean = false;
   contractAmount: number = 0;
@@ -28,6 +29,14 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
     this.title = "编辑合同明细";
     if (this.contractId) {
       this.getContracts();
+    } else {
+      for (let item of this.contractDetailList) {
+        item.totalAmount = item.num * (item.price * 100) / 100;
+        const field = this.contractDetail();
+        field.patchValue(item);
+        this.contractDetails.push(field);
+        this.contractAmount += item.totalAmount;
+      }
     }
   }
 

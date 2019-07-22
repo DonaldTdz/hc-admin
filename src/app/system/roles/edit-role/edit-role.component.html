@@ -18,7 +18,7 @@
       <!-- 角色名称 -->
       <nz-form-item>
         <nz-form-control nzHasFeedback>
-          <input nz-input name="name" #name="ngModel" [(ngModel)]="role.name" [placeholder]="l('Name')" [disabled]="role.isStatic"
+          <input nz-input name="name" readonly #name="ngModel" [(ngModel)]="role.name" [placeholder]="l('Name')" [disabled]="role.isStatic"
             required>
           <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
             <ng-container *ngIf="name.control.hasError('required')">{{l('CanNotNull')}}</ng-container>

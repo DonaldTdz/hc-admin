@@ -37,9 +37,10 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const retxtpwd = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/;
         this.validateForm = this.fb.group({
             orgPassword: [null, [Validators.required]],
-            newPassword: [null, [Validators.required]],
+            newPassword: [null, Validators.compose([Validators.required, Validators.pattern(retxtpwd)])],
             checkPassword: [null, Validators.compose([Validators.required, this.confirmationValidator])]
         });
 

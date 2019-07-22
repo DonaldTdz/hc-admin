@@ -100,7 +100,10 @@ export class FileComponent extends ModalComponentBase implements OnInit {
 
   save() {
     this.notify.success('保存成功！');
-    this.success(this.attachment);
+    if (this.attachment)
+      this.success(this.attachment);
+    else
+      this.success("false");
   }
 
 }

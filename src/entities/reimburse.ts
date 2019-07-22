@@ -4,6 +4,8 @@ export class Reimburse {
     employeeId: string;
     amount: number;
     status: number;
+    type: number;
+    remark: string;
     submitDate: Date;
     approverId: string;
     approvalTime: Date;
@@ -27,6 +29,8 @@ export class Reimburse {
             this.employeeId = data["employeeId"];
             this.amount = data["amount"];
             this.status = data["status"];
+            this.type = data["type"];
+            this.remark = data["remark"];
             this.submitDate = data["submitDate"];
             this.approverId = data["approverId"];
             this.approvalTime = data["approvalTime"];
@@ -44,6 +48,8 @@ export class Reimburse {
         data["employeeId"] = this.employeeId;
         data["amount"] = this.amount;
         data["status"] = this.status;
+        data["type"] = this.type;
+        data["remark"] = this.remark;
         data["submitDate"] = this.submitDate;
         data["approverId"] = this.approverId;
         data["approvalTime"] = this.approvalTime;

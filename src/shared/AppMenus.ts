@@ -116,7 +116,7 @@ export class AppMenus {
             text: "系统管理",
             icon: { type: "icon", value: "setting" },
             link: "/app/system",
-            acl: "Administration",// 权限
+            acl: "CompanyAdmin",// 权限
             group: true,
             children: [
                 {
