@@ -1,6 +1,9 @@
-<page-header [title]="">
+<page-header [title]="'报销详情'">
+</page-header>
+<nz-card [nzBordered]="false" class="mb-lg">
   <sv-container size="small" col="2">
-    <sv label="项目">{{reimburse.projectName}}</sv>
+    <sv label="报销类型">{{reimburse.typeName}}</sv>
+    <sv *ngIf="reimburse.type==1" label="项目">{{reimburse.projectName}}</sv>
     <sv label="报销人">{{reimburse.employeeName}}</sv>
     <sv label="报销总金额(元)">{{reimburse.amount}}</sv>
     <sv label="状态">
@@ -13,11 +16,12 @@
     <sv label="取消时间">{{reimburse.cancelTime | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
     <sv label="创建时间">{{reimburse.creationTime | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
   </sv-container>
-</page-header>
+
+</nz-card>
 <nz-card [nzBordered]="false" nzTitle="报销明细" class="mb-lg">
-  <st #st [columns]="columns" [data]="query.data" [loading]="loading" [page]="pages" [total]="query.total"
-    (change)="stChange($event)">
-  </st>
+<st #st [columns]="columns" [data]="query.data" [loading]="loading" [page]="pages" [total]="query.total"
+  (change)="stChange($event)">
+</st>
 </nz-card>
 <footer-toolbar>
   <button nz-button [nzType]="'default'" (click)="return()">

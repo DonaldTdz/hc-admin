@@ -6,7 +6,7 @@ import { ReimburseDetailService } from 'services'
 @Component({
   selector: 'app-detail-reimbursedetails',
   templateUrl: './detail-reimbursedetails.component.html',
-  styles: []
+  providers: [ReimburseDetailService]
 })
 export class DetailReimbursedetailsComponent extends ModalComponentBase implements OnInit {
   @Input() id: number;

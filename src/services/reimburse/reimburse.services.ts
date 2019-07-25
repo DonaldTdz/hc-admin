@@ -27,6 +27,17 @@ export class ReimburseService {
     }
 
     /**
+* 提交报销
+* @param input 
+*/
+    submitApproval(reimburse: any, reimburseDetails: any): Observable<any> {
+        let _url = "/api/services/app/Reimburse/SubmitApprovalAsync";
+        return this._commonhttp.post(_url, { "Reimburse": reimburse, "ReimburseDetails": reimburseDetails }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
 * 获取单条数据详细信息
 * @param id 
 */

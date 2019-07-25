@@ -4,7 +4,6 @@ import { PagedResultDto } from '@shared/component-base/paged-listing-component-b
 import { PurchaseService, ProjectService, EmployeeServiceProxy } from 'services'
 import { Purchase } from 'entities'
 import { Router, ActivatedRoute } from '@angular/router';
-import { CreateOrUpdatePurchaseComponent } from './create-or-update-purchase/create-or-update-purchase.component'
 
 @Component({
   selector: 'app-purchase',
@@ -12,9 +11,8 @@ import { CreateOrUpdatePurchaseComponent } from './create-or-update-purchase/cre
   styles: []
 })
 export class PurchaseComponent extends AppComponentBase implements OnInit {
-  projectList: any;
-  @Input() projectId;
   loading = "false";
+  employees = [];
   search: any = {};
   id: any = '';
   constructor(injector: Injector, private purchaseService: PurchaseService, private projectService: ProjectService, private employeeServiceProxy: EmployeeServiceProxy
@@ -22,7 +20,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.getPurchase();
-    this.getProjects();
+    this.getEmployees();
   }
 
   //查询
@@ -31,11 +29,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    if (this.projectId)
-      params.ProjectId = this.projectId
-    else
-      params.ProjectId = this.search.projectId;
-    params.Id = this.id;
+    params.EmployeeId = this.search.employeeId;
     params.Code = this.search.code;
     this.purchaseService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = "false"
@@ -44,24 +38,12 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
     })
   }
 
-  //获取所属项目下拉列表
-  getProjects() {
-    this.projectService.getDropDownDtos().subscribe((result) => {
-      this.projectList = result;
+  //获取负责人下拉列表
+  getEmployees() {
+    this.employeeServiceProxy.getDropDownDtos().subscribe((result) => {
+      this.employees = result;
     })
   }
-
-  // //编辑
-  // editDing(id: any) {
-  //   console.log(id);
-  //   this.modalHelper.open(CreateOrUpdatePurchaseComponent, { id: id, projectId: this.projectId }, 'md', {
-  //     nzMask: true
-  //   }).subscribe(isSave => {
-  //     if (isSave) {
-  //       this.refreshData();
-  //     }
-  //   });
-  // }
 
   //详细
   details(id: any) {
@@ -70,7 +52,7 @@ export class PurchaseComponent extends AppComponentBase implements OnInit {
 
   //新增
   create() {
-    this.router.navigate(['/app/pm/modify-purchase', { projectId: this.projectId }]);
+    this.router.navigate(['/app/pm/create-purchase']);
   }
 
 

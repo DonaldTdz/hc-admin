@@ -2,9 +2,8 @@ export class PurchaseDetail {
     id: string;
     purchaseId: string;
     supplierId: number;
+    productId: number;
     num: number;
-    price: number;
-    projectDetailId: string;
     isDeleted: boolean;
     creationTime: Date;
     creatorUserId: number;
@@ -13,7 +12,10 @@ export class PurchaseDetail {
     deletionTime: Date;
     deleterUserId: number;
     supplierName: string;
-    projectDetailName: string;
+    price: number;
+    name: number;
+    taxRate: string;
+    specification: number;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -27,9 +29,8 @@ export class PurchaseDetail {
             this.id = data["id"];
             this.purchaseId = data["purchaseId"];
             this.supplierId = data["supplierId"];
+            this.productId = data["productId"];
             this.num = data["num"];
-            this.price = data["price"];
-            this.projectDetailId = data["projectDetailId"];
             this.isDeleted = data["isDeleted"];
             this.creationTime = data["creationTime"];
             this.creatorUserId = data["creatorUserId"];
@@ -37,6 +38,10 @@ export class PurchaseDetail {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
+            this.price = data["price"];
+            this.name = data["name"];
+            this.taxRate = data["taxRate"];
+            this.specification = data["specification"];
         }
     }
     toJSON(data?: any) {
@@ -44,9 +49,8 @@ export class PurchaseDetail {
         data["id"] = this.id;
         data["purchaseId"] = this.purchaseId;
         data["supplierId"] = this.supplierId;
+        data["productId"] = this.productId;
         data["num"] = this.num;
-        data["price"] = this.price;
-        data["projectDetailId"] = this.projectDetailId;
         data["isDeleted"] = this.isDeleted;
         data["creationTime"] = this.creationTime;
         data["creatorUserId"] = this.creatorUserId;
@@ -54,6 +58,10 @@ export class PurchaseDetail {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["deletionTime"] = this.deletionTime;
         data["deleterUserId"] = this.deleterUserId;
+        data["price"] = this.price;
+        data["name"] = this.name;
+        data["taxRate"] = this.taxRate;
+        data["specification"] = this.specification;
         return data;
     }
     static fromJS(data: any): PurchaseDetail {

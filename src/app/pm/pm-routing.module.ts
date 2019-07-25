@@ -1,22 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProjectComponent } from './project/project.component'
-import { DetailProjectComponent } from './project/detail-project/detail-project.component'
+import { ProjectComponent } from './project/project.component';
+import { DetailProjectComponent } from './project/detail-project/detail-project.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
-// import { TenderComponent } from './tender/tender.component'
-import { PurchaseComponent } from './purchase/purchase.component'
-import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component'
-// import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component'
-// import { ContractComponent } from './contract/contract.component'
-// import { InvoiceComponent } from './invoice/invoice.component'
-// import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.component'
-import { ReimburseComponent } from './reimburse/reimburse.component'
-import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component'
-import { TimesheetComponent } from './timesheet/timesheet.component'
-// import { PaymentplanComponent } from './paymentplan/paymentplan.component'
-// import { ModifyProjectComponent } from './project/modify-project/modify-project.component'
-// import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoice/create-or-update-invoice.component'
-import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-purchase/create-or-update-purchase.component'
+import { PurchaseComponent } from './purchase/purchase.component';
+import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
+import { ReimburseComponent } from './reimburse/reimburse.component';
+import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
+import { TimesheetComponent } from './timesheet/timesheet.component';
+import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
+import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { ACLGuard } from '@delon/acl';
 
 const routes: Routes = [
@@ -24,17 +17,12 @@ const routes: Routes = [
     path: 'project',
     component: ProjectComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    // data: { guard: 'SaleBusiness' }
   }, {
     path: 'project-detail',
     component: DetailProjectComponent,
     canActivate: [AppRouteGuard, ACLGuard],
     data: { title: "项目详情" }
   }, {
-    //   path: 'tender',
-    //   component: TenderComponent,
-    //   canActivate: [AppRouteGuard, ACLGuard],
-    // }, {
     path: 'purchase',
     component: PurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
@@ -44,29 +32,7 @@ const routes: Routes = [
     component: DetailPurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
     data: { guard: 'Purchase' }
-  },
-  // {
-  //   path: 'tender-detail',
-  //   component: DetailTenderComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  //   data: { title: "招标详情" }
-  // },
-  // {
-  //   path: 'contract',
-  //   component: ContractComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  // },
-  // {
-  //   path: 'invoice',
-  //   component: InvoiceComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  // },
-  // {
-  //   path: 'invoice-detail',
-  //   component: DetailInvoiceComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard]
-  // },
-  {
+  }, {
     path: 'reimburse',
     component: ReimburseComponent,
     canActivate: [AppRouteGuard],
@@ -75,32 +41,19 @@ const routes: Routes = [
     component: DetailReimburseComponent,
     canActivate: [AppRouteGuard],
     data: { title: "报销详情" }
-  },
-  {
+  }, {
     path: 'timesheet',
     component: TimesheetComponent,
     canActivate: [AppRouteGuard],
-  },
-  // {
-  //   path: 'modify-project',
-  //   component: ModifyProjectComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  // },
-  // {
-  //   path: 'paymentplan',
-  //   component: PaymentplanComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  // },
-  // {
-  //   path: 'modify-invoice',
-  //   component: CreateOrUpdateInvoiceComponent,
-  //   canActivate: [AppRouteGuard, ACLGuard],
-  // },
-  {
-    path: 'modify-purchase',
-    component: CreateOrUpdatePurchaseComponent,
+  }, {
+    path: 'create-purchase',
+    component: CreatePurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
     data: { guard: 'Purchase' }
+  }, {
+    path: 'create-reimburse',
+    component: ModifyReimburseComponent,
+    canActivate: [AppRouteGuard]
   }
 ];
 

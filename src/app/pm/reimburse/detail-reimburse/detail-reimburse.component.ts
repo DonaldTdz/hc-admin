@@ -10,7 +10,7 @@ import { DetailReimbursedetailsComponent } from '../detail-reimbursedetails/deta
 @Component({
   selector: 'app-detail-reimburse',
   templateUrl: './detail-reimburse.component.html',
-  styles: []
+  providers: [ReimburseService, ReimburseDetailService]
 })
 export class DetailReimburseComponent extends AppComponentBase implements OnInit {
   id: any = '';

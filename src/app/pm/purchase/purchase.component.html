@@ -1,8 +1,8 @@
-<!-- <page-header *ngIf="!projectId" [title]="''"></page-header> -->
+<page-header [title]="''"></page-header>
 <nz-card [nzBordered]="false">
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
-      <!-- <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
+      <div nz-col nzMd="8" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="code">采购编号</nz-form-label>
           <nz-form-control>
@@ -10,23 +10,23 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="8" nzSm="24" *ngIf="!projectId">
+      <div nz-col nzMd="8" nzSm="24">
         <nz-form-item>
-          <nz-form-label nzFor="projectId">所属项目</nz-form-label>
+          <nz-form-label nzFor="employeeId">所属负责人</nz-form-label>
           <nz-form-control>
-            <nz-select name="projectId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.projectId"
-              nzPlaceHolder="请选择所属项目">
-              <nz-option *ngFor="let i of projectList" [nzLabel]="i.text" [nzValue]="i.value">
+            <nz-select name="employeeId" style="width: 100%;" [nzShowSearch]="true" [(ngModel)]="search.employeeId"
+              nzPlaceHolder="请选择所属负责人">
+              <nz-option *ngFor="let i of employees" [nzLabel]="i.text" [nzValue]="i.value">
               </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-      </div> -->
-      <div nz-col [nzSpan]="24" [class.text-right]="true">
-        <!-- <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary" *ngIf="!projectId">
+      </div>
+      <div nz-col nz-col nzMd="8" nzSm="24" [class.text-right]="true">
+        <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary">
           查询
         </button>
-        <button nz-button type="reset" (click)="refreshData()" *ngIf="!projectId" class="mx-sm">重置</button> -->
+        <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
         <button nz-button (click)="create()" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
@@ -44,17 +44,17 @@
         <th nz-th>
           <span>采购编号</span>
         </th>
-        <th nz-th *ngIf="!projectId">
-          <span>项目</span>
-        </th>
-        <th nz-th style="text-align: center">
-          <span>采购分类</span>
-        </th>
         <th nz-th>
           <span>负责人</span>
         </th>
         <th nz-th style="text-align: center">
           <span>采购日期</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>到货日期</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>发票开具(是/否)</span>
         </th>
         <th nz-th style="text-align: center">
           <span>操作</span>
@@ -64,21 +64,19 @@
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
         <td nz-td>{{item.code}}</td>
-        <td nz-td *ngIf="!projectId" title="{{item.projectName}}"><a [routerLink]="['/app/pm/project']"
-            [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:25}}</a>
-        </td>
-        <td nz-td style="text-align: center">{{item.typeName}}</td>
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align: center">{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
+        <td nz-td style="text-align: center">{{item.arrivalDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">
-          <!-- <a (click)="editDing(item.id)">编辑</a>
-          <span nz-table-divider></span>
-          <nz-divider nzType="vertical"></nz-divider> -->
+          <nz-badge *ngIf="item.invoiceIssuance==true" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
+          <nz-badge *ngIf="item.invoiceIssuance==false" [nzStatus]="'error'" [nzText]="'否'"></nz-badge>
+        </td>
+        <td nz-td style="text-align: center">
           <a (click)="details(item.id)">详情</a>
-          <span nz-table-divider></span>
+          <!-- <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>
           <a style="color:#ff4d4f;" (click)="delete(item)">删除</a>
-          <span nz-table-divider></span>
+          <span nz-table-divider></span> -->
         </td>
       </tr>
     </tbody>

@@ -11,6 +11,7 @@ export class ReimburseDetail {
     remark: string;
     attachments: string;
     creationTime: Date;
+    typeName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {

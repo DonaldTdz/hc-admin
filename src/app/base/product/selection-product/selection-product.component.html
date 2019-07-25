@@ -30,7 +30,10 @@
             <span>规格型号</span>
           </th>
           <th nz-th>
-            <span>单位</span>
+            <span>单价</span>
+          </th>
+          <th nz-th>
+            <span>税额</span>
           </th>
           <th nz-th>
             <span>操作</span>
@@ -41,7 +44,8 @@
         <tr nz-tbody-tr *ngFor="let item of nzTable.data">
           <td nz-td title="{{item.name}}">{{item.name | lengthLimit:40}}</td>
           <td nz-td title="{{item.specification}}">{{item.specification | lengthLimit:40}}</td>
-          <td nz-td>{{item.unit}}</td>
+          <td nz-td>{{item.price}}</td>
+          <td nz-td>{{item.taxRate}}</td>
           <td nz-td>
             <a (click)="selection(item)">选择</a>
             <span nz-table-divider></span>

@@ -1,10 +1,11 @@
 export class Purchase {
     id: string;
     code: string;
-    projectId: string;
-    type: number;
     employeeId: string;
     purchaseDate: Date;
+    arrivalDate: Date;
+    invoiceIssuance: boolean;
+    attachments: string;
     desc: string;
     isDeleted: boolean;
     creationTime: Date;
@@ -14,8 +15,6 @@ export class Purchase {
     deletionTime: Date;
     deleterUserId: number;
     employeeName: string;
-    projectName: string;
-    typeName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -28,8 +27,9 @@ export class Purchase {
         if (data) {
             this.id = data["id"];
             this.code = data["code"];
-            this.projectId = data["projectId"];
-            this.type = data["type"];
+            this.arrivalDate = data["arrivalDate"];
+            this.invoiceIssuance = data["invoiceIssuance"];
+            this.attachments = data["attachments"];
             this.employeeId = data["employeeId"];
             this.purchaseDate = data["purchaseDate"];
             this.desc = data["desc"];
@@ -41,16 +41,15 @@ export class Purchase {
             this.deletionTime = data["deletionTime"];
             this.deleterUserId = data["deleterUserId"];
             this.employeeName = data["employeeName"];
-            this.projectName = data["projectName"];
-            this.typeName = data["typeName"];
         }
     }
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["code"] = this.code;
-        data["projectId"] = this.projectId;
-        data["type"] = this.type;
+        data["arrivalDate"] = this.arrivalDate;
+        data["invoiceIssuance"] = this.invoiceIssuance;
+        data["attachments"] = this.attachments;
         data["employeeId"] = this.employeeId;
         data["purchaseDate"] = this.purchaseDate;
         data["desc"] = this.desc;

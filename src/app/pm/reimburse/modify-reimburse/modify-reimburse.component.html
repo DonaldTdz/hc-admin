@@ -1,56 +1,115 @@
-<!-- <form nz-form [formGroup]="form" #validateForm="ngForm" class="ant-advanced-search-form" (ngSubmit)="save()"
-  *ngIf="reimburse">
-  <div nz-row [nzGutter]="24">
-    <div nz-col [nzSpan]="24">
-      <nz-form-item nzFlex>
-        <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">报销类型</nz-form-label>
-        <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-          <nz-radio-group [(ngModel)]="reimburse.type" formControlName="type" >
-            <label nz-radio *ngFor="let i of reimburseType" nzValue="i.value">{{i.text}}</label>
-          </nz-radio-group>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzSpan]="8">
-      <nz-form-item nzFlex>
-        <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">所属项目</nz-form-label>
-        <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-          <nz-select [nzPlaceHolder]="'请选择所属项目'" formControlName="projectId" [(ngModel)]="reimburse.projectId"
-            [nzShowSearch]="true" style="width:100%;">
-            <nz-option *ngFor="let i of projects" [nzLabel]="i.text" [nzValue]="i.value">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzSpan]="8">
-      <nz-form-item nzFlex>
-        <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">报销金额(元)</nz-form-label>
-        <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-          <nz-input-number formControlName="amount" nzPrecision="2"
-            style="width:100%" placeholder="由报销明细计算自动得出" [(ngModel)]="reimburse.amount"></nz-input-number>
-          <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
-              ">报销金额不能为空,且不能超过18位
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
+<page-header [title]="'新增报销'"></page-header>
+<nz-card [nzBordered]="false">
+  <form nz-form [formGroup]="form" #validateForm="ngForm" class="ant-advanced-search-form" *ngIf="reimburse">
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="24">
         <nz-form-item nzFlex>
-          <nz-form-label [nzSm]="2" style="width: 9.4% !important" class="labelPadding" [nzXs]="24">报销费用说明
+          <nz-form-label [nzSm]="4" nzRequired [nzXs]="24">报销类型</nz-form-label>
+          <nz-form-control [nzSm]="20" nzHasFeedback>
+            <nz-radio-group [(ngModel)]="reimburse.type" formControlName="type">
+              <label nz-radio [nzValue]="o.value" *ngFor="let o of reimburseType">
+                <span>{{o.text}}</span>
+              </label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="24" *ngIf="reimburse.type==1">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="4" nzRequired [nzXs]="24">所属项目</nz-form-label>
+          <nz-form-control [nzSm]="20" nzHasFeedback>
+            <nz-select [nzPlaceHolder]="'请选择所属项目'" [(ngModel)]="reimburse.projectId" formControlName="projectId"
+              [nzShowSearch]="true" style="width:30%;">
+              <nz-option *ngFor="let i of projects" [nzLabel]="i.text" [nzValue]="i.value">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="24">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="4" nzRequired [nzXs]="24">报销金额(元)</nz-form-label>
+          <nz-form-control [nzSm]="20" nzHasFeedback>
+            <nz-input-number [(ngModel)]="reimburse.amount" [nzDisabled]="true" formControlName="amount" nzPrecision="2"
+              style="width:30%"></nz-input-number>
+            <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
+              ">报销金额不能为空,且不能超过18位
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="24">
+        <nz-form-item nzFlex>
+          <nz-form-label [nzSm]="4" [nzXs]="24">报销费用说明
           </nz-form-label>
-          <nz-form-control [nzSm]="22" style="width: 90.6% !important" class="controlPadding" nzHasFeedback>
-            <textarea nz-input rows="2" *ngIf="project.status==1" formControlName="desc" placeholder="请输入项目描述"
-              [(ngModel)]="project.desc"></textarea>
-            <textarea nz-input rows="2" *ngIf="project.status!=1" readonly formControlName="desc" placeholder="请输入项目描述"
-              [(ngModel)]="project.desc"></textarea>
+          <nz-form-control [nzSm]="10" nzHasFeedback>
+            <textarea nz-input rows="2" formControlName="remark" placeholder="请输入报销费用说明"
+              [(ngModel)]="reimburse.remark"></textarea>
             <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
-              ">备注不能超过250个字符
+              ">报销费用说明不能超过250个字符
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
-</form>
-</nz-card> -->
+    <div class="mb-md" style="text-align: right">
+      <button nz-button (click)="create()" [nzType]="'primary'">新增明细</button>
+    </div>
+    <nz-table #nzTable [nzData]="reimburseDetails" [nzFrontPagination]="false" [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzLoading]="loading" [nzShowTotal]="totalContentMe"
+      [nzShowTotal]="'true'" [nzShowSizeChanger]="true" [nzShowPagination]="false">
+      <thead nz-thead>
+        <tr>
+          <th nz-th style="text-align: center">
+            <span>费用发生日期</span>
+          </th>
+          <th nz-th style="text-align: center">
+            <span>费用类型</span>
+          </th>
+          <th nz-th>
+            <span>客户单位</span>
+          </th>
+          <th nz-th style="text-align: right">
+            <span>金额(元)</span>
+          </th>
+          <th nz-th style="text-align: right">
+            <span>票据张数</span>
+          </th>
+          <th nz-th>
+            <span>费用发生地</span>
+          </th>
+          <th nz-th style="text-align: center">
+            <span>操作</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let item of nzTable.data; let i = index">
+          <td nz-td style="text-align: center">{{item.happenDate | date:'yyyy-MM-dd'}}</td>
+          <td nz-td style="text-align: center">{{item.type}}</td>
+          <td nz-td>{{item.customer}}</td>
+          <td nz-td style="text-align: right">{{item.amount}}</td>
+          <td nz-td style="text-align: right">{{item.invoiceNum}}</td>
+          <td nz-td>{{item.desc}}</td>
+          <td nz-td style="text-align: center">
+            <a (click)="editReimburseDetail(item,i)">编辑</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <nz-popconfirm (nzOnConfirm)="del(i)" [nzTitle]="'是否要删除此行数据？'">
+              <a nz-popconfirm style="color:#ff4d4f;">删除</a>
+            </nz-popconfirm>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!--(change)="stChange($event)"-->
+    <div class="modal-footer">
+      <button nz-button type="button" nzType="default" (click)="goBack()">
+        返回
+      </button>
+      <button nz-button [nzType]="'primary'" type="button" (click)="save()" [nzLoading]="isConfirmLoading"
+        [disabled]="!validateForm.valid">
+        提交
+      </button>
+    </div>
+  </form>
+</nz-card>

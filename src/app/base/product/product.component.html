@@ -44,16 +44,19 @@
         <th nz-th>
           <span>规格型号</span>
         </th>
-        <th nz-th>
-          <span>单位</span>
+        <th nz-th style="text-align: right">
+          <span>单价(元)</span>
         </th>
-        <th nz-th>
-          <span>状态</span>
+        <th nz-th style="text-align: center">
+          <span>税率</span>
         </th>
-        <th nz-th>
+        <th nz-th style="text-align: right">
+          <span>数量</span>
+        </th>
+        <th nz-th style="text-align: center">
           <span>创建时间</span>
         </th>
-        <th>
+        <th nz-th style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -63,18 +66,16 @@
         <td nz-td hidden>{{ding.type}}</td>
         <td nz-td title="{{ding.name}}">{{ding.name | lengthLimit:40}}</td>
         <td nz-td title="{{ding.specification}}">{{ding.specification | lengthLimit:40}}</td>
-        <td nz-td>{{ding.unit}}</td>
-        <td nz-td>
-          <nz-switch [(ngModel)]="ding.isEnabled" (click)="updateState(ding)" nzCheckedChildren="启用"
-            nzUnCheckedChildren="禁用"></nz-switch>
-        </td>
-        <td nz-td>{{ding.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td nz-td>
-          <a (click)="editDing(ding)">编辑</a>
+        <td nz-td style="text-align: right">{{ding.price}}</td>
+        <td nz-td style="text-align: center">{{ding.taxRate}}</td>
+        <td nz-td style="text-align: right">{{ding.num}}</td>
+        <td nz-td style="text-align: center">{{ding.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td nz-td style="text-align: center">
+          <!-- <a (click)="editDing(ding)">编辑</a>
           <span nz-table-divider></span>
-          <nz-divider nzType="vertical"></nz-divider>
+          <nz-divider nzType="vertical"></nz-divider> -->
           <a style="color:#ff4d4f;" (click)="delete(ding)">删除</a>
-          <span nz-table-divider></span>
+          <!-- <span nz-table-divider></span> -->
         </td>
       </tr>
     </tbody>

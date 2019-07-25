@@ -79,12 +79,23 @@ export class PurchaseService {
     }
 
     /**
+* Web一键新增采购,采购明细,产品,预付款计划
+* @param input 
+*/
+    OnekeyCreateAsync(input: Purchase | null, purchaseDetails: any, advancePayments: any): Observable<Purchase> {
+        let _url = "/api/services/app/Purchase/CreatePurchaseAndDetailAsync";
+        return this._commonhttp.post(_url, { "Purchase": input, "PurchaseDetailNews": purchaseDetails, "AdvancePayments": advancePayments }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
         * 获取自动生成的采购编号
         * @param type 
         */
-    getPurchaseCode(type: any): Observable<string> {
-        let _url = "/api/services/app/Purchase/GetPurchaseCodeAsync";
-        return this._commonhttp.get(_url, { 'type': type }).pipe(map(data => {
+    getPurchaseCode(): Observable<string> {
+        let _url = "/api/services/app/Purchase/GetGeneratePurchaseCodeAsync";
+        return this._commonhttp.get(_url).pipe(map(data => {
             return data;
         }));
     }

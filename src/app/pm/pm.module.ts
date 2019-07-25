@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService, ProjectDetailService,
   ProductService, TenderService, PurchaseService, ContractService, InvoiceService,
-  InvoiceDetailService, ReimburseService, ReimburseDetailService, TimesheetService, PurchaseDetailService,
+  InvoiceDetailService, TimesheetService, PurchaseDetailService,
   PaymentPlanService
 } from 'services';
 
@@ -18,7 +18,7 @@ import { ModifyProjectdetailComponent } from './project/modify-projectdetail/mod
 import { TenderComponent } from './tender/tender.component';
 import { CreateTenderDataComponent } from './tender/create-tenderdata/create-tenderdata.component';
 import { PurchaseComponent } from './purchase/purchase.component';
-import { CreateOrUpdatePurchaseComponent } from './purchase/create-or-update-purchase/create-or-update-purchase.component';
+import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
 import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component';
@@ -40,6 +40,7 @@ import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-re
 import { ModifyProjectComponent } from './project/modify-project/modify-project.component';
 import { FileComponent } from './file/file.component';
 import { ModifContractdetailComponent } from './contract/modif-contractdetail/modif-contractdetail.component';
+import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedetail/modify-reimbursedetail.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,7 @@ import { ModifContractdetailComponent } from './contract/modif-contractdetail/mo
     TenderComponent,
     CreateTenderDataComponent,
     PurchaseComponent,
-    CreateOrUpdatePurchaseComponent,
+    CreatePurchaseComponent,
     DetailPurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,
     DetailTenderComponent,
@@ -80,12 +81,12 @@ import { ModifContractdetailComponent } from './contract/modif-contractdetail/mo
     ModifyProjectComponent,
     FileComponent,
     ModifContractdetailComponent,
+    ModifyReimburseDetailComponent,
   ],
   entryComponents: [
     DetailProjectComponent,
     ModifyProjectdetailComponent,
     CreateTenderDataComponent,
-    CreateOrUpdatePurchaseComponent,
     CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateContractComponent,
     CreateOrUpdateContractdetailComponent,
@@ -96,11 +97,11 @@ import { ModifContractdetailComponent } from './contract/modif-contractdetail/mo
     UpdatePaymentplanComponent,
     FileComponent,
     ModifContractdetailComponent,
+    ModifyReimburseDetailComponent,
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,
-    PurchaseDetailService, InvoiceService, InvoiceDetailService,
-    ReimburseService, ReimburseDetailService, TimesheetService, PaymentPlanService
+    PurchaseDetailService, InvoiceService, InvoiceDetailService, TimesheetService, PaymentPlanService
   ],
 }
 )

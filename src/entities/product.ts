@@ -3,7 +3,9 @@ export class Product {
     type: number;
     name: string;
     specification: string;
-    unit: string;
+    taxRate: string;
+    num: number;
+    price: null
     isEnabled: boolean;
     creationTime: Date;
     constructor(data?: any) {
@@ -20,7 +22,9 @@ export class Product {
             this.type = data["type"];
             this.name = data["name"];
             this.specification = data["specification"];
-            this.unit = data["unit"];
+            this.num = data["num"];
+            this.price = data["price"];
+            this.taxRate = data["taxRate"];
             this.isEnabled = data["isEnabled"];
             this.creationTime = data["creationTime"];
         }
@@ -31,7 +35,9 @@ export class Product {
         data["type"] = this.type;
         data["name"] = this.name;
         data["specification"] = this.specification;
-        data["unit"] = this.unit;
+        data["num"] = this.num;
+        data["price"] = this.price;
+        data["taxRate"] = this.taxRate;
         data["isEnabled"] = this.isEnabled;
         data["creationTime"] = this.creationTime;
         return data;

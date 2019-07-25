@@ -23,7 +23,7 @@ export class CreateOrUpdateSupplierComponent extends ModalComponentBase implemen
 
   ngOnInit() {
     let verifyTel = /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/
-    let verifyPhone = /^1[3|4|5|8][0-9]\d{8}$/
+    let verifyPhone = /^1[3|4|5|7|8|9][0-9]\d{8}$/
     this.form = this.fb.group({
       name: [null, Validators.compose([Validators.required, Validators.maxLength(100)])],
       zipCode: [null, Validators.compose([Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9 ]{3,12}$')])],

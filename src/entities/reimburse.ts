@@ -14,6 +14,7 @@ export class Reimburse {
     projectName: string;
     employeeName: string;
     approverName: string;
+    typeName: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -39,6 +40,7 @@ export class Reimburse {
             this.projectName = data["projectName"];
             this.employeeName = data["employeeName"];
             this.approverName = data["approverName"];
+            this.typeName = data["typeName"];
         }
     }
     toJSON(data?: any) {

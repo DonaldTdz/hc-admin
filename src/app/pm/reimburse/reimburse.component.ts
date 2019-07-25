@@ -8,19 +8,21 @@ import { AppComponentBase, } from '@shared/app-component-base';
 @Component({
   selector: 'app-reimburse',
   templateUrl: './reimburse.component.html',
-  styles: []
+  providers: [ReimburseService]
 })
 export class ReimburseComponent extends AppComponentBase implements OnInit {
-  @Input() projectId;
   search: any = {};
+  expandForm = false;
   loading = false;
   projects: any;
   employees: any;
-  statuss = [{ text: '提交', value: 1 }, { text: '审批通过', value: 2 }, { text: '取消', value: 3 }];
+  statuss = [{ text: '提交', value: 1 }, { text: '审批通过', value: 2 }, { text: '拒绝', value: 3 }, { text: '取消', value: 4 }];
+  types = [{ text: '项目型报销', value: 1 }, { text: '非项目报销', value: 2 }];
   constructor(injector: Injector, private reimburseService: ReimburseService, private projectService: ProjectService
     , private router: Router, private employeeService: EmployeeServiceProxy) { super(injector); }
 
   ngOnInit() {
+    this.search.type = 1;
     this.getReimburse();
     this.getProjects();
     this.getEmployees();
@@ -42,14 +44,14 @@ export class ReimburseComponent extends AppComponentBase implements OnInit {
 
   getReimburse() {
     this.loading = true;
+    if (!this.search.type)
+      this.search.type = 1;
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    if (this.projectId)
-      params.ProjectId = this.projectId
-    else
-      params.ProjectId = this.search.projectId;
+    params.ProjectId = this.search.projectId;
     params.Status = this.search.status;
+    params.Type = this.search.type;
     params.EmployeeId = this.search.employeeId;
     this.reimburseService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;
@@ -63,10 +65,15 @@ export class ReimburseComponent extends AppComponentBase implements OnInit {
     this.router.navigate(['/app/pm/reimburse-detail', { id: id }]);
   }
 
+  //新增
+  create() {
+    this.router.navigate(['/app/pm/create-reimburse']);
+  }
+
 
   refresh() {
     this.search = {};
     this.query.pageIndex = 1;
-    this.getReimburse();
+    // this.getReimburse();
   }
 }
