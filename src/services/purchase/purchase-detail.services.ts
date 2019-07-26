@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map } from "rxjs/operators";
-import { PurchaseDetail } from "entities";
+import { PurchaseDetail, PurchaseDetailNew } from "entities";
 import { PagedResultDto } from "@shared/component-base";
 
 @Injectable()
@@ -69,6 +69,38 @@ export class PurchaseDetailService {
         return this._commonhttp.post(_url, { "PurchaseDetail": input }).pipe(map(data => {
             return data;
         }))
+    }
+
+    /**
+ * 添加PurchaseDetail并且更新Products
+ * @param input 
+ */
+    CreateDetailAndUpdateproductAsync(input: PurchaseDetail | null): Observable<PurchaseDetail> {
+        let _url = "/api/services/app/PurchaseDetail/CreateDetailAndUpdateproductAsync";
+        return this._commonhttp.post(_url, { "PurchaseDetail": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+ * 更新PurchaseDetail并且更新Products
+ * @param input 
+ */
+    UpdateDetailAndUpdateproduct(input: PurchaseDetailNew | null): Observable<PurchaseDetail> {
+        let _url = "/api/services/app/PurchaseDetail/ModifyDetailAndUpdateproductAsync";
+        return this._commonhttp.post(_url, { "PurchaseDetail": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+  * 删除PurchaseDetail并更新Products
+  * @param id 
+  */
+    DeleteAndUpdatePurchaseAsync(id: string): Observable<any> {
+        let _url = "/api/services/app/PurchaseDetail/DeleteAndUpdatePurchaseAsync";
+        let param = { 'id': id };
+        return this._commonhttp.delete(_url, param);
     }
 
 

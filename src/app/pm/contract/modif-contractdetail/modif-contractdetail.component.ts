@@ -3,11 +3,12 @@ import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { ContractDetailService } from 'services';
 import { ModalComponentBase } from '@shared/component-base';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
+import { SelectionProductComponent } from '@app/base/product/selection-product/selection-product.component'
 
 @Component({
   selector: 'app-modif-contractdetail',
   templateUrl: './modif-contractdetail.component.html',
-  styles: [],
+  styleUrls: ['./modif-contractdetail.component.scss'],
   providers: [ContractDetailService]
 })
 export class ModifContractdetailComponent extends ModalComponentBase implements OnInit {
@@ -15,6 +16,9 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
   @Input() contractId: number;
   @Input() contractDetailList: any;
   editIndex = -1;
+  detailsName: string = '';
+  detailsModel: string = '';
+  detailsProductId: number;
   loading: boolean = false;
   contractAmount: number = 0;
   editObj: any;
@@ -56,6 +60,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
         this.contractDetails.push(field);
         this.contractAmount += item.totalAmount;
       }
+      console.log(this.contractDetails)
     });
   }
 
@@ -63,6 +68,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
     return this.fb.group({
       id: [null],
       contractId: [null],
+      productId: [null, Validators.required],
       name: [null, [Validators.required, Validators.maxLength(50)]],
       model: [null, [Validators.required, Validators.maxLength(50)]],
       price: [null, [Validators.required, Validators.maxLength(18)]],
@@ -70,6 +76,26 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       totalAmount: [null],
       creationTime: [null],
       creatorUserId: [null],
+    });
+  }
+
+  //选择已有产品
+  productSelection(index: number) {
+    this.modalHelper.open(SelectionProductComponent, {}, 'md', {
+      nzMask: true
+    }).subscribe(result => {
+      if (result) {
+        this.contractDetails.value[index].productId = result.id;
+        this.contractDetails.value[index].name = result.name;
+        this.contractDetails.value[index].model = result.specification;
+        this.detailsName = result.name;
+        this.detailsModel = result.specification;
+        this.detailsProductId = result.id;
+        // this.contractDetails.value[index].price = result.price;
+        // this.purchaseDetail.taxRate = result.taxRate;
+        // this.isInput = true;
+        // this.taxRateSelect();
+      }
     });
   }
 
@@ -85,17 +111,22 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
 
   //修改
   edit(index: number) {
+    console.log(this.contractDetails.value)
     if (this.editIndex !== -1 && this.editObj) {
       this.contractDetails.at(this.editIndex).patchValue(this.editObj);
     }
     this.editObj = { ...this.contractDetails.at(index).value };
     this.editIndex = index;
+    this.detailsName = this.editObj.name;
+    this.detailsModel = this.editObj.model;
+    this.detailsProductId = this.editObj.productId;
     if (this.contractDetails.value[index].totalAmount)
       this.contractAmount -= this.contractDetails.value[index].totalAmount;
   }
 
   //保存
   save(index: number) {
+    // var bb = this.contractDetails.value[index];
     this.contractDetails.at(index).markAsDirty();
     if (this.contractDetails.at(index).invalid) return;
     if (!this.contractDetails.value[index].id && this.editObj.id) {

@@ -5,3 +5,8 @@
 .controlPadding {
   padding-left: 0px !important;
 }
+
+input:read-only {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}

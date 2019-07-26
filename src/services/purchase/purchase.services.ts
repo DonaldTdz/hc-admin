@@ -83,7 +83,7 @@ export class PurchaseService {
 * @param input 
 */
     OnekeyCreateAsync(input: Purchase | null, purchaseDetails: any, advancePayments: any): Observable<Purchase> {
-        let _url = "/api/services/app/Purchase/CreatePurchaseAndDetailAsync";
+        let _url = "/api/services/app/Purchase/OnekeyCreateAsync";
         return this._commonhttp.post(_url, { "Purchase": input, "PurchaseDetailNews": purchaseDetails, "AdvancePayments": advancePayments }).pipe(map(data => {
             return data;
         }))

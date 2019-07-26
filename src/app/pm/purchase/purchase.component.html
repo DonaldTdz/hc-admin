@@ -22,12 +22,12 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nz-col nzMd="8" nzSm="24" [class.text-right]="true">
+      <div nz-col nz-col nzMd="8" nzSm="24" [class.float-rigth]="true">
         <button nz-button (click)="getPurchase()" [nzLoading]="loading" nzType="primary">
           查询
         </button>
         <button nz-button type="reset" (click)="refreshData()" class="mx-sm">重置</button>
-        <button nz-button (click)="create()" nzType="primary">
+        <button nz-button (click)="create()" style="float: right" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
         </button>

@@ -1,12 +1,10 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Purchase, PurchaseDetail } from 'entities'
-import { PurchaseService, ProjectService, EmployeeServiceProxy, PurchaseDetailService } from 'services'
-import { DatePipe } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { PurchaseService, ProjectService, EmployeeServiceProxy, } from 'services'
+import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
 import { FileComponent } from '../../file/file.component';
-import { PagedResultDto } from '@shared/component-base';
 import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component'
 
 @Component({
@@ -16,7 +14,6 @@ import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purch
 })
 export class CreatePurchaseComponent extends AppComponentBase implements OnInit {
   loading = 'false';
-  title: string;
   form: FormGroup;
   editIndex = -1;
   editObj: any;
@@ -29,9 +26,9 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
   pageIndex = 1;
   purchaseDetail: PurchaseDetail = new PurchaseDetail();
   purchase: Purchase = new Purchase();
-  constructor(injector: Injector, private purchaseService: PurchaseService, private datePipe: DatePipe, private fb: FormBuilder
-    , private projectService: ProjectService, private purchaseDetailService: PurchaseDetailService
-    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router, private actRouter: ActivatedRoute) {
+  constructor(injector: Injector, private purchaseService: PurchaseService, private fb: FormBuilder
+    , private projectService: ProjectService
+    , private employeeServiceProxy: EmployeeServiceProxy, private actRouter: ActivatedRoute) {
     super(injector);
   }
 
@@ -67,25 +64,6 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
         else
           this.purchase.attachments = result;
       }
-    });
-  }
-
-  //获取采购明细列表
-  // getPurchaseDetails() {
-  //   this.loading = 'true';
-  //   let params: any = {};
-  //   params.SkipCount = this.query.skipCount();
-  //   params.MaxResultCount = this.query.pageSize;
-  //   this.purchaseDetailService.getAll(params).subscribe((result: PagedResultDto) => {
-  //     this.loading = "false"
-  //     this.purchaseDetails = result.items;
-  //   })
-  // }
-
-  //获取项目下拉列表
-  getProjectList() {
-    this.projectService.getDropDownDtos().subscribe((result) => {
-      this.projectList = result;
     });
   }
 
@@ -209,7 +187,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
     //   });
   }
 
-  //取消回款计划
+  //取消付款计划
   cancel(index: number) {
     this.advancePayments.removeAt(index);
     this.editIndex = -1;

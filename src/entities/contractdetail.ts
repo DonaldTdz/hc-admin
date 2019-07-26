@@ -1,6 +1,7 @@
 export class ContractDetail {
     id: string;
     contractId: string;
+    productId: number;
     name: string;
     model: string;
     num: number;
@@ -25,6 +26,7 @@ export class ContractDetail {
         if (data) {
             this.id = data["id"];
             this.contractId = data["contractId"];
+            this.productId = data["productId"];
             this.name = data["name"];
             this.model = data["model"];
             this.num = data["num"];
@@ -43,6 +45,7 @@ export class ContractDetail {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["contractId"] = this.contractId;
+        data["productId"] = this.productId;
         data["name"] = this.name;
         data["model"] = this.model;
         data["num"] = this.num;

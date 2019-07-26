@@ -28,7 +28,7 @@ export class Purchase {
             this.id = data["id"];
             this.code = data["code"];
             this.arrivalDate = data["arrivalDate"];
-            this.invoiceIssuance = data["invoiceIssuance"];
+            this.invoiceIssuance = data["invoiceIssuance"] != null ? data["invoiceIssuance"].toString() : '';
             this.attachments = data["attachments"];
             this.employeeId = data["employeeId"];
             this.purchaseDate = data["purchaseDate"];

@@ -8,8 +8,8 @@
         <nz-form-item nzFlex>
           <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>供应商</nz-form-label>
           <nz-form-control [nzSpan]="18" class="controlPadding" nzHasFeedback>
-            <nz-select formControlName="supplierId" [nzPlaceHolder]="'请选择供应商'" [(ngModel)]="purchaseDetail.supplierId"
-              [nzShowSearch]="true" style="width:100%;" (ngModelChange)="supplierSelect($event)">
+            <nz-select formControlName="supplierId" [nzPlaceHolder]="'请选择供应商'" [nzShowSearch]="true" style="width:100%;"
+              [(ngModel)]="purchaseDetail.supplierId" (ngModelChange)="supplierSelect($event)">
               <nz-option *ngFor="let i of supplierList" [nzLabel]="i.text" [nzValue]="i.value">
               </nz-option>
             </nz-select>
@@ -97,7 +97,9 @@
           <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>单价</nz-form-label>
           <nz-form-control [nzSpan]="18" class="controlPadding" nzHasFeedback>
             <nz-input-number formControlName="price" style="width:100%" [nzPrecision]='2' placeholder="请输入采购单价"
-              [nzDisabled]="isInput" [(ngModel)]="purchaseDetail.price"></nz-input-number>
+              [nzDisabled]="isInput||purchaseDetail.id" [(ngModel)]="purchaseDetail.price"
+              (ngModelChange)="taxRateSelect()">
+            </nz-input-number>
             <nz-form-explain *ngIf="(form.get('price')?.dirty && form.get('price')?.errors)
                 ">单价不能为空
             </nz-form-explain>
@@ -111,7 +113,8 @@
           <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>税率</nz-form-label>
           <nz-form-control [nzSpan]="18" class="controlPadding" nzHasFeedback>
             <nz-select formControlName="taxRate" [nzPlaceHolder]="'请选择税率'" [(ngModel)]="purchaseDetail.taxRate"
-              [nzDisabled]="isInput" [nzShowSearch]="true" style="width:100%;" (ngModelChange)="taxRateSelect()">
+              [nzDisabled]="isInput||purchaseDetail.id" [nzShowSearch]="true" style="width:100%;"
+              (ngModelChange)="taxRateSelect()">
               <nz-option *ngFor="let i of taxRates" [nzLabel]="i.text" [nzValue]="i.value">
               </nz-option>
             </nz-select>

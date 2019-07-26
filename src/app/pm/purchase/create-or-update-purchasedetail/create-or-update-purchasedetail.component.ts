@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { PurchaseDetail } from 'entities'
+import { PurchaseDetail, PurchaseDetailNew } from 'entities'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataDictionaryService, SupplierService, PurchaseDetailService } from 'services'
+import { DataDictionaryService, SupplierService, PurchaseDetailService, ProductService } from 'services'
 import { ModalComponentBase } from '@shared/component-base';
 import { SelectionProductComponent } from '@app/base/product/selection-product/selection-product.component'
 
@@ -9,7 +9,7 @@ import { SelectionProductComponent } from '@app/base/product/selection-product/s
   selector: 'app-create-or-update-purchasedetail',
   templateUrl: './create-or-update-purchasedetail.component.html',
   styleUrls: ['./create-or-update-purchasedetail.component.scss'],
-  providers: [PurchaseDetailService, SupplierService]
+  providers: [SupplierService]
 })
 export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase implements OnInit {
   form: FormGroup;
@@ -17,6 +17,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   @Input() purchaseId: any;
   @Input() purchaseDetail: PurchaseDetail = new PurchaseDetail();
   isInput = false;
+  purchaseDetailNew: PurchaseDetailNew = new PurchaseDetailNew();
   taxAmount: number = 0;
   totalAmount: number = 0;
   amount: number = 0;
@@ -25,7 +26,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   supplierList: any;
   projectDetailList: any;
   constructor(injector: Injector, private dataDictionaryService: DataDictionaryService, private supplierService: SupplierService
-    , private fb: FormBuilder, private purchaseDetailService: PurchaseDetailService) { super(injector); }
+    , private fb: FormBuilder, private purchaseDetailService: PurchaseDetailService, private productService: ProductService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -52,6 +53,9 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
       this.title = "新增采购明细";
       this.purchaseDetail.price = 0;
       this.purchaseDetail.num = 0;
+      if (this.purchaseId) {
+        this.purchaseDetail.purchaseId = this.purchaseId;
+      }
     }
   }
 
@@ -64,7 +68,14 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   getData() {
     this.purchaseDetailService.getById(this.id).subscribe((result) => {
       this.purchaseDetail = result;
-      this.supplierId = this.purchaseDetail.supplierId.toString();
+      this.productService.GetById(this.purchaseDetail.productId.toString())
+        .subscribe((reqproduct) => {
+          this.purchaseDetail.name = reqproduct.name;
+          this.purchaseDetail.specification = reqproduct.specification;
+          this.purchaseDetail.price = reqproduct.price;
+          this.purchaseDetail.taxRate = reqproduct.taxRate;
+        });
+      // this.supplierId = this.purchaseDetail.supplierId.toString();
     });
   }
 
@@ -77,7 +88,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   }
 
   supplierSelect(value: any) {
-    if (value) {
+    if (value && this.supplierList) {
       for (let item of this.supplierList) {
         if (item.value == value) {
           this.purchaseDetail.supplierName = item.text;
@@ -112,36 +123,29 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   }
 
   save() {
-    // this.purchaseDetail.supplierId = parseInt(this.supplierId);
-    // if (!this.id && !this.purchaseId) {
-    //   for (let supplier of this.supplierList) {
-    //     if (supplier.value == this.purchaseDetail.supplierId)
-    //       this.purchaseDetail.supplierName = supplier.text;
-    //   }
-    //   for (let projectDetail of this.projectDetailList) {
-    //     // if (projectDetail.value == this.purchaseDetail.projectDetailId)
-    //     //   this.purchaseDetail.projectDetailName = projectDetail.text;
-    //   }
-    //   // this.purchaseDetail.projectDetailName
-    //   this.notify.success('保存成功！');
-    //   this.success(this.purchaseDetail);
-    // }
-    // else {
-    //   this.purchaseDetailService.createOrUpdate(this.purchaseDetail).finally(() => {
-    //     this.saving = false;
-    //   }).subscribe(() => {
-    //     this.notify.success('保存成功！');
-    //     this.success();
-    //   });
-    // }
     if (this.id) {
-      if (this.id) {
-
-      }
-
+      this.purchaseDetailNew.id = this.purchaseDetail.id;
+      this.purchaseDetailNew.purchaseId = this.purchaseDetail.purchaseId;
+      this.purchaseDetailNew.supplierId = this.purchaseDetail.supplierId;
+      this.purchaseDetailNew.productId = this.purchaseDetail.productId;
+      this.purchaseDetailNew.num = this.purchaseDetail.num;
+      this.purchaseDetailNew.creationTime = this.purchaseDetail.creationTime;
+      this.purchaseDetailNew.creatorUserId = this.purchaseDetail.creatorUserId;
+      this.purchaseDetailNew.isDeleted = this.purchaseDetail.isDeleted;
+      this.purchaseDetailService.UpdateDetailAndUpdateproduct(this.purchaseDetailNew).finally(() => {
+        this.saving = false;
+      }).subscribe(() => {
+        this.notify.success('保存成功！');
+        this.success();
+      });
     } else {
       if (this.purchaseId) {
-
+        this.purchaseDetailService.CreateDetailAndUpdateproductAsync(this.purchaseDetail).finally(() => {
+          this.saving = false;
+        }).subscribe(() => {
+          this.notify.success('保存成功！');
+          this.success();
+        });
       } else {
         this.notify.success('保存成功！');
         this.success(this.purchaseDetail);

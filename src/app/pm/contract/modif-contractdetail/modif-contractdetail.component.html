@@ -6,6 +6,7 @@
     <nz-table #nzTable formArrayName="contractDetails" [nzData]="contractDetails.value" [nzShowPagination]="false">
       <thead nz-thead>
         <tr>
+          <th nz-th>选择产品</th>
           <th nz-th>名称</th>
           <th nz-th>型号</th>
           <th nz-th style="text-align: right">数量</th>
@@ -17,15 +18,25 @@
       <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let item of contractDetails.controls; let i = index" [formGroupName]="i">
           <td nz-td>
+            <span *ngIf="editIndex!==i">
+              <button nz-button type="button" [nzType]="'primary'" disabled>选择已有产品</button>
+              <input nz-input hidden formControlName="productId" readonly [ngModel]="detailsProductId">
+            </span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <input nz-input hidden formControlName="productId" readonly [ngModel]="detailsProductId">
+              <button nz-button type="button" [nzType]="'primary'" (click)="productSelection(i)">选择已有产品</button>
+            </span>
+          </td>
+          <td nz-td>
             <span *ngIf="editIndex!==i">{{contractDetails.value[i].name}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <input nz-input formControlName="name" placeholder="请输入名称">
+              <input nz-input formControlName="name" readonly [ngModel]="detailsName" placeholder="请输入名称">
             </span>
           </td>
           <td nz-td>
             <span *ngIf="editIndex!==i">{{contractDetails.value[i].model}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
-              <input nz-input formControlName="model" placeholder="请输入型号">
+              <input nz-input formControlName="model" [ngModel]="detailsModel" readonly placeholder="请输入型号">
             </span>
           </td>
           <td nz-td style="text-align: right">

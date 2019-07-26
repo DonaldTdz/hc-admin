@@ -99,7 +99,6 @@ export class ContractComponent extends AppComponentBase implements OnInit {
     this.contractService.getById(null, this.contract.refId).subscribe((result: Contract) => {
       if (result.id) {
         this.contract = result;
-        console.log(this.contract);
       } else {
         this.contract.contractDrafting = 0;
         this.contract.originalRecycling = 0;
@@ -111,11 +110,20 @@ export class ContractComponent extends AppComponentBase implements OnInit {
 
   //填写合同明细
   modifyContractDetail() {
-    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id, 'contractDetailList': this.contractDetails }, 'lg', {
+    this.modalHelper.open(ModifContractdetailComponent, { 'contractId': this.contract.id, 'contractDetailList': this.contractDetails }, 'xl', {
       nzMask: true, nzMaskClosable: false
     }).subscribe(isSave => {
       if (isSave) {
-        this.contractDetails = isSave.contractDetails;
+        if (isSave.contractDetails) {
+          for (let item of isSave.contractDetails) {
+            delete (item.creationTime);
+            delete (item.creatorUserId);
+            this.contractDetails.push(item);
+          }
+        }
+        // this.contractDetails = isSave.contractDetails;
+
+        console.log(this.contractDetails);
         this.contract.amount = isSave.contractAmount;
       }
     });
@@ -503,20 +511,34 @@ export class ContractComponent extends AppComponentBase implements OnInit {
       return this.nzMessage.warning("请上传原件");
     if (this.contract.contractDrafting == 1 && !this.contract.attachments)
       return this.nzMessage.warning("请上传合同")
-    await this.contractService.createOrUpdate(this.contract).finally(() => {
-    }).subscribe((result: any) => {
-      if (result.code == 1) {
-        const amount = this.contract.amount;
-        this.contract = Contract.fromJS(result.data);
-        this.contract.amount = amount;
-        this.contractDetailService.batchCreate(this.contractDetails, this.contract.id).subscribe(() => {
-          this.notify.success(result.msg);
-        });
-        // this.vote(true);
-      } else {
-        this.notify.error(result.msg);
-      }
-    });
+    if (!this.contract.id) {
+      await this.contractService.createOrUpdate(this.contract).finally(() => {
+      }).subscribe((result: any) => {
+        if (result.code == 1) {
+          const amount = this.contract.amount;
+          this.contract = Contract.fromJS(result.data);
+          this.contract.amount = amount;
+          this.contractDetailService.batchCreate(this.contractDetails, this.contract.id).subscribe(() => {
+            this.notify.success(result.msg);
+          });
+          // this.vote(true);
+        } else {
+          this.notify.error(result.msg);
+        }
+      });
+    } else {
+      await this.contractService.createOrUpdate(this.contract).finally(() => {
+      }).subscribe((result: any) => {
+        if (result.code == 1) {
+          const amount = this.contract.amount;
+          this.contract = Contract.fromJS(result.data);
+          this.contract.amount = amount;
+          // this.vote(true);
+        } else {
+          this.notify.error(result.msg);
+        }
+      });
+    }
     await this.implementService.batchCreateOrUpdate(implementList).finally(() => {
     }).subscribe((result: any) => {
       this.getImplements();
