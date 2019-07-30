@@ -26,12 +26,12 @@ const routes: Routes = [
     path: 'purchase',
     component: PurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   }, {
     path: 'purchase-detail',
     component: DetailPurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   }, {
     path: 'reimburse',
     component: ReimburseComponent,
@@ -49,7 +49,7 @@ const routes: Routes = [
     path: 'create-purchase',
     component: CreatePurchaseComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   }, {
     path: 'create-reimburse',
     component: ModifyReimburseComponent,

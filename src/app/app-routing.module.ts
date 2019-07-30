@@ -23,7 +23,7 @@ const routes: Routes = [
         path: 'system',
         loadChildren: './system/system.module#SystemModule',
         canActivate: [ACLGuard],
-        data: { preload: true, guard: 'Administration' },
+        data: { preload: true, guard: ["Administration", "GeneralManager", "Finance"] },
       },
       {
         path: 'wechat',
@@ -35,12 +35,13 @@ const routes: Routes = [
         path: 'talk',
         loadChildren: './talk/talk.module#TalkModule',
         canActivate: [ACLGuard],
-        data: { preload: true, guard: 'Administration' },
+        data: { preload: true, guard: ['Administration', 'GeneralManager', 'Finance'] },
       },
       {
         path: 'base',
         loadChildren: './base/base.module#BaseModule',
-        data: { preload: true },
+        canActivate: [ACLGuard],
+        data: { preload: true, guard: ["GeneralManager", "Finance", "BusinessAffairs", "Sale", "Purchase"] },
       },
       {
         path: 'pm',

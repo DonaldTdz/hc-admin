@@ -183,8 +183,8 @@
               <span *ngIf="editIndex!==i">{{advancePayments.value[i].amount}}</span>
               <span *ngIf="editIndex===i" nz-form-control>
                 <nz-input-number nz-input formControlName="amount"
-                  [ngModel]="purchaseDetailAmount*advancePaymentRatio/100" nzMax="99999999999999" nzPrecision="2"
-                  placeholder="请输入金额">
+                  [ngModel]="purchaseDetailAmount*advancePaymentRatio/100" [nzDisabled]="true" nzMax="99999999999999"
+                  nzPrecision="2" placeholder="请输入金额">
                 </nz-input-number>
               </span>
             </td>
@@ -217,7 +217,7 @@
               </span>
             </td>
             <td nz-td style="text-align: center">
-              <span *ngIf="editIndex!==i">
+              <span *ngIf="editIndex!==i && advancePayments.value[i].status==0">
                 <a (click)="edit(i)">编辑</a>
                 <nz-divider nzType="vertical"></nz-divider>
                 <nz-popconfirm (nzOnConfirm)="del(i,advancePayments.value[i].id)" [nzTitle]="'是否要删除此行数据？'">
@@ -243,7 +243,7 @@
     <div class="modal-footer">
 
       <label style="margin-right: 10px">总计：{{purchaseDetailAmount}}</label>
-      <button nz-button type="button" [disabled]="saving" (click)="goBack()">
+      <button nz-button type="button" [disabled]="saving" (click)="return()">
         返回
       </button>
       <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>

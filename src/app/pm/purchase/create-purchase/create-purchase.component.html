@@ -223,8 +223,8 @@
               <span *ngIf="editIndex!==i">{{advancePayments.value[i].amount}}</span>
               <span *ngIf="editIndex===i" nz-form-control>
                 <nz-input-number nz-input formControlName="amount"
-                  [ngModel]="purchaseDetailAmount*advancePaymentRatio/100" nzMax="99999999999999" nzPrecision="2"
-                  placeholder="请输入金额">
+                  [ngModel]="purchaseDetailAmount*advancePaymentRatio/100" [nzDisabled]="true" nzMax="99999999999999"
+                  nzPrecision="2" placeholder="请输入金额">
                 </nz-input-number>
               </span>
             </td>

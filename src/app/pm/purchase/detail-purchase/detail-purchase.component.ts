@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FileComponent } from '@app/pm/file/file.component';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component'
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-detail-purchase',
@@ -24,6 +25,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   purchaseDetails = [];
   advancePaymentRatio: number = 0;
   purchaseDetailAmount: number = 0;
+  totalProportion: number = 0;
   projectList: any;
   employeeList: any;
   pageSize = 200;
@@ -32,7 +34,8 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   purchase: Purchase = new Purchase();
   constructor(injector: Injector, private purchaseService: PurchaseService, private fb: FormBuilder
     , private purchaseDetailService: PurchaseDetailService, private advancePaymentService: AdvancePaymentService
-    , private employeeServiceProxy: EmployeeServiceProxy, private actRouter: ActivatedRoute) {
+    , private employeeServiceProxy: EmployeeServiceProxy, private actRouter: ActivatedRoute
+    , private nzMessage: NzMessageService) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
   }
@@ -150,6 +153,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
         const field = this.advancePayment();
         field.patchValue(item);
         this.advancePayments.push(field);
+        this.totalProportion += item.ratio;
       }
     });
   }
@@ -185,6 +189,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
 
   //修改付款计划
   edit(index: number) {
+    this.totalProportion -= this.advancePayments.value[index].ratio;
     if (this.editIndex !== -1 && this.editObj) {
       this.advancePayments.at(this.editIndex).patchValue(this.editObj);
     }
@@ -194,6 +199,11 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
 
   //保存付款计划
   async saveAdvancePayment(index: number) {
+    this.totalProportion += this.advancePayments.value[index].ratio;
+    if (this.totalProportion > 100) {
+      this.totalProportion -= this.advancePayments.value[index].ratio;
+      return this.nzMessage.error("付款比例不能超过100%");
+    }
     this.advancePayments.at(index).markAsDirty();
     if (this.advancePayments.at(index).invalid) return;
     if (!this.advancePayments.value[index].id && this.editObj.id) {

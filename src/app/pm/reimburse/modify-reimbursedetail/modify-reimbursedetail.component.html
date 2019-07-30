@@ -2,7 +2,7 @@
   <div class="modal-header">
     <div class="modal-title">新增报销明细</div>
   </div>
-  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()">
+  <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="reimburseDetail">
     <nz-form-item nz-row>
       <nz-form-label [nzSm]="5" class="labelPadding" nzRequired="true" [nzXs]="24">费用发生日期</nz-form-label>
       <nz-form-control [nzSm]="19" class="controlPadding" nzHasFeedback>
@@ -45,19 +45,19 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row>
+      <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired="true" class="labelPadding">客户单位</nz-form-label>
+      <nz-form-control [nzSm]="19" nzHasFeedback>
+        <input nz-input formControlName="customer" [(ngModel)]="reimburseDetail.customer">
+        <nz-form-explain *ngIf="(form.get('customer')?.dirty && form.get('customer')?.errors)">字符长度小于等于100
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
       <nz-form-label [nzSm]="5" [nzXs]="24">票据张数</nz-form-label>
       <nz-form-control [nzSm]="19" nzHasFeedback>
         <nz-input-number formControlName="invoiceNum" nzPrecision="0" nzMin="0" nzMax="100" style="width:100%"
           [(ngModel)]="reimburseDetail.invoiceNum"></nz-input-number>
         <nz-form-explain *ngIf="(form.get('invoiceNum')?.dirty && form.get('invoiceNum')?.errors)">请输入票据张数
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label [nzSm]="5" [nzXs]="24" class="labelPadding">客户单位</nz-form-label>
-      <nz-form-control [nzSm]="19" nzHasFeedback>
-        <input nz-input formControlName="customer" [(ngModel)]="reimburseDetail.customer">
-        <nz-form-explain *ngIf="(form.get('customer')?.dirty && form.get('customer')?.errors)">字符长度小于等于100
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>

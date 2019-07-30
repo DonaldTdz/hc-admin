@@ -139,8 +139,8 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       delete (this.contractDetails.value[index].creatorUserId);
     }
     this.editIndex = -1;
-    this.contractDetails.value[index].totalAmount = this.contractDetails.value[index].num * (this.contractDetails.value[index].price * 100) / 100;
     this.contractDetails.value[index].contractId = this.contractId;
+    this.contractDetails.value[index].totalAmount = this.contractDetails.value[index].num * (this.contractDetails.value[index].price * 100) / 100;
     this.contractAmount += this.contractDetails.value[index].totalAmount;
     if (this.contractDetails.value[index].contractId) {
       this.contractDetailService.createOrUpdate(this.contractDetails.value[index])
@@ -149,6 +149,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
           this.contractDetails.value[index].id = result.id;
           this.contractDetails.value[index].creationTime = result.creationTime;
           this.contractDetails.value[index].creatorUserId = result.creatorUserId;
+          this.contractDetails.value[index].totalAmount = result.num * (result.price * 100) / 100;
         });
     }
   }

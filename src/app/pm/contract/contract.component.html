@@ -146,7 +146,7 @@
             </span>
           </td>
           <td nz-td style="text-align: center" *ngIf="projectStatus==4">
-            <span *ngIf="editIndex!==i && paymentPlans.value[i].name!='合计'">
+            <span *ngIf="editIndex!==i && paymentPlans.value[i].name!='合计' && paymentPlans.value[i].status!=1">
               <a (click)="edit(i)">编辑</a>
               <nz-divider nzType="vertical"></nz-divider>
               <nz-popconfirm (nzOnConfirm)="del(i,paymentPlans.value[i].id)" [nzTitle]="'是否要删除此行数据？'">

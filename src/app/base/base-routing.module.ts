@@ -15,38 +15,38 @@ const routes: Routes = [
     path: 'customer',
     component: CustomerComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'SaleBusiness' }
+    data: { guard: ["GeneralManager", "Finance", "BusinessAffairs", "Sale"] }
   },
   {
     path: 'company',
     component: CompanyComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'CompanyAdmin' }
+    data: { guard: ["GeneralManager", "Finance"] }
   }
   ,
   {
     path: 'product',
     component: ProductComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   },
   {
     path: 'supplier',
     component: SupplierComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   },
   {
     path: 'customer-detail',
     component: DetailCustomerComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "BusinessAffairs", "Sale"] }
   },
   {
     path: 'supplier-detail',
     component: DetailSupplierComponent,
     canActivate: [AppRouteGuard, ACLGuard],
-    data: { guard: 'Purchase' }
+    data: { guard: ["GeneralManager", "Finance", "Purchase"] }
   }
 ];
 

@@ -2,10 +2,10 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Purchase, PurchaseDetail } from 'entities'
 import { PurchaseService, ProjectService, EmployeeServiceProxy, } from 'services'
-import { ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
 import { FileComponent } from '../../file/file.component';
-import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component'
+import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 
 @Component({
   selector: 'app-create-purchase',
@@ -20,15 +20,16 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
   purchaseDetails = [];
   advancePaymentRatio: number = 0;
   purchaseDetailAmount: number = 0;
+  totalProportion: number = 0;
   projectList: any;
   employeeList: any;
   pageSize = 200;
   pageIndex = 1;
   purchaseDetail: PurchaseDetail = new PurchaseDetail();
   purchase: Purchase = new Purchase();
-  constructor(injector: Injector, private purchaseService: PurchaseService, private fb: FormBuilder
-    , private projectService: ProjectService
-    , private employeeServiceProxy: EmployeeServiceProxy, private actRouter: ActivatedRoute) {
+  constructor(injector: Injector, private purchaseService: PurchaseService
+    , private fb: FormBuilder, private nzMessage: NzMessageService
+    , private employeeServiceProxy: EmployeeServiceProxy) {
     super(injector);
   }
 
@@ -144,7 +145,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
       desc: [null],
       amount: [null, [Validators.required]],
       status: [null, [Validators.required]],
-      paymentTime: [null, [Validators.required]],
+      paymentTime: [null],
     });
   }
 
@@ -165,6 +166,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
 
   //修改付款计划
   edit(index: number) {
+    this.totalProportion -= this.advancePayments.value[index].ratio;
     if (this.editIndex !== -1 && this.editObj) {
       this.advancePayments.at(this.editIndex).patchValue(this.editObj);
     }
@@ -174,10 +176,15 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
 
   //保存付款计划
   async saveAdvancePayment(index: number) {
+    this.totalProportion += this.advancePayments.value[index].ratio;
+    if (this.totalProportion > 100) {
+      this.totalProportion -= this.advancePayments.value[index].ratio;
+      return this.nzMessage.error("付款比例不能超过100%");
+    }
     this.advancePayments.at(index).markAsDirty();
     if (this.advancePayments.at(index).invalid) return;
     this.editIndex = -1;
-    console.log(this.advancePayments);
+    // console.log(this.advancePayments);
     // await this.paymentPlanService.createOrUpdate(this.paymentPlans.value[index])
     //   .subscribe((result: any) => {
     //     this.notify.success("保存成功");

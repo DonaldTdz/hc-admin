@@ -58,7 +58,8 @@
           {{expandForm ? '收起' : '展开'}}
           <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
         </a>
-        <button nz-button [acl]="'SaleBusiness'" (click)="create()" style="float: right" nzType="primary">
+        <button nz-button [acl]="['GeneralManager', 'Finance', 'BusinessAffairs', 'Sale']" (click)="create()"
+          style="float: right" nzType="primary">
           <i class="anticon anticon-plus"></i>
           <span>新建</span>
         </button>
