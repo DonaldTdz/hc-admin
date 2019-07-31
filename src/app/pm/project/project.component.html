@@ -112,7 +112,7 @@
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let ding of nzTable.data">
         <td nz-td>{{ding.projectCode}}</td>
-        <td nz-td title="ding.name">{{ding.name | lengthLimit:10}}</td>
+        <td nz-td title="{{ding.name}}">{{ding.name | lengthLimit:10}}</td>
         <td nz-td style="text-align: center">{{ding.modeName}}</td>
         <td nz-td>{{ding.customerName}}</td>
         <td nz-td>{{ding.projectSalesName}}</td>

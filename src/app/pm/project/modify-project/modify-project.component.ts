@@ -48,7 +48,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       mode: [null, Validators.compose([Validators.required])],
-      implementMoney: [null, Validators.compose([Validators.maxLength(18), Validators.required])],
+      implementMoney: [null, Validators.compose([Validators.maxLength(18)])],
       projectSalesId: [null, Validators.compose([Validators.required])],
       salesAssistantId: [null, Validators.compose([Validators.required])],
       customerContactId: [null, Validators.compose([Validators.required])],
