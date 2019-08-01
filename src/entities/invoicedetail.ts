@@ -1,7 +1,6 @@
 export class InvoiceDetail {
     id: string;
     invoiceId: string;
-    refId: string;
     name: string;
     specification: string;
     unit: string;
@@ -27,7 +26,6 @@ export class InvoiceDetail {
         if (data) {
             this.id = data["id"];
             this.invoiceId = data["invoiceId"];
-            this.refId = data["refId"];
             this.name = data["name"];
             this.specification = data["specification"];
             this.unit = data["unit"];
@@ -47,7 +45,6 @@ export class InvoiceDetail {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["invoiceId"] = this.invoiceId;
-        data["refId"] = this.refId;
         data["name"] = this.name;
         data["specification"] = this.specification;
         data["unit"] = this.unit;

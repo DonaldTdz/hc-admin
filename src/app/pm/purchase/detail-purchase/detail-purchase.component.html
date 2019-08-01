@@ -29,14 +29,14 @@
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
-          <nz-form-label [nzSm]="6" class="labelPadding" nzRequired="true" [nzXs]="24">发票开具</nz-form-label>
-          <nz-form-control [nzSm]="12" class="controlPadding" nzHasFeedback>
+          <nz-form-label [nzSm]="6" class="labelPadding" [nzXs]="24">文件上传</nz-form-label>
+          <!-- <nz-form-control [nzSm]="12" class="controlPadding" nzHasFeedback>
             <nz-radio-group formControlName="invoiceIssuance" style="width:'70%'"
               [(ngModel)]="purchase.invoiceIssuance">
               <label nz-radio nzValue="true">是</label>
               <label nz-radio nzValue="false">否</label>
             </nz-radio-group>
-          </nz-form-control>
+          </nz-form-control> -->
           <button nz-button type="button" nzType="primary" (click)="uploadPurchase()" style="margin-top: 5px">
             <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
           </button>
@@ -238,6 +238,93 @@
       <button *ngIf="editIndex===-1" nz-button [nzType]="'dashed'" (click)="add()" nzBlock class="mt-md">
         <i nz-icon type="plus"></i>
         <span>新增回款</span>
+      </button>
+    </nz-card>
+    <nz-card [nzBordered]="false" style="background-color: #f4f4f4;">
+      <nz-divider nzText="发票"></nz-divider>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSm]="8" class="labelPadding" [nzXs]="24">总开票金额(元)</nz-form-label>
+            <nz-form-control [nzSm]="10" class="controlPadding" nzHasFeedback>
+              <span>{{purchaseDetailAmount}}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSm]="8" class="labelPadding" [nzXs]="24">已开票金额(元)</nz-form-label>
+            <nz-form-control [nzSm]="10" class="controlPadding" nzHasFeedback>
+              <span>{{incoiceTotalAmount}}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSm]="8" class="labelPadding" [nzXs]="24">未开票金额(元)</nz-form-label>
+            <nz-form-control [nzSm]="10" class="controlPadding" nzHasFeedback>
+              <span>{{purchaseDetailAmount-incoiceTotalAmount}}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <nz-table #incoiceTable [nzLoading]="incoiceLoading" formArrayName="incoices" [nzData]="incoices.value"
+        [nzShowPagination]="false">
+        <thead nz-thead>
+          <tr>
+            <th nz-th>发票号</th>
+            <th nz-th style="text-align: center">开票日期</th>
+            <th nz-th style="text-align: right">金额(元)</th>
+            <th nz-th style="text-align: center">操作</th>
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let item of incoices.controls; let i = index" [formGroupName]="i">
+            <td nz-td>
+              <span *ngIf="incoiceEditIndex!==i">{{incoices.value[i].code}}</span>
+              <span *ngIf="incoiceEditIndex===i" nz-form-control>
+                <input nz-input formControlName="code" placeholder="请输入发票号">
+              </span>
+            </td>
+            <td nz-td style="text-align: center">
+              <span *ngIf="incoiceEditIndex!==i">{{incoices.value[i].submitDate | date:'yyyy-MM-dd'}}</span>
+              <span *ngIf="incoiceEditIndex===i" nz-form-control>
+                <nz-date-picker [nzStyle]='{width:"100%"}' placeholder="请选择开票日期" formControlName="submitDate">
+                </nz-date-picker>
+              </span>
+            </td>
+            <td nz-td style="text-align: right">
+              <span>{{incoices.value[i].amount}}</span>
+              <!-- <span *ngIf="editIndex===i" nz-form-control>
+                    <nz-input-number nz-input formControlName="amount" nzMax="99999999999999" nzPrecision="2"
+                      placeholder="请输入金额">
+                    </nz-input-number>
+                  </span> -->
+            </td>
+            <td nz-td style="text-align: center">
+              <span *ngIf="incoiceEditIndex!==i">
+                <a (click)="editIncoice(i)">编辑</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-popconfirm (nzOnConfirm)="delIncoice(i,incoices.value[i].id)" [nzTitle]="'是否要删除此行数据？'">
+                  <a nz-popconfirm>删除</a>
+                </nz-popconfirm>
+              </span>
+              <span *ngIf="incoiceEditIndex===i">
+                <a (click)="saveIncoice(i,false)">保存</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="modifyIncoiceDetail(i)">编辑明细</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-popconfirm (nzOnConfirm)="cancelIncoice(i,incoices.value[i].id)" [nzTitle]="'是否要取消操作？'">
+                  <a nz-popconfirm>删除</a>
+                </nz-popconfirm>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <button *ngIf="incoiceEditIndex===-1" nz-button [nzType]="'dashed'" (click)="addIncoice()" nzBlock class="mt-md">
+        <i nz-icon type="plus"></i>
+        <span>新增发票</span>
       </button>
     </nz-card>
     <div class="modal-footer">

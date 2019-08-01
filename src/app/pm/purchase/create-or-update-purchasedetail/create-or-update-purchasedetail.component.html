@@ -23,8 +23,10 @@
         <nz-form-item nzFlex>
           <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>产品</nz-form-label>
           <nz-form-control [nzSpan]="18" class="controlPadding" nzHasFeedback>
-            <button nz-button type="button" [nzType]="'primary'" (click)="productSelection()"
-              [disabled]="saving">选择已有产品</button>
+            <button nz-button *ngIf="purchaseDetail.id" disabled type="button" [nzType]="'primary'"
+              (click)="productSelection()">选择已有产品</button>
+            <button nz-button type="button" *ngIf="!purchaseDetail.id" [nzType]="'primary'"
+              (click)="productSelection()">选择已有产品</button>
           </nz-form-control>
         </nz-form-item>
       </div>

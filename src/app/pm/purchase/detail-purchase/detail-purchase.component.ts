@@ -1,12 +1,13 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { PurchaseService, PurchaseDetailService, EmployeeServiceProxy, AdvancePaymentService } from 'services';
+import { PurchaseService, PurchaseDetailService, InvoiceService, EmployeeServiceProxy, AdvancePaymentService } from 'services';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { PurchaseDetail, Purchase } from 'entities';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FileComponent } from '@app/pm/file/file.component';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
-import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component'
+import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component';
+import { CreateOrUpdateInvoicedetailComponent } from '../../invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -17,6 +18,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class DetailPurchaseComponent extends AppComponentBase implements OnInit {
   id: any = '';
+  incoiceLoading = false;
   loading = false;
   detailLoading = false;
   form: FormGroup;
@@ -26,6 +28,9 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   advancePaymentRatio: number = 0;
   purchaseDetailAmount: number = 0;
   totalProportion: number = 0;
+  incoiceTotalAmount: number = 0;
+  incoiceEditIndex = -1;
+  incoiceEditObj: any;
   projectList: any;
   employeeList: any;
   pageSize = 200;
@@ -35,7 +40,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   constructor(injector: Injector, private purchaseService: PurchaseService, private fb: FormBuilder
     , private purchaseDetailService: PurchaseDetailService, private advancePaymentService: AdvancePaymentService
     , private employeeServiceProxy: EmployeeServiceProxy, private actRouter: ActivatedRoute
-    , private nzMessage: NzMessageService) {
+    , private nzMessage: NzMessageService, private invoiceService: InvoiceService) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
   }
@@ -46,15 +51,17 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       employeeId: [null, Validators.required],
       purchaseDate: [null],
       arrivalDate: [null],
-      invoiceIssuance: [null, Validators.required],
+      // invoiceIssuance: [null, Validators.required],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
       advancePayments: this.fb.array([]),
+      incoices: this.fb.array([]),
     });
     this.getEmployeeList();
     if (this.id) {
       this.getPurchaseDetail();
       this.getPurchase();
       this.getAdvancePayments();
+      this.getIncoices();
     }
   }
 
@@ -230,6 +237,139 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     this.advancePayments.removeAt(index);
     this.editIndex = -1;
   }
+  //发票
+  incoice(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      refId: [null],
+      type: [null],
+      code: [null, [Validators.required]],
+      amount: [null],
+      submitDate: [null, [Validators.required]],
+      creationTime: [null],
+      creatorUserId: [null],
+    });
+  }
+
+  get incoices() {
+    return this.form.controls.incoices as FormArray;
+  }
+
+  //获取发票
+  getIncoices() {
+    this.incoiceLoading = true;
+    let params: any = {};
+    params.SkipCount = this.query.skipCount();
+    params.MaxResultCount = this.query.pageSize;
+    params.refId = this.purchase.id;
+    params.type = 2;
+    this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
+      while (this.incoices.length !== 0) {
+        this.incoices.removeAt(0)
+      }
+      this.incoiceLoading = false;
+      for (let item of result.items) {
+        const field = this.incoice();
+        field.patchValue(item);
+        this.incoices.push(field);
+        this.incoiceTotalAmount += item.amount;
+      }
+    });
+  }
+
+  //删除发票
+  delIncoice(index: number, id: any) {
+    this.incoiceTotalAmount -= this.incoices.value[index].amount;
+    this.incoices.removeAt(index);
+    this.invoiceService.delete(id).subscribe(() => {
+      this.notify.success('删除成功！');
+    });
+  }
+
+  //新增发票
+  addIncoice() {
+    if (this.purchase.id)
+      this.incoices.push(this.incoice());
+    this.editIncoice(this.incoices.length - 1);
+  }
+
+  //修改发票
+  editIncoice(index: number) {
+    if (this.incoiceEditIndex !== -1 && this.incoiceEditObj) {
+      this.incoices.at(this.incoiceEditIndex).patchValue(this.incoiceEditObj);
+    }
+    this.incoiceEditObj = { ...this.incoices.at(index).value };
+    this.incoiceEditIndex = index;
+  }
+
+  //取消发票
+  cancelIncoice(index: number, id: any) {
+    if (!this.incoices.at(index).value.id) {
+      this.incoices.removeAt(index);
+    } else {
+      this.delIncoice(index, id);
+    }
+    this.incoiceEditIndex = -1;
+  }
+
+  //保存发票
+  saveIncoice(index: number, modifyDetail: boolean) {
+    this.incoices.at(index).markAsDirty();
+    if (this.incoices.at(index).invalid) return;
+    this.incoiceEditIndex = -1;
+    if (!this.incoices.value[index].id && this.incoiceEditObj.id) {
+      this.incoices.value[index].id = this.incoiceEditObj.id;
+      this.incoices.value[index].creationTime = this.incoiceEditObj.creationTime;
+      this.incoices.value[index].creatorUserId = this.incoiceEditObj.creatorUserId;
+      this.incoices.value[index].refId = this.incoiceEditObj.refId;
+      this.incoices.value[index].type = this.incoiceEditObj.type;
+      this.incoices.value[index].amount = this.incoiceEditObj.amount;
+    }
+    if (!this.incoices.value[index].id) {
+      delete (this.incoices.value[index].creationTime);
+      delete (this.incoices.value[index].creatorUserId);
+      this.incoices.value[index].refId = this.purchase.id;
+      this.incoices.value[index].type = 2;
+      this.incoices.value[index].amount = 0;
+    }
+    this.invoiceService.createOrUpdate(this.incoices.value[index])
+      .subscribe((result: any) => {
+        this.getIncoices();
+        if (modifyDetail == true) {
+          console.log(result.id);
+          this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id }, 'xl', {
+            nzMask: true, nzMaskClosable: false
+          }).subscribe(invoiceAmount => {
+            if (!invoiceAmount)
+              invoiceAmount = 0;
+            this.incoices.value[index].amount = invoiceAmount;
+            this.incoiceTotalAmount += invoiceAmount;
+            this.notify.success("保存成功");
+          });
+        } else {
+          this.notify.success("保存成功");
+        }
+      });
+  }
+
+  //填写发票明细
+  async modifyIncoiceDetail(index: number) {
+    if (!this.incoiceEditObj.id)
+      await this.saveIncoice(index, true);
+    else {
+      this.incoiceTotalAmount -= this.incoiceEditObj.amount;
+      await this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": this.incoiceEditObj.id }, 'xl', {
+        nzMask: true, nzMaskClosable: false
+      }).subscribe(invoiceAmount => {
+        if (!invoiceAmount)
+          invoiceAmount = 0;
+        this.incoices.value[index].amount = invoiceAmount;
+        this.incoiceEditObj.amount = invoiceAmount
+        this.incoiceTotalAmount += invoiceAmount;
+        this.notify.success("保存成功");
+      });
+    }
+  }
 
   //返回
   return() {
@@ -241,7 +381,6 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     this.purchaseService.createOrUpdate(this.purchase).finally(() => {
     }).subscribe((result: any) => {
       this.notify.success("保存成功");
-      this.return();
     });
   }
 

@@ -1,11 +1,12 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Purchase, PurchaseDetail } from 'entities'
-import { PurchaseService, ProjectService, EmployeeServiceProxy, } from 'services'
+import { PurchaseService, EmployeeServiceProxy, } from 'services'
 import { NzMessageService } from 'ng-zorro-antd';
 import { AppComponentBase } from '@shared/app-component-base';
 import { FileComponent } from '../../file/file.component';
 import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-purchase',
@@ -13,7 +14,7 @@ import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purch
   styleUrls: ['./create-purchase.component.scss']
 })
 export class CreatePurchaseComponent extends AppComponentBase implements OnInit {
-  loading = 'false';
+  loading = false;
   form: FormGroup;
   editIndex = -1;
   editObj: any;
@@ -29,7 +30,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
   purchase: Purchase = new Purchase();
   constructor(injector: Injector, private purchaseService: PurchaseService
     , private fb: FormBuilder, private nzMessage: NzMessageService
-    , private employeeServiceProxy: EmployeeServiceProxy) {
+    , private employeeServiceProxy: EmployeeServiceProxy, private router: Router) {
     super(injector);
   }
 
@@ -39,7 +40,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
       employeeId: [null, Validators.required],
       purchaseDate: [null],
       arrivalDate: [null],
-      invoiceIssuance: [null, Validators.required],
+      // invoiceIssuance: [null, Validators.required],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
       advancePayments: this.fb.array([]),
     });
@@ -133,7 +134,8 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
     this.purchaseService.OnekeyCreateAsync(this.purchase, this.purchaseDetails, this.advancePayments.value).finally(() => {
     }).subscribe((result: any) => {
       this.notify.success("保存成功");
-      this.goBack();
+      // this.goBack();
+      this.router.navigate(['/app/pm/purchase-detail', { id: result }]);
     });
   }
 
@@ -184,14 +186,6 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
     this.advancePayments.at(index).markAsDirty();
     if (this.advancePayments.at(index).invalid) return;
     this.editIndex = -1;
-    // console.log(this.advancePayments);
-    // await this.paymentPlanService.createOrUpdate(this.paymentPlans.value[index])
-    //   .subscribe((result: any) => {
-    //     this.notify.success("保存成功");
-    //     this.paymentPlans.value[index].id = result.id;
-    //     this.paymentPlans.value[index].creationTime = result.creationTime;
-    //     this.paymentPlans.value[index].creatorUserId = result.creatorUserId;
-    //   });
   }
 
   //取消付款计划
@@ -199,6 +193,8 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
     this.advancePayments.removeAt(index);
     this.editIndex = -1;
   }
+
+
 
   goBack(): void {
     history.back();

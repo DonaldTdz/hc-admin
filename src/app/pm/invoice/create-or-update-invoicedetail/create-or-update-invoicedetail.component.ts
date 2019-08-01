@@ -62,6 +62,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
       invoiceId: [null],
       name: [null, [Validators.required, Validators.maxLength(120)]],
       specification: [null, [Validators.required, Validators.maxLength(100)]],
+      unit: [null, Validators.maxLength(25)],
       price: [null, [Validators.required, Validators.maxLength(18)]],
       num: [null, [Validators.required, Validators.maxLength(18)]],
       amount: [null],

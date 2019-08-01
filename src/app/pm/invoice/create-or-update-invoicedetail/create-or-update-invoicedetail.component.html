@@ -10,6 +10,7 @@
           <th nz-th>型号</th>
           <th nz-th style="text-align: right">数量</th>
           <th nz-th style="text-align: right">单价(元)</th>
+          <th nz-th>单位</th>
           <th nz-th style="text-align: right">金额(元)</th>
           <th nz-th style="text-align: center">税率</th>
           <th nz-th style="text-align: right">税额(元)</th>
@@ -45,6 +46,12 @@
               <nz-input-number nz-input formControlName="price" nzMin="0" nzMax="99999999999999" nzPrecision="2"
                 placeholder="请输入单价">
               </nz-input-number>
+            </span>
+          </td>
+          <td nz-td>
+            <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].unit}}</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <input nz-input formControlName="unit" placeholder="请输入单位">
             </span>
           </td>
           <td nz-td style="text-align: right">

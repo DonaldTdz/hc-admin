@@ -112,18 +112,6 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <div nz-col [nzSpan]="8" *ngIf="project.type=='软件开发'||project.type=='系统集成'">
-      <nz-form-item nzFlex>
-        <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">提前执行金额(元)</nz-form-label>
-        <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-          <nz-input-number formControlName="implementMoney" [nzDisabled]="project.status>1?true:false" nzPrecision="2"
-            style="width:100%" placeholder="请输入提前执行金额" [(ngModel)]="project.implementMoney"></nz-input-number>
-          <nz-form-explain *ngIf="(form.get('implementMoney')?.dirty && form.get('implementMoney')?.errors)
-              ">提前执行金额不能为空,且不能超过18位
-          </nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
     <div nz-col [nzSpan]="8">
       <nz-form-item nzFlex>
         <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">客户名称</nz-form-label>
@@ -221,6 +209,18 @@
           <nz-input-number formControlName="budget" [nzDisabled]="project.status!='2'" nzPrecision="2"
             nzMax="99999999999999" style="width:100%" placeholder="请输入预算金额金额" [(ngModel)]="project.budget">
           </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="8" *ngIf="project.type=='软件开发'||project.type=='系统集成'">
+      <nz-form-item nzFlex>
+        <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">提前执行金额(元)</nz-form-label>
+        <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
+          <nz-input-number formControlName="implementMoney" [nzDisabled]="project.status!=2" nzPrecision="2"
+            style="width:100%" placeholder="请输入提前执行金额" [(ngModel)]="project.implementMoney"></nz-input-number>
+          <nz-form-explain *ngIf="(form.get('implementMoney')?.dirty && form.get('implementMoney')?.errors)
+                ">提前执行金额不能为空,且不能超过18位
+          </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>

@@ -1,41 +1,6 @@
 <page-header title="新增采购"></page-header>
 <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="purchase">
   <nz-card [nzBordered]="false">
-    <!-- <ng-template #extraTemplate>
-      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>
-    </ng-template> -->
-    <!-- <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12">
-        <nz-form-item nzFlex>
-          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>所属项目</nz-form-label>
-          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-            <nz-select formControlName="projectId" [nzPlaceHolder]="'请选择所属项目'" [nzDisabled]="true"
-              [(ngModel)]="purchase.projectId" style="width:100%;">
-              <nz-option *ngFor="let i of projectList" [nzLabel]="i.text" [nzValue]="i.value">
-              </nz-option>
-            </nz-select>
-            <nz-form-explain *ngIf="(form.get('projectId')?.dirty && form.get('projectId')?.errors)
-      ">请选择所属项目
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="12">
-        <nz-form-item nzFlex>
-          <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>采购分类</nz-form-label>
-          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-            <nz-select formControlName="type" [nzPlaceHolder]="'请选择采购分类'" [(ngModel)]="purchase.type"
-              [nzShowSearch]="true" (ngModelChange)="getPurchaseCode()" style="width:100%;">
-              <nz-option *ngFor="let i of purchaseType" [nzLabel]="i.text" [nzValue]="i.value">
-              </nz-option>
-            </nz-select>
-            <nz-form-explain *ngIf="(form.get('type')?.dirty && form.get('type')?.errors)
-      ">请选择采购分类
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div> -->
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
@@ -64,14 +29,14 @@
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12">
         <nz-form-item nzFlex>
-          <nz-form-label [nzSm]="6" class="labelPadding" nzRequired="true" [nzXs]="24">发票开具</nz-form-label>
-          <nz-form-control [nzSm]="12" class="controlPadding" nzHasFeedback>
+          <nz-form-label [nzSm]="6" class="labelPadding" [nzXs]="24">文件上传</nz-form-label>
+          <!-- <nz-form-control [nzSm]="12" class="controlPadding" nzHasFeedback>
             <nz-radio-group formControlName="invoiceIssuance" style="width:'70%'"
               [(ngModel)]="purchase.invoiceIssuance">
               <label nz-radio nzValue="true">是</label>
               <label nz-radio nzValue="false">否</label>
             </nz-radio-group>
-          </nz-form-control>
+          </nz-form-control> -->
           <button nz-button type="button" nzType="primary" (click)="uploadPurchase()" style="margin-top: 5px">
             <i nz-icon type="upload" class="anticon anticon-upload"></i><span>上传文件</span>
           </button>
@@ -284,13 +249,11 @@
             </div> -->
     </nz-card>
     <div class="modal-footer">
-
       <label style="margin-right: 10px">总计：{{purchaseDetailAmount}}</label>
       <button nz-button type="button" [disabled]="saving" (click)="goBack()">
         返回
       </button>
-      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存</button>
+      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存并填写发票</button>
     </div>
-
   </nz-card>
 </form>
