@@ -261,7 +261,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     let params: any = {};
     params.SkipCount = this.query.skipCount();
     params.MaxResultCount = this.query.pageSize;
-    params.refId = this.purchase.id;
+    params.refId = this.id;
     params.type = 2;
     this.invoiceService.getAll(params).subscribe((result: PagedResultDto) => {
       while (this.incoices.length !== 0) {
@@ -336,8 +336,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       .subscribe((result: any) => {
         this.getIncoices();
         if (modifyDetail == true) {
-          console.log(result.id);
-          this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id }, 'xl', {
+          this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id, 'purchaseId': this.purchase.id, 'type': result.type }, 'xl', {
             nzMask: true, nzMaskClosable: false
           }).subscribe(invoiceAmount => {
             if (!invoiceAmount)
@@ -358,7 +357,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       await this.saveIncoice(index, true);
     else {
       this.incoiceTotalAmount -= this.incoiceEditObj.amount;
-      await this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": this.incoiceEditObj.id }, 'xl', {
+      await this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": this.incoiceEditObj.id, 'purchaseId': this.purchase.id, 'type': this.incoiceEditObj.type }, 'xl', {
         nzMask: true, nzMaskClosable: false
       }).subscribe(invoiceAmount => {
         if (!invoiceAmount)

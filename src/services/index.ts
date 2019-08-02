@@ -28,3 +28,4 @@ export * from './paymentplan/paymentplan.service';
 export * from './customer/customercontact.service';
 export * from './implement/implement.service';
 export * from './advancepayment/advancepayment.services';
+export * from './report/report.services';

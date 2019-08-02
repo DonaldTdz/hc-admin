@@ -8,7 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeService } from 'services';
 import { G2GroupBarModule } from '../../packages/group-bar';
-import { SelectionProductComponent } from '@app/base/product/selection-product/selection-product.component'
+import { SelectionProductComponent } from '@app/base/product/selection-product/selection-product.component';
 
 @NgModule({
   imports: [

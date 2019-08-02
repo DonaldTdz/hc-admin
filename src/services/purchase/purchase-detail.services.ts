@@ -41,8 +41,8 @@ export class PurchaseDetailService {
      * @param projectId 
      */
     GetDropDownsByPurchaseId(purchaseId: any): Observable<any> {
-        let _url = "/api/services/app/PurchaseDetail/GetDropDownsByPurchaseIdAsync";
-        return this._commonhttp.get(_url, { purchaseId: purchaseId }).pipe(map(data => {
+        let _url = "/api/services/app/PurchaseDetail/GetDetailSelectAsync";
+        return this._commonhttp.get(_url, { 'id': purchaseId }).pipe(map(data => {
             return data;
         }));
     }

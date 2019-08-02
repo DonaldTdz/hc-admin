@@ -92,24 +92,31 @@ export class AppMenus {
                     text: "报销",
                     link: "/app/pm/reimburse",
                     reuse: false
-                }//, {
-                //     text: "工时查询",
-                //     link: "/app/pm/timesheet",
-                //     reuse: false
-                // }
-                // {
-                //     text: "招标管理",
-                //     link: "/app/pm/tender",
-                //     reuse: false
-                // }, {
-                //     text: "合同管理",
-                //     link: "/app/pm/contract",
-                //     reuse: false
-                // }, {
-                //     text: "发票管理",
-                //     link: "/app/pm/invoice",
-                //     reuse: false
-                // }
+                }
+            ]
+        },
+        {
+            text: "统计报表",
+            icon: { type: "icon", value: "bar-chart" },
+            link: "/app/report",
+            acl: ["GeneralManager", "Finance"],// 权限
+            group: true,
+            children: [
+                {
+                    text: "发票统计",
+                    link: "/app/report/invoicestatistics",
+                    reuse: false
+                },
+                {
+                    text: "角色管理",
+                    link: "/app/system/roles",
+                    reuse: false
+                },
+                {
+                    text: "数据字典",
+                    link: "/app/system/datadictionary",
+                    reuse: false
+                },
             ]
         },
         {
@@ -135,6 +142,6 @@ export class AppMenus {
                     reuse: false
                 },
             ]
-        }
+        },
     ];
 }

@@ -47,6 +47,11 @@ const routes: Routes = [
         path: 'pm',
         loadChildren: './pm/pm.module#PmModule',
         data: { preload: true },
+      }, {
+        path: 'report',
+        loadChildren: './report/report.module#ReportModule',
+        canActivate: [ACLGuard],
+        data: { preload: true, guard: ['GeneralManager', 'Finance'] },
       },
     ],
   },

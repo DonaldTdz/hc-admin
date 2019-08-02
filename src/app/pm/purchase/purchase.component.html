@@ -53,9 +53,9 @@
         <th nz-th style="text-align: center">
           <span>到货日期</span>
         </th>
-        <th nz-th style="text-align: center">
+        <!-- <th nz-th style="text-align: center">
           <span>发票开具(是/否)</span>
-        </th>
+        </th> -->
         <th nz-th style="text-align: center">
           <span>操作</span>
         </th>
@@ -67,10 +67,10 @@
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align: center">{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">{{item.arrivalDate | date:'yyyy-MM-dd'}}</td>
-        <td nz-td style="text-align: center">
+        <!-- <td nz-td style="text-align: center">
           <nz-badge *ngIf="item.invoiceIssuance==true" [nzStatus]="'success'" [nzText]="'是'"></nz-badge>
           <nz-badge *ngIf="item.invoiceIssuance==false" [nzStatus]="'error'" [nzText]="'否'"></nz-badge>
-        </td>
+        </td> -->
         <td nz-td style="text-align: center">
           <a (click)="details(item.id)">详情</a>
           <!-- <span nz-table-divider></span>

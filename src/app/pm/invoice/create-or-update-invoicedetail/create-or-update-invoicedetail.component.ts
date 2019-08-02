@@ -2,6 +2,7 @@ import { Component, OnInit, Injector, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { InvoiceDetailService, PurchaseDetailService, DataDictionaryService } from 'services'
 import { ModalComponentBase, PagedResultDto } from '@shared/component-base';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-create-or-update-invoicedetail',
@@ -10,6 +11,9 @@ import { ModalComponentBase, PagedResultDto } from '@shared/component-base';
 export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase implements OnInit {
   form: FormGroup;
   @Input() invoiceId: number;
+  @Input() purchaseId: string;
+  @Input() type: number;
+  purchaseDetails = [];
   editIndex = -1;
   loading: boolean = false;
   invoiceAmount: number = 0;
@@ -18,7 +22,9 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
   title: string;
   // totalAmount: number = 0;
   constructor(injector: Injector, private invoiceDetailService: InvoiceDetailService
-    , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService) { super(injector); }
+    , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService
+    , private purchaseDetailService: PurchaseDetailService, private nzMessage: NzMessageService
+  ) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -30,6 +36,15 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
       this.getInvoiceDetails();
       this.getTaxRates();
     }
+    if (this.purchaseId)
+      this.getDetailSelect();
+  }
+
+  //获取采购明细下拉列表
+  getDetailSelect() {
+    this.purchaseDetailService.GetDropDownsByPurchaseId(this.purchaseId).subscribe((result: any) => {
+      this.purchaseDetails = result;
+    })
   }
 
   //获取发票明细
@@ -60,8 +75,9 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
     return this.fb.group({
       id: [null],
       invoiceId: [null],
-      name: [null, [Validators.required, Validators.maxLength(120)]],
-      specification: [null, [Validators.required, Validators.maxLength(100)]],
+      refId: [null],
+      name: [null, [Validators.maxLength(120)]],
+      specification: [null, [Validators.maxLength(100)]],
       unit: [null, Validators.maxLength(25)],
       price: [null, [Validators.required, Validators.maxLength(18)]],
       num: [null, [Validators.required, Validators.maxLength(18)]],
@@ -94,6 +110,20 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
 
   //保存
   save(index: number) {
+    if (this.purchaseId) {
+      for (let item of this.purchaseDetails) {
+        if (item.value == this.invoiceDetails.value[index].refId) {
+          let arr = item.text.split("(");
+          this.invoiceDetails.value[index].name = arr[0];
+          this.invoiceDetails.value[index].specification = arr[1].split(")")[0];
+          break;
+        }
+      }
+    }
+    if (!this.invoiceDetails.value[index].name)
+      return this.nzMessage.warning("请输入名称")
+    if (!this.invoiceDetails.value[index].specification)
+      return this.nzMessage.warning("请输入规格型号")
     this.invoiceDetails.at(index).markAsDirty();
     if (this.invoiceDetails.at(index).invalid) return;
     this.editIndex = -1;

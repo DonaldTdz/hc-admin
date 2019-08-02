@@ -6,8 +6,9 @@
     <nz-table #nzTable formArrayName="invoiceDetails" [nzData]="invoiceDetails.value" [nzShowPagination]="false">
       <thead nz-thead>
         <tr>
-          <th nz-th>名称</th>
-          <th nz-th>型号</th>
+          <th nz-th *ngIf="purchaseId" style="width: 20%">名称(型号)</th>
+          <th nz-th *ngIf="!purchaseId">名称</th>
+          <th nz-th *ngIf="!purchaseId">型号</th>
           <th nz-th style="text-align: right">数量</th>
           <th nz-th style="text-align: right">单价(元)</th>
           <th nz-th>单位</th>
@@ -20,13 +21,24 @@
       </thead>
       <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let item of invoiceDetails.controls; let i = index" [formGroupName]="i">
-          <td nz-td>
+          <td nz-td style="width: 20%" *ngIf="purchaseId">
+            <span
+              *ngIf="editIndex!==i">{{invoiceDetails.value[i].name}}({{invoiceDetails.value[i].specification}})</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <nz-select [nzPlaceHolder]="'请选择名称(型号)'" formControlName="refId" [nzShowSearch]="true"
+                style="width:100%;">
+                <nz-option *ngFor="let i of purchaseDetails" [nzLabel]="i.text" [nzValue]="i.value">
+                </nz-option>
+              </nz-select>
+            </span>
+          </td>
+          <td nz-td *ngIf="!purchaseId">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].name}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
               <input nz-input formControlName="name" placeholder="请输入名称">
             </span>
           </td>
-          <td nz-td>
+          <td nz-td *ngIf="!purchaseId">
             <span *ngIf="editIndex!==i">{{invoiceDetails.value[i].specification}}</span>
             <span *ngIf="editIndex===i" nz-form-control>
               <input nz-input formControlName="specification" placeholder="请输入型号">
