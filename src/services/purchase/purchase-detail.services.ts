@@ -40,7 +40,7 @@ export class PurchaseDetailService {
      * 根据采购id获取采购明细下拉列表
      * @param projectId 
      */
-    GetDropDownsByPurchaseId(purchaseId: any): Observable<any> {
+    getDropDownsByPurchaseId(purchaseId: any): Observable<any> {
         let _url = "/api/services/app/PurchaseDetail/GetDetailSelectAsync";
         return this._commonhttp.get(_url, { 'id': purchaseId }).pipe(map(data => {
             return data;

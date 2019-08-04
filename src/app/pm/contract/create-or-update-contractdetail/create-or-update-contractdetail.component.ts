@@ -47,7 +47,7 @@ export class CreateOrUpdateContractdetailComponent extends ModalComponentBase im
   }
 
   getpurchaseDetailList() {
-    this.purchaseDetailService.GetDropDownsByPurchaseId(this.refId).subscribe((result) => {
+    this.purchaseDetailService.getDropDownsByPurchaseId(this.refId).subscribe((result) => {
       this.refDetailList = result;
     });
   }

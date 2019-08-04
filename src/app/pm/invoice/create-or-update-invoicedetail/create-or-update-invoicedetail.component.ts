@@ -1,19 +1,21 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { InvoiceDetailService, PurchaseDetailService, DataDictionaryService } from 'services'
+import { InvoiceDetailService, PurchaseDetailService, DataDictionaryService, ContractDetailService } from 'services'
 import { ModalComponentBase, PagedResultDto } from '@shared/component-base';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-create-or-update-invoicedetail',
-  templateUrl: './create-or-update-invoicedetail.component.html'
+  templateUrl: './create-or-update-invoicedetail.component.html',
+  providers: [ContractDetailService]
 })
 export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase implements OnInit {
   form: FormGroup;
   @Input() invoiceId: number;
   @Input() purchaseId: string;
+  @Input() contractId: string;
   @Input() type: number;
-  purchaseDetails = [];
+  refDetails = [];
   editIndex = -1;
   loading: boolean = false;
   invoiceAmount: number = 0;
@@ -24,6 +26,7 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
   constructor(injector: Injector, private invoiceDetailService: InvoiceDetailService
     , private fb: FormBuilder, private dataDictionaryService: DataDictionaryService
     , private purchaseDetailService: PurchaseDetailService, private nzMessage: NzMessageService
+    , private contractDetailService: ContractDetailService
   ) { super(injector); }
 
   ngOnInit() {
@@ -37,13 +40,22 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
       this.getTaxRates();
     }
     if (this.purchaseId)
-      this.getDetailSelect();
+      this.getPurchaseDetailSelect();
+    else
+      this.getContractDetailSelect();
   }
 
   //获取采购明细下拉列表
-  getDetailSelect() {
-    this.purchaseDetailService.GetDropDownsByPurchaseId(this.purchaseId).subscribe((result: any) => {
-      this.purchaseDetails = result;
+  getPurchaseDetailSelect() {
+    this.purchaseDetailService.getDropDownsByPurchaseId(this.purchaseId).subscribe((result: any) => {
+      this.refDetails = result;
+    })
+  }
+
+  //获取合同明细下拉列表
+  getContractDetailSelect() {
+    this.contractDetailService.getDropDownsByContractId(this.contractId).subscribe((result: any) => {
+      this.refDetails = result;
     })
   }
 
@@ -110,8 +122,8 @@ export class CreateOrUpdateInvoicedetailComponent extends ModalComponentBase imp
 
   //保存
   save(index: number) {
-    if (this.purchaseId) {
-      for (let item of this.purchaseDetails) {
+    if (this.purchaseId || this.contractId) {
+      for (let item of this.refDetails) {
         if (item.value == this.invoiceDetails.value[index].refId) {
           let arr = item.text.split("(");
           this.invoiceDetails.value[index].name = arr[0];

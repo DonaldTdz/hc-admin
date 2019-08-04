@@ -22,6 +22,18 @@ export class ContractDetailService {
             return result;
         }));
     }
+
+    /**
+ * 根据采购id获取采购明细下拉列表
+ * @param contractId 
+ */
+    getDropDownsByContractId(contractId: any): Observable<any> {
+        let _url = "/api/services/app/ContractDetail/GetDetailSelectAsync";
+        return this._commonhttp.get(_url, { 'id': contractId }).pipe(map(data => {
+            return data;
+        }));
+    }
+
     /**
  * 获取单条数据
  * @param id 

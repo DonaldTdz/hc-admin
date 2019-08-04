@@ -18,7 +18,7 @@ export class InvoicestatisticsComponent extends AppComponentBase implements OnIn
 
   ngOnInit() {
     this.search.type = 1;
-    this.search.submitDate = nowDate;
+    this.search.submitDate = new Date(nowDate.getFullYear(), 0, 1);
     this.getInvoiceStatistics();
   }
 

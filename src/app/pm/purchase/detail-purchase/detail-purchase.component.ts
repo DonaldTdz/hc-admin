@@ -288,8 +288,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
 
   //新增发票
   addIncoice() {
-    if (this.purchase.id)
-      this.incoices.push(this.incoice());
+    this.incoices.push(this.incoice());
     this.editIncoice(this.incoices.length - 1);
   }
 
