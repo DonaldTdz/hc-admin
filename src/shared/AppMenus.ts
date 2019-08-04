@@ -108,8 +108,8 @@ export class AppMenus {
                     reuse: false
                 },
                 {
-                    text: "角色管理",
-                    link: "/app/system/roles",
+                    text: "应收账款",
+                    link: "/app/report/accountsreceivable",
                     reuse: false
                 },
                 {

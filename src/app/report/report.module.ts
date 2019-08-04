@@ -8,6 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@layout/layout.module';
+import { AccountsreceivableComponent } from './accountsreceivable/accountsreceivable.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { LayoutModule } from '@layout/layout.module';
     ReportRoutingModule
   ],
 
-  declarations: [InvoicestatisticsComponent],
+  declarations: [InvoicestatisticsComponent, AccountsreceivableComponent],
   providers: [ReportServices],
 })
 export class ReportModule { }

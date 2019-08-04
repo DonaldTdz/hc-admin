@@ -12,9 +12,24 @@ export class ReportServices {
         this._commonhttp = commonhttp;
     }
 
-    //获取发票分类统计数据
+    /**
+* 获取发票分类统计数据
+*/
     getInvoiceStatistics(params: any): Observable<PagedResultDto> {
         let url_ = "/api/services/app/InvoiceStatistics/GetInvoiceStatisticsAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultDto();
+            result.items = data.items;
+            result.totalCount = data.totalCount;
+            return result;
+        }));
+    }
+
+    /**
+* 获取应收账款
+*/
+    getAccountsReceivable(params: any): Observable<PagedResultDto> {
+        let url_ = "/api/services/app/AccountsReceivable/GetAccountsReceivableAsync";
         return this._commonhttp.get(url_, params).pipe(map(data => {
             const result = new PagedResultDto();
             result.items = data.items;

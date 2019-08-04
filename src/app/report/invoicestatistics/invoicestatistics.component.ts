@@ -38,8 +38,9 @@ export class InvoicestatisticsComponent extends AppComponentBase implements OnIn
 
   refresh() {
     this.search.type = 1;
-    this.search.submitDate = new Date();
+    this.search.submitDate = new Date(nowDate.getFullYear(), 0, 1);
     this.query.pageIndex = 1;
+    this.getInvoiceStatistics();
   }
 
 }
