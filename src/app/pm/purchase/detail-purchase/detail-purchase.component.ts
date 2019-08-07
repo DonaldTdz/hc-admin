@@ -8,6 +8,7 @@ import { FileComponent } from '@app/pm/file/file.component';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 import { CreateOrUpdateInvoicedetailComponent } from '../../invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
+import { AdvancepaymentDetailComponent } from '../../advancepayment/advancepayment-detail/advancepayment-detail.component'
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -25,7 +26,8 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
   editIndex = -1;
   editObj: any;
   purchaseDetails = [];
-  advancePaymentRatio: number = 0;
+  advancePaymentAmount: number = 0;
+  // advancePaymentRatio: number = 0;
   purchaseDetailAmount: number = 0;
   totalProportion: number = 0;
   incoiceTotalAmount: number = 0;
@@ -156,6 +158,10 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     params.PurchaseId = this.id;
     this.advancePaymentService.getAll(params).subscribe((result: PagedResultDto) => {
       this.loading = false;
+      this.totalProportion = 0;
+      while (this.advancePayments.length !== 0) {
+        this.advancePayments.removeAt(0)
+      }
       for (let item of result.items) {
         const field = this.advancePayment();
         field.patchValue(item);
@@ -185,27 +191,33 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
 
   //删除付款计划
   del(index: number) {
-    this.advancePayments.removeAt(index);
+    this.advancePaymentService.delete(this.advancePayments.value[index].id).subscribe(() => {
+      this.notify.success('删除成功！');
+      this.advancePayments.removeAt(index);
+    });
   }
 
   //新增付款计划
   add() {
+    this.advancePaymentAmount = 0;
     this.advancePayments.push(this.advancePayment());
     this.edit(this.advancePayments.length - 1);
   }
 
   //修改付款计划
   edit(index: number) {
-    this.totalProportion -= this.advancePayments.value[index].ratio;
     if (this.editIndex !== -1 && this.editObj) {
       this.advancePayments.at(this.editIndex).patchValue(this.editObj);
     }
     this.editObj = { ...this.advancePayments.at(index).value };
+    this.advancePaymentAmount = this.editObj.amount;
     this.editIndex = index;
   }
 
   //保存付款计划
-  async saveAdvancePayment(index: number) {
+  async saveAdvancePayment(index: number, modifyDetail: boolean) {
+    if (this.advancePayments.value[index].id)
+      this.totalProportion -= this.advancePayments.value[index].ratio;
     this.totalProportion += this.advancePayments.value[index].ratio;
     if (this.totalProportion > 100) {
       this.totalProportion -= this.advancePayments.value[index].ratio;
@@ -221,20 +233,54 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       delete (this.advancePayments.value[index].creationTime);
     }
     this.editIndex = -1;
-    console.log(this.advancePayments);
     this.advancePayments.value[index].purchaseId = this.id;
     await this.advancePaymentService.createOrUpdate(this.advancePayments.value[index])
       .subscribe((result: any) => {
-        this.notify.success("保存成功");
-        this.advancePayments.value[index].id = result.id;
-        this.advancePayments.value[index].creationTime = result.creationTime;
-        this.advancePayments.value[index].creatorUserId = result.creatorUserId;
+        this.getAdvancePayments();
+        if (modifyDetail == true) {
+          this.editIndex = index;
+          this.modalHelper.open(AdvancepaymentDetailComponent, { "advancePaymentId": result.id, 'purchaseId': this.purchase.id }, 'xl', {
+            nzMask: true, nzMaskClosable: false
+          }).subscribe(advancePaymentAmount => {
+            if (!advancePaymentAmount)
+              advancePaymentAmount = 0;
+            this.advancePayments.value[index].amount = advancePaymentAmount;
+            // this.advancePaymentRatio = advancePaymentAmount / this.purchaseDetailAmount * 100;
+            this.advancePaymentAmount = advancePaymentAmount;
+            this.notify.success("保存成功");
+          });
+        } else {
+          this.notify.success("保存成功");
+        }
       });
+  }
+
+  //填写付款计划明细
+  async modifyAdvancePaymentDetail(index: number) {
+    if (!this.editObj.id)
+      await this.saveAdvancePayment(index, true);
+    else {
+      await this.modalHelper.open(AdvancepaymentDetailComponent, { "advancePaymentId": this.editObj.id, 'purchaseId': this.purchase.id }, 'xl', {
+        nzMask: true, nzMaskClosable: false
+      }).subscribe(advancePaymentAmount => {
+        if (!advancePaymentAmount)
+          advancePaymentAmount = 0;
+        this.advancePayments.value[index].amount = advancePaymentAmount;
+        this.editObj.amount = advancePaymentAmount;
+        // this.advancePaymentRatio = (advancePaymentAmount / this.purchaseDetailAmount * 100).valueOf;
+        this.advancePaymentAmount = advancePaymentAmount;
+        this.notify.success("保存成功");
+      });
+    }
   }
 
   //取消付款计划
   cancel(index: number) {
-    this.advancePayments.removeAt(index);
+    if (!this.advancePayments.at(index).value.id) {
+      this.advancePayments.removeAt(index);
+    } else {
+      this.del(index);
+    }
     this.editIndex = -1;
   }
   //发票
@@ -333,7 +379,6 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     }
     this.invoiceService.createOrUpdate(this.incoices.value[index])
       .subscribe((result: any) => {
-        this.getIncoices();
         if (modifyDetail == true) {
           this.modalHelper.open(CreateOrUpdateInvoicedetailComponent, { "invoiceId": result.id, 'purchaseId': this.purchase.id, 'type': result.type }, 'xl', {
             nzMask: true, nzMaskClosable: false
@@ -345,6 +390,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
             this.notify.success("保存成功");
           });
         } else {
+          this.getIncoices();
           this.notify.success("保存成功");
         }
       });

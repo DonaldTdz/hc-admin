@@ -152,7 +152,7 @@
         <span>新增采购明细</span>
       </button> -->
     </nz-card>
-    <nz-card [nzBordered]="false" style="background-color: #ffc53d24;">
+    <!-- <nz-card [nzBordered]="false" style="background-color: #ffc53d24;">
       <nz-divider nzText="付款"></nz-divider>
       <nz-table #nzTable [nzLoading]="loading" formArrayName="advancePayments" [nzData]="advancePayments.value"
         [nzShowPagination]="false">
@@ -244,16 +244,14 @@
         <i nz-icon type="plus"></i>
         <span>新增回款</span>
       </button>
-      <!-- <div class="modal-footer">
-              <label style="margin-right: 10%;font-weight: bold">总计：{{paymentPlanTotalAmount}}</label>
-            </div> -->
-    </nz-card>
+    </nz-card> -->
     <div class="modal-footer">
       <label style="margin-right: 10px">总计：{{purchaseDetailAmount}}</label>
       <button nz-button type="button" [disabled]="saving" (click)="goBack()">
         返回
       </button>
-      <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">保存并填写发票</button>
+      <button nz-button [nzType]="'primary'" type="submit"
+        [disabled]="!validateForm.valid||saving">保存并填写发票(付款计划)</button>
     </div>
   </nz-card>
 </form>

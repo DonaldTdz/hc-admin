@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { ReportRoutingModule } from './report-routing.module';
 import { InvoicestatisticsComponent } from './invoicestatistics/invoicestatistics.component';
-import { ReportServices } from 'services'
+import { ReportServices, ProjectService } from 'services'
 import { SharedModule } from '@shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@layout/layout.module';
 import { AccountsreceivableComponent } from './accountsreceivable/accountsreceivable.component';
+import { AccountsreceivableDetailComponent } from './accountsreceivable/accountsreceivable-detail/accountsreceivable-detail.component';
+import { ProfitstatisticComponent } from './profitstatistic/profitstatistic.component';
+import { TimesheetstatisticComponent } from './timesheetstatistic/timesheetstatistic.component';
+import { AccountspayableComponent } from './accountspayable/accountspayable.component';
+import { AccountspayableDetailComponent } from './accountspayable/accountspayable-detail/accountspayable-detail.component';
 
 @NgModule({
   imports: [
@@ -21,7 +26,13 @@ import { AccountsreceivableComponent } from './accountsreceivable/accountsreceiv
     ReportRoutingModule
   ],
 
-  declarations: [InvoicestatisticsComponent, AccountsreceivableComponent],
-  providers: [ReportServices],
+  declarations: [InvoicestatisticsComponent,
+    AccountsreceivableComponent,
+    AccountsreceivableDetailComponent,
+    ProfitstatisticComponent,
+    TimesheetstatisticComponent,
+    AccountspayableComponent,
+    AccountspayableDetailComponent],
+  providers: [ReportServices, ProjectService],
 })
 export class ReportModule { }

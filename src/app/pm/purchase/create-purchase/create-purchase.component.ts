@@ -42,7 +42,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
       arrivalDate: [null],
       // invoiceIssuance: [null, Validators.required],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
-      advancePayments: this.fb.array([]),
+      // advancePayments: this.fb.array([]),
     });
     this.getEmployeeList();
     this.getPurchaseCode();
@@ -131,7 +131,7 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
   }
   //保存
   save() {
-    this.purchaseService.OnekeyCreateAsync(this.purchase, this.purchaseDetails, this.advancePayments.value).finally(() => {
+    this.purchaseService.OnekeyCreateAsync(this.purchase, this.purchaseDetails).finally(() => {
     }).subscribe((result: any) => {
       this.notify.success("保存成功");
       // this.goBack();
@@ -139,60 +139,60 @@ export class CreatePurchaseComponent extends AppComponentBase implements OnInit 
     });
   }
 
-  advancePayment(): FormGroup {
-    return this.fb.group({
-      id: [null],
-      planTime: [null, [Validators.required]],
-      ratio: [null, [Validators.required]],
-      desc: [null],
-      amount: [null, [Validators.required]],
-      status: [null, [Validators.required]],
-      paymentTime: [null],
-    });
-  }
+  // advancePayment(): FormGroup {
+  //   return this.fb.group({
+  //     id: [null],
+  //     planTime: [null, [Validators.required]],
+  //     ratio: [null, [Validators.required]],
+  //     desc: [null],
+  //     amount: [null, [Validators.required]],
+  //     status: [null, [Validators.required]],
+  //     paymentTime: [null],
+  //   });
+  // }
 
-  get advancePayments() {
-    return this.form.controls.advancePayments as FormArray;
-  }
+  // get advancePayments() {
+  //   return this.form.controls.advancePayments as FormArray;
+  // }
 
-  //删除付款计划
-  del(index: number) {
-    this.advancePayments.removeAt(index);
-  }
+  // //删除付款计划
+  // del(index: number) {
+  //   this.advancePayments.removeAt(index);
+  // }
 
-  //新增付款计划
-  add() {
-    this.advancePayments.push(this.advancePayment());
-    this.edit(this.advancePayments.length - 1);
-  }
+  // //新增付款计划
+  // add() {
+  //   this.advancePayments.push(this.advancePayment());
+  //   this.edit(this.advancePayments.length - 1);
+  // }
 
-  //修改付款计划
-  edit(index: number) {
-    this.totalProportion -= this.advancePayments.value[index].ratio;
-    if (this.editIndex !== -1 && this.editObj) {
-      this.advancePayments.at(this.editIndex).patchValue(this.editObj);
-    }
-    this.editObj = { ...this.advancePayments.at(index).value };
-    this.editIndex = index;
-  }
+  // //修改付款计划
+  // edit(index: number) {
+  //   this.totalProportion -= this.advancePayments.value[index].ratio;
+  //   if (this.editIndex !== -1 && this.editObj) {
+  //     this.advancePayments.at(this.editIndex).patchValue(this.editObj);
+  //   }
+  //   this.editObj = { ...this.advancePayments.at(index).value };
+  //   this.editIndex = index;
+  // }
 
-  //保存付款计划
-  async saveAdvancePayment(index: number) {
-    this.totalProportion += this.advancePayments.value[index].ratio;
-    if (this.totalProportion > 100) {
-      this.totalProportion -= this.advancePayments.value[index].ratio;
-      return this.nzMessage.error("付款比例不能超过100%");
-    }
-    this.advancePayments.at(index).markAsDirty();
-    if (this.advancePayments.at(index).invalid) return;
-    this.editIndex = -1;
-  }
+  // //保存付款计划
+  // async saveAdvancePayment(index: number) {
+  //   this.totalProportion += this.advancePayments.value[index].ratio;
+  //   if (this.totalProportion > 100) {
+  //     this.totalProportion -= this.advancePayments.value[index].ratio;
+  //     return this.nzMessage.error("付款比例不能超过100%");
+  //   }
+  //   this.advancePayments.at(index).markAsDirty();
+  //   if (this.advancePayments.at(index).invalid) return;
+  //   this.editIndex = -1;
+  // }
 
-  //取消付款计划
-  cancel(index: number) {
-    this.advancePayments.removeAt(index);
-    this.editIndex = -1;
-  }
+  // //取消付款计划
+  // cancel(index: number) {
+  //   this.advancePayments.removeAt(index);
+  //   this.editIndex = -1;
+  // }
 
 
 

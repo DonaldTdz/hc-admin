@@ -113,10 +113,18 @@ export class AppMenus {
                     reuse: false
                 },
                 {
-                    text: "数据字典",
-                    link: "/app/system/datadictionary",
+                    text: "利润合计",
+                    link: "/app/report/profitstatistic",
                     reuse: false
-                },
+                }, {
+                    text: "工时统计",
+                    link: "/app/report/timesheetstatistic",
+                    reuse: false
+                }, {
+                    text: "应付账款",
+                    link: "/app/report/accountspayable",
+                    reuse: false
+                }
             ]
         },
         {

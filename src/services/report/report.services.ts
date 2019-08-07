@@ -37,4 +37,53 @@ export class ReportServices {
             return result;
         }));
     }
+
+    /**
+* 获取客户应收账款明细
+*/
+    getCustomerReceivablesDetail(params: any): Observable<PagedResultDto> {
+        let url_ = "/api/services/app/AccountsReceivable/GetCustomerReceivablesDetailAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultDto();
+            result.items = data.items;
+            result.totalCount = data.totalCount;
+            return result;
+        }));
+    }
+
+    /**
+* 获取年利润合计
+*/
+    getProfitStatistics(params: any): Observable<any[]> {
+        let url_ = "/api/services/app/ProfitStatistic/GetProfitStatisticAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            return data;
+        }));
+    }
+
+    /**
+* 获取应付账款
+*/
+    getAccountsPayable(params: any): Observable<PagedResultDto> {
+        let url_ = "/api/services/app/AccountsPayable/GetAccountsPayableAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultDto();
+            result.items = data.items;
+            result.totalCount = data.totalCount;
+            return result;
+        }));
+    }
+
+    /**
+    * 获取客户应付账款明细
+    */
+    getSupplierPayableDetail(params: any): Observable<PagedResultDto> {
+        let url_ = "/api/services/app/AccountsPayable/GetSupplierPayableDetailAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultDto();
+            result.items = data.items;
+            result.totalCount = data.totalCount;
+            return result;
+        }));
+    }
 }

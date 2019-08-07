@@ -1,0 +1,72 @@
+<div class="padding-bottom-45">
+  <div class="modal-header">
+    <div class="modal-title">{{title}}</div>
+  </div>
+  <form nz-form [formGroup]="form" [nzLayout]="'vertical'">
+    <nz-table #nzTable formArrayName="advancePaymentDetails" [nzData]="advancePaymentDetails.value"
+      [nzShowPagination]="false">
+      <thead nz-thead>
+        <tr>
+          <th nz-th style="min-width: 20%">名称(型号)</th>
+          <th nz-th style="text-align: right">付款比例(%)</th>
+          <th nz-th style="text-align: right">付款金额(元)</th>
+          <th nz-th style="text-align: center">操作</th>
+        </tr>
+      </thead>
+      <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let item of advancePaymentDetails.controls; let i = index" [formGroupName]="i">
+          <td nz-td style="min-width: 20%">
+            <span *ngIf="editIndex!==i">{{advancePaymentDetails.value[i].purchaseDetailName}}</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <nz-select [nzPlaceHolder]="'请选择名称(型号)'" formControlName="purchaseDetailId" [nzShowSearch]="true"
+                style="width:100%;">
+                <nz-option *ngFor="let i of purchaseDetails" [nzLabel]="i.text" [nzValue]="i.value">
+                </nz-option>
+              </nz-select>
+            </span>
+          </td>
+          <td nz-td style="text-align: right">
+            <span *ngIf="editIndex!==i">{{advancePaymentDetails.value[i].ratio}}</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <nz-input-number nz-input formControlName="ratio" nzMin="0" nzMax="9999999" nzPrecision="0"
+                placeholder="请输入付款比例">
+              </nz-input-number>
+            </span>
+          </td>
+          <td nz-td style="text-align: right">
+            <span *ngIf="editIndex!==i">{{advancePaymentDetails.value[i].amount}}</span>
+            <span *ngIf="editIndex===i" nz-form-control>
+              <nz-input-number nz-input formControlName="amount" nzMin="0" nzMax="99999999999999" nzPrecision="2"
+                placeholder="请输入金额">
+              </nz-input-number>
+            </span>
+          </td>
+          <td nz-td style="text-align: center">
+            <span *ngIf="editIndex!==i">
+              <a (click)="edit(i)">编辑</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <nz-popconfirm (nzOnConfirm)="del(i,advancePaymentDetails.value[i].id)" [nzTitle]="'是否要删除此行？'">
+                <a nz-popconfirm>删除</a>
+              </nz-popconfirm>
+            </span>
+            <span *ngIf="editIndex===i">
+              <a (click)="save(i)">保存</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <nz-popconfirm (nzOnConfirm)="del(i,advancePaymentDetails.value[i].id)" [nzTitle]="'是否要取消操作？'">
+                <a nz-popconfirm>删除</a>
+              </nz-popconfirm>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <button *ngIf="editIndex===-1" nz-button [nzType]="'dashed'" (click)="add()" nzBlock class="mt-md">
+      <i nz-icon type="plus"></i>
+      <span>新增预付款明细</span>
+    </button>
+    <div class="modal-footer">
+      <label style="margin-right: 10px">总计：{{advancePaymentAmount}}</label>
+      <button nz-button type="primary" (click)="onSubmit()" nzType="primary">保存</button>
+    </div>
+  </form>
+</div>

@@ -174,17 +174,16 @@
             <td nz-td style="text-align: right">
               <span *ngIf="editIndex!==i">{{advancePayments.value[i].ratio}}</span>
               <span *ngIf="editIndex===i" nz-form-control>
-                <nz-input-number nz-input formControlName="ratio" [(ngModel)]="advancePaymentRatio"
-                  nzMax="99999999999999" nzPrecision="2" placeholder="请输入付款比率">
+                <nz-input-number nz-input formControlName="ratio" nzMax="99999999999999" nzPrecision="2"
+                  placeholder="请输入付款比率">
                 </nz-input-number>
               </span>
             </td>
             <td nz-td style="text-align: right">
               <span *ngIf="editIndex!==i">{{advancePayments.value[i].amount}}</span>
               <span *ngIf="editIndex===i" nz-form-control>
-                <nz-input-number nz-input formControlName="amount"
-                  [ngModel]="purchaseDetailAmount*advancePaymentRatio/100" [nzDisabled]="true" nzMax="99999999999999"
-                  nzPrecision="2" placeholder="请输入金额">
+                <nz-input-number nz-input formControlName="amount" [ngModel]="advancePaymentAmount" [nzDisabled]="true"
+                  nzMax="99999999999999" nzPrecision="2" placeholder="请输入金额">
                 </nz-input-number>
               </span>
             </td>
@@ -217,17 +216,20 @@
               </span>
             </td>
             <td nz-td style="text-align: center">
-              <span *ngIf="editIndex!==i && advancePayments.value[i].status==0">
+              <span
+                *ngIf="editIndex!==i&&(advancePayments.value[i].status==0||(advancePayments.value[i].status==1&&advancePayments.value[i].amount==0))">
                 <a (click)="edit(i)">编辑</a>
                 <nz-divider nzType="vertical"></nz-divider>
-                <nz-popconfirm (nzOnConfirm)="del(i,advancePayments.value[i].id)" [nzTitle]="'是否要删除此行数据？'">
+                <nz-popconfirm (nzOnConfirm)="del(i)" [nzTitle]="'是否要删除此行数据？'">
                   <a nz-popconfirm>删除</a>
                 </nz-popconfirm>
               </span>
               <span *ngIf="editIndex===i">
-                <a (click)="saveAdvancePayment(i)">保存</a>
+                <a (click)="saveAdvancePayment(i,false)">保存</a>
                 <nz-divider nzType="vertical"></nz-divider>
-                <nz-popconfirm (nzOnConfirm)="cancel(i,advancePayments.value[i].id)" [nzTitle]="'是否要取消操作？'">
+                <a (click)="modifyAdvancePaymentDetail(i)">编辑明细</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-popconfirm (nzOnConfirm)="cancel(i)" [nzTitle]="'是否要取消操作？'">
                   <a nz-popconfirm>删除</a>
                 </nz-popconfirm>
               </span>
@@ -237,7 +239,7 @@
       </nz-table>
       <button *ngIf="editIndex===-1" nz-button [nzType]="'dashed'" (click)="add()" nzBlock class="mt-md">
         <i nz-icon type="plus"></i>
-        <span>新增回款</span>
+        <span>新增付款</span>
       </button>
     </nz-card>
     <nz-card [nzBordered]="false" style="background-color: #f4f4f4;">
@@ -328,7 +330,6 @@
       </button>
     </nz-card>
     <div class="modal-footer">
-
       <label style="margin-right: 10px">总计：{{purchaseDetailAmount}}</label>
       <button nz-button type="button" [disabled]="saving" (click)="return()">
         返回

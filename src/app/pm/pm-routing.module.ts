@@ -7,7 +7,6 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
 import { ReimburseComponent } from './reimburse/reimburse.component';
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
-import { TimesheetComponent } from './timesheet/timesheet.component';
 import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
 import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { ACLGuard } from '@delon/acl';
@@ -41,10 +40,6 @@ const routes: Routes = [
     component: DetailReimburseComponent,
     canActivate: [AppRouteGuard],
     data: { title: "报销详情" }
-  }, {
-    path: 'timesheet',
-    component: TimesheetComponent,
-    canActivate: [AppRouteGuard],
   }, {
     path: 'create-purchase',
     component: CreatePurchaseComponent,

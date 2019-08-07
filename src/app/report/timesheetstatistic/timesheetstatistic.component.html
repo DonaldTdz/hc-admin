@@ -49,7 +49,7 @@
     (nzPageIndexChange)="getTimeSheet()" (nzPageSizeChange)="getTimeSheet()">
     <thead nz-thead>
       <tr>
-        <th nz-th *ngIf="!projectId">
+        <th nz-th>
           <span>项目</span>
         </th>
         <th nz-th style="text-align: center">
@@ -77,7 +77,7 @@
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-        <td nz-td *ngIf="!projectId" title="{{item.projectName}}"><a [routerLink]="['/app/pm/project-detail']"
+        <td nz-td title="{{item.projectName}}"><a [routerLink]="['/app/pm/project-detail']"
             [queryParams]="{id:item.projectId}">{{item.projectName | lengthLimit:25}}</a></td>
         <td nz-td style="text-align: center">{{item.workeDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td>{{item.employeeName}}</td>

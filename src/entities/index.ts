@@ -29,3 +29,4 @@ export * from './customercontact';
 export * from './implement';
 export * from './advancepayment';
 export * from './inventoryflow';
+export * from './advancepaymentdetail';

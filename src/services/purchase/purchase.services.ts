@@ -79,12 +79,12 @@ export class PurchaseService {
     }
 
     /**
-* Web一键新增采购,采购明细,产品,预付款计划
+* Web一键新增采购,采购明细,产品
 * @param input 
 */
-    OnekeyCreateAsync(input: Purchase | null, purchaseDetails: any, advancePayments: any): Observable<any> {
+    OnekeyCreateAsync(input: Purchase | null, purchaseDetails: any): Observable<any> {
         let _url = "/api/services/app/Purchase/OnekeyCreateAsync";
-        return this._commonhttp.post(_url, { "Purchase": input, "PurchaseDetailNews": purchaseDetails, "AdvancePayments": advancePayments }).pipe(map(data => {
+        return this._commonhttp.post(_url, { "Purchase": input, "PurchaseDetailNews": purchaseDetails }).pipe(map(data => {
             return data;
         }))
     }

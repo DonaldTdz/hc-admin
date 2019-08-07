@@ -20,7 +20,6 @@ import { CreateTenderDataComponent } from './tender/create-tenderdata/create-ten
 import { PurchaseComponent } from './purchase/purchase.component';
 import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { DetailPurchaseComponent } from './purchase/detail-purchase/detail-purchase.component';
-import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 import { DetailTenderComponent } from './tender/detail-tender/detail-tender.component';
 import { ContractComponent } from './contract/contract.component';
 import { CreateOrUpdateContractComponent } from './contract/create-or-update-contract/create-or-update-contract.component';
@@ -30,7 +29,6 @@ import { CreateOrUpdateInvoiceComponent } from './invoice/create-or-update-invoi
 import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.component';
 import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
 import { ReimburseComponent } from './reimburse/reimburse.component';
-import { TimesheetComponent } from './timesheet/timesheet.component';
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
 import { DetailReimbursedetailsComponent } from './reimburse/detail-reimbursedetails/detail-reimbursedetails.component';
 import { PaymentplanComponent } from './paymentplan/paymentplan.component';
@@ -41,6 +39,9 @@ import { ModifyProjectComponent } from './project/modify-project/modify-project.
 import { FileComponent } from './file/file.component';
 import { ModifContractdetailComponent } from './contract/modif-contractdetail/modif-contractdetail.component';
 import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedetail/modify-reimbursedetail.component';
+import { AdvancepaymentComponent } from './advancepayment/advancepayment.component';
+import { AdvancepaymentDetailComponent } from './advancepayment/advancepayment-detail/advancepayment-detail.component';
+import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 
 @NgModule({
   imports: [
@@ -71,7 +72,6 @@ import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedeta
     DetailInvoiceComponent,
     CreateOrUpdateInvoicedetailComponent,
     ReimburseComponent,
-    TimesheetComponent,
     DetailReimburseComponent,
     DetailReimbursedetailsComponent,
     PaymentplanComponent,
@@ -82,14 +82,16 @@ import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedeta
     FileComponent,
     ModifContractdetailComponent,
     ModifyReimburseDetailComponent,
+    AdvancepaymentComponent,
+    AdvancepaymentDetailComponent,
   ],
   entryComponents: [
     DetailProjectComponent,
     ModifyProjectdetailComponent,
     CreateTenderDataComponent,
-    CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateContractComponent,
     CreateOrUpdateContractdetailComponent,
+    CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateInvoiceComponent,
     CreateOrUpdateInvoicedetailComponent,
     DetailReimbursedetailsComponent,
@@ -98,6 +100,7 @@ import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedeta
     FileComponent,
     ModifContractdetailComponent,
     ModifyReimburseDetailComponent,
+    AdvancepaymentDetailComponent,
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,

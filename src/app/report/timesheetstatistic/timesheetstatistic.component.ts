@@ -4,18 +4,19 @@ import { PagedResultDto } from '@shared/component-base/paged-listing-component-b
 import { TimesheetService, ProjectService, EmployeeServiceProxy } from 'services'
 
 @Component({
-  selector: 'app-timesheet',
-  templateUrl: './timesheet.component.html',
-  styles: []
+  selector: 'app-timesheetstatistic',
+  templateUrl: './timesheetstatistic.component.html',
+  providers: [TimesheetService, ProjectService, EmployeeServiceProxy]
 })
-export class TimesheetComponent extends AppComponentBase implements OnInit {
+export class TimesheetstatisticComponent extends AppComponentBase implements OnInit {
   loading = "false";
   @Input() projectId;
   search: any = {};
-  statuss = [{ text: '提交', value: 1 }, { text: '审批通过', value: 2 }]
+  statuss = [{ text: '提交', value: 1 }, { text: '审批通过', value: 2 }, { text: '拒绝', value: 3 }, { text: '取消', value: 4 }];
   employees: any;
   projects: any;
-  constructor(injector: Injector, private timesheetService: TimesheetService, private projectService: ProjectService, private employeeService: EmployeeServiceProxy) { super(injector); }
+  constructor(injector: Injector, private timesheetService: TimesheetService, private projectService: ProjectService
+    , private employeeService: EmployeeServiceProxy) { super(injector); }
 
   ngOnInit() {
     this.getProjects();

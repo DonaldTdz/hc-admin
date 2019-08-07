@@ -1,0 +1,96 @@
+<page-header [title]="''">
+</page-header>
+<nz-card [nzBordered]="false">
+  <form nz-form [nzLayout]="'inline'" class="search__form">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="projectId">项目名称</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.projectId" name="projectId" [nzPlaceHolder]="'请选择项目'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of projects" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="creationTime">创建日期</nz-form-label>
+          <nz-form-control>
+            <nz-year-picker name="creationTime" [(ngModel)]="search.creationTime"
+              (ngModelChange)="getProfitStatistics()">
+            </nz-year-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <button nz-button (click)="getProfitStatistics()" [nzLoading]="loading" nzType="primary">
+          查询
+        </button>
+        <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
+      </div>
+    </div>
+  </form>
+  <g2-pie [hasLegend]="true" title="全年合同总金额" subTitle="全年合同总金额" [total]="contractTotalAmount" [valueFormat]="format"
+    [data]="salesPieData" height="294"></g2-pie>
+  <nz-table #nzTable [nzData]="profitStatistics" [nzFrontPagination]="false" [nzTotal]="query.total"
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading" [nzShowTotal]="'true'"
+    [nzShowSizeChanger]="true" [nzShowPagination]="false">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>项目名称</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>合同总金额(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>销售金额(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>成本(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>销项税额(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>进项税额(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>应交增值税(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>城建税+教育附加(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>企业所得税(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>个人所得税(元)</span>
+        </th>
+        <th nz-th style="text-align: right">
+          <span>利润(元)</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>利润率(%)</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td title="{{item.name}}">{{item.name | lengthLimit:10}}</td>
+        <td nz-td style="text-align: right">{{item.contractAmount}}</td>
+        <td nz-td style="text-align: right">{{item.contractAmount}}</td>
+        <td nz-td style="text-align: right">{{item.totalCostAmount}}</td>
+        <td nz-td style="text-align: right">{{item.saleTaxAmount}}</td>
+        <td nz-td style="text-align: right">{{item.incomeTaxAmount}}</td>
+        <td nz-td style="text-align: right">{{item.vatPayable}}</td>
+        <td nz-td style="text-align: right">{{item.cityEducationTax}}</td>
+        <td nz-td style="text-align: right">{{item.corporateIncomeTax}}</td>
+        <td nz-td style="text-align: right">{{item.individualIncomeTax}}</td>
+        <td nz-td style="text-align: right">{{item.profit}}</td>
+        <td nz-td style="text-align: center">{{item.profitMargin}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

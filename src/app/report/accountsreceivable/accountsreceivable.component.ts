@@ -1,12 +1,13 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { ReportServices, CustomerService } from 'services'
+import { ReportServices, CustomerService } from 'services';
 import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 
 @Component({
   selector: 'app-accountsreceivable',
   templateUrl: './accountsreceivable.component.html',
-  providers: [CustomerService]
+  providers: [CustomerService],
+  styleUrls: ["./accountsreceivable.component.scss"]
 })
 export class AccountsreceivableComponent extends AppComponentBase implements OnInit {
   customers = [];
