@@ -15,15 +15,19 @@ export class DetailProjectComponent extends AppComponentBase implements OnInit {
   project: Project = new Project();
   loseOrder: string = '';
   id: any = '';
+  projectId: string;
   title: string = '';
   projectTitle: string = '';
   projectStatus = ["线索", "立项", "招标", "执行"];
   constructor(injector: Injector, private actRouter: ActivatedRoute, private projectService: ProjectService) {
     super(injector);
     this.id = this.actRouter.snapshot.params['id'];
+    this.projectId = this.actRouter.snapshot.queryParams['id'];
   }
 
   ngOnInit() {
+    if (!this.id && this.projectId)
+      this.id = this.projectId;
     if (!this.id) {
       this.project.statusName = "线索";
       this.loseOrder = "线索";

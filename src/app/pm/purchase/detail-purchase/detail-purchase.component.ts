@@ -177,7 +177,7 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
       planTime: [null, [Validators.required]],
       ratio: [null, [Validators.required]],
       desc: [null],
-      amount: [null, [Validators.required]],
+      amount: [null],
       status: [null, [Validators.required]],
       paymentTime: [null, [Validators.required]],
       creationTime: [null],

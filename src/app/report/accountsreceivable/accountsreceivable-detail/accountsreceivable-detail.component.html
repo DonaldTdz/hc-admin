@@ -23,8 +23,8 @@
   </form>
   <!-- <ng-template #totalContentMe>共{{query.total}}条</ng-template> -->
   <nz-table #nzTable [nzData]="query.data" [nzFrontPagination]="false" [nzTotal]="query.total"
-    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading"
-    [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"[nzShowPagination]="false">
+    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading" [nzShowTotal]="'true'"
+    [nzShowSizeChanger]="true" [nzShowPagination]="false">
     <thead nz-thead>
       <tr>
         <th nz-th>

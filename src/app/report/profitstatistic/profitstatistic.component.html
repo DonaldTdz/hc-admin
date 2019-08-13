@@ -88,7 +88,11 @@
         <td nz-td style="text-align: right">{{item.cityEducationTax}}</td>
         <td nz-td style="text-align: right">{{item.corporateIncomeTax}}</td>
         <td nz-td style="text-align: right">{{item.individualIncomeTax}}</td>
-        <td nz-td style="text-align: right">{{item.profit}}</td>
+        <!-- <td nz-td style="text-align: right">{{item.profit}}</td> -->
+        <td nz-td style="text-align: right" *ngIf="!item.id">
+          {{item.profit}}</td>
+        <td nz-td style="text-align: right" *ngIf="item.id"><a [routerLink]="['/app/report/app-projectprofit']"
+            [queryParams]="{projectId:item.id}">{{item.profit}}</a></td>
         <td nz-td style="text-align: center">{{item.profitMargin}}</td>
       </tr>
     </tbody>

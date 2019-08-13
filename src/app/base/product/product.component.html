@@ -56,7 +56,7 @@
         <th nz-th style="text-align: center">
           <span>创建时间</span>
         </th>
-        <th nz-th style="text-align: center">
+        <th [acl]="'Admin'" nz-th style="text-align: center">
           <span>操作</span>
         </th>
       </tr>
@@ -70,7 +70,7 @@
         <td nz-td style="text-align: center">{{ding.taxRate}}</td>
         <td nz-td style="text-align: right">{{ding.num}}</td>
         <td nz-td style="text-align: center">{{ding.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td nz-td style="text-align: center">
+        <td nz-td [acl]="'Admin'" style="text-align: center">
           <!-- <a (click)="editDing(ding)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider> -->

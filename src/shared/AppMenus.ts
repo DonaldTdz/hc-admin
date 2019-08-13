@@ -125,6 +125,11 @@ export class AppMenus {
                     link: "/app/report/accountspayable",
                     reuse: false
                 }
+                , {
+                    text: "销售明细",
+                    link: "/app/report/salesdetail",
+                    reuse: false
+                }
             ]
         },
         {

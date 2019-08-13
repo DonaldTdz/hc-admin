@@ -14,6 +14,8 @@ import { ProfitstatisticComponent } from './profitstatistic/profitstatistic.comp
 import { TimesheetstatisticComponent } from './timesheetstatistic/timesheetstatistic.component';
 import { AccountspayableComponent } from './accountspayable/accountspayable.component';
 import { AccountspayableDetailComponent } from './accountspayable/accountspayable-detail/accountspayable-detail.component';
+import { SalesdetailComponent } from './salesdetail/salesdetail.component';
+import { ProjectprofitComponent } from './projectprofit/projectprofit.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,9 @@ import { AccountspayableDetailComponent } from './accountspayable/accountspayabl
     ProfitstatisticComponent,
     TimesheetstatisticComponent,
     AccountspayableComponent,
-    AccountspayableDetailComponent],
+    AccountspayableDetailComponent,
+    SalesdetailComponent,
+    ProjectprofitComponent],
   providers: [ReportServices, ProjectService],
 })
 export class ReportModule { }

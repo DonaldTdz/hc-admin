@@ -1,0 +1,77 @@
+<page-header [title]="'项目利润明细'">
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-table #nzTable [nzData]="projectProfits" nzBordered nzSize="middle" [nzWidthConfig]="widthConfig"
+    [nzShowPagination]="false">
+    <thead nz-thead>
+      <tr>
+        <th nz-th style="text-align: center" rowspan="2">
+          <span>日期</span>
+        </th>
+        <th nz-th style="text-align: center" rowspan="2">
+          <span>产品名称</span>
+        </th>
+        <th nz-th style="text-align: center" rowspan="2">
+          <span>合同金额(元)</span>
+        </th>
+        <th nz-th colspan="3">
+          <span>销售明细</span>
+        </th>
+        <th nz-th colspan="4">
+          <span>成本</span>
+        </th>
+        <th nz-th colspan="6">
+          <span>税费</span>
+        </th>
+        <th nz-th rowspan="2">
+          <span>利润(元)</span>
+        </th>
+        <th nz-th rowspan="2">
+          <span>利润率(%)</span>
+        </th>
+      </tr>
+      <tr>
+        <th nz-th>单价(元)</th>
+        <th nz-th>数量</th>
+        <th nz-th>总额(元)</th>
+        <th nz-th>设备名称</th>
+        <th nz-th>单价(元)</th>
+        <th nz-th>数量</th>
+        <th nz-th>总额(元)</th>
+        <th nz-th>进项税额(元)</th>
+        <th nz-th>销项税额(元)</th>
+        <th nz-th>应缴增值税(元)</th>
+        <th nz-th>城建税+教育附加(元)</th>
+        <th nz-th>企业所得税(元)</th>
+        <th nz-th>个人所得税(元)</th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+        <td nz-td>{{item.creationTime | date:'yyyy-MM-dd'}}</td>
+        <td nz-td title="{{item.name}}">{{item.name | lengthLimit:15 }}</td>
+        <td nz-td>{{item.contractAmount}}</td>
+        <td nz-td>{{item.salesPrice}}</td>
+        <td nz-td>{{item.salesNum}}</td>
+        <td nz-td>{{item.salesAmount}}</td>
+        <td nz-td title="{{item.name}}">{{item.costDeviceName | lengthLimit:10 }}</td>
+        <td nz-td>{{item.costPrice}}</td>
+        <td nz-td>{{item.costNum}}</td>
+        <td nz-td>{{item.costAmount}}</td>
+        <td nz-td>{{item.incomeTaxAmount}}</td>
+        <td nz-td>{{item.saleTaxAmount}}</td>
+        <td nz-td>{{item.vatPayable}}</td>
+        <td nz-td>{{item.cityEducationTax}}</td>
+        <td nz-td>{{item.corporateIncomeTax}}</td>
+        <td nz-td>{{item.individualIncomeTax}}</td>
+        <td nz-td>{{item.profit}}</td>
+        <td nz-td>{{item.profitMargin}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <footer-toolbar>
+    <button nz-button [nzType]="'default'" (click)="return()">
+      返回
+    </button>
+  </footer-toolbar>
+</nz-card>
