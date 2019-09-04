@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector, Input } from '@angular/core';
-import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
+import { PagedResultNewDto } from '@shared/component-base/paged-listing-component-base';
 import { ReimburseService, ProjectService, EmployeeServiceProxy } from 'services'
 import { Router } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
@@ -14,6 +14,7 @@ export class ReimburseComponent extends AppComponentBase implements OnInit {
   search: any = {};
   expandForm = false;
   loading = false;
+  TotalAmount: number;
   projects: any;
   employees: any;
   statuss = [{ text: '提交', value: 1 }, { text: '审批通过', value: 2 }, { text: '拒绝', value: 3 }, { text: '取消', value: 4 }];
@@ -53,9 +54,11 @@ export class ReimburseComponent extends AppComponentBase implements OnInit {
     params.Status = this.search.status;
     params.Type = this.search.type;
     params.EmployeeId = this.search.employeeId;
-    this.reimburseService.getAll(params).subscribe((result: PagedResultDto) => {
+    params.SubmitDate = this.search.submitDate;
+    this.reimburseService.getAll(params).subscribe((result: PagedResultNewDto<number>) => {
       this.loading = false;
       this.query.data = result.items;
+      this.TotalAmount = result.common;
       this.query.total = result.totalCount;
     })
   }

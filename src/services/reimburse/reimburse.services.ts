@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map } from "rxjs/operators";
-import { PagedResultDto } from "@shared/component-base";
+import { PagedResultNewDto } from "@shared/component-base";
 import { Reimburse } from 'entities'
 
 @Injectable()
@@ -16,12 +16,13 @@ export class ReimburseService {
     /**
   * 获取分页数据
   */
-    getAll(params: any): Observable<PagedResultDto> {
+    getAll(params: any): Observable<PagedResultNewDto<number>> {
         let url_ = "/api/services/app/Reimburse/GetPagedAsync";
         return this._commonhttp.get(url_, params).pipe(map(data => {
-            const result = new PagedResultDto();
+            const result = new PagedResultNewDto<number>();
             result.items = data.items;
             result.totalCount = data.totalCount;
+            result.common = data.totalAmount
             return result;
         }));
     }

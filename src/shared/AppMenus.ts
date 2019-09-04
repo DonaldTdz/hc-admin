@@ -107,11 +107,11 @@ export class AppMenus {
                     link: "/app/report/invoicestatistics",
                     reuse: false
                 },
-                {
-                    text: "应收账款",
-                    link: "/app/report/accountsreceivable",
-                    reuse: false
-                },
+                // {
+                //     text: "应收账款",
+                //     link: "/app/report/accountsreceivable",
+                //     reuse: false
+                // },
                 {
                     text: "利润合计",
                     link: "/app/report/profitstatistic",
@@ -120,11 +120,12 @@ export class AppMenus {
                     text: "工时统计",
                     link: "/app/report/timesheetstatistic",
                     reuse: false
-                }, {
-                    text: "应付账款",
-                    link: "/app/report/accountspayable",
-                    reuse: false
                 }
+                // , {
+                //     text: "应付账款",
+                //     link: "/app/report/accountspayable",
+                //     reuse: false
+                // }
                 , {
                     text: "销售明细",
                     link: "/app/report/salesdetail",

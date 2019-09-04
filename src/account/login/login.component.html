@@ -14,8 +14,8 @@
           <nz-form-control>
             <nz-input-group nzPrefixIcon="anticon anticon-user">
               <input nz-input name="userNameOrEmailAddress" #userNameOrEmailAddressInput="ngModel"
-                [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" [placeholder]="'登录账号'" required
-                maxlength="255">
+                [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" (keyup.enter)="login()"
+                [placeholder]="'登录账号'" required maxlength="255">
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -25,8 +25,8 @@
           <nz-form-control>
             <nz-input-group nzPrefixIcon="anticon anticon-lock">
               <input nz-input name="password" #passwordInput="ngModel"
-                [(ngModel)]="loginService.authenticateModel.password" [placeholder]="'密码'" type="password" required
-                maxlength="32">
+                [(ngModel)]="loginService.authenticateModel.password" (keyup.enter)="login()" [placeholder]="'密码'"
+                type="password" required maxlength="32">
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>

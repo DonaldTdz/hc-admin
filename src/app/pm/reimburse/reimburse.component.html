@@ -45,12 +45,21 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="!expandForm ? 6 : 16" [class.float-rigth]="true">
+      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24" *ngIf="expandForm">
+        <nz-form-item>
+          <nz-form-label nzFor="submitDate">申请日期</nz-form-label>
+          <nz-form-control>
+            <nz-month-picker [(ngModel)]="search.submitDate" name="submitDate" nzPlaceHolder="请选择申请日期">
+            </nz-month-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="!expandForm ? 6 : 8" [class.float-rigth]="true">
         <button nz-button (click)="getReimburse()" [nzLoading]="loading" nzType="primary">
           查询
         </button>
         <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
-        <a (click)="expandForm=!expandForm" [acl]="'Admin'">
+        <a (click)="expandForm=!expandForm">
           {{expandForm ? '收起' : '展开'}}
           <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
         </a>
@@ -61,7 +70,9 @@
       </div>
     </div>
   </form>
-  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
+  <ng-template #totalContentMe>
+    <nz-form-text style="font-size: 18px;font-weight: bold;">合计：{{TotalAmount}}元</nz-form-text>共{{query.total}}条
+  </ng-template>
   <nz-table #nzTable [nzData]="query.data" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading"
     [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
@@ -90,7 +101,7 @@
     </thead>
     <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-        <td nz-td *ngIf="search.type==1" title="item.projectName">{{item.projectName | lengthLimit:25}}
+        <td nz-td *ngIf="search.type==1" title="{{item.projectName}}">{{item.projectName | lengthLimit:25}}
         </td>
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align: right">{{item.amount}}</td>

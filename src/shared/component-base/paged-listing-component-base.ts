@@ -11,6 +11,12 @@ export class PagedResultDto {
   totalCount: number;
 }
 
+export class PagedResultNewDto<T> {
+  items: any[];
+  totalCount: number;
+  common: T;
+}
+
 // 实体主键dto
 export class EntityDto {
   id: number;
