@@ -132,14 +132,18 @@
       <nz-form-item nzFlex>
         <nz-form-label [nzSm]="7" class="labelPadding" nzRequired [nzXs]="24">客户联系人</nz-form-label>
         <nz-form-control [nzSm]="16" class="controlPadding" nzHasFeedback>
-          <nz-select [nzPlaceHolder]="'请选择客户联系人'" [nzDisabled]="project.status>1?true:false"
+          <!-- <nz-select [nzPlaceHolder]="'请选择客户联系人'" [nzDisabled]="project.status>1?true:false"
             formControlName="customerContactId" [(ngModel)]="project.customerContactId" [nzShowSearch]="true"
             style="width:100%;">
-            <nz-option *ngFor="let i of CustomerContacts" [nzLabel]="i.text" [nzValue]="i.value">
+            <nz-option *ngFor="let i of CustomerContacts" [nzLabel]="i.text" [nzValue]="i.value" >
             </nz-option>
-          </nz-select>
-          <nz-form-explain *ngIf="(form.get('customerContactId')?.dirty && form.get('customerContactId')?.errors)
-            ">客户联系人不能为空,且不能超过50个字符
+          </nz-select> -->
+          <input nz-input formControlName="customerContact" *ngIf="project.status==1"
+            [(ngModel)]="project.customerContact" placeholder="请输入客户联系人">
+          <input nz-input formControlName="customerContact" *ngIf="project.status!=1" readonly
+            [(ngModel)]="project.customerContact" placeholder="请输入客户联系人">
+          <nz-form-explain *ngIf="(form.get('customerContact')?.dirty && form.get('customerContact')?.errors)
+            ">客户联系人不能为空,且不能超过25个字符
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>

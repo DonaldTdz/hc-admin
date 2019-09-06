@@ -10,6 +10,7 @@ import { AccountspayableComponent } from './accountspayable/accountspayable.comp
 import { AccountspayableDetailComponent } from './accountspayable/accountspayable-detail/accountspayable-detail.component';
 import { SalesdetailComponent } from './salesdetail/salesdetail.component';
 import { ProjectprofitComponent } from './projectprofit/projectprofit.component';
+import { AccountanalysisComponent } from './accountanalysis/accountanalysis.component';
 
 import { AppRouteGuard } from '@shared/auth';
 
@@ -59,6 +60,12 @@ const routes: Routes = [
   {
     path: 'salesdetail',
     component: SalesdetailComponent,
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { guard: ['GeneralManager', 'Finance'] },
+  },
+  {
+    path: 'accountanalysis',
+    component: AccountanalysisComponent,
     canActivate: [AppRouteGuard, ACLGuard],
     data: { guard: ['GeneralManager', 'Finance'] },
   },

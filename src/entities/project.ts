@@ -1,4 +1,3 @@
-
 export class Project {
     id: string;
     mode: number;
@@ -28,7 +27,7 @@ export class Project {
     customerName: string;
     modeName: string;
     statusName: string;
-    customerContactId: number;
+    customerContact: string;
     constructor(data?: any) {
         if (data) {
             for (var property in data) {
@@ -49,10 +48,8 @@ export class Project {
             this.salesAssistantId = data["salesAssistantId"];
             this.name = data["name"];
             this.customerId = data["customerId"].toString();
-            // this.employeeId = data["employeeId"];
             this.startDate = data["startDate"];
             this.endDate = data["endDate"];
-            // this.year = data["year"];
             this.budget = data["budget"];
             this.implementMoney = data["implementMoney"];
             this.status = data["status"];
@@ -69,7 +66,7 @@ export class Project {
             this.customerName = data["customerName"];
             this.modeName = data["modeName"];
             this.statusName = data["statusName"];
-            this.customerContactId = data["customerContactId"].toString();
+            this.customerContact = data["customerContact"];
         }
     }
     toJSON(data?: any) {
@@ -84,10 +81,8 @@ export class Project {
         data["salesAssistantId"] = this.salesAssistantId;
         data["name"] = this.name;
         data["customerId"] = this.customerId;
-        // data["employeeId"] = this.employeeId;
         data["startDate"] = this.startDate;
         data["endDate"] = this.endDate;
-        // data["year"] = this.year;
         data["budget"] = this.budget;
         data["implementMoney"] = this.implementMoney;
         data["status"] = this.status;
@@ -99,7 +94,7 @@ export class Project {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["deletionTime"] = this.deletionTime;
         data["deleterUserId"] = this.deleterUserId;
-        data["customerContactId"] = this.customerContactId;
+        data["customerContact"] = this.customerContact;
         return data;
     }
     static fromJS(data: any): Project {

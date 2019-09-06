@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CommonHttpClient } from "services/common-httpclient";
 import { map } from "rxjs/operators";
-import { PagedResultDto } from "@shared/component-base";
+import { PagedResultDto, PagedResultNewDto } from "@shared/component-base";
 
 @Injectable()
 export class ReportServices {
@@ -110,4 +110,18 @@ export class ReportServices {
             return data;
         }));
     }
+
+    /**
+* 获取账款统计
+*/
+    getAccountAnalysesAsync(params: any): Observable<PagedResultNewDto<any>> {
+        let url_ = "/api/services/app/AccountAnalysis/GetAccountAnalysesAsync";
+        return this._commonhttp.get(url_, params).pipe(map(data => {
+            const result = new PagedResultNewDto();
+            result.items = data.accountAnalyses;
+            result.common = data.planTimes;
+            return result;
+        }));
+    }
+
 }

@@ -16,6 +16,7 @@ import { AccountspayableComponent } from './accountspayable/accountspayable.comp
 import { AccountspayableDetailComponent } from './accountspayable/accountspayable-detail/accountspayable-detail.component';
 import { SalesdetailComponent } from './salesdetail/salesdetail.component';
 import { ProjectprofitComponent } from './projectprofit/projectprofit.component';
+import { AccountanalysisComponent } from './accountanalysis/accountanalysis.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ProjectprofitComponent } from './projectprofit/projectprofit.component'
     AccountspayableComponent,
     AccountspayableDetailComponent,
     SalesdetailComponent,
-    ProjectprofitComponent],
+    ProjectprofitComponent,
+    AccountanalysisComponent],
   providers: [ReportServices, ProjectService],
 })
 export class ReportModule { }

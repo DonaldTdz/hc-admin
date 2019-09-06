@@ -51,7 +51,7 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
       implementMoney: [null, Validators.compose([Validators.maxLength(18)])],
       projectSalesId: [null, Validators.compose([Validators.required])],
       salesAssistantId: [null, Validators.compose([Validators.required])],
-      customerContactId: [null, Validators.compose([Validators.required])],
+      customerContact: [null, Validators.compose([Validators.required])],
       name: [null, Validators.compose([Validators.maxLength(100), Validators.required])],
       desc: [null, Validators.compose([Validators.maxLength(250)])],
       type: [null, Validators.compose([Validators.required])],
