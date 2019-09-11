@@ -30,6 +30,7 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
     this.form = this.fb.group({
       contractDetails: this.fb.array([]),
     });
+
     this.title = "编辑合同明细";
     if (this.contractId) {
       this.getContracts();
@@ -85,9 +86,9 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       nzMask: true
     }).subscribe(result => {
       if (result) {
-        this.contractDetails.value[index].productId = result.id;
-        this.contractDetails.value[index].name = result.name;
-        this.contractDetails.value[index].model = result.specification;
+        // this.contractDetails.value[index].productId = result.id;
+        // this.contractDetails.value[index].name = result.name;
+        // this.contractDetails.value[index].model = result.specification;
         this.detailsName = result.name;
         this.detailsModel = result.specification;
         this.detailsProductId = result.id;
@@ -138,6 +139,9 @@ export class ModifContractdetailComponent extends ModalComponentBase implements 
       delete (this.contractDetails.value[index].creationTime);
       delete (this.contractDetails.value[index].creatorUserId);
     }
+    // this.contractDetails.value[index].productId = this.detailsProductId;
+    // this.contractDetails.value[index].name = this.detailsName;
+    // this.contractDetails.value[index].model = this.detailsModel;
     this.editIndex = -1;
     this.contractDetails.value[index].contractId = this.contractId;
     this.contractDetails.value[index].totalAmount = this.contractDetails.value[index].num * (this.contractDetails.value[index].price * 100) / 100;

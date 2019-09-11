@@ -142,7 +142,6 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
 
   //立项
   async submit() {
-    // this.projectTitle = "项目编号：" + this.project.projectCode + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0项目名称：" + this.project.name;
     if (!this.project.id)
       return this.nzMsg.warning("请先保存")
 
@@ -152,8 +151,19 @@ export class ModifyProjectComponent extends AppComponentBase implements OnInit {
         this.vote();
       }
     });
+  }
 
-    // this.prjectName = '立项';
+  //执行
+  async goImplement() {
+    if (!this.project.id)
+      return this.nzMsg.warning("请先保存")
+
+    this.project.status = 4;
+    await this.projectService.modifyProjectStatusAsync(this.project.id, this.project.status).subscribe((result) => {
+      if (result == true) {
+        this.vote();
+      }
+    });
   }
 
   //完成立项

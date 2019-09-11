@@ -8,7 +8,7 @@ import { BaseRoutingModule } from './base-routing.module';
 import { LayoutModule } from '@layout/layout.module';
 import {
   CustomerService, CompanyAccountService, CompanyService, ProductService, SupplierService
-  , ProjectService, CustomerContactService
+  , ProjectService, CustomerContactService, InventoryFlowService
 } from 'services';
 import { CompanyComponent } from './company/company.component';
 import { CreateCompanyAccountComponent } from './company/create-company-account/create-company-account.component';
@@ -22,6 +22,7 @@ import { DetailCustomerComponent } from './customer/detail-customer/detail-custo
 import { DetailSupplierComponent } from './supplier/detail-supplier/detail-supplier.component';
 import { CustomerContactComponent } from './customer/customer-contact/customer-contact.component';
 import { ModifyCustomerContactComponent } from './customer/customer-contact/modify-customer-contact/modify-customer-contact.component';
+import { DetailProductComponent } from './product/detail-product/detail-product.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ModifyCustomerContactComponent } from './customer/customer-contact/modi
     DetailCustomerComponent,
     DetailSupplierComponent,
     CustomerContactComponent,
-    ModifyCustomerContactComponent
+    ModifyCustomerContactComponent,
+    DetailProductComponent
   ],
   entryComponents: [
     CustomerComponent,
@@ -63,7 +65,7 @@ import { ModifyCustomerContactComponent } from './customer/customer-contact/modi
   ],
   providers: [
     CustomerService, CompanyAccountService, CompanyService, ProductService, SupplierService, ProjectService
-    , CustomerContactService
+    , CustomerContactService, InventoryFlowService
   ],
 }
 )

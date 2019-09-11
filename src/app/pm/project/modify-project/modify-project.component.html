@@ -13,8 +13,10 @@
         <button nz-button type="button" class="button-gray" *ngIf="project.status==2" (click)="loseOrder()">丢单</button>
         <button nz-button [nzType]="'primary'" type="submit" *ngIf="project.status<=2"
           [disabled]="!validateForm.valid||saving">保存</button>
-        <button nz-button type="button" class="button-green" *ngIf="project.status==1" (click)="submit()"
-          [disabled]="!validateForm.valid||saving">去立项</button>
+        <button nz-button type="button" class="button-green" *ngIf="project.status==1&&project.type!='直采'"
+          (click)="submit()" [disabled]="!validateForm.valid||saving">去立项</button>
+        <button nz-button type="button" class="button-green" *ngIf="project.status==1&&project.type=='直采'"
+          (click)="goImplement()" [disabled]="!validateForm.valid||saving">去执行</button>
         <button nz-button type="button" class="button-green" *ngIf="project.status==2" (click)="tenders()">完成立项</button>
       </ng-template>
     </page-header>

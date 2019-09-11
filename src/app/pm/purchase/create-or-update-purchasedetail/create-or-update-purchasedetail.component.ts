@@ -68,7 +68,7 @@ export class CreateOrUpdatePurchasedetailComponent extends ModalComponentBase im
   getData() {
     this.purchaseDetailService.getById(this.id).subscribe((result) => {
       this.purchaseDetail = result;
-      this.productService.GetById(this.purchaseDetail.productId.toString())
+      this.productService.getById(this.purchaseDetail.productId.toString())
         .subscribe((reqproduct) => {
           this.purchaseDetail.name = reqproduct.name;
           this.purchaseDetail.specification = reqproduct.specification;

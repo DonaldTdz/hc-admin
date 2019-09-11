@@ -74,7 +74,7 @@ export class DetailCustomerComponent extends AppComponentBase implements OnInit 
     params.MaxResultCount = this.query.pageSize;
     params.CustomerId = this.id;
     this.projectService.getAll(params).subscribe((result: PagedResultDto) => {
-      this.tableLoading = "false"
+      this.tableLoading = "false";
       this.query.dataList = result.items;
       this.query.total = result.totalCount;
     })

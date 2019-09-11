@@ -20,7 +20,7 @@
           <td nz-td>
             <span *ngIf="editIndex!==i">
               <button nz-button type="button" [nzType]="'primary'" disabled>选择已有产品</button>
-              <input nz-input hidden formControlName="productId" readonly [ngModel]="detailsProductId">
+              <input nz-input hidden formControlName="productId" readonly>
             </span>
             <span *ngIf="editIndex===i" nz-form-control>
               <input nz-input hidden formControlName="productId" readonly [ngModel]="detailsProductId">

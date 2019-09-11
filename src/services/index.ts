@@ -30,3 +30,4 @@ export * from './implement/implement.service';
 export * from './advancepayment/advancepayment.services';
 export * from './report/report.services';
 export * from './advancepayment/advancepayment-detail.services';
+export * from './product/inventoryflow.service';

@@ -79,9 +79,9 @@
       </div>
     </div>
     <nz-tabset nzSize="large">
-      <nz-tab nzTitle="客户联系人">
+      <!-- <nz-tab nzTitle="客户联系人">
         <app-customer-contact [customerId]="id"></app-customer-contact>
-      </nz-tab>
+      </nz-tab> -->
       <nz-tab nzTitle="项目列表">
         <ng-template #totalContentMe>共{{query.total}}条</ng-template>
         <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
@@ -112,20 +112,20 @@
           </thead>
           <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-              <td nz-td title="item.name"><a [routerLink]="['/app/pm/modify-project']"
+              <td nz-td title="{{item.name}}"><a [routerLink]="['/app/pm/project-detail']"
                   [queryParams]="{id:item.id}">{{item.name | lengthLimit:15}}</a>
               </td>
-              <td nz-td>{{item.mode}}</td>
+              <td nz-td>{{item.modeName}}</td>
               <td nz-td>{{item.type}}</td>
-              <td nz-td>{{item.employeeName}} </td>
+              <td nz-td>{{item.projectSalesName}} </td>
               <td nz-td style="text-align: right">{{item.budget}} </td>
               <td nz-td style="text-align: center">
-                <nz-badge *ngIf="ding.status=='1'" [nzStatus]="'processing'" [nzText]="'线索'"></nz-badge>
-                <nz-badge *ngIf="ding.status=='2'" [nzStatus]="'color'" [nzStyle]="{'background-color':'#2f54eb'}"
+                <nz-badge *ngIf="item.status=='1'" [nzStatus]="'processing'" [nzText]="'线索'"></nz-badge>
+                <nz-badge *ngIf="item.status=='2'" [nzStatus]="'color'" [nzStyle]="{'background-color':'#2f54eb'}"
                   [nzText]="'立项'"></nz-badge>
-                <nz-badge *ngIf=" ding.status=='3'" [nzStatus]="'warning'" [nzText]="'招标'"></nz-badge>
-                <nz-badge *ngIf=" ding.status=='4'" [nzStatus]="'success'" [nzText]="'执行'"></nz-badge>
-                <nz-badge *ngIf=" ding.status=='5'" [nzStatus]="'default'" [nzText]="'丢单'"></nz-badge>
+                <nz-badge *ngIf=" item.status=='3'" [nzStatus]="'warning'" [nzText]="'招标'"></nz-badge>
+                <nz-badge *ngIf=" item.status=='4'" [nzStatus]="'success'" [nzText]="'执行'"></nz-badge>
+                <nz-badge *ngIf=" item.status=='5'" [nzStatus]="'default'" [nzText]="'丢单'"></nz-badge>
               </td>
             </tr>
           </tbody>
@@ -140,56 +140,3 @@
     </div>
   </form>
 </nz-card>
-
-<!-- <nz-card [nzBordered]="false" nzTitle="项目列表" class="mb-lg">
-  <ng-template #totalContentMe>共{{query.total}}条</ng-template>
-  <nz-table #nzcustomerDetailTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
-    [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzShowTotal]="totalContentMe"
-    [nzShowTotal]="'true'" [nzShowSizeChanger]="true">
-    <thead nz-thead>
-      <tr>
-        <th nz-th>
-          <span>项目名称</span>
-        </th>
-        <th nz-th>
-          <span>项目模式</span>
-        </th>
-        <th nz-th>
-          <span>项目分类</span>
-        </th>
-        <th nz-th>
-          <span>过单费用</span>
-        </th>
-        <th nz-th>
-          <span>负责人</span>
-        </th>
-        <th>
-          <span>预算金额</span>
-        </th>
-        <th>
-          <span>状态</span>
-        </th>
-      </tr>
-    </thead>
-    <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let item of nzcustomerDetailTable.data">
-        <td nz-td title="item.name"><a [routerLink]="['/app/pm/customer']"
-            [queryParams]="{id:item.id}">{{item.name | lengthLimit:15}}</a>
-        </td>
-        <td nz-td>{{item.mode}}</td>
-        <td nz-td>{{item.type}}</td>
-        <td nz-td>{{item.billCost}}</td>
-        <td nz-td>{{item.employeeName}} </td>
-        <td nz-td>{{item.budget}} </td>
-        <td nz-td>
-          <nz-badge *ngIf="item.statusName=='已完成'" [nzStatus]="'success'" [nzText]="item.statusName"></nz-badge>
-          <nz-badge *ngIf="item.statusName=='线索'" [nzStatus]="'error'" [nzText]="item.statusName"></nz-badge>
-          <nz-badge *ngIf="item.statusName=='取消'" [nzStatus]="'default'" [nzText]="item.statusName"></nz-badge>
-          <nz-badge *ngIf="item.statusName=='进行中'" [nzStatus]="'processing'" [nzText]="item.statusName"></nz-badge>
-          <nz-badge *ngIf="item.statusName=='立项'" [nzStatus]="'warning'" [nzText]="item.statusName"></nz-badge>
-          <nz-badge *ngIf="item.statusName=='已回款'" [nzStatus]="'color'" [nzText]="item.statusName"></nz-badge>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-</nz-card> -->

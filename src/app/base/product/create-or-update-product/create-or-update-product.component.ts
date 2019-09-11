@@ -42,7 +42,7 @@ export class CreateOrUpdateProductComponent extends ModalComponentBase implement
   }
 
   getData() {
-    this.productService.GetById(this.id.toString()).subscribe((result) => {
+    this.productService.getById(this.id.toString()).subscribe((result) => {
       this.product = result;
     });
   }

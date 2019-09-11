@@ -1,9 +1,10 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { PagedRequestDto, PagedListingComponentBase, PagedResultDto } from '@shared/component-base/paged-listing-component-base';
+import { PagedResultDto } from '@shared/component-base/paged-listing-component-base';
 import { ProductService } from 'services'
 import { AppComponentBase } from '@shared/app-component-base';
 import { Product } from 'entities'
 import { CreateOrUpdateProductComponent } from './create-or-update-product/create-or-update-product.component'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +15,7 @@ export class ProductComponent extends AppComponentBase implements OnInit {
   search: any = {};
   product: Product = new Product();
   productTypes = [{ value: 0, text: '测试' }];
-  constructor(injector: Injector, private productService: ProductService) {
+  constructor(injector: Injector, private productService: ProductService, private router: Router) {
     super(injector);
   }
   ngOnInit() {
@@ -72,6 +73,11 @@ export class ProductComponent extends AppComponentBase implements OnInit {
     }).subscribe(() => {
       this.notify.success(this.l('状态修改成功'));
     });
+  }
+
+  //详情
+  details(id: any) {
+    this.router.navigate(['/app/base/product-detail', { id: id }]);
   }
 
   refreshData() {

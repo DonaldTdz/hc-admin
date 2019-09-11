@@ -1,0 +1,23 @@
+<page-header [title]="'产品详情'">
+</page-header>
+<nz-card [nzBordered]="false" class="mb-lg">
+  <sv-container size="small" col="3">
+    <sv label="产品名称">{{product.name}}</sv>
+    <sv label="规格型号">{{product.specification}}</sv>
+    <sv label="数量">{{product.num}}</sv>
+    <sv label="税率">{{product.taxRate}}</sv>
+    <sv label="单价">{{product.price}}</sv>
+    <sv label="创建时间">{{product.creationTime | date:'yyyy-MM-dd  HH:mm:ss'}}</sv>
+  </sv-container>
+
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="库存流水" class="mb-lg">
+  <st #st [columns]="columns" [data]="query.data" [loading]="loading" [page]="pages" [total]="query.total"
+    (change)="stChange($event)">
+  </st>
+</nz-card>
+<footer-toolbar>
+  <button nz-button [nzType]="'default'" (click)="return()">
+    返回
+  </button>
+</footer-toolbar>
