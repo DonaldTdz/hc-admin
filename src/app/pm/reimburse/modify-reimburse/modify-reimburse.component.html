@@ -28,26 +28,10 @@
       </div>
       <div nz-col [nzSpan]="24">
         <nz-form-item nzFlex>
-          <nz-form-label [nzSm]="4" nzRequired [nzXs]="24">报销金额(元)</nz-form-label>
+          <nz-form-label [nzSm]="4" [nzXs]="24">报销金额(元)</nz-form-label>
           <nz-form-control [nzSm]="20" nzHasFeedback>
             <nz-input-number [(ngModel)]="reimburse.amount" [nzDisabled]="true" formControlName="amount" nzPrecision="2"
               style="width:30%"></nz-input-number>
-            <nz-form-explain *ngIf="(form.get('amount')?.dirty && form.get('amount')?.errors)
-              ">报销金额不能为空,且不能超过18位
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="24">
-        <nz-form-item nzFlex>
-          <nz-form-label [nzSm]="4" [nzXs]="24">报销费用说明
-          </nz-form-label>
-          <nz-form-control [nzSm]="10" nzHasFeedback>
-            <textarea nz-input rows="2" formControlName="remark" placeholder="请输入报销费用说明"
-              [(ngModel)]="reimburse.remark"></textarea>
-            <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
-              ">报销费用说明不能超过250个字符
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -76,7 +60,7 @@
             <span>票据张数</span>
           </th>
           <th nz-th>
-            <span>费用发生地</span>
+            <span>费用说明</span>
           </th>
           <th nz-th style="text-align: center">
             <span>操作</span>
@@ -90,11 +74,11 @@
           <td nz-td>{{item.customer}}</td>
           <td nz-td style="text-align: right">{{item.amount}}</td>
           <td nz-td style="text-align: right">{{item.invoiceNum}}</td>
-          <td nz-td>{{item.desc}}</td>
+          <td nz-td title="{{item.desc}}">{{item.desc}}</td>
           <td nz-td style="text-align: center">
-            <a (click)="editReimburseDetail(item,i)">编辑</a>
+            <a (click)="editReimburseDetail(item)">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <nz-popconfirm (nzOnConfirm)="del(i)" [nzTitle]="'是否要删除此行数据？'">
+            <nz-popconfirm (nzOnConfirm)="del(item.id)" [nzTitle]="'是否要删除此行数据？'">
               <a nz-popconfirm style="color:#ff4d4f;">删除</a>
             </nz-popconfirm>
           </td>
@@ -106,7 +90,7 @@
       <button nz-button type="button" nzType="default" (click)="goBack()">
         返回
       </button>
-      <button nz-button [nzType]="'primary'" type="button" (click)="save()" [nzLoading]="isConfirmLoading"
+      <button nz-button [nzType]="'primary'" type="button" (click)="submitApproval()" [nzLoading]="isConfirmLoading"
         [disabled]="!validateForm.valid">
         提交
       </button>

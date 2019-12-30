@@ -48,7 +48,8 @@ const routes: Routes = [
   }, {
     path: 'create-reimburse',
     component: ModifyReimburseComponent,
-    canActivate: [AppRouteGuard]
+    canActivate: [AppRouteGuard],
+    data: { title: "新增报销" }
   }
 ];
 

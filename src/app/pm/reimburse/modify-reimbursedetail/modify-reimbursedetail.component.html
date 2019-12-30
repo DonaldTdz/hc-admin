@@ -64,18 +64,9 @@
     <nz-form-item nz-row>
       <nz-form-label [nzSm]="5" [nzXs]="24" class="labelPadding">费用说明</nz-form-label>
       <nz-form-control [nzSm]="19" class="controlPadding" nzHasFeedback>
-        <textarea nz-input rows="2" formControlName="desc" placeholder="请输入发生地点"
+        <textarea nz-input rows="2" formControlName="desc" placeholder="请输入费用说明"
           [(ngModel)]="reimburseDetail.desc"></textarea>
         <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)">费用说明不能超过250个字符
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label [nzSm]="5" [nzXs]="24" class="labelPadding">备注</nz-form-label>
-      <nz-form-control [nzSm]="19" class="controlPadding" nzHasFeedback>
-        <textarea nz-input rows="2" formControlName="remark" placeholder="请输入发生地点"
-          [(ngModel)]="reimburseDetail.remark"></textarea>
-        <nz-form-explain *ngIf="(form.get('remark')?.dirty && form.get('remark')?.errors)">备注不能超过250个字符
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>

@@ -2,19 +2,22 @@ import { Component, OnInit, Injector, Input } from '@angular/core';
 import { ModalComponentBase } from '@shared/component-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReimburseDetail } from 'entities'
-import { DataDictionaryService } from 'services'
+import { DataDictionaryService, ReimburseDetailService } from 'services'
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-modify-reimbursedetail',
   templateUrl: './modify-reimbursedetail.component.html',
-  styles: []
+  providers: [ReimburseDetailService]
 })
 export class ModifyReimburseDetailComponent extends ModalComponentBase implements OnInit {
-  @Input() reimburseDetailOld: any;
+  @Input() reimburseDetailId: string;
+  @Input() reimburseId: string;
   form: FormGroup;
+  reimburseDetail: ReimburseDetail = new ReimburseDetail();
   typeList = [];
-  reimburseDetail = {};
-  constructor(injector: Injector, private fb: FormBuilder, private dataDictionaryService: DataDictionaryService) { super(injector); }
+  constructor(injector: Injector, private fb: FormBuilder, private dataDictionaryService: DataDictionaryService
+    , private reimburseDetailService: ReimburseDetailService, private nzMsg: NzMessageService) { super(injector); }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -24,14 +27,14 @@ export class ModifyReimburseDetailComponent extends ModalComponentBase implement
       customer: [null, Validators.maxLength(100)],
       amount: [null, Validators.compose([Validators.required, Validators.maxLength(18)])],
       invoiceNum: [null, Validators.compose([Validators.maxLength(18)])],
-      remark: [null, Validators.maxLength(250)],
       desc: [null, Validators.maxLength(250)],
       attachments: [null]
     });
-    if (this.reimburseDetailOld) {
-      this.reimburseDetail = this.reimburseDetailOld;
-    }
     this.getTypeList();
+    if (this.reimburseDetailId)
+      this.getData();
+    else
+      this.reimburseDetail.reimburseId = this.reimburseId;
   }
 
   //获取费用类型
@@ -41,9 +44,23 @@ export class ModifyReimburseDetailComponent extends ModalComponentBase implement
     });
   }
 
+  //编辑获取数据
+  getData() {
+    this.reimburseDetailService.getById(this.reimburseDetailId).subscribe((result) => {
+      this.reimburseDetail = result;
+    });
+  }
+
   save() {
-    this.notify.success("保存成功");
-    this.success(this.reimburseDetail);
+    if (!this.reimburseDetail.reimburseId) {
+      return this.nzMsg.warning("保存失败,请重新创建报销!!");
+    } else {
+      this.reimburseDetailService.createOrUpdate(this.reimburseDetail).finally(() => {
+      }).subscribe((totalAmount: number) => {
+        this.nzMsg.success("保存成功");
+        this.success(totalAmount);
+      });
+    }
   }
 
 }

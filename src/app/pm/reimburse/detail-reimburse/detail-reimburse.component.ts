@@ -5,7 +5,6 @@ import { ReimburseService, ReimburseDetailService } from 'services'
 import { Reimburse, ReimburseDetail } from 'entities'
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponentBase, } from '@shared/app-component-base';
-import { DetailReimbursedetailsComponent } from '../detail-reimbursedetails/detail-reimbursedetails.component'
 
 @Component({
   selector: 'app-detail-reimburse',
@@ -28,7 +27,7 @@ export class DetailReimburseComponent extends AppComponentBase implements OnInit
   st: STComponent;
   columns: STColumn[] = [
     // { title: '编号', index: 'id', type: 'radio' },
-    { title: '发生日期', index: 'happenDate', type: 'date', dateFormat: 'YYYY-MM-DD HH:mm:ss' },
+    { title: '发生日期', index: 'happenDate', type: 'date', dateFormat: 'YYYY-MM-DD' },
     { title: '类型', index: 'type' },
     { title: '发生地点', index: 'place' },
     { title: '客户', index: 'customer' },
@@ -36,17 +35,17 @@ export class DetailReimburseComponent extends AppComponentBase implements OnInit
     { title: '金额(元)', index: 'amount', className: 'text-right' },
     { title: '票据张数', index: 'invoiceNum', className: 'text-right' },
     // { title: '备注', index: 'remark' }
-    {
-      title: '操作',
-      className: 'text-center',
-      buttons: [
-        {
-          text: '查看详情',
-          type: "link",
-          click: (item: any) => this.details(item.id),
-        }
-      ],
-    },
+    // {
+    //   title: '操作',
+    //   className: 'text-center',
+    //   buttons: [
+    //     {
+    //       text: '查看详情',
+    //       type: "link",
+    //       click: (item: any) => this.details(item.id),
+    //     }
+    //   ],
+    // },
   ];
   constructor(injector: Injector, private reimburseService: ReimburseService, private actRouter: ActivatedRoute, private reimburseDetailService: ReimburseDetailService) {
     super(injector);
@@ -77,13 +76,6 @@ export class DetailReimburseComponent extends AppComponentBase implements OnInit
       this.query.data = result.items;
       this.query.total = result.totalCount;
     })
-  }
-
-  details(id: any) {
-    this.modalHelper.open(DetailReimbursedetailsComponent, { id: id }, 'md', {
-      nzMask: true
-    }).subscribe(isSave => {
-    });
   }
 
 

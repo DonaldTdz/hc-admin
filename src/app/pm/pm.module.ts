@@ -30,7 +30,6 @@ import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.
 import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
 import { ReimburseComponent } from './reimburse/reimburse.component';
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
-import { DetailReimbursedetailsComponent } from './reimburse/detail-reimbursedetails/detail-reimbursedetails.component';
 import { PaymentplanComponent } from './paymentplan/paymentplan.component';
 import { CreatePaymentplanComponent } from './paymentplan/create-paymentplan/create-paymentplan.component';
 import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/update-paymentplan.component';
@@ -73,7 +72,6 @@ import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-upda
     CreateOrUpdateInvoicedetailComponent,
     ReimburseComponent,
     DetailReimburseComponent,
-    DetailReimbursedetailsComponent,
     PaymentplanComponent,
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
@@ -94,13 +92,13 @@ import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-upda
     CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateInvoiceComponent,
     CreateOrUpdateInvoicedetailComponent,
-    DetailReimbursedetailsComponent,
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
     FileComponent,
     ModifContractdetailComponent,
     ModifyReimburseDetailComponent,
     AdvancepaymentDetailComponent,
+    ModifyReimburseComponent,
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,
