@@ -14,6 +14,8 @@ import { DetailComponent } from './project/detail/detail.component';
 import { SaleProjectComponent } from './project/sale-project/sale-project.component';
 import { SaleDetailComponent } from './project/sale-detail/sale-detail.component';
 import { NewProjectComponent } from './project/new-project/new-project.component';
+import { ExamineComponent } from './examine/examine.component';
+import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 
 const routes: Routes = [
   {
@@ -73,8 +75,15 @@ const routes: Routes = [
   }, {
     path: 'create-reimburse',
     component: ModifyReimburseComponent,
-    canActivate: [AppRouteGuard]
-  }
+    canActivate: [AppRouteGuard],
+    data: { title: "新增报销" }
+  },
+  {
+    path: 'examine',
+    component: ExamineComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "新增报销" }
+  },
 ];
 
 @NgModule({

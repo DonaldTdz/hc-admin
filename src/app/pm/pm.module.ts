@@ -30,7 +30,6 @@ import { DetailInvoiceComponent } from './invoice/detail-invoice/detail-invoice.
 import { CreateOrUpdateInvoicedetailComponent } from './invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
 import { ReimburseComponent } from './reimburse/reimburse.component';
 import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-reimburse.component';
-import { DetailReimbursedetailsComponent } from './reimburse/detail-reimbursedetails/detail-reimbursedetails.component';
 import { PaymentplanComponent } from './paymentplan/paymentplan.component';
 import { CreatePaymentplanComponent } from './paymentplan/create-paymentplan/create-paymentplan.component';
 import { UpdatePaymentplanComponent } from './paymentplan/update-paymentplan/update-paymentplan.component';
@@ -46,6 +45,8 @@ import { DetailComponent } from './project/detail/detail.component';
 import { SaleProjectComponent } from './project/sale-project/sale-project.component';
 import { SaleDetailComponent } from './project/sale-detail/sale-detail.component';
 import { NewProjectComponent } from './project/new-project/new-project.component';
+import { ExamineComponent } from './examine/examine.component';
+import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 
 @NgModule({
   imports: [
@@ -81,7 +82,6 @@ import { NewProjectComponent } from './project/new-project/new-project.component
     CreateOrUpdateInvoicedetailComponent,
     ReimburseComponent,
     DetailReimburseComponent,
-    DetailReimbursedetailsComponent,
     PaymentplanComponent,
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
@@ -92,6 +92,8 @@ import { NewProjectComponent } from './project/new-project/new-project.component
     ModifyReimburseDetailComponent,
     AdvancepaymentComponent,
     AdvancepaymentDetailComponent,
+    ExamineComponent,
+    ProjectSearchComponent,
   ],
   entryComponents: [
     DetailProjectComponent,
@@ -102,13 +104,14 @@ import { NewProjectComponent } from './project/new-project/new-project.component
     CreateOrUpdatePurchasedetailComponent,
     CreateOrUpdateInvoiceComponent,
     CreateOrUpdateInvoicedetailComponent,
-    DetailReimbursedetailsComponent,
     CreatePaymentplanComponent,
     UpdatePaymentplanComponent,
     FileComponent,
     ModifContractdetailComponent,
     ModifyReimburseDetailComponent,
     AdvancepaymentDetailComponent,
+    ModifyReimburseComponent,
+    ProjectSearchComponent
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,

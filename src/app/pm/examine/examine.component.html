@@ -1,0 +1,178 @@
+<page-header [title]="''"></page-header>
+<div class="card-container">
+  <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'">
+    <nz-tab [nzTitle]="'未发放'">
+
+      <div [class.float-right]="true" style="margin-right: 20px;margin-bottom: 20px;">
+        <nz-form-text style="font-size: 18px;font-weight: bold;margin-right: 30px;">合计￥600.00元</nz-form-text>
+        <button nz-button nzType="default">刷新</button>
+        <button nz-button nzType="primary">确认发放</button>
+      </div>
+      <nz-table #nestedTable [nzData]="listOfParentData" [nzShowTotal]="totalContentMe" [nzPageSize]=5
+        [nzShowPagination]='false'>
+        <thead>
+          <tr>
+            <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
+              (nzCheckedChange)="checkAll($event)"></th>
+            <th nzShowExpand></th>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>金额</th>
+            <th>状态</th>
+            <th>申请日期</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+            <tr>
+              <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+              <td nzShowExpand [(nzExpand)]="data.expand"></td>
+              <td>{{ data.name }}</td>
+              <td>{{ data.platform }}</td>
+
+              <td>{{ data.creator }}</td>
+              <td>
+                <nz-badge [nzStatus]="'error'" [nzText]="data.status?'已发放':'未发放'"></nz-badge>
+              </td>
+              <td>{{ data.createdAt }}</td>
+              <td>
+                <button nz-button nzType="primary">发放</button>
+              </td>
+            </tr>
+            <tr [nzExpand]="data.expand">
+              <td></td>
+              <td colspan="7">
+                <nz-table #innerTable [nzData]="listOfChildrenData" nzSize="middle" [nzShowPagination]="false">
+                  <thead>
+                    <tr>
+                      <th>姓名</th>
+                      <th>项目</th>
+                      <th>金额</th>
+                      <th>报销种类</th>
+                      <th>状态</th>
+                      <th>日期</th>
+                      <th>报销明细</th>
+                    </tr>
+                  </thead>
+        <tbody>
+          <tr *ngFor="let datas of innerTable.data">
+            <td>{{ data.name }}</td>
+            <td>{{ datas.pro }}</td>
+            <td>￥ {{ datas.total }}.00</td>
+            <td>{{ datas.kinds }}</td>
+            <td>
+              <nz-badge [nzStatus]="'error'" [nzText]="'未报销'"></nz-badge>
+            </td>
+            <td>{{ datas.date }}</td>
+            <td>
+              {{ datas.detail }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      </td>
+      </tr>
+      </ng-template>
+      </tbody>
+      </nz-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'已发放'">
+      <form nz-form [nzLayout]="'inline'" class="search__form">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+          <div nz-col nzMd="6" nzSm="24">
+            <nz-form-item>
+              <nz-form-label nzFor="employeeId">报销人</nz-form-label>
+              <nz-form-control>
+                <nz-select [(ngModel)]="employeeIds" name="employeeId" [nzPlaceHolder]="'请选择报销人'" [nzShowSearch]="true">
+                  <nz-option [nzLabel]="'杨帆'" [nzValue]="3"></nz-option>
+                  <nz-option [nzLabel]="'杨杰'" [nzValue]="2"></nz-option>
+                  <nz-option [nzLabel]="'赵聪林'" [nzValue]="1"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzMd="6" nzSm="24">
+            <nz-form-item>
+              <nz-form-label nzFor="submitDate">发放日期</nz-form-label>
+              <nz-form-control>
+                <nz-date-picker name="submitDate" nzPlaceHolder="请选择发放日期">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzMd="12" nzSm="24">
+            <div [class.float-right]="true" style="margin-right: 20px;margin-bottom: 20px;">
+              <button nz-button nzType="default">刷新</button>
+              <button nz-button nzType="primary">查询</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <nz-table #nestedTable [nzData]="listOfParentData" [nzShowPagination]='true' [nzPageSize]='10'>
+        <thead>
+          <tr>
+            <th nzShowExpand></th>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>金额</th>
+            <th>状态</th>
+            <th>发放日期</th>
+            <!-- <th>操作</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+            <tr>
+              <td nzShowExpand [(nzExpand)]="data.expand"></td>
+              <td>{{ data.name }}</td>
+              <td>{{ data.platform }}</td>
+
+              <td>{{ data.creator }}</td>
+              <td>
+                <nz-badge [nzStatus]="'success'" [nzText]="'已发放'"></nz-badge>
+              </td>
+              <td>{{ data.createdAt }}</td>
+              <!-- <td>
+                <button nz-button nzType="primary">发放</button>
+              </td> -->
+            </tr>
+            <tr [nzExpand]="data.expand">
+              <td></td>
+              <td colspan="7">
+                <nz-table #innerTable [nzData]="listOfChildrenData" nzSize="middle" [nzShowPagination]="false">
+                  <thead>
+                    <tr>
+                      <th>姓名</th>
+                      <th>项目</th>
+                      <th>金额</th>
+                      <th>报销种类</th>
+                      <th>状态</th>
+                      <th>日期</th>
+                      <th>报销明细</th>
+                    </tr>
+                  </thead>
+        <tbody>
+          <tr *ngFor="let datas of innerTable.data">
+            <td>{{ data.name }}</td>
+            <td>{{ datas.pro }}</td>
+            <td>￥ {{ datas.total }}.00</td>
+            <td>{{ datas.kinds }}</td>
+            <td>
+              <nz-badge [nzStatus]="'success'" [nzText]="'已发放'"></nz-badge>
+            </td>
+            <td>{{ datas.date }}</td>
+            <td>
+              {{ datas.detail }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      </td>
+      </tr>
+      </ng-template>
+      </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
+</div>

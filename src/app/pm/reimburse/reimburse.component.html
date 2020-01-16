@@ -2,18 +2,18 @@
 <nz-card [nzBordered]="false">
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
-      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
+      <div nz-col nzMd="6" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="type">报销类型</nz-form-label>
           <nz-form-control>
             <nz-select [(ngModel)]="search.type" name="type" [nzPlaceHolder]="'请选择类型'" [nzShowSearch]="true"
-              (ngModelChange)="getReimburse()">
+              (ngModelChange)="getReimburses()">
               <nz-option *ngFor="let i of types" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
+      <div nz-col nzMd="6" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="projectId">所属项目</nz-form-label>
           <nz-form-control>
@@ -24,7 +24,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24">
+      <div nz-col nzMd="6" nzSm="24">
         <nz-form-item>
           <nz-form-label nzFor="status">状态</nz-form-label>
           <nz-form-control>
@@ -34,7 +34,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div [acl]="'Admin'" nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24" *ngIf="expandForm">
+      <div [acl]="'Admin'" nz-col nzMd="6" nzSm="24" *ngIf="expandForm">
         <nz-form-item>
           <nz-form-label nzFor="employeeId">报销人</nz-form-label>
           <nz-form-control>
@@ -45,7 +45,18 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzMd="{{!expandForm ? 6 : 8}}" nzSm="24" *ngIf="expandForm">
+      <div nz-col nzMd="6" nzSm="24" *ngIf="expandForm">
+        <nz-form-item>
+          <nz-form-label nzFor="grantStatus">发放状态</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="search.grantStatus" name="grantStatus" [nzPlaceHolder]="'请选择发放状态'"
+              [nzShowSearch]="true">
+              <nz-option *ngFor="let i of grantStatuss" [nzLabel]="i.text" [nzValue]="i.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="6" nzSm="24" *ngIf="expandForm">
         <nz-form-item>
           <nz-form-label nzFor="submitDate">申请日期</nz-form-label>
           <nz-form-control>
@@ -54,8 +65,8 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="!expandForm ? 6 : 8" [class.float-rigth]="true">
-        <button nz-button (click)="getReimburse()" [nzLoading]="loading" nzType="primary">
+      <div nz-col [nzSpan]="6" [class.float-rigth]="true">
+        <button nz-button (click)="getReimburses()" [nzLoading]="loading" nzType="primary">
           查询
         </button>
         <button nz-button type="reset" (click)="refresh()" class="mx-sm">重置</button>
@@ -76,7 +87,7 @@
   <nz-table #nzTable [nzData]="query.data" [nzFrontPagination]="false" [nzTotal]="query.total"
     [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading"
     [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
-    (nzPageIndexChange)="getReimburse()" (nzPageSizeChange)="getReimburse()">
+    (nzPageIndexChange)="getReimburses()" (nzPageSizeChange)="getReimburses()">
     <thead nz-thead>
       <tr>
         <th nz-th *ngIf="search.type==1">
@@ -90,6 +101,9 @@
         </th>
         <th nz-th style="text-align: center">
           <span>状态</span>
+        </th>
+        <th nz-th style="text-align: center">
+          <span>发放状态</span>
         </th>
         <th nz-th style="text-align: center">
           <span>申请时间</span>
@@ -106,13 +120,27 @@
         <td nz-td>{{item.employeeName}}</td>
         <td nz-td style="text-align: right">{{item.amount}}</td>
         <td nz-td style="text-align: center">
-          <nz-badge *ngIf="item.status=='1'" [nzStatus]="'processing'" [nzText]="'提交'"></nz-badge>
-          <nz-badge *ngIf="item.status=='2'" [nzStatus]="'success'" [nzText]="'审批通过'"></nz-badge>
-          <nz-badge *ngIf="item.status=='3'" [nzStatus]="'default'" [nzText]="'取消'"></nz-badge>
+          <nz-badge *ngIf="item.status=='1'" [nzStatus]="'processing'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.status=='2'" [nzStatus]="'success'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.status=='3'" [nzStatus]="'error'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.status=='4'" [nzStatus]="'default'" [nzText]="item.statusName"></nz-badge>
+          <nz-badge *ngIf="item.status=='0'" [nzStatus]="'warning'" [nzText]="item.statusName"></nz-badge>
+        </td>
+        <td nz-td style="text-align: center">
+          <!-- <nz-badge *ngIf="item.grantStatus=='1'" [nzStatus]="'success'" [nzText]="item.grantStatusName"></nz-badge>
+          <nz-badge *ngIf="item.grantStatus=='2'" [nzStatus]="'processing'" [nzText]="item.grantStatusName"></nz-badge> -->
+          <nz-switch [(ngModel)]="item.grantStatus" (click)="clickSwitch(item.id,item.grantStatus)"
+            nzCheckedChildren="已发放" nzUnCheckedChildren="未发放"></nz-switch>
         </td>
         <td nz-td style="text-align: center">{{item.submitDate | date:'yyyy-MM-dd'}}</td>
         <td nz-td style="text-align: center">
+          <a *ngIf="item.status=='0'" (click)="edit(item.id)">编辑</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical" *ngIf="item.status=='0'"></nz-divider>
           <a (click)="details(item.id)">详情</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical" *ngIf="item.status=='0'"></nz-divider>
+          <a style="color:#ff4d4f;" *ngIf="item.status=='0'" (click)="delete(item.id)">删除</a>
         </td>
       </tr>
     </tbody>

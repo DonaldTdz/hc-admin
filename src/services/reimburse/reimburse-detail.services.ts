@@ -38,4 +38,25 @@ export class ReimburseDetailService {
         }));
     }
 
+    /**
+* 更新与创建报销明细
+* @param input 
+*/
+    createOrUpdate(input: ReimburseDetail | null): Observable<number> {
+        let _url = "/api/services/app/ReimburseDetail/CreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "ReimburseDetail": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+ * 删除报销明细
+ * @param id 
+ */
+    delete(id: string): Observable<any> {
+        let _url = "/api/services/app/ReimburseDetail/DeleteAsync";
+        let param = { 'id': id };
+        return this._commonhttp.delete(_url, param);
+    }
+
 }

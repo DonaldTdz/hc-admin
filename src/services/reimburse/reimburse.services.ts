@@ -31,9 +31,9 @@ export class ReimburseService {
 * 提交报销
 * @param input 
 */
-    submitApproval(reimburse: any, reimburseDetails: any): Observable<any> {
+    submitApproval(id: string): Observable<any> {
         let _url = "/api/services/app/Reimburse/SubmitApprovalAsync";
-        return this._commonhttp.post(_url, { "Reimburse": reimburse, "ReimburseDetails": reimburseDetails }).pipe(map(data => {
+        return this._commonhttp.post(_url, { "id": id }).pipe(map(data => {
             return data;
         }))
     }
@@ -50,4 +50,36 @@ export class ReimburseService {
         }));
     }
 
+    /**
+ * 更新与创建报销
+ * @param input 
+ */
+    createOrUpdate(input: Reimburse | null): Observable<Reimburse> {
+        let _url = "/api/services/app/Reimburse/CreateOrUpdateAsync";
+        return this._commonhttp.post(_url, { "Reimburse": input }).pipe(map(data => {
+            return data;
+        }))
+    }
+
+    /**
+* 删除报销
+* @param id 
+*/
+    delete(id: string): Observable<any> {
+        let _url = "/api/services/app/Reimburse/DeleteAsync";
+        let param = { 'id': id };
+        return this._commonhttp.delete(_url, param);
+    }
+
+
+    /**
+* 修改发放状态
+* @param input 
+*/
+    modifyGrantStatus(guid: string, grantStatus: boolean): Observable<boolean> {
+        let _url = "/api/services/app/Reimburse/ModifyGrantStatusAsync";
+        return this._commonhttp.post(_url, { "id": guid, "grantStatus": grantStatus }).pipe(map(data => {
+            return data;
+        }))
+    }
 }
