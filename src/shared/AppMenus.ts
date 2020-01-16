@@ -84,6 +84,15 @@ export class AppMenus {
                     link: "/app/pm/project",
                     reuse: false
                 }, {
+                    text: "销售项目",
+                    link: "/app/pm/sale-project",
+                    reuse: false
+                },
+                {
+                    text: "代姐项目",
+                    link: "/app/pm/project",
+                    reuse: false
+                }, {
                     text: "采购",
                     link: "/app/pm/purchase",
                     acl: ["GeneralManager", "Finance", "Purchase"],

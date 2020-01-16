@@ -1,4 +1,5 @@
-<page-header [title]="''"></page-header>
+<page-header title="">
+</page-header>
 <nz-card>
   <form nz-form [nzLayout]="'inline'" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
@@ -132,7 +133,10 @@
           <!--<a (click)="editDing(ding.id)">编辑</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider> -->
-          <a (click)="details(ding.id)">详情</a>
+          <a (click)="orgDetails(ding.id)">原来详情</a>
+          <span nz-table-divider></span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="details(ding.id)">新版详情</a>
           <span nz-table-divider></span>
           <nz-divider nzType="vertical"></nz-divider>
           <a style="color:#ff4d4f;" (click)="delete(ding)">删除</a>
