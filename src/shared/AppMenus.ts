@@ -92,6 +92,11 @@ export class AppMenus {
                     text: "报销",
                     link: "/app/pm/reimburse",
                     reuse: false
+                },
+                {
+                    text: "报销发放",
+                    link: "/app/pm/examine",
+                    reuse: false
                 }
             ]
         },

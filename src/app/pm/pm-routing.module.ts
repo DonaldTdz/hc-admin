@@ -10,6 +10,8 @@ import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-re
 import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
 import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { ACLGuard } from '@delon/acl';
+import { ExamineComponent } from './examine/examine.component';
+import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 
 const routes: Routes = [
   {
@@ -50,7 +52,13 @@ const routes: Routes = [
     component: ModifyReimburseComponent,
     canActivate: [AppRouteGuard],
     data: { title: "新增报销" }
-  }
+  },
+  {
+    path: 'examine',
+    component: ExamineComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "新增报销" }
+  },
 ];
 
 @NgModule({

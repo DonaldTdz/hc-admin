@@ -41,6 +41,8 @@ import { ModifyReimburseDetailComponent } from './reimburse/modify-reimbursedeta
 import { AdvancepaymentComponent } from './advancepayment/advancepayment.component';
 import { AdvancepaymentDetailComponent } from './advancepayment/advancepayment-detail/advancepayment-detail.component';
 import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
+import { ExamineComponent } from './examine/examine.component';
+import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 
 @NgModule({
   imports: [
@@ -82,6 +84,8 @@ import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-upda
     ModifyReimburseDetailComponent,
     AdvancepaymentComponent,
     AdvancepaymentDetailComponent,
+    ExamineComponent,
+    ProjectSearchComponent,
   ],
   entryComponents: [
     DetailProjectComponent,
@@ -99,6 +103,7 @@ import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-upda
     ModifyReimburseDetailComponent,
     AdvancepaymentDetailComponent,
     ModifyReimburseComponent,
+    ProjectSearchComponent
   ],
   providers: [ProjectService, CustomerService, EmployeeServiceProxy, DataDictionaryService,
     ProjectDetailService, ProductService, TenderService, PurchaseService, ContractService,

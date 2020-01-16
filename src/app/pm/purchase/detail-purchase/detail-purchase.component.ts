@@ -10,6 +10,7 @@ import { CreateOrUpdatePurchasedetailComponent } from '../create-or-update-purch
 import { CreateOrUpdateInvoicedetailComponent } from '../../invoice/create-or-update-invoicedetail/create-or-update-invoicedetail.component';
 import { AdvancepaymentDetailComponent } from '../../advancepayment/advancepayment-detail/advancepayment-detail.component'
 import { NzMessageService } from 'ng-zorro-antd';
+import { ProjectSearchComponent } from '../project-search/project-search.component';
 
 @Component({
   selector: 'app-detail-purchase',
@@ -420,11 +421,20 @@ export class DetailPurchaseComponent extends AppComponentBase implements OnInit 
     history.back();
   }
 
-  //保存
-  save() {
-    this.purchaseService.createOrUpdate(this.purchase).finally(() => {
-    }).subscribe((result: any) => {
-      this.notify.success("保存成功");
+  // //保存
+  // save() {
+  //   this.purchaseService.createOrUpdate(this.purchase).finally(() => {
+  //   }).subscribe((result: any) => {
+  //     this.notify.success("保存成功");
+  //   });
+  // }
+  proText: string;
+  //打开项目选择页面
+  openProSearch() {
+    this.modalHelper.open(ProjectSearchComponent, {
+      nzMask: true, nzMaskClosable: false
+    }).subscribe(isSave => {
+      this.proText = '周转箱追溯系统';
     });
   }
 

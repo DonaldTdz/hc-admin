@@ -75,6 +75,19 @@
         </nz-form-item>
       </div>
     </div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-label class="labelPadding" [nzSpan]="6">所属项目</nz-form-label>
+        <nz-form-control [nzSpan]="16" class="controlPadding">
+          <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+            <input type="text" nz-input placeholder="请选择项目" value="{{proText}}" disabled>
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" (click)="openProSearch()"><i nz-icon type="search"></i></button>
+          </ng-template>
+        </nz-form-control>
+      </div>
+    </div>
 
     <nz-card [nzBordered]="false" style="background-color: #f4f4f4;" class="mb-lg">
       <nz-divider nzText="采购明细"></nz-divider>
