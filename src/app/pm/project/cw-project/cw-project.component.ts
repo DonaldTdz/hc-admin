@@ -8,14 +8,13 @@ import { PagedResultDto } from '@shared/component-base/paged-listing-component-b
 var nowDate = new Date();
 
 @Component({
-    selector: 'sale-project',
-    templateUrl: './sale-project.component.html',
+    selector: 'cw-project',
+    templateUrl: './cw-project.component.html',
     styles: []
 })
-export class SaleProjectComponent extends AppComponentBase implements OnInit {
+export class CWProjectComponent extends AppComponentBase implements OnInit {
     projectMode = [{ text: "内部", value: 1 }, { text: "合伙", value: 2 }, { text: "外部", value: 3 }];
-    projectStatus = [{ "text": "线索", "value": 1 }
-        , { text: "立项", value: 2 }
+    projectStatus = [{ text: "立项", value: 2 }
         , { text: "招标", value: 3 }
         , { text: "执行", value: 4 }
         , { text: "丢单", value: 5 }];
@@ -58,10 +57,10 @@ export class SaleProjectComponent extends AppComponentBase implements OnInit {
             this.query.total = result.totalCount;
         })*/
 
-        this.query.dataList = [{ id: 1, projectCode: 'HC-X-20200115', name: '卷烟分拣品牌校验系统', modeName: '合作', customerName: '深圳烟草', projectSalesName: '黄坚迎', status: 1, budget: '¥ 300,000.00' },
-        { id: 2, projectCode: 'HC-X-20200116', name: '卷烟分拣品牌追溯系统', modeName: '合作', customerName: '深圳烟草', projectSalesName: '黄坚迎', status: 2, budget: '¥ 200,000.00' },
-        { id: 3, projectCode: 'HC-X-20200117', name: '异型烟辅助系统', modeName: '合作', customerName: '汕头烟草', projectSalesName: '黄坚迎', status: 4, budget: '¥ 50,000.00' },
-        { id: 4, projectCode: 'HC-X-20200118', name: '广元标准化平台', modeName: '内部', customerName: '广元烟草', projectSalesName: '吴呈和', status: 5, budget: '¥ 250,000.00' }
+        this.query.dataList = [
+            { id: 2, projectCode: 'HC-X-20200116', name: '卷烟分拣品牌追溯系统', modeName: '合作', customerName: '深圳烟草', projectSalesName: '黄坚迎', status: 2, budget: '¥ 200,000.00' },
+            { id: 3, projectCode: 'HC-X-20200117', name: '异型烟辅助系统', modeName: '合作', customerName: '汕头烟草', projectSalesName: '黄坚迎', status: 4, budget: '¥ 50,000.00' },
+            { id: 4, projectCode: 'HC-X-20200118', name: '广元标准化平台', modeName: '内部', customerName: '广元烟草', projectSalesName: '吴呈和', status: 5, budget: '¥ 250,000.00' }
         ];
         this.query.total = 3;
     }
@@ -74,7 +73,7 @@ export class SaleProjectComponent extends AppComponentBase implements OnInit {
 
     //详细
     details(id: any) {
-        this.router.navigate(['/app/pm/sale-detail', { id: id, role: 'sale' }]);
+        this.router.navigate(['/app/pm/sale-detail', { id: id, role: 'cw' }]);
     }
 
     //新增

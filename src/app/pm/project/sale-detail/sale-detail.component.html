@@ -7,17 +7,25 @@
                     <img src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
                 </ng-template>
                 <ng-template #action>
-                    <nz-button-group>
+                    <nz-button-group *ngIf="this.id == 1">
                         <button nz-button>丢单</button>
                         <button nz-button (click)="toEdit()">编辑</button>
                     </nz-button-group>
-                    <button nz-button [nzType]="'primary'">立项</button>
+                    <button nz-button (click)="clx()" *ngIf="this.id == 1 && this.role == 'sale'"
+                        [nzType]="'primary'">立项</button>
+                    <button nz-button (click)="czx()" *ngIf="this.id == 2 && this.role == 'cw'"
+                        [nzType]="'primary'">执行</button>
+                    <button nz-button (click)="cwc()" *ngIf="this.id == 3 && this.role == 'cw'"
+                        [nzType]="'primary'">完成</button>
                 </ng-template>
                 <ng-template #extra>
                     <div nz-row>
                         <div nz-col nzXs="24" nzSm="12">
                             <p class="text-grey">状态</p>
-                            <p class="text-lg">立项</p>
+                            <p class="text-lg" *ngIf="this.id == 1">线索</p>
+                            <p class="text-lg" *ngIf="this.id == 2">立项</p>
+                            <p class="text-lg" *ngIf="this.id == 3">执行</p>
+                            <p class="text-lg" *ngIf="this.id == 4">完成</p>
                         </div>
                         <div nz-col nzXs="24" nzSm="12">
                             <p class="text-grey">项目金额</p>
@@ -58,9 +66,9 @@
     <div nz-col nzXs="24" nzSm="24">
         <nz-card nzTitle="项目执行">
             <nz-timeline>
-                <nz-timeline-item nzColor="blue">线索 黄坚迎 2019-06-01</nz-timeline-item>
-                <nz-timeline-item nzColor="green">立项 黄坚迎 2019-01-01
-                    <div nz-row>
+                <nz-timeline-item [nzColor]="status1.color">{{status1.title}}</nz-timeline-item>
+                <nz-timeline-item [nzColor]="status2.color">{{status2.title}}
+                    <div *ngIf="this.id > 0" nz-row>
                         <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
                             <nz-collapse>
                                 <nz-collapse-panel [nzHeader]="cpanel1">
@@ -69,7 +77,7 @@
                                             <tr>
                                                 <th nz-th style="text-align: center">序号</th>
                                                 <th nz-th>级别</th>
-                                                <th nz-th>出差日期</th>
+                                                <th nz-th>出差时间</th>
                                                 <th nz-th>工天（人/天）</th>
                                                 <th nz-th>单价（元）</th>
                                                 <th nz-th>小计（元）</th>
@@ -78,99 +86,90 @@
                                             </tr>
                                         </thead>
                                         <tbody nz-tbody>
-                                            <tr nz-tbody-tr>
+                                            <tr nz-tbody-tr *ngFor="let irow of ssdetails; let i = index">
                                                 <td nz-td style="text-align: center">
-                                                    1
+                                                    <span *ngIf="irow.level != '总计'">{{i+1}}</span>
                                                 </td>
                                                 <td nz-td>
-                                                    实施工程师
+                                                    <ng-container *ngIf="!editCache[irow.id].edit; else levelInputTpl">
+                                                        {{ irow.level }}
+                                                    </ng-container>
+                                                    <ng-template #levelInputTpl>
+                                                        <input type="text" nz-input
+                                                            [(ngModel)]="editCache[irow.id].data.level" />
+                                                    </ng-template>
                                                 </td>
                                                 <td nz-td>
-                                                    2020-01-01
+                                                    <ng-container *ngIf="!editCache[irow.id].edit; else gotimeInputTpl">
+                                                        {{ irow.gotime }}
+                                                    </ng-container>
+                                                    <ng-template #gotimeInputTpl>
+                                                        <input type="text" nz-input
+                                                            [(ngModel)]="editCache[irow.id].data.gotime" />
+                                                    </ng-template>
                                                 </td>
                                                 <td nz-td>
-                                                    10
+                                                    <ng-container
+                                                        *ngIf="!editCache[irow.id].edit; else workedayInputTpl">
+                                                        {{ irow.workeday }}
+                                                    </ng-container>
+                                                    <ng-template #workedayInputTpl>
+                                                        <input type="text" nz-input
+                                                            [(ngModel)]="editCache[irow.id].data.workeday" />
+                                                    </ng-template>
                                                 </td>
                                                 <td nz-td>
-                                                    ¥ 1,500.00
+                                                    <ng-container *ngIf="!editCache[irow.id].edit; else priceInputTpl">
+                                                        {{ irow.price }}
+                                                    </ng-container>
+                                                    <ng-template #priceInputTpl>
+                                                        <input type="text" nz-input
+                                                            [(ngModel)]="editCache[irow.id].data.price" />
+                                                    </ng-template>
                                                 </td>
                                                 <td nz-td>
-                                                    ¥ 15,000.00
+                                                    {{irow.total}}
                                                 </td>
                                                 <td nz-td>
-                                                    计划李志强
+                                                    <ng-container *ngIf="!editCache[irow.id].edit; else remarkInputTpl">
+                                                        {{ irow.remark }}
+                                                    </ng-container>
+                                                    <ng-template #remarkInputTpl>
+                                                        <input type="text" nz-input
+                                                            [(ngModel)]="editCache[irow.id].data.remark" />
+                                                    </ng-template>
                                                 </td>
                                                 <td nz-td style="text-align: center">
-                                                    <span>
-                                                        <a>编辑</a>
-                                                        <nz-divider nzType="vertical"></nz-divider>
-                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
-                                                            <a nz-popconfirm>删除</a>
-                                                        </nz-popconfirm>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr nz-tbody-tr>
-                                                <td nz-td style="text-align: center">
-                                                    2
-                                                </td>
-                                                <td nz-td>
-                                                    实施工程师
-                                                </td>
-                                                <td nz-td>
-                                                    2020-01-01
-                                                </td>
-                                                <td nz-td>
-                                                    5
-                                                </td>
-                                                <td nz-td>
-                                                    ¥ 1,000.00
-                                                </td>
-                                                <td nz-td>
-                                                    ¥ 5,000.00
-                                                </td>
-                                                <td>计划赵聪霖</td>
-                                                <td nz-td style="text-align: center">
-                                                    <span>
-                                                        <a>编辑</a>
-                                                        <nz-divider nzType="vertical"></nz-divider>
-                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
-                                                            <a nz-popconfirm>删除</a>
-                                                        </nz-popconfirm>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr nz-tbody-tr>
-                                                <td nz-td style="text-align: center">
-
-                                                </td>
-                                                <td nz-td>
-                                                    总计
-                                                </td>
-                                                <td nz-td>
-
-                                                </td>
-                                                <td nz-td>
-                                                    15
-                                                </td>
-                                                <td nz-td>
-
-                                                </td>
-                                                <td nz-td>
-                                                    ¥ 20,000.00
-                                                </td>
-                                                <td></td>
-                                                <td nz-td style="text-align: center">
-                                                    <span>
-                                                        <a>编辑</a>
-                                                        <nz-divider nzType="vertical"></nz-divider>
-                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
-                                                            <a nz-popconfirm>删除</a>
-                                                        </nz-popconfirm>
+                                                    <span *ngIf="irow.type != '总计'">
+                                                        <div class="editable-row-operations">
+                                                            <ng-container
+                                                                *ngIf="!editCache[irow.id].edit; else saveTpl">
+                                                                <a (click)="startEdit(irow.id)">编辑</a>
+                                                                <nz-divider nzType="vertical"></nz-divider>
+                                                                <a (click)="copySale(irow)">复制</a>
+                                                                <nz-divider nzType="vertical"></nz-divider>
+                                                                <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                                    <a nz-popconfirm>删除</a>
+                                                                </nz-popconfirm>
+                                                            </ng-container>
+                                                            <ng-template #saveTpl>
+                                                                <a (click)="saveEdit(irow.id)">保存</a>
+                                                                <a nz-popconfirm nzTitle="确定要取消吗?"
+                                                                    (nzOnConfirm)="cancelEdit(irow.id)">取消</a>
+                                                            </ng-template>
+                                                        </div>
                                                     </span>
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <button nz-button nzType="dashed" (click)="addNewSale()"
+                                                        nzBlock>新增</button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
                                     </nz-table>
                                 </nz-collapse-panel>
                                 <nz-collapse-panel [nzHeader]="cpanel2">
@@ -256,10 +255,13 @@
                         </div>
                     </div>
                 </nz-timeline-item>
-                <nz-timeline-item nzColor="gray">执行
-                    <div nz-row>
+                <nz-timeline-item [nzColor]="status3.color">{{status3.title}}
+                    <div *ngIf="this.id > 2" nz-row>
                         <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
                             <nz-collapse>
+                                <nz-collapse-panel [nzHeader]="panel3">
+                                    <p style="margin:0;">合同明细</p>
+                                </nz-collapse-panel>
                                 <nz-collapse-panel [nzHeader]="panel2">
                                     <nz-table #nzTable [nzData]="pdetails" [nzShowPagination]="false" nzSize="small">
                                         <thead nz-thead>
@@ -267,7 +269,6 @@
                                                 <th nz-th style="text-align: center">序号</th>
                                                 <th nz-th>类型</th>
                                                 <th nz-th>采购项</th>
-                                                <th nz-th>供应商</th>
                                                 <th nz-th>规格型号</th>
                                                 <th nz-th>配置</th>
                                                 <th nz-th>数量</th>
@@ -287,9 +288,6 @@
                                                 </td>
                                                 <td nz-td>
                                                     {{irow.name}}
-                                                </td>
-                                                <td nz-td>
-                                                    <a>{{irow.gys}}</a>
                                                 </td>
                                                 <td nz-td>
                                                     {{irow.gg}}
@@ -321,9 +319,6 @@
                                             </tr>
                                         </tbody>
                                     </nz-table>
-                                </nz-collapse-panel>
-                                <nz-collapse-panel [nzHeader]="panel3">
-                                    <p style="margin:0;">合同明细</p>
                                 </nz-collapse-panel>
                                 <nz-collapse-panel [nzHeader]="panel5">
                                     <nz-table #nzTable [nzData]="hkdetails" [nzShowPagination]="false" nzSize="small">
@@ -634,8 +629,8 @@
                         </div>
                     </div>
                 </nz-timeline-item>
-                <nz-timeline-item nzColor="gray">完成
-                    <div nz-row>
+                <nz-timeline-item [nzColor]="status4.color">{{status4.title}}
+                    <div *ngIf="this.id > 3" nz-row>
                         <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
                             <nz-collapse>
                                 <nz-collapse-panel [nzHeader]="panel9">
