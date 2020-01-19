@@ -47,6 +47,7 @@ import { SaleDetailComponent } from './project/sale-detail/sale-detail.component
 import { NewProjectComponent } from './project/new-project/new-project.component';
 import { ExamineComponent } from './examine/examine.component';
 import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
+import { CWProjectComponent } from './project/cw-project/cw-project.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { ProjectSearchComponent } from './purchase/project-search/project-search
     ProjectComponent,
     NewProjectComponent,
     SaleProjectComponent,
+    CWProjectComponent,
     DetailProjectComponent,
     SaleDetailComponent,
     DetailComponent,

@@ -283,7 +283,7 @@ export class NewProjectComponent extends AppComponentBase implements OnInit {
                 this.nzMsg.error(result.msg);
             }
         });*/
-        this.router.navigate(['/app/pm/sale-detail', { id: '1' }]);
+        this.router.navigate(['/app/pm/sale-detail', { id: '1', role: 'sale' }]);
     }
 
     //删除成本

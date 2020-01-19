@@ -67,11 +67,25 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
     { name: '税费', amount: '¥ 1,500.00', remark: '' },
     { name: '总计', amount: '¥ 85,800.00', remark: '' }];
 
+    ssdetails = [{ id: '1', level: '实施工程师', gotime: ' 2020-01-01', workeday: '10', price: '¥ 1,500.00', total: '¥ 15,000.00', remark: '计划李志强' },
+    { id: '2', level: '实施工程师', gotime: ' 2020-01-01', workeday: '5', price: '¥ 1,000.00', total: '¥ 5,000.00', remark: '计划赵聪霖' }//,
+        //{ id: '-1', level: '总计', gotime: ' ', workeday: '15', price: '', total: '¥ 20,000.00', remark: '' }
+    ];
+
+    editCache: { [key: string]: { edit: boolean; data: any } } = {};
+
     form: FormGroup;
+
+    status1: ProjectStatus = new ProjectStatus();
+    status2: ProjectStatus = new ProjectStatus();
+    status3: ProjectStatus = new ProjectStatus();
+    status4: ProjectStatus = new ProjectStatus();
+    role: string;
 
     constructor(injector: Injector, private actRouter: ActivatedRoute, private router: Router, private projectService: ProjectService, private fb: FormBuilder) {
         super(injector);
         this.id = this.actRouter.snapshot.params['id'];
+        this.role = this.actRouter.snapshot.params['role'];
         this.projectId = this.actRouter.snapshot.queryParams['id'];
         this.form = this.fb.group({
             projectname: '',
@@ -86,6 +100,41 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    startEdit(id: string): void {
+        this.editCache[id].edit = true;
+    }
+
+    cancelEdit(id: string): void {
+        const index = this.ssdetails.findIndex(item => item.id === id);
+        this.editCache[id] = {
+            data: { ...this.ssdetails[index] },
+            edit: false
+        };
+    }
+
+    saveEdit(id: string): void {
+        const index = this.ssdetails.findIndex(item => item.id === id);
+        Object.assign(this.ssdetails[index], this.editCache[id].data);
+        this.editCache[id].edit = false;
+    }
+
+    updateEditCache(): void {
+        this.ssdetails.forEach(item => {
+            if (item.id == '0') {
+                this.editCache[item.id] = {
+                    edit: true,
+                    data: { ...item }
+                };
+            } else {
+                this.editCache[item.id] = {
+                    edit: false,
+                    data: { ...item }
+                };
+            }
+        });
+    }
+
+
     ngOnInit() {
         /*if (!this.id && this.projectId)
             this.id = this.projectId;
@@ -97,6 +146,66 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
             this.title = "改版项目详情";
             this.getById();
         }*/
+        this.RefreshStatus();
+        this.updateEditCache();
+    }
+
+    clx() {
+        this.id = '2';
+        this.RefreshStatus();
+    }
+
+    czx() {
+        this.id = '3';
+        this.RefreshStatus();
+    }
+
+    cwc() {
+        this.id = '4';
+        this.RefreshStatus();
+    }
+
+    RefreshStatus() {
+        if (this.id == '1') {//线索
+            this.status1.color = 'blue';
+            this.status1.title = '线索 黄坚迎 2019-06-01';
+            this.status2.color = 'green';
+            this.status2.title = '立项';
+            this.status3.color = 'gray';
+            this.status3.title = '执行';
+            this.status4.color = 'gray';
+            this.status4.title = '完成';
+        }
+        if (this.id == '2') {//立项
+            this.status1.color = 'blue';
+            this.status1.title = '线索 黄坚迎 2019-06-01';
+            this.status2.color = 'blue';
+            this.status2.title = '立项 黄坚迎 2019-01-01';
+            this.status3.color = 'green';
+            this.status3.title = '执行';
+            this.status4.color = 'gray';
+            this.status4.title = '完成';
+        }
+        if (this.id == '3') {//执行
+            this.status1.color = 'blue';
+            this.status1.title = '线索 黄坚迎 2019-06-01';
+            this.status2.color = 'blue';
+            this.status2.title = '立项 黄坚迎 2019-01-01';
+            this.status3.color = 'blue';
+            this.status3.title = '执行 代荣莉 2019-01-06';
+            this.status4.color = 'green';
+            this.status4.title = '完成';
+        }
+        if (this.id == '4') {//完成
+            this.status1.color = 'blue';
+            this.status1.title = '线索 黄坚迎 2019-06-01';
+            this.status2.color = 'blue';
+            this.status2.title = '立项 黄坚迎 2019-01-01';
+            this.status3.color = 'blue';
+            this.status3.title = '执行 代荣莉 2019-01-06';
+            this.status4.color = 'blue';
+            this.status4.title = '完成 代荣莉 2019-01-31';
+        }
     }
 
     voted(projectId: string) {
@@ -142,4 +251,24 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
         history.back();
     }
 
+    addNewSale(): void {
+        this.ssdetails.push({ id: '0', level: '', gotime: '', workeday: '', price: '', total: '', remark: '' });
+        this.updateEditCache();
+    }
+
+    copySale(row: any): void {
+        let copyRow = JSON.parse(JSON.stringify(row));
+        copyRow.id = '0';
+        this.ssdetails.push(copyRow);
+        this.updateEditCache();
+    }
+
+}
+
+export class ProjectStatus {
+    constructor() {
+
+    }
+    color: string;
+    title: string;
 }

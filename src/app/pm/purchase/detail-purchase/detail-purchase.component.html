@@ -2,7 +2,7 @@
 <form nz-form [formGroup]="form" #validateForm="ngForm" (ngSubmit)="save()" *ngIf="purchase">
   <nz-card [nzBordered]="false">
     <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12">
+      <div nz-col [nzSpan]="8">
         <nz-form-item nzFlex>
           <nz-form-label [nzSpan]="6" class="labelPadding" nzRequired>采购编号</nz-form-label>
           <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
@@ -13,7 +13,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="12">
+      <div nz-col [nzSpan]="8">
         <nz-form-item nzFlex>
           <nz-form-label class="labelPadding" nzRequired="true" [nzSpan]="6">采购负责人</nz-form-label>
           <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
@@ -25,9 +25,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-    </div>
-    <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12">
+      <div nz-col [nzSpan]="8">
         <nz-form-item nzFlex>
           <nz-form-label [nzSm]="6" class="labelPadding" [nzXs]="24">文件上传</nz-form-label>
           <!-- <nz-form-control [nzSm]="12" class="controlPadding" nzHasFeedback>
@@ -42,41 +40,9 @@
           </button>
         </nz-form-item>
       </div>
-      <div nz-col [nzSpan]="12">
-        <nz-form-item nzFlex>
-          <nz-form-label class="labelPadding" [nzSpan]="6">采购日期</nz-form-label>
-          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-            <nz-date-picker placeholder="请选择采购日期" formControlName="purchaseDate" [(ngModel)]="purchase.purchaseDate">
-            </nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
     </div>
     <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12">
-        <nz-form-item nzFlex>
-          <nz-form-label class="labelPadding" [nzSpan]="6">到货日期</nz-form-label>
-          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-            <nz-date-picker placeholder="请选择到货日期" formControlName="arrivalDate" [(ngModel)]="purchase.arrivalDate">
-            </nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="12">
-        <nz-form-item nzFlex>
-          <nz-form-label class="labelPadding" [nzSpan]="6">采购描述</nz-form-label>
-          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
-            <textarea nz-input rows="2" formControlName="desc" placeholder="请输入采购描述"
-              [(ngModel)]="purchase.desc"></textarea>
-            <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
-    ">备注不能超过250个字符
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-    <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12">
+      <div nz-col [nzSpan]="8">
         <nz-form-label class="labelPadding" [nzSpan]="6">所属项目</nz-form-label>
         <nz-form-control [nzSpan]="16" class="controlPadding">
           <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
@@ -86,6 +52,38 @@
             <button nz-button nzType="primary" (click)="openProSearch()"><i nz-icon type="search"></i></button>
           </ng-template>
         </nz-form-control>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label class="labelPadding" [nzSpan]="6">采购日期</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker placeholder="请选择采购日期" formControlName="purchaseDate" [(ngModel)]="purchase.purchaseDate">
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item nzFlex>
+          <nz-form-label class="labelPadding" [nzSpan]="6">到货日期</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <nz-date-picker placeholder="请选择到货日期" formControlName="arrivalDate" [(ngModel)]="purchase.arrivalDate">
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="24">
+        <nz-form-item nzFlex>
+          <nz-form-label class="labelPadding" [nzSpan]="2">采购描述</nz-form-label>
+          <nz-form-control [nzSpan]="16" class="controlPadding" nzHasFeedback>
+            <textarea nz-input rows="2" formControlName="desc" placeholder="请输入采购描述"
+              [(ngModel)]="purchase.desc"></textarea>
+            <nz-form-explain *ngIf="(form.get('desc')?.dirty && form.get('desc')?.errors)
+    ">备注不能超过250个字符
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
 
