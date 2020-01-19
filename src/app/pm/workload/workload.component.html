@@ -1,0 +1,195 @@
+<page-header [title]="''"></page-header>
+<div nz-row [nzGutter]="12">
+  <div nz-col [nzSpan]="6">
+    <ul nz-menu [nzMode]="'inline'">
+      <li nz-menu-group>
+        <ul>
+          <li nz-menu-item (click)="show('周转箱追溯系统')">周转箱追溯系统</li>
+          <li nz-menu-item (click)="show('惠州智能仓储')">惠州智能仓储</li>
+          <li nz-menu-item (click)="show('阿坝烟草打码机维保')">阿坝烟草打码机维保</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div nz-col [nzSpan]="18">
+    <div>
+      <nz-card nzTitle="当前项目:{{nowPro}} &nbsp;总计:8人/天" [nzExtra]="extraTemplate">
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="24">
+            <span style="float: left;font-size:17px;margin-bottom: 20px;">开发估算</span>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="24" style="margin-bottom: 20px;">
+          <div nz-col [nzSpan]="24">
+            <nz-table #basicTable [nzData]="dataSet" [nzShowPagination]="false">
+              <thead>
+                <tr>
+                  <th [nzWidth]="4">阶段/分类</th>
+                  <th [nzWidth]="4">模块</th>
+                  <th [nzWidth]="4">功能</th>
+                  <th [nzWidth]="4">描述</th>
+                  <th [nzWidth]="4">工作量(人/天)</th>
+                  <th [nzWidth]="4">备注</th>
+                  <th [nzWidth]="4">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dataSet">
+                  <td>{{data.kind}}</td>
+                  <td>{{data.modular}}</td>
+                  <td>{{data.function}}</td>
+                  <td>{{data.describe}}</td>
+                  <td>{{data.workload}}</td>
+                  <td>{{data.remark}}</td>
+                  <td><a style="color: red;" (click)="del(data.id)">删除</a></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td style="font-size: 17px;">合计</td>
+                  <td style="font-size: 17px;">4人/天</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <ng-template #extraTemplate>
+              <button nz-button nzType="primary" nzShape="circle" (click)="addWorkload()"><i nz-icon type="plus"
+                  theme="outline"></i></button>
+            </ng-template>
+          </div>
+
+        </div>
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="24">
+            <span style="float: left;font-size:17px;margin-bottom: 20px;">实施估算</span>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="24">
+            <nz-table #ssTable [nzData]="dataSetList" [nzShowPagination]="false">
+              <thead>
+                <tr>
+                  <th [nzWidth]="4">阶段/分类</th>
+                  <th [nzWidth]="4">模块</th>
+                  <th [nzWidth]="4">功能</th>
+                  <th [nzWidth]="4">描述</th>
+                  <th [nzWidth]="4">工作量</th>
+                  <th [nzWidth]="4">备注</th>
+                  <th [nzWidth]="4">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dataSetList">
+                  <td>{{data.kind}}</td>
+                  <td>{{data.modular}}</td>
+                  <td>{{data.function}}</td>
+                  <td>{{data.describe}}</td>
+                  <td>{{data.workload}}</td>
+                  <td>{{data.remark}}</td>
+                  <td><a style="color: red;" (click)="delss(data.id)">删除</a></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td style="font-size: 17px;">合计</td>
+                  <td style="font-size: 17px;">4人/天</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </nz-table>
+
+          </div>
+        </div>
+      </nz-card>
+      <nz-modal nzWidth="800" nzWrapClassName="vertical-center-modal" [(nzVisible)]="isAddVisible" nzTitle="新增工作量"
+        (nzOnCancel)="cancel()" (nzOnOk)="sure()">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="ant-advanced-search-form">
+          <div nz-row [nzGutter]="24">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="kind" nzRequired>
+                <span>
+                  所属
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-select name="select-error" formControlName="select">
+                  <nz-option nzValue="dev" nzLabel="开发"></nz-option>
+                  <nz-option nzValue="imp" nzLabel="实施"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="kind" nzRequired>
+                <span>
+                  阶段/分类
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="kind" formControlName="kind">
+                <nz-form-explain *ngIf="validateForm.get('kind').dirty && validateForm.get('kind').errors">请输入阶段
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="modular" nzRequired>
+                <span>
+                  模块
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="modular" formControlName="modular">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="function" nzRequired>
+                <span>
+                  功能
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="function" formControlName="function">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-row [nzGutter]="24">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="describe" nzRequired>
+                <span>
+                  描述
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="describe" formControlName="describe">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="workload" nzRequired>
+                <span>
+                  工作量
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="workload" formControlName="workload">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzRequired>
+                <span>
+                  备注
+                </span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input id="remark" formControlName="remark">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </form>
+      </nz-modal>
+    </div>
+  </div>
+</div>

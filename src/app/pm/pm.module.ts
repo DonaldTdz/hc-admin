@@ -48,6 +48,7 @@ import { NewProjectComponent } from './project/new-project/new-project.component
 import { ExamineComponent } from './examine/examine.component';
 import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 import { CWProjectComponent } from './project/cw-project/cw-project.component';
+import { WorkloadComponent } from './workload/workload.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { CWProjectComponent } from './project/cw-project/cw-project.component';
     AdvancepaymentDetailComponent,
     ExamineComponent,
     ProjectSearchComponent,
+    WorkloadComponent,
   ],
   entryComponents: [
     DetailProjectComponent,
