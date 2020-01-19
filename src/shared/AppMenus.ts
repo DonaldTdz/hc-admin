@@ -80,6 +80,11 @@ export class AppMenus {
             group: true,
             children: [
                 {
+                    text: "项目估算",
+                    link: "/app/pm/workload",
+                    reuse: false
+                },
+                {
                     text: "项目",
                     link: "/app/pm/project",
                     reuse: false

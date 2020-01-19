@@ -43,6 +43,7 @@ import { AdvancepaymentDetailComponent } from './advancepayment/advancepayment-d
 import { CreateOrUpdatePurchasedetailComponent } from './purchase/create-or-update-purchasedetail/create-or-update-purchasedetail.component';
 import { ExamineComponent } from './examine/examine.component';
 import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
+import { WorkloadComponent } from './workload/workload.component';
 
 @NgModule({
   imports: [
@@ -86,6 +87,7 @@ import { ProjectSearchComponent } from './purchase/project-search/project-search
     AdvancepaymentDetailComponent,
     ExamineComponent,
     ProjectSearchComponent,
+    WorkloadComponent,
   ],
   entryComponents: [
     DetailProjectComponent,

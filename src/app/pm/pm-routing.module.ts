@@ -12,6 +12,7 @@ import { CreatePurchaseComponent } from './purchase/create-purchase/create-purch
 import { ACLGuard } from '@delon/acl';
 import { ExamineComponent } from './examine/examine.component';
 import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
+import { WorkloadComponent } from './workload/workload.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,12 @@ const routes: Routes = [
     component: ExamineComponent,
     canActivate: [AppRouteGuard],
     data: { title: "新增报销" }
+  },
+  {
+    path: 'workload',
+    component: WorkloadComponent,
+    canActivate: [AppRouteGuard],
+    data: { title: "工作量统计" }
   },
 ];
 
