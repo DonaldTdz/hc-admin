@@ -10,6 +10,10 @@ import { DetailReimburseComponent } from './reimburse/detail-reimburse/detail-re
 import { ModifyReimburseComponent } from './reimburse/modify-reimburse/modify-reimburse.component';
 import { CreatePurchaseComponent } from './purchase/create-purchase/create-purchase.component';
 import { ACLGuard } from '@delon/acl';
+import { DetailComponent } from './project/detail/detail.component';
+import { SaleProjectComponent } from './project/sale-project/sale-project.component';
+import { SaleDetailComponent } from './project/sale-detail/sale-detail.component';
+import { NewProjectComponent } from './project/new-project/new-project.component';
 import { ExamineComponent } from './examine/examine.component';
 import { ProjectSearchComponent } from './purchase/project-search/project-search.component';
 import { WorkloadComponent } from './workload/workload.component';
@@ -20,10 +24,31 @@ const routes: Routes = [
     component: ProjectComponent,
     canActivate: [AppRouteGuard, ACLGuard],
   }, {
+    path: 'sale-project',
+    component: SaleProjectComponent,
+    canActivate: [AppRouteGuard, ACLGuard],
+  }, {
+    path: 'new-project',
+    component: NewProjectComponent,
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { title: "创建项目" }
+  },
+  {
+    path: 'sale-detail',
+    component: SaleDetailComponent,
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { title: "销售项目详情" }
+  }
+  , {
     path: 'project-detail',
     component: DetailProjectComponent,
     canActivate: [AppRouteGuard, ACLGuard],
     data: { title: "项目详情" }
+  }, {
+    path: 'detail',
+    component: DetailComponent,
+    canActivate: [AppRouteGuard, ACLGuard],
+    data: { title: "改版项目详情" }
   }, {
     path: 'purchase',
     component: PurchaseComponent,

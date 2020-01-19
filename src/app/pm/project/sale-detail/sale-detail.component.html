@@ -1,0 +1,698 @@
+<page-header [title]="'订单详情'"></page-header>
+<div nz-row>
+    <div nz-col nzXs="24" nzSm="24">
+        <nz-card>
+            <page-header [title]="'项目编号：HC-R-2001001'" [logo]="logo" [action]="action" [extra]="extra">
+                <ng-template #logo>
+                    <img src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
+                </ng-template>
+                <ng-template #action>
+                    <nz-button-group>
+                        <button nz-button>丢单</button>
+                        <button nz-button (click)="toEdit()">编辑</button>
+                    </nz-button-group>
+                    <button nz-button [nzType]="'primary'">立项</button>
+                </ng-template>
+                <ng-template #extra>
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="12">
+                            <p class="text-grey">状态</p>
+                            <p class="text-lg">立项</p>
+                        </div>
+                        <div nz-col nzXs="24" nzSm="12">
+                            <p class="text-grey">项目金额</p>
+                            <p class="text-lg">¥ 150,000.00</p>
+                        </div>
+                    </div>
+                </ng-template>
+                <sv-container size="small" col="4">
+                    <sv label="项目名称">深圳包装箱追溯系统</sv>
+                    <sv label="项目类型">软件开发</sv>
+                    <sv label="项目模式">合伙</sv>
+                    <sv label="创建时间">2019-06-08</sv>
+                    <sv label="项目销售">黄坚迎</sv>
+                    <sv label="销售助理">
+                        <a (click)="msg.success('yes')">夏仕林</a>
+                    </sv>
+                    <sv label="客户名称">中国烟草总公司深圳市公司</sv>
+                    <sv label="客户联系人">黄部长</sv>
+                    <sv label="收益比例">40%</sv>
+                    <sv label="开始结束时间">2020-01-01 ~ 2020-01-31</sv>
+                    <sv label="项目描述">开发、安装、调试、实施、支持</sv>
+                </sv-container>
+            </page-header>
+        </nz-card>
+    </div>
+</div>
+<div nz-row>
+    <!-- <div nz-col nzXs="24" nzSm="24">
+        <nz-card>
+            <nz-steps [nzCurrent]="1" nzSize="small">
+                <nz-step nzTitle="线索" nzDescription="黄坚迎 2019-06-08"></nz-step>
+                <nz-step nzTitle="立项" nzDescription="黄坚迎 2020-01-01"></nz-step>
+                <nz-step nzTitle="执行" nzDescription=""></nz-step>
+                <nz-step nzTitle="完成" nzDescription=""></nz-step>
+            </nz-steps>
+        </nz-card>
+    </div> -->
+    <div nz-col nzXs="24" nzSm="24">
+        <nz-card nzTitle="项目执行">
+            <nz-timeline>
+                <nz-timeline-item nzColor="blue">线索 黄坚迎 2019-06-01</nz-timeline-item>
+                <nz-timeline-item nzColor="green">立项 黄坚迎 2019-01-01
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
+                            <nz-collapse>
+                                <nz-collapse-panel [nzHeader]="cpanel1">
+                                    <nz-table #nzTable [nzData]="rgdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>级别</th>
+                                                <th nz-th>出差日期</th>
+                                                <th nz-th>工天（人/天）</th>
+                                                <th nz-th>单价（元）</th>
+                                                <th nz-th>小计（元）</th>
+                                                <th nz-th>备注</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr>
+                                                <td nz-td style="text-align: center">
+                                                    1
+                                                </td>
+                                                <td nz-td>
+                                                    实施工程师
+                                                </td>
+                                                <td nz-td>
+                                                    2020-01-01
+                                                </td>
+                                                <td nz-td>
+                                                    10
+                                                </td>
+                                                <td nz-td>
+                                                    ¥ 1,500.00
+                                                </td>
+                                                <td nz-td>
+                                                    ¥ 15,000.00
+                                                </td>
+                                                <td nz-td>
+                                                    计划李志强
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span>
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr nz-tbody-tr>
+                                                <td nz-td style="text-align: center">
+                                                    2
+                                                </td>
+                                                <td nz-td>
+                                                    实施工程师
+                                                </td>
+                                                <td nz-td>
+                                                    2020-01-01
+                                                </td>
+                                                <td nz-td>
+                                                    5
+                                                </td>
+                                                <td nz-td>
+                                                    ¥ 1,000.00
+                                                </td>
+                                                <td nz-td>
+                                                    ¥ 5,000.00
+                                                </td>
+                                                <td>计划赵聪霖</td>
+                                                <td nz-td style="text-align: center">
+                                                    <span>
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr nz-tbody-tr>
+                                                <td nz-td style="text-align: center">
+
+                                                </td>
+                                                <td nz-td>
+                                                    总计
+                                                </td>
+                                                <td nz-td>
+
+                                                </td>
+                                                <td nz-td>
+                                                    15
+                                                </td>
+                                                <td nz-td>
+
+                                                </td>
+                                                <td nz-td>
+                                                    ¥ 20,000.00
+                                                </td>
+                                                <td></td>
+                                                <td nz-td style="text-align: center">
+                                                    <span>
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="cpanel2">
+                                    <nz-table #nzTable [nzData]="costdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>类型</th>
+                                                <th nz-th>成本项</th>
+                                                <th nz-th>数量</th>
+                                                <th nz-th>单位</th>
+                                                <th nz-th>单价（元）</th>
+                                                <th nz-th>合计（元）</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of costdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.type != '总计'">{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.type}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.name}}
+                                                </td>
+                                                <td nz-td>
+                                                    <a>{{irow.num}}</a>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.unit}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.price}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.total}}
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.type != '总计'">
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                            </nz-collapse>
+                            <ng-template #cpanel1>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">实施人员计划</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="16">
+                                        <span>工时（人/天）：</span>15
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>金额（元）：</span>¥ 20,000.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #cpanel2>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">成本预算</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>销售预算金额（元）：</span>¥ 150,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>提前执行金额（元）：</span>¥ 20,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>成本预算（元）：</span>¥ 80,400.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </nz-timeline-item>
+                <nz-timeline-item nzColor="gray">执行
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
+                            <nz-collapse>
+                                <nz-collapse-panel [nzHeader]="panel2">
+                                    <nz-table #nzTable [nzData]="pdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>类型</th>
+                                                <th nz-th>采购项</th>
+                                                <th nz-th>供应商</th>
+                                                <th nz-th>规格型号</th>
+                                                <th nz-th>配置</th>
+                                                <th nz-th>数量</th>
+                                                <th nz-th>单位</th>
+                                                <th nz-th>单价（元）</th>
+                                                <th nz-th>合计（元）</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of pdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.type != '总计'">{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.type}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.name}}
+                                                </td>
+                                                <td nz-td>
+                                                    <a>{{irow.gys}}</a>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.gg}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.config}}
+                                                </td>
+                                                <td nz-td>
+                                                    <a>{{irow.num}}</a>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.unit}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.price}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.total}}
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.type != '总计'">
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="panel3">
+                                    <p style="margin:0;">合同明细</p>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="panel5">
+                                    <nz-table #nzTable [nzData]="hkdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>发票号</th>
+                                                <th nz-th>发票金额（元）</th>
+                                                <th nz-th>开票日期</th>
+                                                <th nz-th>备注</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of fpdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.no != '总计'">{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.no}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.amount}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.date}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.remark}}
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.no != '总计'">
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="panel6">
+                                    <nz-table #nzTable [nzData]="hkdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>计划时间</th>
+                                                <th nz-th>回款率</th>
+                                                <th nz-th>回款金额（元）</th>
+                                                <th nz-th>回款时间</th>
+                                                <th nz-th>回款状态</th>
+                                                <th nz-th>备注</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of hkdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span>{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.plandate}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.rate}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.amount}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.date}}
+                                                </td>
+                                                <td nz-td>
+                                                    <nz-tag *ngIf="irow.status == 1" [nzColor]="'blue'">已回款</nz-tag>
+                                                    <nz-tag *ngIf="irow.status == 0" [nzColor]="'orange'">未回款</nz-tag>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.remark}}
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span>
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <a *ngIf="irow.status == 0">已回款</a>
+                                                        <nz-divider *ngIf="irow.status == 0" nzType="vertical">
+                                                        </nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="panel7">
+                                    <nz-table #nzTable [nzData]="rgdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>姓名</th>
+                                                <th nz-th>级别</th>
+                                                <th nz-th>工时（人/天）</th>
+                                                <th nz-th>最后填报时间</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of rgdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.name != '总计'">{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.name}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.leve}}
+                                                </td>
+                                                <td nz-td>
+                                                    <a>{{irow.daynum}}</a>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.date}}
+                                                </td>
+                                                <td nz-td>
+                                                    <span *ngIf="irow.name != '总计'">
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                                <nz-collapse-panel [nzHeader]="panel8">
+                                    <nz-table #nestedTable [nzData]="bxdetails" [nzShowPagination]="false"
+                                        nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nzShowExpand></th>
+                                                <th nz-th>类别</th>
+                                                <th nz-th>姓名</th>
+                                                <th nz-th>金额（元）</th>
+                                                <th nz-th>时间</th>
+                                                <th nz-th>备注</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+                                                <tr nz-tbody-tr>
+                                                    <td *ngIf="data.type != '总计'" nzShowExpand
+                                                        [(nzExpand)]="data.expand"></td>
+                                                    <td *ngIf="data.type == '总计'"></td>
+                                                    <td nz-td>
+                                                        {{data.type}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{data.name}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        <a>{{data.amount}}</a>
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{data.date}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{data.remark}}
+                                                    </td>
+                                                    <td nz-td style="text-align: center">
+                                                        <span *ngIf="data.type != '总计'">
+                                                            <a>编辑</a>
+                                                            <nz-divider nzType="vertical"></nz-divider>
+                                                            <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                                <a nz-popconfirm>删除</a>
+                                                            </nz-popconfirm>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngFor="let citem of data.details;" [nzExpand]="data.expand">
+                                                    <td></td>
+                                                    <td nz-td>
+                                                        {{citem.type}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{citem.name}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        <a>{{citem.amount}}</a>
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{citem.date}}
+                                                    </td>
+                                                    <td nz-td>
+                                                        {{citem.remark}}
+                                                    </td>
+                                                    <td nz-td style="text-align: center">
+                                                        <span>
+                                                            <a>编辑</a>
+                                                            <nz-divider nzType="vertical"></nz-divider>
+                                                            <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                                <a nz-popconfirm>删除</a>
+                                                            </nz-popconfirm>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                            </nz-collapse>
+                            <ng-template #panel2>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">采购信息</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>采购编号：</span>HC-C-1911001
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>采购负责人：</span>代荣莉
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>采购数量：</span>3
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>采购金额（元）：</span>¥ 19,600.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>采购时间：</span>2019-11-05
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #panel3>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">合同信息</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="16">
+                                        <span>合同金额（元）：</span>¥ 150,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>签订日期：</span>2020-01-01
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #panel5>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">开票信息</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>总开票（元）：</span>¥ 150,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>已开票（元）：</span>¥ 100,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>未开票（元）：</span>¥ 50,000.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #panel6>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">回款计划</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>总回款（元）：</span>¥ 150,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="8">
+                                        <span>已回款（元）：</span>¥ 100,000.00
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>未回款（元）：</span>¥ 50,000.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #panel7>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">人工统计</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="16">
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>总工时（人/天）：</span>45
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template #panel8>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">报销统计</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="16">
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>报销总计（元）：</span>¥ 8,700.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </nz-timeline-item>
+                <nz-timeline-item nzColor="gray">完成
+                    <div nz-row>
+                        <div nz-col nzXs="24" nzSm="24" style="padding-top: 10px;">
+                            <nz-collapse>
+                                <nz-collapse-panel [nzHeader]="panel9">
+                                    <nz-table #nzTable [nzData]="cbdetails" [nzShowPagination]="false" nzSize="small">
+                                        <thead nz-thead>
+                                            <tr>
+                                                <th nz-th style="text-align: center">序号</th>
+                                                <th nz-th>成本项</th>
+                                                <th nz-th>金额（元）</th>
+                                                <th nz-th>备注</th>
+                                                <th nz-th style="text-align: center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody nz-tbody>
+                                            <tr nz-tbody-tr *ngFor="let irow of cbdetails; let i = index">
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.name != '总计'">{{i+1}}</span>
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.name}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.amount}}
+                                                </td>
+                                                <td nz-td>
+                                                    {{irow.remark}}
+                                                </td>
+                                                <td nz-td style="text-align: center">
+                                                    <span *ngIf="irow.name != '总计'">
+                                                        <a>编辑</a>
+                                                        <nz-divider nzType="vertical"></nz-divider>
+                                                        <nz-popconfirm [nzTitle]="'是否要删除此行数据？'">
+                                                            <a nz-popconfirm>删除</a>
+                                                        </nz-popconfirm>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </nz-collapse-panel>
+                            </nz-collapse>
+                            <ng-template #panel9>
+                                <div nz-row>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span class="text-title">成本统计</span>
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="16">
+                                    </div>
+                                    <div nz-col nzXs="24" nzSm="4">
+                                        <span>成本总计（元）：</span>¥ 85,800.00
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </nz-timeline-item>
+            </nz-timeline>
+        </nz-card>
+    </div>
+</div>

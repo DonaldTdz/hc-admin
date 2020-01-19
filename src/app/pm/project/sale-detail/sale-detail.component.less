@@ -1,0 +1,33 @@
+@import '~@delon/theme/styles/default';
+
+:host {
+  ::ng-deep {
+    @media screen and (max-width: @screen-sm) {
+      .desc {
+        left: 8px;
+      }
+    }
+
+    .desc {
+      font-size: @font-size-base;
+      position: relative;
+      left: 38px;
+
+      &>div {
+        margin-top: 8px;
+        margin-bottom: 4px;
+      }
+    }
+
+    .ant-list-header {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 500;
+    }
+
+    // .mb-lg table tbody tr:last-child {
+    //   font-weight: bold
+    // }
+
+  }
+}
