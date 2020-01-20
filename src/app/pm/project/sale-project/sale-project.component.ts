@@ -61,7 +61,8 @@ export class SaleProjectComponent extends AppComponentBase implements OnInit {
         this.query.dataList = [{ id: 1, projectCode: 'HC-X-20200115', name: '卷烟分拣品牌校验系统', modeName: '合作', customerName: '深圳烟草', projectSalesName: '黄坚迎', status: 1, budget: '¥ 300,000.00' },
         { id: 2, projectCode: 'HC-X-20200116', name: '卷烟分拣品牌追溯系统', modeName: '合作', customerName: '深圳烟草', projectSalesName: '黄坚迎', status: 2, budget: '¥ 200,000.00' },
         { id: 3, projectCode: 'HC-X-20200117', name: '异型烟辅助系统', modeName: '合作', customerName: '汕头烟草', projectSalesName: '黄坚迎', status: 4, budget: '¥ 50,000.00' },
-        { id: 4, projectCode: 'HC-X-20200118', name: '广元标准化平台', modeName: '内部', customerName: '广元烟草', projectSalesName: '吴呈和', status: 5, budget: '¥ 250,000.00' }
+        { id: 4, projectCode: 'HC-X-20200118', name: '广元标准化平台', modeName: '内部', customerName: '广元烟草', projectSalesName: '吴呈和', status: 5, budget: '¥ 250,000.00' },
+        { id: 4, projectCode: 'HC-X-20200119', name: 'AAAA', modeName: '内部', customerName: '广元烟草', projectSalesName: '吴呈和', status: 6, budget: '¥ 250,000.00' }
         ];
         this.query.total = 3;
     }

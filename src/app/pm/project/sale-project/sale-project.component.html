@@ -125,8 +125,8 @@
                     <nz-divider nzType="vertical"></nz-divider>
                     <a (click)="details(ding.id)">详情</a>
                     <span nz-table-divider></span>
-                    <nz-divider nzType="vertical" *ngIf="ding.status==1"></nz-divider>
-                    <a style="color:#ff4d4f;" (click)="delete(ding)" *ngIf="ding.status==1">删除</a>
+                    <nz-divider nzType="vertical" *ngIf="ding.status==1 && ding.status!=6"></nz-divider>
+                    <a style="color:#ff4d4f;" (click)="delete(ding)" *ngIf="ding.status==1">丢单</a>
                 </td>
             </tr>
         </tbody>

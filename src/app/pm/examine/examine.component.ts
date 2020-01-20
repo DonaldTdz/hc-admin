@@ -11,8 +11,8 @@ export class ExamineComponent implements OnInit {
 
   listOfParentData: ParentItemData[] = [];
   listOfChildrenData: ChildrenItemData[] = [];
-  isAllDisplayDataChecked = false;
-  isIndeterminate = false;
+  allChecked = false;
+  indeterminate = false;
   listOfDisplayData: ItemData[] = [];
   listOfAllData: ItemData[] = [];
   mapOfCheckedId: { [key: string]: boolean } = {};
@@ -36,7 +36,8 @@ export class ExamineComponent implements OnInit {
       upgradeNum: 500,
       creator: '￥ 300.00',
       createdAt: '2020-01-12 23:12:00',
-      expand: false
+      expand: false,
+      checked: false
     });
 
     this.listOfParentData.push({
@@ -47,7 +48,8 @@ export class ExamineComponent implements OnInit {
       upgradeNum: 500,
       creator: '￥ 300.00',
       createdAt: '2020-01-12 23:12:00',
-      expand: false
+      expand: false,
+      checked: false
     });
 
 
@@ -72,10 +74,7 @@ export class ExamineComponent implements OnInit {
       detail: '每日食补',
       total: 150
     });
-
-
-
-
+    this.refreshStatus();
   }
 
   currentPageDataChange($event: ItemData[]): void {
@@ -84,13 +83,16 @@ export class ExamineComponent implements OnInit {
   }
 
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfDisplayData.every(item => this.mapOfCheckedId[item.id]);
-    this.isIndeterminate =
-      this.listOfDisplayData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+    const allChecked = this.listOfParentData.every(value => value.checked === true);
+    const allUnChecked = this.listOfParentData.every(value => !value.checked);
+    this.allChecked = allChecked;
+    this.indeterminate = (!allChecked) && (!allUnChecked);
   }
 
   checkAll(value: boolean): void {
-    this.listOfDisplayData.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.listOfParentData.forEach(data => {
+      data.checked = value;
+    });
     this.refreshStatus();
   }
 }
@@ -103,6 +105,7 @@ interface ParentItemData {
   creator: string;
   createdAt: string;
   expand: boolean;
+  checked: boolean;
 }
 
 interface ChildrenItemData {

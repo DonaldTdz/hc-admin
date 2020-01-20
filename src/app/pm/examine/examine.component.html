@@ -12,7 +12,7 @@
         [nzShowPagination]='false'>
         <thead>
           <tr>
-            <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
+            <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
               (nzCheckedChange)="checkAll($event)"></th>
             <th nzShowExpand></th>
             <th>姓名</th>
@@ -26,7 +26,8 @@
         <tbody>
           <ng-template ngFor let-data [ngForOf]="nestedTable.data">
             <tr>
-              <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+              <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled"
+                (nzCheckedChange)="refreshStatus()"></td>
               <td nzShowExpand [(nzExpand)]="data.expand"></td>
               <td>{{ data.name }}</td>
               <td>{{ data.platform }}</td>
@@ -109,7 +110,7 @@
           </div>
         </div>
       </form>
-      <nz-table #nestedTable [nzData]="listOfParentData" [nzShowPagination]='true' [nzPageSize]='10'>
+      <nz-table #nestedTable2 [nzData]="listOfParentData" [nzShowPagination]='true' [nzPageSize]='10'>
         <thead>
           <tr>
             <th nzShowExpand></th>
@@ -122,7 +123,7 @@
           </tr>
         </thead>
         <tbody>
-          <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+          <ng-template ngFor let-data [ngForOf]="nestedTable2.data">
             <tr>
               <td nzShowExpand [(nzExpand)]="data.expand"></td>
               <td>{{ data.name }}</td>

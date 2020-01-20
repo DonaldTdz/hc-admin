@@ -17,40 +17,67 @@ export class WorkloadComponent implements OnInit {
       kind: '上位机',
       modular: '主界面',
       function: '二维码识别控制',
-      describe: '系统注册、关于、帮助手册',
+      describe: '',
       workload: 3,
-      remark: '平均每条线5天'
+      remark: ''
     },
     {
       id: '2',
-      kind: '后台管理',
-      modular: '用户管理',
-      function: '用户管理',
-      describe: '数据字典配置，数据保留时间配置等',
-      workload: 1,
-      remark: '平均每条线5天'
+      kind: '上位机',
+      modular: '配置管理',
+      function: '配置管理',
+      describe: '',
+      workload: 3,
+      remark: ''
     },
+    {
+      id: '3',
+      kind: '后台管理',
+      modular: '抓拍查询',
+      function: '抓拍查询',
+      describe: '',
+      workload: 5,
+      remark: ''
+    },
+    {
+      id: '4',
+      kind: '后台管理',
+      modular: '条件查询',
+      function: '条件查询',
+      describe: '',
+      workload: 5,
+      remark: ''
+    },
+    {
+      id: '5',
+      kind: '手机App',
+      modular: '扫码查询',
+      function: '扫码查询',
+      describe: '',
+      workload: 5,
+      remark: ''
+    },
+    {
+      id: '6',
+      kind: '手机App',
+      modular: '条件查询',
+      function: '条件查询',
+      describe: '',
+      workload: 5,
+      remark: ''
+    }
   ];
 
   dataSetList = [
     {
       id: '1',
-      kind: '上位机',
-      modular: '主界面',
-      function: '二维码识别控制',
-      describe: '系统注册、关于、帮助手册',
-      workload: 3,
+      kind: '现场实施',
+      modular: '现场实施',
+      function: '现场实施',
+      describe: '',
+      workload: 25,
       remark: '平均每条线5天'
-    },
-    {
-      id: '2',
-      kind: '后台管理',
-      modular: '用户管理',
-      function: '用户管理',
-      describe: '数据字典配置，数据保留时间配置等',
-      workload: 1,
-      remark: '平均每条线5天'
-    },
+    }
   ];
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder) {
 
