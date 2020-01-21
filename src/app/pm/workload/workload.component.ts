@@ -68,6 +68,11 @@ export class WorkloadComponent implements OnInit {
     }
   ];
 
+  ssdetails = [{ id: '1', level: '实施工程师', gotime: ' 2020-01-01', workeday: '15', price: '¥ 1,500.00', total: '¥ 15,000.00', remark: '计划李志强' },
+  { id: '2', level: '实施工程师', gotime: ' 2020-01-01', workeday: '10', price: '¥ 1,000.00', total: '¥ 5,000.00', remark: '计划赵聪霖' }//,
+    //{ id: '-1', level: '总计', gotime: ' ', workeday: '15', price: '', total: '¥ 20,000.00', remark: '' }
+  ];
+
   dataSetList = [
     {
       id: '1',

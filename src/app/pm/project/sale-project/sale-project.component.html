@@ -73,7 +73,7 @@
     <nz-table #nzTable [nzData]="query.dataList" [nzFrontPagination]="false" [nzTotal]="query.total"
         [(nzPageIndex)]="query.pageIndex" [(nzPageSize)]="query.pageSize" [nzLoading]="loading"
         [nzShowTotal]="totalContentMe" [nzShowTotal]="'true'" [nzShowSizeChanger]="true"
-        (nzPageIndexChange)="getProjects()" (nzPageSizeChange)="getProjects()">
+        (nzPageIndexChange)="getProjects()" (nzPageSizeChange)="getProjects()" nzBordered nzSize="small">
         <thead nz-thead>
             <tr>
                 <th nz-th>
@@ -122,7 +122,6 @@
                 <td nz-td style=" text-align: right">{{ding.budget}}
                 </td>
                 <td nz-td style="text-align: center">
-                    <nz-divider nzType="vertical"></nz-divider>
                     <a (click)="details(ding.id)">详情</a>
                     <span nz-table-divider></span>
                     <nz-divider nzType="vertical" *ngIf="ding.status==1 && ding.status!=6"></nz-divider>

@@ -80,35 +80,53 @@ export class AppMenus {
             group: true,
             children: [
                 {
-                    text: "项目估算",
+                    text: "老版项目",
+                    link: "/app/pm/project",
+                    reuse: false
+                }, {
+                    text: "新版项目",
+                    link: "/app/pm/sale-project",
+                    reuse: false
+                },
+                {
+                    text: "估算",
                     link: "/app/pm/workload",
                     reuse: false
                 },
                 {
-                    text: "项目",
-                    link: "/app/pm/project",
+                    text: "人工",
+                    link: "/",
                     reuse: false
-                }, {
-                    text: "销售项目",
-                    link: "/app/pm/sale-project",
-                    reuse: false
-                }, {
-                    text: "财务项目",
-                    link: "/app/pm/cw-project",
-                    reuse: false
-                }, {
+                },
+                {
                     text: "采购",
                     link: "/app/pm/purchase",
                     acl: ["GeneralManager", "Finance", "Purchase"],
                     reuse: false
-                }, {
-                    text: "报销",
-                    link: "/app/pm/reimburse",
+                },
+                {
+                    text: "合同",
+                    link: "/",
+                    reuse: false
+                },
+                {
+                    text: "开票",
+                    link: "/",
+                    reuse: false
+                },
+                {
+                    text: "收付款",
+                    link: "/",
                     reuse: false
                 },
                 {
                     text: "报销发放",
                     link: "/app/pm/examine",
+                    reuse: false
+                },
+                {
+                    text: "报销",
+                    link: "/app/pm/reimburse",
                     reuse: false
                 }
             ]

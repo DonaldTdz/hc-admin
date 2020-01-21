@@ -24,15 +24,12 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
     { type: '硬件', name: '扫码头', num: 2, unit: '套', price: '¥ 3,000.00', total: '¥ 6,000.00' },
     { type: '软件', name: '包装箱追溯系统', num: 51, unit: '人/天', price: '¥ 800.00', total: '¥ 40,800.00' },
     { type: '软件', name: 'App开发平台', num: 1, unit: '会员', price: '¥ 3,600.00', total: '¥ 3,600.00' },
-    { type: '实施', name: '实施费用', num: 1, unit: '套', price: '¥ 20,000.00', total: '¥ 20,000.00' },
-    { type: '总计', name: '', num: null, unit: '', price: '', total: '¥ 80,400.00' }];
+    { type: '实施', name: '实施费用', num: 1, unit: '套', price: '¥ 20,000.00', total: '¥ 20,000.00' }];
     pdetails = [{ type: '硬件', name: '工控机', gys: '研华科技（中国）有限公司版权所有', gg: 'TPC-1581WP', config: 'CPU:i5 2核 内存：8G 操作系统：Win 7 x64 SP1', num: 1, unit: '套', price: '¥ 10,000.00', total: '¥ 10,000.00' },
     { type: '硬件', name: '扫码头', gys: '康耐视视觉检测系统（上海）有限公司', gg: 'DMR-262Q', config: '二维码读码器套件（含光源、镜头）', num: 2, unit: '套', price: '¥ 3,000.00', total: '¥ 6,000.00' },
-    { type: '软件', name: 'App开发平台', gys: '智慧神州(北京)科技有限公司', gg: 'V1', config: '会员V1', num: 1, unit: '会员', price: '¥ 3,600.00', total: '¥ 3,600.00' },
-    { type: '总计', name: '', gys: '', gg: '', config: '', num: null, unit: '', price: '', total: '¥ 19,600.00' }];
+    { type: '软件', name: 'App开发平台', gys: '智慧神州(北京)科技有限公司', gg: 'V1', config: '会员V1', num: 1, unit: '会员', price: '¥ 3,600.00', total: '¥ 3,600.00' }];
     fpdetails = [{ no: '202001', amount: '¥ 50,000.00', date: '2020-01-01', remark: '签订合同' },
-    { no: '202002', amount: '¥ 50,000.00', date: '2020-01-31', remark: '初验' },
-    { no: '总计', amount: '¥ 100,000.00', date: '', remark: '' }];
+    { no: '202002', amount: '¥ 50,000.00', date: '2020-01-31', remark: '初验' }];
     hkdetails = [{ plandate: '2020-01-01', rate: '33.33%', amount: '¥ 50,000.00', date: '2020-01-01', status: '1', remark: '签订合同' },
     { plandate: '2020-01-31', rate: '33.33%', amount: '¥ 50,000.00', date: '2020-01-31', status: '1', remark: '初验' },
     { plandate: '2020-03-31', rate: '33.33%', amount: '¥ 50,000.00', date: '', status: '0', remark: '' }];
@@ -58,8 +55,7 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
             { type: '餐饮补助', name: '王邦涛', leve: '2', amount: '¥ 700.00', date: '2020-01-15', remark: '综合补助', expand: false },
             { type: '餐饮补助', name: '赵聪霖', leve: '2', amount: '¥ 800.00', date: '2020-01-18', remark: '综合补助', expand: false }
         ]
-    },
-    { type: '总计', name: '', leve: '1', amount: '¥ 8,700.00', date: '', remark: '', expand: false }];
+    }];
     cbdetails = [{ name: '采购费用', amount: '¥ 19,600.00', remark: '' },
     { name: '人工费用', amount: '¥ 36,000.00', remark: '单价800*45天' },
     { name: '实施费用', amount: '¥ 20,000.00', remark: '' },
@@ -70,6 +66,62 @@ export class SaleDetailComponent extends AppComponentBase implements OnInit {
     ssdetails = [{ id: '1', level: '实施工程师', gotime: ' 2020-01-01', workeday: '10', price: '¥ 1,500.00', total: '¥ 15,000.00', remark: '计划李志强' },
     { id: '2', level: '实施工程师', gotime: ' 2020-01-01', workeday: '5', price: '¥ 1,000.00', total: '¥ 5,000.00', remark: '计划赵聪霖' }//,
         //{ id: '-1', level: '总计', gotime: ' ', workeday: '15', price: '', total: '¥ 20,000.00', remark: '' }
+    ];
+    dataSet = [
+        {
+            id: '1',
+            kind: '上位机',
+            modular: '主界面',
+            function: '二维码识别控制',
+            describe: '',
+            workload: 3,
+            remark: ''
+        },
+        {
+            id: '2',
+            kind: '上位机',
+            modular: '配置管理',
+            function: '配置管理',
+            describe: '',
+            workload: 3,
+            remark: ''
+        },
+        {
+            id: '3',
+            kind: '后台管理',
+            modular: '抓拍查询',
+            function: '抓拍查询',
+            describe: '',
+            workload: 5,
+            remark: ''
+        },
+        {
+            id: '4',
+            kind: '后台管理',
+            modular: '条件查询',
+            function: '条件查询',
+            describe: '',
+            workload: 5,
+            remark: ''
+        },
+        {
+            id: '5',
+            kind: '手机App',
+            modular: '扫码查询',
+            function: '扫码查询',
+            describe: '',
+            workload: 5,
+            remark: ''
+        },
+        {
+            id: '6',
+            kind: '手机App',
+            modular: '条件查询',
+            function: '条件查询',
+            describe: '',
+            workload: 5,
+            remark: ''
+        }
     ];
 
     editCache: { [key: string]: { edit: boolean; data: any } } = {};

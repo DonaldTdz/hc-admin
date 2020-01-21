@@ -14,95 +14,101 @@
 
   <div nz-col [nzSpan]="18">
     <div>
-      <nz-card nzTitle="当前项目：{{nowPro}} &nbsp;&nbsp;&nbsp;&nbsp;总计：51人/天" [nzExtra]="extraTemplate">
+      <nz-card nzTitle="当前项目：{{nowPro}} &nbsp;&nbsp;&nbsp;&nbsp;总计：51人/天">
         <div nz-row [nzGutter]="24">
-          <div nz-col [nzSpan]="24">
+          <div nz-col [nzSpan]="20">
             <span style="float: left;font-size:17px;margin-bottom: 20px;">项目开发</span>
           </div>
+          <div nz-col [nzSpan]="4" style="text-align: right; padding-right: 20px;">
+            <button style=" margin-right: 20px;" nz-button nzType="primary" nzShape="circle" (click)="addWorkload()"><i
+                nz-icon type="plus" theme="outline"></i></button></div>
         </div>
         <div nz-row [nzGutter]="24" style="margin-bottom: 20px;">
           <div nz-col [nzSpan]="24">
-            <nz-table #basicTable [nzData]="dataSet" [nzShowPagination]="false">
+            <nz-table #basicTable [nzData]="dataSet" [nzShowPagination]="false" nzSize="small" nzBordered>
               <thead>
                 <tr>
+                  <th nz-th style="text-align: center">序号</th>
                   <th [nzWidth]="4">阶段/分类</th>
                   <th [nzWidth]="4">模块</th>
                   <th [nzWidth]="4">功能</th>
                   <th [nzWidth]="4">描述</th>
                   <th [nzWidth]="4">工作量(人/天)</th>
                   <th [nzWidth]="4">备注</th>
-                  <th [nzWidth]="4">操作</th>
+                  <th [nzWidth]="4" style="text-align: center">操作</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of dataSet">
+                <tr *ngFor="let data of dataSet; let i = index">
+                  <td nz-td style="text-align: center">
+                    {{i+1}}
+                  </td>
                   <td>{{data.kind}}</td>
                   <td>{{data.modular}}</td>
                   <td>{{data.function}}</td>
                   <td>{{data.describe}}</td>
                   <td>{{data.workload}}</td>
                   <td>{{data.remark}}</td>
-                  <td><a style="color: red;" (click)="del(data.id)">删除</a></td>
+                  <td style="text-align: center"><a style="color: red;" (click)="del(data.id)">删除</a></td>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td>合计</td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="5" style="text-align: right; font-weight: bold;">合计</td>
                   <td>26</td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="2"></td>
                 </tr>
               </tbody>
             </nz-table>
-            <ng-template #extraTemplate>
-              <button nz-button nzType="primary" nzShape="circle" (click)="addWorkload()"><i nz-icon type="plus"
-                  theme="outline"></i></button>
-            </ng-template>
           </div>
 
         </div>
         <div nz-row [nzGutter]="24">
-          <div nz-col [nzSpan]="24">
+          <div nz-col [nzSpan]="20">
             <span style="float: left;font-size:17px;margin-bottom: 20px;">项目实施</span>
           </div>
+          <div nz-col [nzSpan]="4" style="text-align: right;">
+            <button style=" margin-right: 20px;" nz-button nzType="primary" nzShape="circle" (click)="addWorkload()"><i
+                nz-icon type="plus" theme="outline"></i></button>
+          </div>
         </div>
         <div nz-row [nzGutter]="24">
           <div nz-col [nzSpan]="24">
-            <nz-table #ssTable [nzData]="dataSetList" [nzShowPagination]="false">
-              <thead>
+            <nz-table #nzTable [nzData]="ssdetails" [nzShowPagination]="false" nzSize="small" nzBordered>
+              <thead nz-thead>
                 <tr>
-                  <th [nzWidth]="4">阶段/分类</th>
-                  <th [nzWidth]="4">模块</th>
-                  <th [nzWidth]="4">功能</th>
-                  <th [nzWidth]="4">描述</th>
-                  <th [nzWidth]="4">工作量(人/天)</th>
-                  <th [nzWidth]="4">备注</th>
-                  <th [nzWidth]="4">操作</th>
+                  <th nz-th style="text-align: center">序号</th>
+                  <th nz-th>级别</th>
+                  <th nz-th>出差时间</th>
+                  <th nz-th>工天（人/天）</th>
+                  <th nz-th>备注</th>
+                  <th nz-th style="text-align: center">操作</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let data of dataSetList">
-                  <td>{{data.kind}}</td>
-                  <td>{{data.modular}}</td>
-                  <td>{{data.function}}</td>
-                  <td>{{data.describe}}</td>
-                  <td>{{data.workload}}</td>
-                  <td>{{data.remark}}</td>
-                  <td><a style="color: red;" (click)="delss(data.id)">删除</a></td>
+              <tbody nz-tbody>
+                <tr nz-tbody-tr *ngFor="let irow of ssdetails; let i = index">
+                  <td nz-td style="text-align: center">
+                    {{i+1}}
+                  </td>
+                  <td nz-td>
+                    {{ irow.level }}
+                  </td>
+                  <td nz-td>
+                    {{ irow.gotime }}
+                  </td>
+                  <td nz-td>
+                    {{ irow.workeday }}
+                  </td>
+                  <td nz-td>
+                    {{ irow.remark }}
+                  </td>
+                  <td style="text-align: center"><a style="color: red;" (click)="del(data.id)">删除</a></td>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td>合计</td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="3" style="text-align: right; font-weight: bold;">合计</td>
                   <td>25</td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="2"></td>
                 </tr>
               </tbody>
             </nz-table>
-
           </div>
         </div>
       </nz-card>
